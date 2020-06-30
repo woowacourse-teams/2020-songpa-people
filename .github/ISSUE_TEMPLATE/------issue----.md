@@ -1,14 +1,14 @@
 ---
-name: 기능 구현 Issue 템플릿
-about: 기능 구현 템플릿
-title: "[FEAT] 제목"
-labels: "\U0001F469‍\U0001F469‍\U0001F467‍\U0001F466 Service"
+name: 문서 분석 Issue 템플릿
+about: 문석 분석 템플릿
+title: "[DOCS]"
+labels: "\U0001F4DADocs"
 assignees: ''
 
 ---
 
-기능 구현 대상 : 
+분석 대상 : 
 
-관련 문서(optional) : 
+분석 링크 : 
 
 예상 공수 기간 : 2020-02-02 ~ 2020-03-03
