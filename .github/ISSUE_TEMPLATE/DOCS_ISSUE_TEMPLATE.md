@@ -2,7 +2,7 @@
 name: 문서 분석 Issue 템플릿
 about: 문서 분석 템플릿
 title: "[DOCS] 제목"
-labels: "📚 Docs"
+labels: "\U0001F4DADocs"
 assignees: ''
 
 ---
