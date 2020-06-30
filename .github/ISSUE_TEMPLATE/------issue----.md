@@ -11,4 +11,4 @@ assignees: ''
 
 예상 공수 기간 : 
 
-주의사항(optional)
+특이 사항(optional) :
