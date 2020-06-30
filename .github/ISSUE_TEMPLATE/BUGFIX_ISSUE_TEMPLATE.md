@@ -2,7 +2,7 @@
 name: 버그 발견 Issue 템플릿
 about: 버그 발견 템플릿
 title: "[BUG] 제목"
-labels: ""
+labels: "\U0001F9E8 Bug"
 assignees: ''
 
 ---
