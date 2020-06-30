@@ -1,16 +1,14 @@
 ---
-name: 기능 구현 Issue 템플릿
-about: 기능구현용
-title: "[FEAT] 제목"
-labels: ''
+name: 문서 관련 Issue 템플릿
+about: 문서 템플릿
+title: "[DOCS]"
+labels: "\U0001F4DADocs"
 assignees: ''
 
 ---
 
-구현 대상 : [대상에 대한 설명 혹은 관련된 기능]
+분석 대상 : 
 
-공수 기간 : [2020-02-02 ~ 2020-03-03]
+분석 링크 : 
 
-참고 문서 : [링크]
-
-fixes #number
+공수 기간 : 2020-02-02 ~ 2020-03-03
