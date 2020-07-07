@@ -1,4 +1,5 @@
 rootProject.name = 'hashtagmap'
 include 'hashtagmap-web'
 include 'hashtagmap-core'
+include 'hashtagmap-crawling'
 
