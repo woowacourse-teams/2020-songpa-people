@@ -1,8 +1,11 @@
 rootProject.name = 'hashtagmap'
 include 'hashtagmap-web'
 include 'hashtagmap-core'
-include 'hashtagmap-crawling'
+include 'hashtagmap-instagram-crawler'
 include 'hashtagmap-kakao-api'
 include 'hashtagmap-instagram-api'
 include 'hashtagmap-admin'
+include 'hashtagmap-kakao-scheduler'
+include 'hashtagmap-instagram-scheduler'
+include 'hashtagmap-crawling-scheduler'
 
