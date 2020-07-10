@@ -1,4 +1,9 @@
 dependencies {
+    compile project(':hashtagmap-core')
+    compile project(':hashtagmap-kakao-scheduler')
+    compile project(':hashtagmap-instagram-scheduler')
+    compile project(':hashtagmap-crawling-scheduler')
+
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
