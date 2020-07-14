@@ -21,6 +21,5 @@ public class DividerTest {
         List<Rect> rects = RectDivider.divide(rect, 0.02);
 
         assertThat(rects.size()).isEqualTo(210);
-
     }
 }

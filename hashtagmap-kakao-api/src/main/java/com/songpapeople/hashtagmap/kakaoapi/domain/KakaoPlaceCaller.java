@@ -16,6 +16,7 @@ public class KakaoPlaceCaller {
     private static final String CATEGORY_GROUP_CODE = "category_group_code";
     private static final String RECT = "rect";
     private static final String CATEGORY_URI = "/v2/local/search/category.json";
+    private static final int DEFAULT_PAGE = 1;
 
     private final String kakaoApiKey;
     private final WebClient webClient;
@@ -30,9 +31,14 @@ public class KakaoPlaceCaller {
     }
 
     public Mono<KakaoPlaceDto> findPlaces(String category, Rect rect) {
+        return findPlaces(category, rect, DEFAULT_PAGE);
+    }
+
+    public Mono<KakaoPlaceDto> findPlaces(String category, Rect rect, int page) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add(CATEGORY_GROUP_CODE, category);
         params.add(RECT, rect.toKakaoFormat());
+        params.add("page", Integer.toString(page));
 
         Mono<KakaoPlaceDto> result = webClient.method(HttpMethod.GET)
                 .uri(uriBuilder -> uriBuilder

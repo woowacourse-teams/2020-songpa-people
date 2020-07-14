@@ -40,5 +40,9 @@ class KakaoPlaceCallerTest {
         assertThat(categoryGroupCode).isEqualTo("CE7");
     }
 
+    @DisplayName("사각형 범위와 카테고리를 입력했을 때, 기준 이상의 가게 데이터를 가지고 있다면 재귀한다.")
+    @Test
+    void name() {
 
+    }
 }
