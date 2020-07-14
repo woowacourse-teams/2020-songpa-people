@@ -12,7 +12,6 @@ import com.songpapeople.hashtagmap.HashtagDto;
 public class InstagramCrawler {
     private static final String INSTAGRAM_URL_FORMAT = "https://www.instagram.com/explore/tags/%s/?hl=ko";
     private static final String HASHTAG_COUNT_REGEX = "(\"edge_hashtag_to_media\":\\{\"count\"):([0-9]+)";
-    private static final String HASHTAG_COUNT_BEFORE_STRING = "count\":";
     private static final String HASHTAG_POST_INFO_REGEX = "\"edge_hashtag_to_top_posts\":";
 
     public HashtagDto createHashtagDto(String placeName) {
