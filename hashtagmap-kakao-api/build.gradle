@@ -2,4 +2,6 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
 }
