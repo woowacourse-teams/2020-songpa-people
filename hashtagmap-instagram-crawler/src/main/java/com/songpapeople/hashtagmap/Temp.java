@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class Crawling {
+public class Temp {
 
     public static List<String> getList() {
         try (FileReader fileReader = new FileReader(new File("C:/Users/ebseu/Desktop/식당리스트.txt"))) {
