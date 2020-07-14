@@ -29,10 +29,10 @@ public class KakaoPlaceCaller {
                 .build();
     }
 
-    public Mono<KakaoPlaceDto> findPlaces(String category, PlaceRect placeRect) {
+    public Mono<KakaoPlaceDto> findPlaces(String category, Rect rect) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add(CATEGORY_GROUP_CODE, category);
-        params.add(RECT, placeRect.toKakaoFormat());
+        params.add(RECT, rect.toKakaoFormat());
 
         Mono<KakaoPlaceDto> result = webClient.method(HttpMethod.GET)
                 .uri(uriBuilder -> uriBuilder
