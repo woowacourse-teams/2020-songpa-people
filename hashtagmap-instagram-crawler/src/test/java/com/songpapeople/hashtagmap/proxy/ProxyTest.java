@@ -1,8 +1,9 @@
 package com.songpapeople.hashtagmap.proxy;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.*;
-
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProxyTest {
 
@@ -16,7 +17,9 @@ public class ProxyTest {
         String actualHost = System.getProperty("http.proxyHost");
         String actualPort = System.getProperty("http.proxyPort");
 
-        assertThat(actualHost).isEqualTo(inputHost);
-        assertThat(actualPort).isEqualTo(inputPort);
+        assertAll(
+                () -> assertThat(actualHost).isEqualTo(inputHost),
+                () -> assertThat(actualPort).isEqualTo(inputPort)
+        );
     }
 }

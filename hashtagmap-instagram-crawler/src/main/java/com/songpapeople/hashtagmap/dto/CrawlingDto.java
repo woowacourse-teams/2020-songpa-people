@@ -1,10 +1,12 @@
 package com.songpapeople.hashtagmap.dto;
 
+import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
 
 @ToString
+@Getter
 public class CrawlingDto {
     private final String placeName;
     private final Long hashtagCount;
