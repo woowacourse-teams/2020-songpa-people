@@ -1,13 +1,18 @@
 package com.songpapeople.hashtagmap.dto;
 
+import lombok.Getter;
+import lombok.ToString;
+
+@ToString
+@Getter
 public class PostDto {
     public static final String POST_URL_FORMAT = "https://www.instagram.com/p/%s";
 
-    private String postUrl;
-    private String imageUrl;
+    private final String postUrl;
+    private final String imageUrl;
 
-    public PostDto(String postUrl, String imageUrl) {
-        this.postUrl = String.format(POST_URL_FORMAT, postUrl);
+    public PostDto(String shortCode, String imageUrl) {
+        this.postUrl = String.format(POST_URL_FORMAT, shortCode);
         this.imageUrl = imageUrl;
     }
 }

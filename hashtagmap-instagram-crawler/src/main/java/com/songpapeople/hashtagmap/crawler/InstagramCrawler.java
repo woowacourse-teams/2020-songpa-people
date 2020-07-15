@@ -1,16 +1,15 @@
 package com.songpapeople.hashtagmap.crawler;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.jsoup.nodes.Document;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
+import org.jsoup.nodes.Document;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InstagramCrawler {
     private static final String INSTAGRAM_URL_FORMAT = "https://www.instagram.com/explore/tags/%s/?hl=ko";
@@ -34,8 +33,8 @@ public class InstagramCrawler {
         for (JsonElement edge : edges) {
             JsonObject node = edge.getAsJsonObject().get("node").getAsJsonObject();
 
-            String shortCode = node.get("shortcode").toString();
-            String displayUrl = node.get("display_url").toString();
+            String shortCode = node.get("shortcode").getAsString();
+            String displayUrl = node.get("display_url").getAsString();
             postDtos.add(new PostDto(shortCode, displayUrl));
         }
         return postDtos;
