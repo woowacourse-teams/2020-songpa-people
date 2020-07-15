@@ -1,15 +1,17 @@
 package com.songpapeople.hashtagmap.crawler;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.nodes.Document;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
-import org.jsoup.nodes.Document;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.songpapeople.hashtagmap.dto.PostDtos;
 
 public class InstagramCrawler {
     private static final String INSTAGRAM_URL_FORMAT = "https://www.instagram.com/explore/tags/%s/?hl=ko";
@@ -21,12 +23,12 @@ public class InstagramCrawler {
         String body = document.body().toString();
         String hashtagCount = CrawlingProcessor.searchByRegex(body, HASHTAG_COUNT_REGEX);
         String popularInfo = CrawlingProcessor.searchByRegex(body, HASHTAG_POPULAR_INFO_REGEX);
-        List<PostDto> postDtos = makePostDtos(popularInfo);
+        PostDtos postDtos = makePostDtos(popularInfo);
 
         return CrawlingDto.of(placeName, hashtagCount, postDtos);
     }
 
-    private List<PostDto> makePostDtos(String popularInfo) {
+    private PostDtos makePostDtos(String popularInfo) {
         List<PostDto> postDtos = new ArrayList<>();
         JsonElement json = JsonParser.parseString(popularInfo);
         JsonArray edges = json.getAsJsonObject().get("edges").getAsJsonArray();
@@ -37,6 +39,6 @@ public class InstagramCrawler {
             String displayUrl = node.get("display_url").getAsString();
             postDtos.add(new PostDto(shortCode, displayUrl));
         }
-        return postDtos;
+        return new PostDtos(postDtos);
     }
 }

@@ -1,8 +1,5 @@
 package com.songpapeople.hashtagmap.proxy;
 
-import lombok.ToString;
-
-@ToString
 public class Proxy {
     private final String host;
     private final String port;

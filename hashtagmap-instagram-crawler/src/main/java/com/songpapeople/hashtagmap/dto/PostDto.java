@@ -1,9 +1,7 @@
 package com.songpapeople.hashtagmap.dto;
 
 import lombok.Getter;
-import lombok.ToString;
 
-@ToString
 @Getter
 public class PostDto {
     public static final String POST_URL_FORMAT = "https://www.instagram.com/p/%s";
