@@ -12,4 +12,8 @@ public class Proxies {
     public void setHostAndPort(int random) {
         proxies.get(random).setHostAndPort();
     }
+
+    public int size() {
+        return proxies.size();
+    }
 }
