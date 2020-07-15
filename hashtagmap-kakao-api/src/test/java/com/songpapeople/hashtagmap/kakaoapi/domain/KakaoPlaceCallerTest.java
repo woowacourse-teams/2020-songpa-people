@@ -1,7 +1,6 @@
 package com.songpapeople.hashtagmap.kakaoapi.domain;
 
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,14 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class KakaoPlaceCallerTest {
     @Autowired
-    private KakaoProperties kakaoProperties;
-
     private KakaoPlaceCaller kakaoPlaceCaller;
-
-    @BeforeEach
-    public void setUp() {
-        kakaoPlaceCaller = new KakaoPlaceCaller(kakaoProperties);
-    }
 
     @Disabled
     @DisplayName("정의한 범위 내에서 카페 카테고리에 대한 Kakao API 호출")

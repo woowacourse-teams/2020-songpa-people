@@ -3,6 +3,8 @@ package com.songpapeople.hashtagmap.kakaoapi.domain;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
+import com.songpapeople.hashtagmap.kakaoapi.domain.exception.KakaoExceptionHandler;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,8 +26,10 @@ public class KakaoPlaceCaller {
     private final HttpEntity<HttpHeaders> entity;
     private final RestTemplate restTemplate;
 
-    public KakaoPlaceCaller(KakaoProperties kakaoProperties) {
-        restTemplate = new RestTemplate();
+    public KakaoPlaceCaller(KakaoProperties kakaoProperties, RestTemplateBuilder restTemplateBuilder) {
+        restTemplate = restTemplateBuilder
+                .errorHandler(new KakaoExceptionHandler())
+                .build();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "KakaoAK " + kakaoProperties.getKey());

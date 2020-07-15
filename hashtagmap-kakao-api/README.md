@@ -7,5 +7,5 @@
 -[X] WebClient를 통해 API 호출
     -[X] 카테고리: 카페
     -[x] WebClinet에서 RestTemplate으로 수정
-    -[ ] Error Handling
+    -[x] Error Handling
 -[ ] 카테고리 Type 분리
