@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,8 +40,8 @@ class KakaoServiceTest {
                 .pageableCount(45)
                 .build();
         KakaoPlaceDto kakaoPlaceDto = new KakaoPlaceDto(meta, Collections.singletonList(new Document()));
-        when(kakaoPlaceCaller.findPlaces(anyString(), any())).thenReturn(Mono.just(kakaoPlaceDto));
-        when(kakaoPlaceCaller.findPlaces(anyString(), any(), anyInt())).thenReturn(Mono.just(kakaoPlaceDto));
+        when(kakaoPlaceCaller.findPlaces(anyString(), any())).thenReturn(kakaoPlaceDto);
+        when(kakaoPlaceCaller.findPlaces(anyString(), any(), anyInt())).thenReturn(kakaoPlaceDto);
         Rect rect = new Rect(new Position(37.497366, 127.113847), new Position(37.519033, 127.069661));
         List<KakaoPlaceDto> result = kakaoService.findPlaces("CE7", rect);
 

@@ -28,7 +28,7 @@ class KakaoPlaceCallerTest {
     public void KakaoPlaceCallerTest() {
         Position left = new Position(37.569449, 126.979533);
         Rect rect = new Rect(left, 0.03, 0.01);
-        KakaoPlaceDto result = kakaoPlaceCaller.findPlaces("CE7", rect).block();
+        KakaoPlaceDto result = kakaoPlaceCaller.findPlaces("CE7", rect);
 
         Integer totalCount = result.getMeta().getTotalCount();
         int documentsSize = result.getDocuments().size();

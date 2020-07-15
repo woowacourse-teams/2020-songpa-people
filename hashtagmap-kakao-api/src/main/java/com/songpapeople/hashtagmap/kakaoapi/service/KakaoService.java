@@ -32,11 +32,11 @@ public class KakaoService {
     }
 
     private List<KakaoPlaceDto> findTotalPlacesBySmallRect(String category, Rect rect) {
-        KakaoPlaceDto firstPage = kakaoPlaceCaller.findPlaces(category, rect).block();
+        KakaoPlaceDto firstPage = kakaoPlaceCaller.findPlaces(category, rect);
         int pagableCount = firstPage.getMeta().getPageableCount();
 
         List<KakaoPlaceDto> pages = IntStream.rangeClosed(2, pagableCount)
-                .mapToObj(index -> kakaoPlaceCaller.findPlaces(category, rect, index).block())
+                .mapToObj(index -> kakaoPlaceCaller.findPlaces(category, rect, index))
                 .collect(Collectors.toList());
         pages.add(0, firstPage);
         return pages;
