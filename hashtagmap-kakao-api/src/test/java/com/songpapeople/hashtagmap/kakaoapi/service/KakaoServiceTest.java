@@ -1,7 +1,6 @@
 package com.songpapeople.hashtagmap.kakaoapi.service;
 
 import com.songpapeople.hashtagmap.kakaoapi.domain.KakaoPlaceCaller;
-import com.songpapeople.hashtagmap.kakaoapi.domain.Position;
 import com.songpapeople.hashtagmap.kakaoapi.domain.Rect;
 import com.songpapeople.hashtagmap.kakaoapi.domain.divider.RectDivider;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Document;
@@ -42,7 +41,7 @@ class KakaoServiceTest {
         KakaoPlaceDto kakaoPlaceDto = new KakaoPlaceDto(meta, Collections.singletonList(new Document()));
         when(kakaoPlaceCaller.findPlaces(anyString(), any())).thenReturn(kakaoPlaceDto);
         when(kakaoPlaceCaller.findPlaces(anyString(), any(), anyInt())).thenReturn(kakaoPlaceDto);
-        Rect rect = new Rect(new Position(37.497366, 127.113847), new Position(37.519033, 127.069661));
+        Rect rect = new Rect(37.497366, 127.113847, 0.1);
         List<KakaoPlaceDto> result = kakaoService.findPlaces("CE7", rect);
 
         int times = RectDivider.divide(rect, 0.02).size();

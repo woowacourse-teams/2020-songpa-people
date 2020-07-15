@@ -18,8 +18,7 @@ class KakaoPlaceCallerTest {
     @DisplayName("정의한 범위 내에서 카페 카테고리에 대한 Kakao API 호출")
     @Test
     public void KakaoPlaceCallerTest() {
-        Position left = new Position(37.569449, 126.979533);
-        Rect rect = new Rect(left, 0.03, 0.01);
+        Rect rect = new Rect(37.569449, 126.979533, 0.02);
         KakaoPlaceDto result = kakaoPlaceCaller.findPlaces("CE7", rect);
 
         Integer totalCount = result.getMeta().getTotalCount();
