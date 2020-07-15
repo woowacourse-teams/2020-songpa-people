@@ -1,15 +1,15 @@
 package com.songpapeople.hashtagmap.proxy;
 
-public class HostAndPort {
+public class Proxy {
     private final String host;
     private final String port;
 
-    public HostAndPort(String host, String port) {
+    public Proxy(String host, String port) {
         this.host = host;
         this.port = port;
     }
 
-    public void setProxy() {
+    public void setHostAndPort() {
         System.setProperty("http.proxyHost", this.host);
         System.setProperty("http.proxyPort", this.port);
     }
