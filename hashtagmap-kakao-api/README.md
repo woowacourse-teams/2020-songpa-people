@@ -6,6 +6,6 @@
   (Kakao로 부터 모든 가게 데이터를 받아올 수 없을 때) 재귀로 SmallRect를 쪼갠다.
 -[X] WebClient를 통해 API 호출
     -[X] 카테고리: 카페
-    -[x] WebClinet에서 RestTemplate으로 수정
+    -[x] WebClient에서 RestTemplate으로 수정
     -[x] Error Handling
 -[ ] 카테고리 Type 분리

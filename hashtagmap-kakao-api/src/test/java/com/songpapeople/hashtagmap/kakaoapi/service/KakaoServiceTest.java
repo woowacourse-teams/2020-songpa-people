@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.kakaoapi.service;
 
-import com.songpapeople.hashtagmap.kakaoapi.domain.KakaoPlaceCaller;
+import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoApiCaller;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Document;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Meta;
@@ -17,38 +17,42 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.songpapeople.hashtagmap.kakaoapi.service.KakaoPlaceDtoFixture.MAX_PAGEABLE_COUNT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class KakaoServiceTest {
+    private static final String CATEGORY_GROUP_CODE = "CE7";
     @Mock
-    private KakaoPlaceCaller kakaoPlaceCaller;
+    private KakaoApiCaller kakaoApiCaller;
 
     private KakaoService kakaoService;
 
     @BeforeEach
     private void setUp() {
-        kakaoService = new KakaoService(kakaoPlaceCaller);
+        kakaoService = new KakaoService(kakaoApiCaller);
     }
 
-    @DisplayName("Big Rect와 카테고리에 대한 가게 정보를 가져오기")
+    @DisplayName("Offset 조정이 없을 때, 요청 횟수 확인")
     @Test
     public void KakaoServiceTest() {
+        // given
         Meta meta = Meta.builder()
-                .pageableCount(45)
+                .pageableCount((int) (Math.random() * MAX_PAGEABLE_COUNT) + 1)
                 .build();
         KakaoPlaceDto kakaoPlaceDto = new KakaoPlaceDto(meta, Collections.singletonList(new Document()));
-        lenient().when(kakaoPlaceCaller.findPlaces(anyString(), any())).thenReturn(kakaoPlaceDto);
-        lenient().when(kakaoPlaceCaller.findPlaces(anyString(), any(), anyInt())).thenReturn(kakaoPlaceDto);
-        Rect rect = new Rect(new Latitude(37.497366), new Longitude(127.113847), BigDecimal.valueOf(0.1));
-        List<KakaoPlaceDto> result = kakaoService.findPlaces("CE7", rect);
+        when(kakaoApiCaller.findPlaceByCategory(anyString(), any(), anyInt())).thenReturn(kakaoPlaceDto);
 
-        int times = RectDivider.divide(rect, BigDecimal.valueOf(0.02)).size();
-        assertThat(result).hasSizeBetween(times, times * 15 * 45);
-        verify(kakaoPlaceCaller, times(times)).findPlaces(any(), any());
+        // when
+        Rect rect = new Rect(new Latitude(37), new Longitude(127), 0.1);
+        kakaoService.findPlaces(CATEGORY_GROUP_CODE, rect);
+
+        // then
+        int expectRectCount = RectDivider.divide(rect, BigDecimal.valueOf(0.02)).size();
+        verify(kakaoApiCaller, atLeast(expectRectCount)).findPlaceByCategory(anyString(), any(), anyInt());
+        verify(kakaoApiCaller, atMost(expectRectCount * MAX_PAGEABLE_COUNT))
+                .findPlaceByCategory(anyString(), any(), anyInt());
     }
 }

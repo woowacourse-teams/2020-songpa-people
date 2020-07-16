@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.kakaoapi.service;
 
-import com.songpapeople.hashtagmap.kakaoapi.domain.KakaoPlaceCaller;
+import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoApiCaller;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.RectDivider;
@@ -16,10 +16,10 @@ import java.util.stream.IntStream;
 public class KakaoService {
     private static final BigDecimal OFFSET = BigDecimal.valueOf(0.02);
 
-    private final KakaoPlaceCaller kakaoPlaceCaller;
+    private final KakaoApiCaller kakaoApiCaller;
 
-    public KakaoService(KakaoPlaceCaller kakaoPlaceCaller) {
-        this.kakaoPlaceCaller = kakaoPlaceCaller;
+    public KakaoService(KakaoApiCaller kakaoApiCaller) {
+        this.kakaoApiCaller = kakaoApiCaller;
     }
 
     // todo 제한 개수 초과했을 때 재귀로 offset 줄이기
@@ -33,11 +33,11 @@ public class KakaoService {
     }
 
     private List<KakaoPlaceDto> findTotalPlacesBySmallRect(String category, Rect rect) {
-        KakaoPlaceDto firstPage = kakaoPlaceCaller.findPlaces(category, rect);
+        KakaoPlaceDto firstPage = kakaoApiCaller.findPlaceByCategory(category, rect, 1);
         int pagableCount = firstPage.getMeta().getPageableCount();
 
         List<KakaoPlaceDto> pages = IntStream.rangeClosed(2, pagableCount)
-                .mapToObj(index -> kakaoPlaceCaller.findPlaces(category, rect, index))
+                .mapToObj(index -> kakaoApiCaller.findPlaceByCategory(category, rect, index))
                 .collect(Collectors.toList());
         pages.add(0, firstPage);
         return pages;

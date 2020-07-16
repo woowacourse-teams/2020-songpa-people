@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.kakaoapi.domain;
+package com.songpapeople.hashtagmap.kakaoapi.domain.caller;
 
 import lombok.Getter;
 import lombok.Setter;
