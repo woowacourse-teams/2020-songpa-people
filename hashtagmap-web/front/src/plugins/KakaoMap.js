@@ -1,18 +1,27 @@
 import {KAKAO_WEB_KEY} from "@/secret";
-import navigatorUtils from "@/utils/navigator.js"
+import navigatorUtils from "@/libs/navigator/navigator.js"
+import dotImgSrc from "@/assets/dot.png"
 
 /**
- * main.js 에 Vue.use(KaKaoMap) 을 해야한다.
+ * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
  * 사용할 컴포넌트에서 <div id="kakao-map"></div> 작성후
- * mounted 에 this.$loadMap() 호출을 하면 카카오 지도를 로드한다.
- * 특정 위치를 보여주고 싶다면 {latitude:위도값, longitute:경도값} 를 매개변수로 주입하면 된다.
- * 현재 좌표를 받아오지 못한다면 기본좌표는 잠실역 8번출구(37.513906,127.0991843)이다.
+ * mounted 에 this.$loadMap() 호출을 하면 카카오 지도를 띄운다.
+ *
+ * kakao-map을 로드후에 map을 이용한 로직이 필요하다면 mounted 에 async 를 하고 await로 $loadMap()의 실행을 기다려야 한다.
+ *
+ * 맵의 초기 위치를 지정하고 싶다면 {latitude:위도값, longitute:경도값} 를 매개변수로 주입하면 된다.
+ * 현재 좌표를 받아오지 못 한다면 기본 좌표는 잠실역 8번 출구이다.
  */
 export default {
     install(Vue) {
         const script = document.createElement('script');
         script.src = '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=' + KAKAO_WEB_KEY;
         document.head.appendChild(script);
+
+        const JAMSIL_STATION_8_EXIT = {
+            latitude: 37.513898,
+            longitude: 127.101463
+        }
 
         /* global kakao */
         const loadApi = new Promise((resolve) => {
@@ -27,31 +36,38 @@ export default {
 
             this.map = new kakao.maps.Map(container, options);
             this.map.setMapTypeId(kakao.maps.MapTypeId.NORMAL);
-        }
-
-        Vue.setPositionCenter = function (position) {
-            // 새로고침하면 this.map이 undefined가 되는데 이유를 모르겠음
-            if (this.map) {
-                this.map.setCenter(position);
-            } else {
-                console.log("this.map is not defined")
-            }
+            setPositionCenter(JAMSIL_STATION_8_EXIT);
         }
 
         Vue.prototype.$loadCurrentPosition = () => {
             const currentGeolocation = navigatorUtils.getCurrentPosition();
 
             currentGeolocation.then(position => {
-                console.log(1)
                 const currentPosition = navigatorUtils.extractGeolocationPosition(position);
-                Vue.setPositionCenter(createKakaoMapsLatLng(currentPosition));
+                setPositionCenter.call(this, currentPosition);
+                displayMarker.call(this, currentPosition);
             }).catch(() => {
-                console.log(2)
-                Vue.setPositionCenter(createKakaoMapsLatLng({
-                    latitude: 37.5234037,
-                    longitude: 126.9797361
-                }));
-            })
+                //TODO snackbar 로 교체 필요
+                alert("현재 위치를 불러오지 못했습니다.");
+            });
+        }
+
+        const setPositionCenter = (position) => {
+            this.map.setCenter(createKakaoMapsLatLng(position));
+        }
+
+        const displayMarker = (position) => {
+            setPositionCenter.call(this, position);
+
+            const imageSize = new kakao.maps.Size(15, 15);
+            const markerImage = new kakao.maps.MarkerImage(dotImgSrc, imageSize);
+
+            const marker = new kakao.maps.Marker({
+                position: createKakaoMapsLatLng(position),
+                image: markerImage
+            });
+
+            marker.setMap(this.map);
         }
 
         const createOptions = (nowPosition) => {
@@ -62,12 +78,8 @@ export default {
         }
 
         const createKakaoMapsLatLng = (nowPosition) => {
-            const position = nowPosition || {
-                latitude: 37.513906,
-                longitude: 127.0991843
-            };
+            const position = nowPosition || JAMSIL_STATION_8_EXIT;
             return new kakao.maps.LatLng(position.latitude, position.longitude)
         }
-
     }
 }

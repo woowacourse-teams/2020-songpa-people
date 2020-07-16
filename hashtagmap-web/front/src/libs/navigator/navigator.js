@@ -2,7 +2,9 @@ const navigatorUtils = {
     getCurrentPosition() {
         return new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject, {
-                timeout: 4000
+                enableHighAccuracy: false,
+                maximumAge: 60000,
+                timeout: 10000
             });
         });
     },

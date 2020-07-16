@@ -7,9 +7,8 @@
 <script>
     export default {
         name: "KakaoMap",
-        mounted() {
-            this.$loadMap();
-            console.log(1111111)
+        async mounted() {
+            await this.$loadMap();
             this.$loadCurrentPosition();
         }
     }
