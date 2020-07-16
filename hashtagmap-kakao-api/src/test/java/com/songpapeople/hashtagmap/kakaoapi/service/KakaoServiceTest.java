@@ -1,11 +1,13 @@
 package com.songpapeople.hashtagmap.kakaoapi.service;
 
 import com.songpapeople.hashtagmap.kakaoapi.domain.KakaoPlaceCaller;
-import com.songpapeople.hashtagmap.kakaoapi.domain.Rect;
-import com.songpapeople.hashtagmap.kakaoapi.domain.divider.RectDivider;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Document;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Meta;
+import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
+import com.songpapeople.hashtagmap.kakaoapi.domain.rect.RectDivider;
+import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Latitude;
+import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Longitude;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,12 +42,12 @@ class KakaoServiceTest {
                 .pageableCount(45)
                 .build();
         KakaoPlaceDto kakaoPlaceDto = new KakaoPlaceDto(meta, Collections.singletonList(new Document()));
-        when(kakaoPlaceCaller.findPlaces(anyString(), any())).thenReturn(kakaoPlaceDto);
-        when(kakaoPlaceCaller.findPlaces(anyString(), any(), anyInt())).thenReturn(kakaoPlaceDto);
-        Rect rect = new Rect(37.497366, 127.113847, 0.1);
+        lenient().when(kakaoPlaceCaller.findPlaces(anyString(), any())).thenReturn(kakaoPlaceDto);
+        lenient().when(kakaoPlaceCaller.findPlaces(anyString(), any(), anyInt())).thenReturn(kakaoPlaceDto);
+        Rect rect = new Rect(new Latitude(37.497366), new Longitude(127.113847), BigDecimal.valueOf(0.1));
         List<KakaoPlaceDto> result = kakaoService.findPlaces("CE7", rect);
 
-        int times = RectDivider.divide(rect, 0.02).size();
+        int times = RectDivider.divide(rect, BigDecimal.valueOf(0.02)).size();
         assertThat(result).hasSizeBetween(times, times * 15 * 45);
         verify(kakaoPlaceCaller, times(times)).findPlaces(any(), any());
     }

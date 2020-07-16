@@ -1,11 +1,12 @@
 package com.songpapeople.hashtagmap.kakaoapi.service;
 
 import com.songpapeople.hashtagmap.kakaoapi.domain.KakaoPlaceCaller;
-import com.songpapeople.hashtagmap.kakaoapi.domain.Rect;
-import com.songpapeople.hashtagmap.kakaoapi.domain.divider.RectDivider;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
+import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
+import com.songpapeople.hashtagmap.kakaoapi.domain.rect.RectDivider;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import java.util.stream.IntStream;
 
 @Service
 public class KakaoService {
-    private static final double OFFSET = 0.02;
+    private static final BigDecimal OFFSET = BigDecimal.valueOf(0.02);
 
     private final KakaoPlaceCaller kakaoPlaceCaller;
 
