@@ -1,22 +1,23 @@
 package com.songpapeople.hashtagmap.crawler;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.jsoup.nodes.Document;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
+import org.jsoup.nodes.Document;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InstagramCrawler {
     private static final String INSTAGRAM_URL_FORMAT = "https://www.instagram.com/explore/tags/%s/?hl=ko";
     private static final String HASHTAG_COUNT_REGEX = "(\"edge_hashtag_to_media\":\\{\"count\"):([0-9]+)";
     private static final String HASHTAG_POPULAR_POSTS_INFO_REGEX = "(\"edge_hashtag_to_top_posts\":)(.*)(,\"edge_hashtag_to_content_advisory\")";
+    public static final String POST_URL_KEY = "shortcode";
+    public static final String DISPLAY_URL_KEY = "display_url";
+    public static final String SOURCE_KEY = "edges";
 
     public CrawlingDto createHashtagDto(String placeName) {
         Document document = Crawler.crawling(String.format(INSTAGRAM_URL_FORMAT, placeName));
@@ -29,13 +30,12 @@ public class InstagramCrawler {
 
     private PostDtos makePostDtos(String popularPostsInfo) {
         List<PostDto> postDtos = new ArrayList<>();
-        JsonElement popularPostJson = JsonParser.parseString(popularPostsInfo);
-        JsonArray edges = popularPostJson.getAsJsonObject().get("edges").getAsJsonArray();
-        for (JsonElement edge : edges) {
-            JsonObject node = edge.getAsJsonObject().get("node").getAsJsonObject();
-            String shortCode = node.get("shortcode").getAsString();
-            String displayUrl = node.get("display_url").getAsString();
-            postDtos.add(new PostDto(shortCode, displayUrl));
+        JsonElement popularPostsJson = JsonParser.parseString(popularPostsInfo);
+        JsonArray sources = popularPostsJson.getAsJsonObject().get(SOURCE_KEY).getAsJsonArray();
+        for (JsonElement source : sources) {
+            String postUrl = Extractor.extractByKey(source, POST_URL_KEY);
+            String displayUrl = Extractor.extractByKey(source, DISPLAY_URL_KEY);
+            postDtos.add(new PostDto(postUrl, displayUrl));
         }
         return new PostDtos(postDtos);
     }
