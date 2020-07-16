@@ -1,9 +1,10 @@
 package com.songpapeople.hashtagmap.dto;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class CrawlingDto {
     private final String placeName;

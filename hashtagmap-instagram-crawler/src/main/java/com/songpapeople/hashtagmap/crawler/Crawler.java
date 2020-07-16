@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import com.songpapeople.hashtagmap.exception.CrawlingUrlException;
+
 public class Crawler {
     private static final String USER_AGENT =
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36";
@@ -17,7 +19,7 @@ public class Crawler {
                 .timeout(HOLDING_TIME)
                 .get();
         } catch (IOException e) {
-            throw new IllegalArgumentException("연결할 수 없는 url 입니다.");
+            throw new CrawlingUrlException();
         }
     }
 }

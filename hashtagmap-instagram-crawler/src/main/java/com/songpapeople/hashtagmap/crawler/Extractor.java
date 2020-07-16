@@ -1,9 +1,10 @@
 package com.songpapeople.hashtagmap.crawler;
 
-import com.google.gson.JsonElement;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.google.gson.JsonElement;
+import com.songpapeople.hashtagmap.exception.NotFoundExtractorException;
 
 public class Extractor {
     private static final int TARGET_INDEX = 2;
@@ -15,7 +16,7 @@ public class Extractor {
         if (matcher.find()) {
             return matcher.group(TARGET_INDEX);
         }
-        throw new IllegalArgumentException("body 내에서 원하는 내용을 찾지 못했습니다.");
+        throw new NotFoundExtractorException();
     }
 
     public static String extractByKey(JsonElement edge, String key) {

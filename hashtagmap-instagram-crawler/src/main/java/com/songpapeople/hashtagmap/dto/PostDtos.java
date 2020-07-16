@@ -10,7 +10,7 @@ public class PostDtos {
 
     public PostDtos(List<PostDto> postDtos) {
         if (postDtos.size() != POPULAR_POST_SIZE) {
-            throw new IllegalArgumentException("포스트의 개수가 9개가 아닙니다.");
+            throw new IllegalArgumentException("포스트가 9개가 아닙니다.");
         }
         this.postDtos = new ArrayList<>(postDtos);
     }
