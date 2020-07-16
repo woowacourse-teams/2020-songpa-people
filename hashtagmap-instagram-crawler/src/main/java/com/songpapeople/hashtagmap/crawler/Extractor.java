@@ -3,10 +3,10 @@ package com.songpapeople.hashtagmap.crawler;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CrawlingProcessor {
+public class Extractor {
     private static final int TARGET_INDEX = 2;
 
-    public static String searchByRegex(String body, String regex) {
+    public static String extractByRegex(String body, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(body);
         if (matcher.find()) {

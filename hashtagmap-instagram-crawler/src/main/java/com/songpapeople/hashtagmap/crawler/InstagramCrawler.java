@@ -16,25 +16,23 @@ import com.songpapeople.hashtagmap.dto.PostDtos;
 public class InstagramCrawler {
     private static final String INSTAGRAM_URL_FORMAT = "https://www.instagram.com/explore/tags/%s/?hl=ko";
     private static final String HASHTAG_COUNT_REGEX = "(\"edge_hashtag_to_media\":\\{\"count\"):([0-9]+)";
-    private static final String HASHTAG_POPULAR_INFO_REGEX = "(\"edge_hashtag_to_top_posts\":)(.*)(,\"edge_hashtag_to_content_advisory\")";
+    private static final String HASHTAG_POPULAR_POSTS_INFO_REGEX = "(\"edge_hashtag_to_top_posts\":)(.*)(,\"edge_hashtag_to_content_advisory\")";
 
     public CrawlingDto createHashtagDto(String placeName) {
         Document document = Crawler.crawling(String.format(INSTAGRAM_URL_FORMAT, placeName));
         String body = document.body().toString();
-        String hashtagCount = CrawlingProcessor.searchByRegex(body, HASHTAG_COUNT_REGEX);
-        String popularInfo = CrawlingProcessor.searchByRegex(body, HASHTAG_POPULAR_INFO_REGEX);
-        PostDtos postDtos = makePostDtos(popularInfo);
-
+        String hashtagCount = Extractor.extractByRegex(body, HASHTAG_COUNT_REGEX);
+        String popularPostsInfo = Extractor.extractByRegex(body, HASHTAG_POPULAR_POSTS_INFO_REGEX);
+        PostDtos postDtos = makePostDtos(popularPostsInfo);
         return CrawlingDto.of(placeName, hashtagCount, postDtos);
     }
 
-    private PostDtos makePostDtos(String popularInfo) {
+    private PostDtos makePostDtos(String popularPostsInfo) {
         List<PostDto> postDtos = new ArrayList<>();
-        JsonElement json = JsonParser.parseString(popularInfo);
-        JsonArray edges = json.getAsJsonObject().get("edges").getAsJsonArray();
+        JsonElement popularPostJson = JsonParser.parseString(popularPostsInfo);
+        JsonArray edges = popularPostJson.getAsJsonObject().get("edges").getAsJsonArray();
         for (JsonElement edge : edges) {
             JsonObject node = edge.getAsJsonObject().get("node").getAsJsonObject();
-
             String shortCode = node.get("shortcode").getAsString();
             String displayUrl = node.get("display_url").getAsString();
             postDtos.add(new PostDto(shortCode, displayUrl));
