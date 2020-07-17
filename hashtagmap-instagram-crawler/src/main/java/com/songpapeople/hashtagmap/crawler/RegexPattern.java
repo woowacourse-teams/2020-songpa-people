@@ -1,10 +1,10 @@
 package com.songpapeople.hashtagmap.crawler;
 
-import com.songpapeople.hashtagmap.exception.NotFoundExtractorException;
-import lombok.Getter;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.songpapeople.hashtagmap.exception.NotFoundRegexException;
+import lombok.Getter;
 
 @Getter
 public enum RegexPattern {
@@ -22,6 +22,6 @@ public enum RegexPattern {
         if (matcher.find()) {
             return matcher.group(2);
         }
-        throw new NotFoundExtractorException();
+        throw new NotFoundRegexException();
     }
 }
