@@ -7,6 +7,7 @@ import com.songpapeople.hashtagmap.kakaoapi.domain.rect.RectDivider;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +15,11 @@ import java.util.stream.IntStream;
 
 @Service
 public class KakaoService {
-    private static final BigDecimal OFFSET = BigDecimal.valueOf(0.02);
+    private static final BigDecimal DEFAULT_OFFSET = BigDecimal.valueOf(0.02);
+    private static final BigDecimal HALF = BigDecimal.valueOf(2);
+    private static final int FIRST_INDEX = 0;
+    private static final int FIRST_PAGE = 1;
+    private static final int SECOND_PAGE = 2;
 
     private final KakaoApiCaller kakaoApiCaller;
 
@@ -22,24 +27,36 @@ public class KakaoService {
         this.kakaoApiCaller = kakaoApiCaller;
     }
 
-    // todo 제한 개수 초과했을 때 재귀로 offset 줄이기
-    public List<KakaoPlaceDto> findPlaces(String category, Rect rect) {
-        List<Rect> dividedRects = RectDivider.divide(rect, OFFSET);
+    public List<KakaoPlaceDto> findPlaces(String category, Rect initialRect) {
+        List<Rect> dividedRects = RectDivider.divide(initialRect, DEFAULT_OFFSET);
         List<KakaoPlaceDto> result = dividedRects.stream()
-                .map(smallRect -> findTotalPlacesBySmallRect(category, smallRect))
+                .map(dividedRect -> findPlacesInDividedRect(category, dividedRect, DEFAULT_OFFSET))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
         return result;
     }
 
-    private List<KakaoPlaceDto> findTotalPlacesBySmallRect(String category, Rect rect) {
-        KakaoPlaceDto firstPage = kakaoApiCaller.findPlaceByCategory(category, rect, 1);
-        int pagableCount = firstPage.getMeta().getPageableCount();
+    private List<KakaoPlaceDto> findPlacesInDividedRect(String category, Rect rect, BigDecimal offset) {
+        KakaoPlaceDto firstPage = kakaoApiCaller.findPlaceByCategory(category, rect, FIRST_PAGE);
 
-        List<KakaoPlaceDto> pages = IntStream.rangeClosed(2, pagableCount)
-                .mapToObj(index -> kakaoApiCaller.findPlaceByCategory(category, rect, index))
-                .collect(Collectors.toList());
-        pages.add(0, firstPage);
+        if (kakaoApiCaller.isLessOrEqualTotalCount(firstPage)) {
+            int pageableCount = firstPage.getMeta().getPageableCount();
+            List<KakaoPlaceDto> pages = IntStream.rangeClosed(SECOND_PAGE, pageableCount)
+                    .mapToObj(index -> kakaoApiCaller.findPlaceByCategory(category, rect, index))
+                    .collect(Collectors.toList());
+            pages.add(FIRST_INDEX, firstPage);
+            return pages;
+        }
+
+        return findPlacesInRearrangedRect(category, rect, offset);
+    }
+
+    private List<KakaoPlaceDto> findPlacesInRearrangedRect(String category, Rect rect, BigDecimal offset) {
+        List<KakaoPlaceDto> pages = new ArrayList<>();
+        List<Rect> dividedRects = RectDivider.divide(rect, offset.divide(HALF));
+        for (Rect dividedRect : dividedRects) {
+            pages.addAll(findPlacesInDividedRect(category, dividedRect, offset.divide(HALF)));
+        }
         return pages;
     }
 }

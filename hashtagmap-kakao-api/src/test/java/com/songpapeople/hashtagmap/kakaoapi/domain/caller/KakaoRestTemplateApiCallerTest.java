@@ -18,7 +18,7 @@ public class KakaoRestTemplateApiCallerTest {
     private KakaoApiCaller kakaoApiCaller;
 
     @Disabled
-    @DisplayName("정의한 범위 내에서 카페 카테고리에 대한 Kakao API 호출")
+    @DisplayName("InitialRect 내에서 카페 카테고리에 대한 Kakao API 통신 확인")
     @Test
     public void KakaoPlaceCallerTest() {
         Rect rect = new Rect(new Latitude(37.569449), new Longitude(126.979533), 0.02);

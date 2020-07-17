@@ -9,7 +9,6 @@ import java.util.List;
 public class RectDivider {
 
     public static List<Rect> divide(Rect rect, BigDecimal offset) {
-        // todo 로직 개선
         Location minLatitude = rect.getMinLatitude();
         Location maxLatitude = rect.getMaxLatitude();
         Location minLongitude = rect.getMinLongitude();

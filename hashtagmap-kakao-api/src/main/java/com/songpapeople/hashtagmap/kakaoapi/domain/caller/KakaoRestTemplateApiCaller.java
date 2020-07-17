@@ -11,25 +11,36 @@ public class KakaoRestTemplateApiCaller implements KakaoApiCaller {
     private static final String CATEGORY_GROUP_CODE = "category_group_code";
     private static final String RECT = "rect";
     private static final String PAGE = "page";
+    private static final int KAKAKO_MAX_DOCUMENTS_COUNT = 15;
+    private static final int KAKAO_MAX_PAGEABLE_COUNT = 45;
 
+    private final int maxDocumentsCount;
+    private final int maxPageableCount;
     private final RestTemplate restTemplate;
 
     public KakaoRestTemplateApiCaller(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+        this(restTemplate, KAKAKO_MAX_DOCUMENTS_COUNT, KAKAO_MAX_PAGEABLE_COUNT);
     }
 
-    @Override
-    public KakaoPlaceDto findPlaceByCategory(String category, Rect rect) {
-        return findPlaceByCategory(category, rect, 1);
+    public KakaoRestTemplateApiCaller(RestTemplate restTemplate, int maxDocumentsCount, int maxPageableCount) {
+        this.restTemplate = restTemplate;
+        this.maxDocumentsCount = maxDocumentsCount;
+        this.maxPageableCount = maxPageableCount;
     }
 
     @Override
     public KakaoPlaceDto findPlaceByCategory(String category, Rect rect, int page) {
+        // TODO: 2020/07/17 BASE_URL을 분리하는 방법 찾기
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_URL + CATEGORY_URI)
                 .queryParam(CATEGORY_GROUP_CODE, category)
                 .queryParam(RECT, rect.toKakaoFormat())
                 .queryParam(PAGE, Integer.toString(page));
-
         return restTemplate.getForObject(builder.toUriString(), KakaoPlaceDto.class);
+    }
+
+    @Override
+    public boolean isLessOrEqualTotalCount(KakaoPlaceDto kakaoPlaceDto) {
+        int totalCount = kakaoPlaceDto.getMeta().getTotalCount();
+        return (this.maxDocumentsCount * this.maxPageableCount) >= totalCount;
     }
 }
