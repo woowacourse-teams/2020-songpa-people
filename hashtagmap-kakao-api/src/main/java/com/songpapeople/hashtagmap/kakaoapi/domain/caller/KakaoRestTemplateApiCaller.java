@@ -5,7 +5,7 @@ import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-public class MajorKakaoApiCaller implements KakaoApiCaller {
+public class KakaoRestTemplateApiCaller implements KakaoApiCaller {
     private static final String BASE_URL = "https://dapi.kakao.com";
     private static final String CATEGORY_URI = "/v2/local/search/category.json";
     private static final String CATEGORY_GROUP_CODE = "category_group_code";
@@ -14,7 +14,7 @@ public class MajorKakaoApiCaller implements KakaoApiCaller {
 
     private final RestTemplate restTemplate;
 
-    public MajorKakaoApiCaller(RestTemplate restTemplate) {
+    public KakaoRestTemplateApiCaller(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
