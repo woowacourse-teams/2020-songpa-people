@@ -1,6 +1,5 @@
 package com.songpapeople.hashtagmap.kakaoapi.domain.caller;
 
-import com.songpapeople.hashtagmap.kakaoapi.config.MajorKakaoConfiguration;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Latitude;
@@ -10,12 +9,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Import(MajorKakaoConfiguration.class)
 public class MajorKakaoApiCallerTest {
     @Autowired
     private KakaoApiCaller kakaoApiCaller;

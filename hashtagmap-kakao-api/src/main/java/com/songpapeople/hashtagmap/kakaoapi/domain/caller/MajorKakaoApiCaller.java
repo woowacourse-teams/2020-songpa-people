@@ -7,8 +7,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class MajorKakaoApiCaller implements KakaoApiCaller {
     private static final String BASE_URL = "https://dapi.kakao.com";
-    private static final String CATEGORY_GROUP_CODE = "category_group_code";
     private static final String CATEGORY_URI = "/v2/local/search/category.json";
+    private static final String CATEGORY_GROUP_CODE = "category_group_code";
     private static final String RECT = "rect";
     private static final String PAGE = "page";
 
