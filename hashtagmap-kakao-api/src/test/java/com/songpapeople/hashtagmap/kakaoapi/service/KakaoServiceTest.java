@@ -60,11 +60,15 @@ class KakaoServiceTest {
         }
         List<KakaoPlaceDto> places = kakaoService.findPlaces(CATEGORY_GROUP_CODE, initialRect);
 
+        server.verify();
         assertThat(places).hasSize(7);
     }
 
     private void stubServer(Rect rect) throws JsonProcessingException {
         int pageableCount = createPageableCount(totalCounts.get(rect));
+        if (isRearranged(rect)) {
+            pageableCount = 1;
+        }
         for (int i = 1; i <= pageableCount; i++) {
             KakaoPlaceDto kakaoPlaceDto = createPlaceDto(totalCounts.get(rect), i);
             String kakaoPlaceDtoJson = objectMapper.writeValueAsString(kakaoPlaceDto);

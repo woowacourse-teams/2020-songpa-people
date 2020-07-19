@@ -48,6 +48,17 @@ public class KakaoPlaceDtoFixture {
         totalCounts.put(dividedRects.get(3), 2);
     }
 
+    public static boolean isRearranged(Rect rect) {
+        return isRearranged(totalCounts.get(rect));
+    }
+
+    public static boolean isRearranged(int totalCount) {
+        if (totalCount > MAX_PAGEABLE_COUNT * MAX_DOCUMENT_COUNT) {
+            return true;
+        }
+        return false;
+    }
+
     public static KakaoPlaceDto createPlaceDto(int totalCount, int pageableCount) {
         Meta meta = createMeta(totalCount, pageableCount);
         List<Document> documents = createDocuments(createDocumentCount(totalCount));
@@ -72,7 +83,7 @@ public class KakaoPlaceDtoFixture {
     }
 
     public static int createDocumentCount(int totalCount) {
-        if (totalCount > MAX_PAGEABLE_COUNT * MAX_DOCUMENT_COUNT) {
+        if (isRearranged(totalCount)) {
             return MAX_PAGEABLE_COUNT * MAX_DOCUMENT_COUNT;
         }
         return totalCount;
