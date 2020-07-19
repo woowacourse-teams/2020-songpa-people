@@ -19,7 +19,6 @@ public class Latitude extends Location {
         if (isBetween(latitude, MIN_LATITUDE, MAX_LATITUDE)) {
             return latitude;
         }
-        ;
         throw new IllegalArgumentException("위도 범위가 아닙니다.");
     }
 

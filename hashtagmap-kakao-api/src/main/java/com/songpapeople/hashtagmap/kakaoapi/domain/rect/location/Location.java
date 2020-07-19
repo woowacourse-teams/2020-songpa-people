@@ -5,10 +5,6 @@ import java.math.BigDecimal;
 public abstract class Location {
     protected final BigDecimal value;
 
-    public Location(double value) {
-        this.value = BigDecimal.valueOf(value);
-    }
-
     public Location(BigDecimal value) {
         this.value = value;
     }

@@ -50,10 +50,10 @@ public class Rect {
             return false;
         }
         Rect rect = (Rect) o;
-        return Objects.equals(minLatitude.getValue(), rect.minLatitude.getValue()) &&
-                Objects.equals(maxLatitude.getValue(), rect.maxLatitude.getValue()) &&
-                Objects.equals(minLongitude.getValue(), rect.minLongitude.getValue()) &&
-                Objects.equals(maxLongitude.getValue(), rect.maxLongitude.getValue());
+        return Objects.equals(minLatitude.getValue(), rect.minLatitude.getValue())
+                && Objects.equals(maxLatitude.getValue(), rect.maxLatitude.getValue())
+                && Objects.equals(minLongitude.getValue(), rect.minLongitude.getValue())
+                && Objects.equals(maxLongitude.getValue(), rect.maxLongitude.getValue());
     }
 
     @Override

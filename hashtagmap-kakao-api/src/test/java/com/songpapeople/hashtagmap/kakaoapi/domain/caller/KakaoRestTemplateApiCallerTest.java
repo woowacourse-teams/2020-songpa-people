@@ -14,6 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class KakaoRestTemplateApiCallerTest {
+    private static final String CATEGORY_GROUP_CODE = "CE7";
+
     @Autowired
     private KakaoApiCaller kakaoApiCaller;
 
@@ -22,7 +24,7 @@ public class KakaoRestTemplateApiCallerTest {
     @Test
     public void KakaoPlaceCallerTest() {
         Rect rect = new Rect(new Latitude(37.569449), new Longitude(126.979533), 0.02);
-        KakaoPlaceDto result = kakaoApiCaller.findPlaceByCategory("CE7", rect, 1);
+        KakaoPlaceDto result = kakaoApiCaller.findPlaceByCategory(CATEGORY_GROUP_CODE, rect, 1);
 
         Integer totalCount = result.getMeta().getTotalCount();
         int documentsSize = result.getDocuments().size();
@@ -31,6 +33,6 @@ public class KakaoRestTemplateApiCallerTest {
         assertThat(result).isNotNull();
         assertThat(totalCount).isNotEqualTo(0);
         assertThat(documentsSize).isNotEqualTo(0);
-        assertThat(categoryGroupCode).isEqualTo("CE7");
+        assertThat(categoryGroupCode).isEqualTo(CATEGORY_GROUP_CODE);
     }
 }

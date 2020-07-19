@@ -19,7 +19,6 @@ public class Longitude extends Location {
         if (isBetween(longitude, MIN_LONGITUDE, MAX_LONGITUDE)) {
             return longitude;
         }
-        ;
         throw new IllegalArgumentException("경도 범위가 아닙니다.");
     }
 
