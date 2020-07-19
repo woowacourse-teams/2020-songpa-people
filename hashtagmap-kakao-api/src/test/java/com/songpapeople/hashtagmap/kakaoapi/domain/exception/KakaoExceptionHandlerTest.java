@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.kakaoapi.domain.exception;
 
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -51,9 +52,10 @@ public class KakaoExceptionHandlerTest {
         server = MockRestServiceServer.createServer(restTemplate);
     }
 
+    @DisplayName("Exception Handler가 잘 작동하는지 확인한다.")
     @ParameterizedTest
     @MethodSource("provideErrorCode")
-    public void badRequestTest(HttpStatus status) {
+    public void exceptionHandlerTest(HttpStatus status) {
         this.server
                 .expect(ExpectedCount.once(), requestTo(BASE_URL + CATEGORY_GROUP_CODE))
                 .andExpect(method(HttpMethod.GET))
