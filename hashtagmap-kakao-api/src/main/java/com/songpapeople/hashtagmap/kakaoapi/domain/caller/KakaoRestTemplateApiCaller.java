@@ -3,10 +3,10 @@ package com.songpapeople.hashtagmap.kakaoapi.domain.caller;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class KakaoRestTemplateApiCaller implements KakaoApiCaller {
-    private static final String BASE_URL = "https://dapi.kakao.com";
     private static final String CATEGORY_URI = "/v2/local/search/category.json";
     private static final String CATEGORY_GROUP_CODE = "category_group_code";
     private static final String RECT = "rect";
@@ -30,12 +30,13 @@ public class KakaoRestTemplateApiCaller implements KakaoApiCaller {
 
     @Override
     public KakaoPlaceDto findPlaceByCategory(String category, Rect rect, int page) {
-        // TODO: 2020/07/17 BASE_URL을 분리하는 방법 찾기
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_URL + CATEGORY_URI)
+        UriComponents uri = UriComponentsBuilder.newInstance()
+                .path(CATEGORY_URI)
                 .queryParam(CATEGORY_GROUP_CODE, category)
                 .queryParam(RECT, rect.toKakaoFormat())
-                .queryParam(PAGE, Integer.toString(page));
-        return restTemplate.getForObject(builder.toUriString(), KakaoPlaceDto.class);
+                .queryParam(PAGE, Integer.toString(page))
+                .build();
+        return restTemplate.getForObject(uri.toUriString(), KakaoPlaceDto.class);
     }
 
     @Override

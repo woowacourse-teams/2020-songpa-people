@@ -79,7 +79,6 @@ class KakaoServiceTest {
         }
     }
 
-    // TODO: 2020/07/17 uri를 생성하는 방법 찾기
     private String createUri(Rect rect, int page) {
         StringBuilder builder = new StringBuilder();
         builder.append("https://dapi.kakao.com/v2/local/search/category.json?");
