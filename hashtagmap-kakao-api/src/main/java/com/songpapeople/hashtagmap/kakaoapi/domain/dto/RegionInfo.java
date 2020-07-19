@@ -6,8 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class RegionInfo {
     private String[] region;

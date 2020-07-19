@@ -6,8 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 public class Document {
     private String id;

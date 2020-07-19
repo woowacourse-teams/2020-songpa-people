@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class KakaoPlaceDto {
     private Meta meta;
     private List<Document> documents;

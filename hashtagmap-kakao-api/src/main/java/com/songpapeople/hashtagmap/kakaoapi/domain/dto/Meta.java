@@ -8,8 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class Meta {
     private Integer totalCount;
     private Integer pageableCount;
