@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
  * selectedRegion: 인식된 지역 리스트 중, 현재 검색에 사용된 지역 정보
  */
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class RegionInfo {
     private String[] region;
     private String keyword;

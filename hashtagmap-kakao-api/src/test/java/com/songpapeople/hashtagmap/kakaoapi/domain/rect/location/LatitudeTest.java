@@ -8,7 +8,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class LatitudeTest {
-
     @DisplayName("정상 범위로 생성했을 때")
     @ParameterizedTest
     @ValueSource(doubles = {33, 35, 43})

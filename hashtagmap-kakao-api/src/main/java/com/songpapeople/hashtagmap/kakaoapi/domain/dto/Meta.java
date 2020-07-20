@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
  * sameName: 질의어의 지역 및 키워드 분석 정보
  */
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Meta {
     private Integer totalCount;
     private Integer pageableCount;

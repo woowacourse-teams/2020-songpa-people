@@ -16,8 +16,8 @@ import lombok.Getter;
  * }
  */
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @Getter
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Document {
     private String id;
     private String placeName;

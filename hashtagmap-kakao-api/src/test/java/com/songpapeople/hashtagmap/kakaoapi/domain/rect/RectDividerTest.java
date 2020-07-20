@@ -11,7 +11,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RectDividerTest {
-
     @DisplayName("InitialRect를 offset 으로 나누기")
     @Test
     void divideRectTest() {
