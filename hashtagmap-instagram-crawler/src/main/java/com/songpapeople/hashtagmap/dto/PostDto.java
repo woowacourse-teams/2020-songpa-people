@@ -9,8 +9,8 @@ public class PostDto {
     private final String postUrl;
     private final String imageUrl;
 
-    public PostDto(String postUrl, String imageUrl) {
-        this.postUrl = String.format(POST_URL_FORMAT, postUrl);
+    public PostDto(String postUrlKey, String imageUrl) {
+        this.postUrl = String.format(POST_URL_FORMAT, postUrlKey);
         this.imageUrl = imageUrl;
     }
 }

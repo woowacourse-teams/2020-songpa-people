@@ -1,12 +1,12 @@
 package com.songpapeople.hashtagmap.dto;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
 class PostDtoTest {
-    public static final String POST_URL_FORMAT = "https://www.instagram.com/p/%s";
-
+    @DisplayName("PostDto 생성시 받아온 url key값으로 postUrl을 정상적으로 생성하는지 테스트")
     @Test
     void create() {
         String shortCode = "code";
