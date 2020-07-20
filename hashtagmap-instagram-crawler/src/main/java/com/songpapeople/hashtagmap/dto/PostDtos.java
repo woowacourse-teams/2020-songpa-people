@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostDtos {
-    private static final int POPULAR_POST_SIZE = 9;
+    public static final int POPULAR_POST_SIZE = 9;
 
     private final List<PostDto> postDtos;
 

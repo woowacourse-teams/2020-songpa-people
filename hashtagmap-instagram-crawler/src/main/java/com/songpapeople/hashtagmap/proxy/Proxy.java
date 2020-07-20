@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.proxy;
 
-public class Proxy {
+class Proxy {
     private final String host;
     private final String port;
 

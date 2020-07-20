@@ -2,7 +2,7 @@ package com.songpapeople.hashtagmap.crawler;
 
 import com.google.gson.JsonElement;
 
-public class JsonExplorer {
+class JsonExplorer {
     public static final String PARENT_KEY = "node";
 
     public static String findByKey(JsonElement edge, String key) {
