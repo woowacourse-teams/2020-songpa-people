@@ -9,7 +9,7 @@ Vue.config.productionTip = false;
 Vue.use(KakaoMap);
 
 new Vue({
-    router,
-    store,
-    render: h => h(App),
+  router,
+  store,
+  render: h => h(App),
 }).$mount("#app");

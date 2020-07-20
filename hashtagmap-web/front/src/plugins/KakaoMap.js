@@ -1,6 +1,6 @@
-import {KAKAO_WEB_KEY} from "@/secret";
-import navigatorUtils from "@/libs/navigator/navigator.js"
-import dotImgSrc from "@/assets/dot.png"
+import { KAKAO_WEB_KEY } from "@/secret";
+import navigatorUtils from "@/libs/navigator/navigator.js";
+import dotImgSrc from "@/assets/dot.png";
 
 /**
  * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
@@ -13,73 +13,78 @@ import dotImgSrc from "@/assets/dot.png"
  * 현재 좌표를 받아오지 못 한다면 기본 좌표는 잠실역 8번 출구이다.
  */
 export default {
-    install(Vue) {
-        const script = document.createElement('script');
-        script.src = '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=' + KAKAO_WEB_KEY;
-        document.head.appendChild(script);
+  install(Vue) {
+    const script = document.createElement("script");
+    script.src =
+      "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=" + KAKAO_WEB_KEY;
+    document.head.appendChild(script);
 
-        const JAMSIL_STATION_8_EXIT = {
-            latitude: 37.513898,
-            longitude: 127.101463
-        }
+    const JAMSIL_STATION_8_EXIT = {
+      latitude: 37.513898,
+      longitude: 127.101463,
+    };
 
-        /* global kakao */
-        const loadApi = new Promise((resolve) => {
-            script.onload = () => kakao.maps.load(resolve);
+    /* global kakao */
+    const loadApi = new Promise(resolve => {
+      script.onload = () => kakao.maps.load(resolve);
+    });
+
+    Vue.prototype.$loadMap = async nowPosition => {
+      await loadApi;
+
+      const options = createOptions(nowPosition);
+      const container = document.getElementById("kakao-map");
+
+      this.map = new kakao.maps.Map(container, options);
+      this.map.setMapTypeId(kakao.maps.MapTypeId.NORMAL);
+      setPositionCenter(JAMSIL_STATION_8_EXIT);
+    };
+
+    Vue.prototype.$loadCurrentPosition = () => {
+      const currentGeolocation = navigatorUtils.getCurrentPosition();
+
+      currentGeolocation
+        .then(position => {
+          const currentPosition = navigatorUtils.extractGeolocationPosition(
+            position,
+          );
+          setPositionCenter.call(this, currentPosition);
+          displayMarker.call(this, currentPosition);
+        })
+        .catch(() => {
+          //TODO snackbar 로 교체 필요
+          alert("현재 위치를 불러오지 못했습니다.");
         });
+    };
 
-        Vue.prototype.$loadMap = async (nowPosition) => {
-            await loadApi;
+    const setPositionCenter = position => {
+      this.map.setCenter(createKakaoMapsLatLng(position));
+    };
 
-            const options = createOptions(nowPosition);
-            const container = document.getElementById('kakao-map');
+    const displayMarker = position => {
+      setPositionCenter.call(this, position);
 
-            this.map = new kakao.maps.Map(container, options);
-            this.map.setMapTypeId(kakao.maps.MapTypeId.NORMAL);
-            setPositionCenter(JAMSIL_STATION_8_EXIT);
-        }
+      const imageSize = new kakao.maps.Size(15, 15);
+      const markerImage = new kakao.maps.MarkerImage(dotImgSrc, imageSize);
 
-        Vue.prototype.$loadCurrentPosition = () => {
-            const currentGeolocation = navigatorUtils.getCurrentPosition();
+      const marker = new kakao.maps.Marker({
+        position: createKakaoMapsLatLng(position),
+        image: markerImage,
+      });
 
-            currentGeolocation.then(position => {
-                const currentPosition = navigatorUtils.extractGeolocationPosition(position);
-                setPositionCenter.call(this, currentPosition);
-                displayMarker.call(this, currentPosition);
-            }).catch(() => {
-                //TODO snackbar 로 교체 필요
-                alert("현재 위치를 불러오지 못했습니다.");
-            });
-        }
+      marker.setMap(this.map);
+    };
 
-        const setPositionCenter = (position) => {
-            this.map.setCenter(createKakaoMapsLatLng(position));
-        }
+    const createOptions = nowPosition => {
+      return {
+        center: createKakaoMapsLatLng(nowPosition),
+        level: 5,
+      };
+    };
 
-        const displayMarker = (position) => {
-            setPositionCenter.call(this, position);
-
-            const imageSize = new kakao.maps.Size(15, 15);
-            const markerImage = new kakao.maps.MarkerImage(dotImgSrc, imageSize);
-
-            const marker = new kakao.maps.Marker({
-                position: createKakaoMapsLatLng(position),
-                image: markerImage
-            });
-
-            marker.setMap(this.map);
-        }
-
-        const createOptions = (nowPosition) => {
-            return {
-                center: createKakaoMapsLatLng(nowPosition),
-                level: 5
-            };
-        }
-
-        const createKakaoMapsLatLng = (nowPosition) => {
-            const position = nowPosition || JAMSIL_STATION_8_EXIT;
-            return new kakao.maps.LatLng(position.latitude, position.longitude)
-        }
-    }
-}
+    const createKakaoMapsLatLng = nowPosition => {
+      const position = nowPosition || JAMSIL_STATION_8_EXIT;
+      return new kakao.maps.LatLng(position.latitude, position.longitude);
+    };
+  },
+};
