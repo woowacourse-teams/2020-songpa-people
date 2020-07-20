@@ -2,10 +2,7 @@ package com.songpapeople.hashtagmap.kakaoapi.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoApiCaller;
-import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoProperties;
-import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoRestTemplateApiCaller;
-import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoRestTemplateBuilder;
+import com.songpapeople.hashtagmap.kakaoapi.domain.caller.*;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +29,7 @@ class KakaoServiceTest {
     private static final String CATEGORY_GROUP_CODE = "CE7";
 
     private ObjectMapper objectMapper;
+    private KakaoSecurityProperties kakaoSecurityProperties;
     private KakaoProperties kakaoProperties;
     private RestTemplate restTemplate;
     private KakaoApiCaller kakaoApiCaller;
@@ -41,14 +39,23 @@ class KakaoServiceTest {
     @BeforeEach
     private void setUp() {
         this.objectMapper = new ObjectMapper();
+        this.kakaoSecurityProperties = new KakaoSecurityProperties();
+        this.kakaoSecurityProperties.setKey("test_key");
+
         this.kakaoProperties = new KakaoProperties();
-        this.kakaoProperties.setKey("test_key");
-        this.restTemplate = KakaoRestTemplateBuilder.get(kakaoProperties).build();
-        this.kakaoApiCaller = new KakaoRestTemplateApiCaller(restTemplate, MAX_DOCUMENT_COUNT, MAX_PAGEABLE_COUNT);
+        this.kakaoProperties.setBaseUrl("https://dapi.kakao.com");
+        this.kakaoProperties.setCategoryUrl("/v2/local/search/category.json");
+        this.kakaoProperties.setCategoryGroupCode("category_group_code");
+        this.kakaoProperties.setMaxDocumentCount(2);
+        this.kakaoProperties.setMaxPageableCount(5);
+
+        this.restTemplate = KakaoRestTemplateBuilder.get(kakaoSecurityProperties, kakaoProperties).build();
+        this.kakaoApiCaller = new KakaoRestTemplateApiCaller(restTemplate, kakaoProperties);
         this.kakaoService = new KakaoService(kakaoApiCaller);
         this.server = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true).build();
     }
 
+    // TODO: 2020/07/20 service 로직을 수정하고 리팩토링하기
     @DisplayName("주어진 Rect에 해당하는 가게 데이터 수집")
     @Test
     void findPlacesTest() throws JsonProcessingException {
@@ -74,7 +81,7 @@ class KakaoServiceTest {
             String kakaoPlaceDtoJson = objectMapper.writeValueAsString(kakaoPlaceDto);
             server.expect(requestTo(createUri(rect, i)))
                     .andExpect(method(HttpMethod.GET))
-                    .andExpect(MockRestRequestMatchers.header("Authorization", "KakaoAK " + kakaoProperties.getKey()))
+                    .andExpect(MockRestRequestMatchers.header("Authorization", "KakaoAK " + kakaoSecurityProperties.getKey()))
                     .andRespond(withSuccess(kakaoPlaceDtoJson, MediaType.APPLICATION_JSON));
         }
     }

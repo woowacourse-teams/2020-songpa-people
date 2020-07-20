@@ -6,13 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "kakao")
+@ConfigurationProperties(prefix = "security")
 @Getter
 @Setter
-public class KakaoProperties {
-    private String baseUrl;
-    private String categoryUrl;
-    private String categoryGroupCode;
-    private int maxDocumentCount;
-    private int maxPageableCount;
+public class KakaoSecurityProperties {
+    private String key;
 }

@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+// TODO: 2020/07/20 서비스 로직이 너무 크니까 리팩토링하기
+
 @Service
 public class KakaoService {
     private static final BigDecimal DEFAULT_OFFSET = BigDecimal.valueOf(0.02);

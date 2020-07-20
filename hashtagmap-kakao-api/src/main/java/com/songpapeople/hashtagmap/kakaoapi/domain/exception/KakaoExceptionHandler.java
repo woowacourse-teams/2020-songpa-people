@@ -2,7 +2,6 @@ package com.songpapeople.hashtagmap.kakaoapi.domain.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResponseErrorHandler;
 
 import java.io.IOException;
@@ -12,7 +11,6 @@ import java.util.Map;
 import static org.springframework.http.HttpStatus.Series.CLIENT_ERROR;
 import static org.springframework.http.HttpStatus.Series.SERVER_ERROR;
 
-@Component
 public class KakaoExceptionHandler implements ResponseErrorHandler {
     private static final Map<Integer, String> errorMessages = new HashMap<>();
 
