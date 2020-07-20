@@ -90,7 +90,7 @@ class KakaoServiceTest {
         StringBuilder builder = new StringBuilder();
         builder.append("https://dapi.kakao.com/v2/local/search/category.json?");
         builder.append("category_group_code=" + CATEGORY_GROUP_CODE);
-        builder.append("&rect=" + rect.toKakaoFormat());
+        builder.append("&rect=" + rect.toKakaoUriFormat());
         builder.append("&page=" + page);
         return builder.toString();
     }

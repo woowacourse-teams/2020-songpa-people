@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-// TODO: 2020/07/20 의미 적기
+/**
+ * meta: Response에 대한 Meta 데이터
+ * documents: 검색한 지역에 포함된 가게의 정보
+ */
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

@@ -23,7 +23,7 @@ public class KakaoRestTemplateApiCaller implements KakaoApiCaller {
         UriComponents uri = UriComponentsBuilder.newInstance()
                 .path(kakaoProperties.getCategoryUrl())
                 .queryParam(kakaoProperties.getCategoryGroupCode(), category)
-                .queryParam(RECT, rect.toKakaoFormat())
+                .queryParam(RECT, rect.toKakaoUriFormat())
                 .queryParam(PAGE, Integer.toString(page))
                 .build();
         return restTemplate.getForObject(uri.toUriString(), KakaoPlaceDto.class);

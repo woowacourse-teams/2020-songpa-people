@@ -31,8 +31,7 @@ public class Rect {
         this.maxLongitude = maxLongitude;
     }
 
-    // TODO: 2020/07/20 메서드 설명 주석 추가
-    public String toKakaoFormat() {
+    public String toKakaoUriFormat() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(maxLongitude.getValue())
                 .append(COMMA)
