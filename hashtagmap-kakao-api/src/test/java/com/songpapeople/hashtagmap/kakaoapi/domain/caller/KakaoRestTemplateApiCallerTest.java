@@ -17,14 +17,14 @@ public class KakaoRestTemplateApiCallerTest {
     private static final String CATEGORY_GROUP_CODE = "CE7";
 
     @Autowired
-    private KakaoApiCaller kakaoApiCaller;
+    private KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller;
 
     @Disabled
     @DisplayName("InitialRect 내에서 카페 카테고리에 대한 Kakao API 통신 확인")
     @Test
     public void KakaoPlaceCallerTest() {
         Rect rect = Rect.byOffset(new Latitude(37.569449), new Longitude(126.979533), 0.02);
-        KakaoPlaceDto result = kakaoApiCaller.findPlaceByCategory(CATEGORY_GROUP_CODE, rect, 1);
+        KakaoPlaceDto result = kakaoRestTemplateApiCaller.findPlaceByCategory(CATEGORY_GROUP_CODE, rect, 1);
 
         Integer totalCount = result.getMeta().getTotalCount();
         int documentsSize = result.getDocuments().size();

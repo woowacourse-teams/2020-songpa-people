@@ -18,4 +18,8 @@ import java.util.List;
 public class KakaoPlaceDto {
     private Meta meta;
     private List<Document> documents;
+
+    public int getTotalCount() {
+        return this.meta.getTotalCount();
+    }
 }

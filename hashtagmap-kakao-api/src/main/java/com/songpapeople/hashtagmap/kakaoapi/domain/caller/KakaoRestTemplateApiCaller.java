@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-public class KakaoRestTemplateApiCaller implements KakaoApiCaller {
+public class KakaoRestTemplateApiCaller {
     private static final String RECT = "rect";
     private static final String PAGE = "page";
 
@@ -18,7 +18,6 @@ public class KakaoRestTemplateApiCaller implements KakaoApiCaller {
         this.kakaoProperties = kakaoProperties;
     }
 
-    @Override
     public KakaoPlaceDto findPlaceByCategory(String category, Rect rect, int page) {
         UriComponents uri = UriComponentsBuilder.newInstance()
                 .path(kakaoProperties.getCategoryUrl())
@@ -29,9 +28,8 @@ public class KakaoRestTemplateApiCaller implements KakaoApiCaller {
         return restTemplate.getForObject(uri.toUriString(), KakaoPlaceDto.class);
     }
 
-    @Override
     public boolean isLessOrEqualTotalCount(KakaoPlaceDto kakaoPlaceDto) {
-        int totalCount = kakaoPlaceDto.getMeta().getTotalCount();
+        int totalCount = kakaoPlaceDto.getTotalCount();
         return (kakaoProperties.getMaxDocumentCount() * kakaoProperties.getMaxPageableCount()) >= totalCount;
     }
 }

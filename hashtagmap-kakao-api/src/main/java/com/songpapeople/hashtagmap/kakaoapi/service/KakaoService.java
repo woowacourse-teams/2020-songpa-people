@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.kakaoapi.service;
 
-import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoApiCaller;
+import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoRestTemplateApiCaller;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.RectDivider;
@@ -23,10 +23,10 @@ public class KakaoService {
     private static final int FIRST_PAGE = 1;
     private static final int SECOND_PAGE = 2;
 
-    private final KakaoApiCaller kakaoApiCaller;
+    private final KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller;
 
-    public KakaoService(KakaoApiCaller kakaoApiCaller) {
-        this.kakaoApiCaller = kakaoApiCaller;
+    public KakaoService(KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller) {
+        this.kakaoRestTemplateApiCaller = kakaoRestTemplateApiCaller;
     }
 
     public List<KakaoPlaceDto> findPlaces(String category, Rect initialRect) {
@@ -39,12 +39,12 @@ public class KakaoService {
     }
 
     private List<KakaoPlaceDto> findPlacesInDividedRect(String category, Rect rect, BigDecimal offset) {
-        KakaoPlaceDto firstPage = kakaoApiCaller.findPlaceByCategory(category, rect, FIRST_PAGE);
+        KakaoPlaceDto firstPage = kakaoRestTemplateApiCaller.findPlaceByCategory(category, rect, FIRST_PAGE);
 
-        if (kakaoApiCaller.isLessOrEqualTotalCount(firstPage)) {
+        if (kakaoRestTemplateApiCaller.isLessOrEqualTotalCount(firstPage)) {
             int pageableCount = firstPage.getMeta().getPageableCount();
             List<KakaoPlaceDto> pages = IntStream.rangeClosed(SECOND_PAGE, pageableCount)
-                    .mapToObj(index -> kakaoApiCaller.findPlaceByCategory(category, rect, index))
+                    .mapToObj(index -> kakaoRestTemplateApiCaller.findPlaceByCategory(category, rect, index))
                     .collect(Collectors.toList());
             pages.add(FIRST_INDEX, firstPage);
             return pages;

@@ -2,7 +2,10 @@ package com.songpapeople.hashtagmap.kakaoapi.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.songpapeople.hashtagmap.kakaoapi.domain.caller.*;
+import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoProperties;
+import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoRestTemplateApiCaller;
+import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoRestTemplateBuilder;
+import com.songpapeople.hashtagmap.kakaoapi.domain.caller.KakaoSecurityProperties;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +35,7 @@ class KakaoServiceTest {
     private KakaoSecurityProperties kakaoSecurityProperties;
     private KakaoProperties kakaoProperties;
     private RestTemplate restTemplate;
-    private KakaoApiCaller kakaoApiCaller;
+    private KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller;
     private KakaoService kakaoService;
     private MockRestServiceServer server;
 
@@ -50,8 +53,8 @@ class KakaoServiceTest {
         this.kakaoProperties.setMaxPageableCount(5);
 
         this.restTemplate = KakaoRestTemplateBuilder.get(kakaoSecurityProperties, kakaoProperties).build();
-        this.kakaoApiCaller = new KakaoRestTemplateApiCaller(restTemplate, kakaoProperties);
-        this.kakaoService = new KakaoService(kakaoApiCaller);
+        this.kakaoRestTemplateApiCaller = new KakaoRestTemplateApiCaller(restTemplate, kakaoProperties);
+        this.kakaoService = new KakaoService(kakaoRestTemplateApiCaller);
         this.server = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true).build();
     }
 
