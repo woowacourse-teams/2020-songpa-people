@@ -22,4 +22,8 @@ public class KakaoPlaceDto {
     public int getTotalCount() {
         return this.meta.getTotalCount();
     }
+
+    public int getPageableCount() {
+        return this.meta.getPageableCount();
+    }
 }
