@@ -22,6 +22,17 @@ class InstaCrawlingResultTest {
         assertThat(postDtos.size()).isEqualTo(PostDtos.POPULAR_POST_SIZE);
     }
 
+    @DisplayName("body에서 hashtagCount를 찾는 테스트")
+    @Test
+    void findHashTagCount() {
+        String body = createbody();
+        InstaCrawlingResult instaCrawlingResult = new InstaCrawlingResult(body);
+
+        String hashTagCount = instaCrawlingResult.findHashTagCount();
+
+        assertThat(hashTagCount).isNotNull();
+    }
+
     String createbody() {
         StringBuilder builder = new StringBuilder();
         try (FileReader fileReader = new FileReader(new File("src/test/resources/crawling-mock-data.txt"))) {

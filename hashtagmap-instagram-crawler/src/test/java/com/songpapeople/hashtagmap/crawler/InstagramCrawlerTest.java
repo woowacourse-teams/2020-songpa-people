@@ -1,6 +1,7 @@
 package com.songpapeople.hashtagmap.crawler;
 
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +9,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InstagramCrawlerTest {
+    @Disabled
     @DisplayName("인스타그램 크롤링 테스트")
     @Test
     void createHashtagDto() {

@@ -1,12 +1,14 @@
 package com.songpapeople.hashtagmap.crawler;
 
 import com.songpapeople.hashtagmap.exception.CrawlingUrlException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 
 public class CrawlerTest {
+    @Disabled
     @DisplayName("크롤링 정상 동작 테스트")
     @Test
     void crawling() {
