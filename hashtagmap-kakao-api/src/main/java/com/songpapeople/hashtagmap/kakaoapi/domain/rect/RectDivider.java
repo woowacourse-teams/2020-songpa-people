@@ -16,7 +16,7 @@ public class RectDivider {
 
         for (Location y = maxLongitude; isGreater(y, minLongitude); y = y.forward(offset)) {
             for (Location x = minLatitude; isLess(x, maxLatitude); x = x.forward(offset)) {
-                rects.add(new Rect(x, y, offset));
+                rects.add(Rect.byOffset(x, y, offset));
             }
         }
         return rects;

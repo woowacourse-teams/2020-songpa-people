@@ -22,19 +22,19 @@ public class KakaoPlaceDtoFixture {
     static {
         Latitude latitude = new Latitude(33);
         Longitude longitude = new Longitude(132);
-        initialRect = new Rect(latitude, longitude, 0.04);
+        initialRect = Rect.byOffset(latitude, longitude, 0.04);
 
         BigDecimal rectOffset = BigDecimal.valueOf(0.02);
-        rects = Arrays.asList(new Rect(latitude, longitude, rectOffset),
-                new Rect(latitude.forward(rectOffset), longitude, rectOffset),
-                new Rect(latitude, longitude.forward(rectOffset), rectOffset),
-                new Rect(latitude.forward(rectOffset), longitude.forward(rectOffset), rectOffset));
+        rects = Arrays.asList(Rect.byOffset(latitude, longitude, rectOffset),
+                Rect.byOffset(latitude.forward(rectOffset), longitude, rectOffset),
+                Rect.byOffset(latitude, longitude.forward(rectOffset), rectOffset),
+                Rect.byOffset(latitude.forward(rectOffset), longitude.forward(rectOffset), rectOffset));
 
         BigDecimal dividedRectOffset = BigDecimal.valueOf(0.01);
-        dividedRects = Arrays.asList(new Rect(latitude, longitude, dividedRectOffset),
-                new Rect(latitude.forward(dividedRectOffset), longitude, dividedRectOffset),
-                new Rect(latitude, longitude.forward(dividedRectOffset), dividedRectOffset),
-                new Rect(latitude.forward(dividedRectOffset), longitude.forward(dividedRectOffset), dividedRectOffset));
+        dividedRects = Arrays.asList(Rect.byOffset(latitude, longitude, dividedRectOffset),
+                Rect.byOffset(latitude.forward(dividedRectOffset), longitude, dividedRectOffset),
+                Rect.byOffset(latitude, longitude.forward(dividedRectOffset), dividedRectOffset),
+                Rect.byOffset(latitude.forward(dividedRectOffset), longitude.forward(dividedRectOffset), dividedRectOffset));
 
         totalCounts = new HashMap<>();
         totalCounts.put(rects.get(0), 11);
