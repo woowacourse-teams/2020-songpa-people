@@ -1,0 +1,2 @@
+# End of https://www.toptal.com/developers/gitignore/api/gradle,java,intellij
+/src/main/resources/application-security.properties
