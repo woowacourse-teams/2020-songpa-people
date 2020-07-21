@@ -14,6 +14,14 @@ public abstract class Location {
                 && value.compareTo(min) >= 0;
     }
 
+    public boolean isGreater(Location compare) {
+        return this.getValue() > compare.getValue();
+    }
+
+    public boolean isLess(Location compare) {
+        return this.getValue() < compare.getValue();
+    }
+
     public double getValue() {
         return value.doubleValue();
     }

@@ -14,19 +14,11 @@ public class RectDivider {
         Location maxLongitude = rect.getMaxLongitude();
         List<Rect> rects = new ArrayList<>();
 
-        for (Location y = maxLongitude; isGreater(y, minLongitude); y = y.forward(offset)) {
-            for (Location x = minLatitude; isLess(x, maxLatitude); x = x.forward(offset)) {
+        for (Location y = maxLongitude; y.isGreater(minLongitude); y = y.forward(offset)) {
+            for (Location x = minLatitude; x.isLess(maxLatitude); x = x.forward(offset)) {
                 rects.add(Rect.byOffset(x, y, offset));
             }
         }
         return rects;
-    }
-
-    private static boolean isGreater(Location standard, Location compare) {
-        return standard.getValue() > compare.getValue();
-    }
-
-    private static boolean isLess(Location standard, Location compare) {
-        return standard.getValue() < compare.getValue();
     }
 }
