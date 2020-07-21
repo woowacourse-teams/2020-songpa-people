@@ -6,4 +6,6 @@ import lombok.AllArgsConstructor;
 public class KakaoException extends RuntimeException {
     private final int statusCode;
     private final String messgae;
+
+
 }
