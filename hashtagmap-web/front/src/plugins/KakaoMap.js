@@ -1,6 +1,7 @@
 import { KAKAO_WEB_KEY } from "@/secret";
 import navigatorUtils from "@/libs/navigator/navigator.js";
 import dotImgSrc from "@/assets/dot.png";
+import { KAKAO_MAP } from "@/utils/constants.js";
 
 /**
  * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
@@ -19,11 +20,6 @@ export default {
       "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=" + KAKAO_WEB_KEY;
     document.head.appendChild(script);
 
-    const JAMSIL_STATION_8_EXIT = {
-      latitude: 37.513898,
-      longitude: 127.101463,
-    };
-
     /* global kakao */
     const loadApi = new Promise(resolve => {
       script.onload = () => kakao.maps.load(resolve);
@@ -37,7 +33,7 @@ export default {
 
       this.map = new kakao.maps.Map(container, options);
       this.map.setMapTypeId(kakao.maps.MapTypeId.NORMAL);
-      setPositionCenter(JAMSIL_STATION_8_EXIT);
+      setPositionCenter(KAKAO_MAP.JAMSIL_STATION_8_EXIT);
     };
 
     Vue.prototype.$loadCurrentPosition = () => {
@@ -64,9 +60,11 @@ export default {
     const displayMarker = position => {
       setPositionCenter.call(this, position);
 
-      const imageSize = new kakao.maps.Size(15, 15);
+      const imageSize = new kakao.maps.Size(
+        KAKAO_MAP.MAKER_SIZE,
+        KAKAO_MAP.MAKER_SIZE,
+      );
       const markerImage = new kakao.maps.MarkerImage(dotImgSrc, imageSize);
-
       const marker = new kakao.maps.Marker({
         position: createKakaoMapsLatLng(position),
         image: markerImage,
@@ -83,7 +81,7 @@ export default {
     };
 
     const createKakaoMapsLatLng = nowPosition => {
-      const position = nowPosition || JAMSIL_STATION_8_EXIT;
+      const position = nowPosition || KAKAO_MAP.JAMSIL_STATION_8_EXIT;
       return new kakao.maps.LatLng(position.latitude, position.longitude);
     };
   },

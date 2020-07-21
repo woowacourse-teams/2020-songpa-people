@@ -1,15 +1,18 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      |
-      <router-link to="/about">About</router-link>
-      |
-      <router-link to="/map">Map</router-link>
-    </div>
-    <router-view />
+    <KakaoMap />
   </div>
 </template>
+
+<script>
+import KakaoMap from "@/views/KakaoMap";
+
+export default {
+  components: {
+    KakaoMap,
+  },
+};
+</script>
 
 <style lang="stylus">
 #app
