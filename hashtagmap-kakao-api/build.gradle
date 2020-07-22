@@ -5,3 +5,26 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
 }
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            element = 'PACKAGE'
+
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.60
+            }
+
+            limit {
+                counter = 'INSTRUCTION'
+                value = 'COVEREDRATIO'
+                minimum = 0.70
+            }
+
+            excludes = []
+        }
+    }
+}

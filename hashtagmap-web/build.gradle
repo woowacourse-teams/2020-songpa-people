@@ -1,6 +1,24 @@
 dependencies {
-    compile project(':hashtagmap-core')
+    implementation project(':hashtagmap-core')
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            element = 'CLASS'
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.20
+            }
+
+            excludes = []
+        }
+
+    }
 }
