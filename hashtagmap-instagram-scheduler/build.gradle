@@ -3,5 +3,5 @@ jar { enabled = true }
 
 dependencies {
     implementation project(':hashtagmap-core')
-    implementation project(':hashtagmap-instagram-api')
+    implementation project(':hashtagmap-instagram-crawler')
 }
