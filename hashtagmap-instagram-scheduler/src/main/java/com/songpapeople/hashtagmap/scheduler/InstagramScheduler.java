@@ -8,17 +8,15 @@ import com.songpapeople.hashtagmap.instagram.repository.InstagramPostRepository;
 import com.songpapeople.hashtagmap.mapper.Mapper;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.repository.PlaceRepository;
-import com.songpapeople.hashtagmap.proxy.Proxies;
 import com.songpapeople.hashtagmap.proxy.ProxiesFactory;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class InstagramScheduler {
     private final InstagramCrawler instagramCrawler;
     private final PlaceRepository placeRepository;
     private final InstagramPostRepository instagramPostRepository;
+    private final ProxySetter proxySetter = new ProxySetter(ProxiesFactory.create());
 
     public InstagramScheduler(PlaceRepository placeRepository,
                               InstagramPostRepository instagramPostRepository) {
@@ -29,11 +27,8 @@ public class InstagramScheduler {
 
     public void crawlingWithProxy() {
         List<Place> places = placeRepository.findAll();
-        Proxies proxies = ProxiesFactory.create();
-        Random random = new Random();
-        List<CrawlingDto> crawlingDtos = new ArrayList<>();
         for (Place place : places) {
-            proxies.setHostAndPort(random.nextInt(proxies.size()));
+            proxySetter.set();
             CrawlingDto crawlingDto = instagramCrawler.crawling(place.getPlaceName());
             Instagram instagram = Mapper.toInstagram(crawlingDto, place);
             List<InstagramPost> instagramPosts =
