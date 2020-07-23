@@ -1,14 +1,12 @@
 package com.songpapeople.hashtagmap.scheduler.service;
 
+import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Document;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Latitude;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Longitude;
 import com.songpapeople.hashtagmap.kakaoapi.service.KakaoApiService;
-import com.songpapeople.hashtagmap.place.domain.model.Category;
-import com.songpapeople.hashtagmap.place.domain.model.District;
-import com.songpapeople.hashtagmap.place.domain.model.Point;
-import com.songpapeople.hashtagmap.place.domain.model.Zone;
+import com.songpapeople.hashtagmap.place.domain.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,6 +46,32 @@ public class KakaoSchedulerServiceTest {
 
         assertThat(kakaoSchedulerService.zoneToRect(zone)).isEqualTo(rect);
     }
+
+    @DisplayName("Document를 Place로 변환한다")
+    @Test
+    public void documentToPlaceTest() {
+        Document document = Document.builder()
+                .id("16618597")
+                .placeName("비엔나 커피")
+                .categoryGroupCode("CE7")
+                .roadAddressName("서울 강남구 테헤란로84길 17")
+                .x("127.05897078335246")
+                .y("37.506051888130386")
+                .placeUrl("http://place.map.kakao.com/16618597")
+                .build();
+        Location location = new Location(new Point(document.getY(), document.getX()), document.getRoadAddressName());
+        Place expected = Place.builder()
+                .kakaoId(document.getId())
+                .placeName(document.getPlaceName())
+                .category(Category.fromCategoryGroupCode(document.getCategoryGroupCode()))
+                .location(location)
+                .placeUrl(document.getPlaceUrl())
+                .build();
+
+        Place actual = kakaoSchedulerService.documentToPlace(document);
+        assertThat(actual).isEqualToComparingFieldByField(expected);
+    }
+
 
     @DisplayName("Kakao API로 가게 정보 찾기")
     @Test

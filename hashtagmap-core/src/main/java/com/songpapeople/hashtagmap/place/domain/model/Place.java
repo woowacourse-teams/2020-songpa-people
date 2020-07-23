@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.place.domain.model;
 
 import com.songpapeople.hashtagmap.config.entity.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,4 +25,13 @@ public class Place extends BaseEntity {
 
     private String placeName;
     private String placeUrl;
+
+    @Builder
+    public Place(String kakaoId, Category category, Location location, String placeName, String placeUrl) {
+        this.kakaoId = kakaoId;
+        this.category = category;
+        this.location = location;
+        this.placeName = placeName;
+        this.placeUrl = placeUrl;
+    }
 }
