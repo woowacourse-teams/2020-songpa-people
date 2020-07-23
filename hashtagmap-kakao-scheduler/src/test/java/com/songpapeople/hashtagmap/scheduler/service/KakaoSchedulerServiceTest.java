@@ -7,6 +7,8 @@ import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Latitude;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Longitude;
 import com.songpapeople.hashtagmap.kakaoapi.service.KakaoApiService;
 import com.songpapeople.hashtagmap.place.domain.model.*;
+import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
+import com.songpapeople.hashtagmap.place.domain.repository.ZoneRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,9 +31,15 @@ public class KakaoSchedulerServiceTest {
     @Mock
     private KakaoApiService kakaoApiService;
 
+    @Mock
+    private ZoneRepository zoneRepository;
+
+    @Mock
+    private PlaceRepository placeRepository;
+
     @BeforeEach
     private void setUp() {
-        this.kakaoSchedulerService = new KakaoSchedulerService(kakaoApiService);
+        this.kakaoSchedulerService = new KakaoSchedulerService(zoneRepository, placeRepository, kakaoApiService);
     }
 
     @DisplayName("Zone을 Rect로 변환한다")

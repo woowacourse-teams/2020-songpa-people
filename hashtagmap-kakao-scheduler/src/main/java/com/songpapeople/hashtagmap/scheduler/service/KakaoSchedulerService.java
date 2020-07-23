@@ -8,17 +8,54 @@ import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Latitude;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Longitude;
 import com.songpapeople.hashtagmap.kakaoapi.service.KakaoApiService;
 import com.songpapeople.hashtagmap.place.domain.model.*;
+import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
+import com.songpapeople.hashtagmap.place.domain.repository.ZoneRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class KakaoSchedulerService {
+    private final ZoneRepository zoneRepository;
+    private final PlaceRepository placeRepository;
     private final KakaoApiService kakaoApiService;
 
-    public KakaoSchedulerService(KakaoApiService kakaoApiService) {
+    public KakaoSchedulerService(ZoneRepository zoneRepository, PlaceRepository placeRepository,
+                                 KakaoApiService kakaoApiService) {
+        this.zoneRepository = zoneRepository;
+        this.placeRepository = placeRepository;
         this.kakaoApiService = kakaoApiService;
+    }
+
+    // TODO: 2020/07/23 데이터를 받았을 때 기존 데이터 업데이트, 갱신 로직이 필요하다.
+    public void collectData() {
+        List<Zone> zones = zoneRepository.findByActivatedDistrict();
+        List<Rect> rects = zones.stream()
+                .map(this::zoneToRect)
+                .collect(Collectors.toList());
+
+        // TODO: 2020/07/23 dto 변환 클래스 만들기.
+        List<KakaoPlaceDto> kakaoPlaceDtos = new ArrayList<>();
+        for (Rect rect : rects) {
+            kakaoPlaceDtos.addAll(Arrays.stream(Category.values())
+                    .map(category -> findPlacesByRect(category, rect))
+                    .flatMap(dtos -> dtos.stream())
+                    .collect(Collectors.toList()));
+        }
+
+        List<Document> documents = kakaoPlaceDtos.stream()
+                .flatMap(kakaoPlaceDto -> kakaoPlaceDto.getDocuments().stream())
+                .collect(Collectors.toList());
+        List<Place> places = new ArrayList<>();
+        for (Document document : documents) {
+            places.add(documentToPlace(document));
+        }
+
+        placeRepository.saveAll(places);
     }
 
     public Rect zoneToRect(Zone zone) {
