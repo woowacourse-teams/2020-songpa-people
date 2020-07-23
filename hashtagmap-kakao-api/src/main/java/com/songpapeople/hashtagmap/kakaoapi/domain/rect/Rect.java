@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.kakaoapi.domain.rect;
 
-import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Location;
+import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Coordinate;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -10,24 +10,24 @@ import java.util.Objects;
 public class Rect {
     private static final String COMMA = ",";
 
-    private Location minLatitude;
-    private Location maxLatitude;
-    private Location minLongitude;
-    private Location maxLongitude;
+    private Coordinate minLatitude;
+    private Coordinate maxLatitude;
+    private Coordinate minLongitude;
+    private Coordinate maxLongitude;
 
-    public Rect(Location minLatitude, Location maxLatitude, Location maxLongitude, Location minLongitude) {
+    public Rect(Coordinate minLatitude, Coordinate maxLatitude, Coordinate maxLongitude, Coordinate minLongitude) {
         this.minLatitude = minLatitude;
         this.maxLatitude = maxLatitude;
         this.minLongitude = minLongitude;
         this.maxLongitude = maxLongitude;
     }
 
-    public static Rect byOffset(Location latitude, Location longitude, double offset) {
+    public static Rect byOffset(Coordinate latitude, Coordinate longitude, double offset) {
         return new Rect(latitude, latitude.forward(BigDecimal.valueOf(offset)),
                 longitude, longitude.forward(BigDecimal.valueOf(offset)));
     }
 
-    public static Rect byOffset(Location latitude, Location longitude, BigDecimal offset) {
+    public static Rect byOffset(Coordinate latitude, Coordinate longitude, BigDecimal offset) {
         return new Rect(latitude, latitude.forward(offset), longitude, longitude.forward(offset));
     }
 

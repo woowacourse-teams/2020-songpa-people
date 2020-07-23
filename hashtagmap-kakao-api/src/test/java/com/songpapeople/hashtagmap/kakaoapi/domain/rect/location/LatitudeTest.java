@@ -12,7 +12,7 @@ class LatitudeTest {
     @ParameterizedTest
     @ValueSource(doubles = {33, 35, 43})
     public void latitudeConstructTest(double value) {
-        assertThat(new Latitude(value)).isInstanceOf(Location.class);
+        assertThat(new Latitude(value)).isInstanceOf(Coordinate.class);
     }
 
     @DisplayName("정상 범위가 아닐 때")

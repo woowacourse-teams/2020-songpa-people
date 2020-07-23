@@ -2,10 +2,10 @@ package com.songpapeople.hashtagmap.kakaoapi.domain.rect.location;
 
 import java.math.BigDecimal;
 
-public abstract class Location {
+public abstract class Coordinate {
     protected final BigDecimal value;
 
-    public Location(BigDecimal value) {
+    public Coordinate(BigDecimal value) {
         this.value = value;
     }
 
@@ -14,11 +14,11 @@ public abstract class Location {
                 && value.compareTo(min) >= 0;
     }
 
-    public boolean isGreater(Location compare) {
+    public boolean isGreater(Coordinate compare) {
         return this.getValue() > compare.getValue();
     }
 
-    public boolean isLess(Location compare) {
+    public boolean isLess(Coordinate compare) {
         return this.getValue() < compare.getValue();
     }
 
@@ -26,5 +26,5 @@ public abstract class Location {
         return value.doubleValue();
     }
 
-    public abstract Location forward(BigDecimal offset);
+    public abstract Coordinate forward(BigDecimal offset);
 }

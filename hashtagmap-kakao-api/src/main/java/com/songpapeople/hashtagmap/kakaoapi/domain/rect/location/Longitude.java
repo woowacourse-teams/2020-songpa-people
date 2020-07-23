@@ -2,8 +2,8 @@ package com.songpapeople.hashtagmap.kakaoapi.domain.rect.location;
 
 import java.math.BigDecimal;
 
-// 경도, y
-public class Longitude extends Location {
+// 경도, x
+public class Longitude extends Coordinate {
     private static final BigDecimal MIN_LONGITUDE = BigDecimal.valueOf(124);
     private static final BigDecimal MAX_LONGITUDE = BigDecimal.valueOf(132);
 
@@ -23,7 +23,7 @@ public class Longitude extends Location {
     }
 
     @Override
-    public Location forward(BigDecimal offset) {
+    public Coordinate forward(BigDecimal offset) {
         return new Longitude(super.value.subtract(offset));
     }
 }
