@@ -11,4 +11,8 @@ public enum Category {
         this.categoryGroupCode = categoryGroupCode;
         this.categoryGroupName = categoryGroupName;
     }
+
+    public String getCategoryGroupCode() {
+        return categoryGroupCode;
+    }
 }

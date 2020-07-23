@@ -13,7 +13,7 @@ import java.util.List;
 // TODO: 2020/07/20 서비스 로직이 너무 크니까 리팩토링하기
 
 @Service
-public class KakaoService {
+public class KakaoApiService {
     private static final BigDecimal DEFAULT_OFFSET = BigDecimal.valueOf(0.02);
     private static final BigDecimal HALF = BigDecimal.valueOf(2);
     private static final int FIRST_PAGE = 1;
@@ -21,7 +21,7 @@ public class KakaoService {
 
     private final KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller;
 
-    public KakaoService(KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller) {
+    public KakaoApiService(KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller) {
         this.kakaoRestTemplateApiCaller = kakaoRestTemplateApiCaller;
     }
 
