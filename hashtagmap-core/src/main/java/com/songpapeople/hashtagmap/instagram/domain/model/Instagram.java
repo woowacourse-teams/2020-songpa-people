@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.domain;
+package com.songpapeople.hashtagmap.instagram.domain.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.songpapeople.hashtagmap.config.entity.BaseEntity;
+import com.songpapeople.hashtagmap.place.domain.model.Place;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Instagram {
+public class Instagram extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
