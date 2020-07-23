@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.place.domain.model;
 
 import com.songpapeople.hashtagmap.config.entity.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +30,27 @@ public class Zone extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "DISTRICT_ID", foreignKey = @ForeignKey(name = "FK_DISTRICT_ZONE"))
     private District district;
+
+    @Builder
+    public Zone(Point topLeft, Point bottomRight, District district) {
+        this.topLeft = topLeft;
+        this.bottomRight = bottomRight;
+        this.district = district;
+    }
+
+    public String getMinLatitude() {
+        return topLeft.getLatitude();
+    }
+
+    public String getMaxLatitude() {
+        return bottomRight.getLatitude();
+    }
+
+    public String getMinLongitude() {
+        return bottomRight.getLongitude();
+    }
+
+    public String getMaxLongitude() {
+        return topLeft.getLongitude();
+    }
 }

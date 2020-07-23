@@ -15,7 +15,7 @@ public class Rect {
     private Location minLongitude;
     private Location maxLongitude;
 
-    private Rect(Location minLatitude, Location maxLatitude, Location maxLongitude, Location minLongitude) {
+    public Rect(Location minLatitude, Location maxLatitude, Location maxLongitude, Location minLongitude) {
         this.minLatitude = minLatitude;
         this.maxLatitude = maxLatitude;
         this.minLongitude = minLongitude;
