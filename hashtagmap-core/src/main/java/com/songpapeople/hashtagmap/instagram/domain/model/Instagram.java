@@ -1,17 +1,17 @@
 package com.songpapeople.hashtagmap.instagram.domain.model;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
+
 import com.songpapeople.hashtagmap.config.entity.BaseEntity;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,4 +31,5 @@ public class Instagram extends BaseEntity {
         this.hashtagName = hashtagName;
         this.hashtagCount = hashtagCount;
     }
+
 }

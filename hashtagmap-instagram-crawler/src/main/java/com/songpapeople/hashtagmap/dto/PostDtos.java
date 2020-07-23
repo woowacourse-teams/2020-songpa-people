@@ -3,6 +3,9 @@ package com.songpapeople.hashtagmap.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+
+@Getter
 public class PostDtos {
     public static final int POPULAR_POST_SIZE = 9;
 

@@ -6,6 +6,8 @@ import java.util.Random;
 
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
+import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
+import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.repository.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.repository.PlaceRepository;
@@ -32,6 +34,10 @@ public class InstagramScheduler {
         for (Place place : places) {
             proxies.setHostAndPort(random.nextInt(proxies.size()));
             crawlingDtos.add(instagramCrawler.crawling(place.getPlaceName()));
+        }
+        for (CrawlingDto crawlingDto : crawlingDtos) {
+            Instagram instagram;
+            InstagramPost instagramPost;
         }
 
 
