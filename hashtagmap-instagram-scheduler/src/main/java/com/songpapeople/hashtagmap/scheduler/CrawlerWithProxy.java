@@ -15,7 +15,7 @@ public class CrawlerWithProxy {
 
     public CrawlingResult instagramCrawling(Place place, int tryCount) {
         if (tryCount > 3) {
-            throw new IllegalArgumentException(place.getPlaceName() + " 검색할 수 없음");
+            throw new CrawlingUrlException();
         }
         try {
             proxySetter.set();

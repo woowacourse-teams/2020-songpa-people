@@ -1,21 +1,30 @@
 package com.songpapeople.hashtagmap.scheduler;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class CrawlingResult {
+    private static final int MIN_HASHTAG_COUNT = 100;
+
     private CrawlingDto crawlingDto;
     private Place place;
 
     public CrawlingResult(CrawlingDto crawlingDto, Place place) {
+        validateLessMinHashtagCount(crawlingDto);
         this.crawlingDto = crawlingDto;
         this.place = place;
+    }
+
+    private void validateLessMinHashtagCount(CrawlingDto crawlingDto) {
+        if (crawlingDto.getHashtagCount() < MIN_HASHTAG_COUNT) {
+            throw new IllegalArgumentException("해시태그 개수 100개 미만");
+        }
     }
 
     public List<InstagramPost> toInstagramPosts() {
@@ -33,7 +42,6 @@ public class CrawlingResult {
                 .hashtagCount(crawlingDto.getHashtagCount())
                 .build();
     }
-
     private InstagramPost createInstagramPost(Instagram instagram, PostDto postDto) {
         return InstagramPost.builder()
                 .instagram(instagram)
@@ -41,4 +49,5 @@ public class CrawlingResult {
                 .imageUrl(postDto.getImageUrl())
                 .build();
     }
+
 }
