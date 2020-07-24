@@ -8,4 +8,5 @@ include 'hashtagmap-admin'
 include 'hashtagmap-kakao-scheduler'
 include 'hashtagmap-instagram-scheduler'
 include 'hashtagmap-crawling-scheduler'
+include 'hashtagmap-common'
 
