@@ -1,30 +1,31 @@
 package com.songpapeople.hashtagmap.scheduler;
 
-import com.songpapeople.hashtagmap.SchedulerTestResource;
-import com.songpapeople.hashtagmap.dto.CrawlingDto;
-import com.songpapeople.hashtagmap.dto.PostDtos;
-import com.songpapeople.hashtagmap.place.domain.model.Place;
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
+import com.songpapeople.hashtagmap.SchedulerTestResource;
+import com.songpapeople.hashtagmap.dto.CrawlingDto;
+import com.songpapeople.hashtagmap.dto.PostDtos;
+import com.songpapeople.hashtagmap.place.domain.model.Place;
 
 @ExtendWith(MockitoExtension.class)
-class InstagramScheduleControllerTest extends SchedulerTestResource {
-    private InstagramScheduleController instagramScheduleController;
+class InstagramSchedulerTest extends SchedulerTestResource {
+    private InstagramScheduler instagramScheduler;
 
     @Mock
     private InstagramScheduleService instagramScheduleService;
 
     @BeforeEach
     void setUp() {
-        instagramScheduleController = new InstagramScheduleController(instagramScheduleService);
+        instagramScheduler = new InstagramScheduler(instagramScheduleService);
     }
 
     @Test
@@ -53,6 +54,6 @@ class InstagramScheduleControllerTest extends SchedulerTestResource {
                 .thenReturn(crawlingResults);
         when(instagramScheduleService.findAllPlace()).thenReturn(places);
 
-        instagramScheduleController.update();
+        instagramScheduler.update();
     }
 }

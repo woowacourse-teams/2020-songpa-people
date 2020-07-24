@@ -5,6 +5,7 @@ import com.songpapeople.hashtagmap.exception.CrawlingUrlException;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 
 public class CrawlerWithProxy {
+    private static final int MAX_TRY_COUNT = 3;
     private final ProxySetter proxySetter;
     private final InstagramCrawler instagramCrawler;
 
@@ -14,8 +15,8 @@ public class CrawlerWithProxy {
     }
 
     public CrawlingResult instagramCrawling(Place place, int tryCount) {
-        if (tryCount > 3) {
-            throw new CrawlingUrlException();
+        if (tryCount > MAX_TRY_COUNT) {
+            throw new CrawlingUrlException(place.getPlaceName());
         }
         try {
             proxySetter.set();

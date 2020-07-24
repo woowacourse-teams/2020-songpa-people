@@ -1,7 +1,8 @@
 package com.songpapeople.hashtagmap.scheduler;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import com.songpapeople.hashtagmap.proxy.ProxiesFactory;
 
 @Component
 public class InstagramScheduleService {
+    private static final int START_TRY_COUNT = 0;
     private final PlaceRepository placeRepository;
     private final InstagramPostRepository instagramPostRepository;
 
@@ -26,18 +28,23 @@ public class InstagramScheduleService {
     public List<CrawlingResult> createCrawlingResult(List<Place> places) {
         CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(
             new ProxySetter(ProxiesFactory.create()), new InstagramCrawler());
-        List<CrawlingResult> crawlingResults = new ArrayList<>();
-        CrawlingResult crawlingResult;
-        for (Place place : places) {
-            try {
-                crawlingResult = crawlerWithProxy.instagramCrawling(place, 0);
-            } catch (CrawlingUrlException | IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-                continue;
-            }
-            crawlingResults.add(crawlingResult);
+
+        return places.stream()
+            .map(place -> createCrawlingResult(place, crawlerWithProxy))
+            .filter(Optional::isPresent)
+            .map(crawlingResult -> crawlingResult.orElseThrow(NullPointerException::new))
+            .collect(Collectors.toList());
+    }
+
+    // TODO: 2020-07-24 Slf4j 적용해보기?
+    private Optional<CrawlingResult> createCrawlingResult(Place place, CrawlerWithProxy crawlerWithProxy) {
+        try {
+            CrawlingResult crawlingResult = crawlerWithProxy.instagramCrawling(place, START_TRY_COUNT);
+            return Optional.of(crawlingResult);
+        } catch (CrawlingUrlException | IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return Optional.empty();
         }
-        return crawlingResults;
     }
 
     public void saveAllInstagramPosts(List<InstagramPost> instagramPosts) {
