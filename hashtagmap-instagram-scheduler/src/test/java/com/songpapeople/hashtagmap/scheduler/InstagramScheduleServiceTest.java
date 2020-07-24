@@ -1,6 +1,5 @@
 package com.songpapeople.hashtagmap.scheduler;
 
-import com.songpapeople.hashtagmap.instagram.repository.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.repository.PlaceRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -10,16 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class InstagramScheduleServiceTest {
-    @Autowired
-    private InstagramScheduleService instagramScheduleService;
-
-    @Autowired
-    private InstagramPostRepository instagramPostRepository;
-
     @Autowired
     private PlaceRepository placeRepository;
 

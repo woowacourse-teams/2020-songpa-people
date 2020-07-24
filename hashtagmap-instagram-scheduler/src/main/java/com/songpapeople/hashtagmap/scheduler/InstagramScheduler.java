@@ -14,10 +14,15 @@ import java.util.stream.Collectors;
 public class InstagramScheduler {
     private final InstagramPostRepository instagramPostRepository;
     private final PlaceRepository placeRepository;
+    private final InstagramScheduleService instagramScheduleService;
 
-    public InstagramScheduler(InstagramPostRepository instagramPostRepository, PlaceRepository placeRepository) {
+    public InstagramScheduler(
+            InstagramPostRepository instagramPostRepository,
+            PlaceRepository placeRepository,
+            InstagramScheduleService instagramScheduleService) {
         this.instagramPostRepository = instagramPostRepository;
         this.placeRepository = placeRepository;
+        this.instagramScheduleService = instagramScheduleService;
     }
 
     public void update() {
@@ -27,7 +32,6 @@ public class InstagramScheduler {
     }
 
     private List<InstagramPost> getInstagramPosts(List<Place> places) {
-        InstagramScheduleService instagramScheduleService = new InstagramScheduleService();
         List<CrawlingResult> crawlingResults = instagramScheduleService.createCrawlingResult(places);
         return crawlingResults.stream()
                 .map(CrawlingResult::toInstagramPosts)

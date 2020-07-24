@@ -15,11 +15,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.anyList;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -34,33 +35,31 @@ class InstagramSchedulerTest extends SchedulerTestResource {
 
     @Autowired
     private PlaceRepository placeRepository;
+    private Place place1;
+    private Place place2;
 
     @BeforeEach
     void setUp() {
-        instagramScheduler = new InstagramScheduler(instagramPostRepository, placeRepository);
+        instagramScheduler = new InstagramScheduler(instagramPostRepository, placeRepository, instagramScheduleService);
+        place1 = Place.builder()
+                .placeName("스타벅스")
+                .kakaoId("1")
+                .build();
+        place2 = Place.builder()
+                .placeName("이디야")
+                .kakaoId("2")
+                .build();
     }
 
     @Test
     void update() {
-        List<Place> places = new ArrayList<>();
-        Place place1 = Place.builder()
-                .placeName("스타벅스")
-                .build();
-        Place place2 = Place.builder()
-                .placeName("이디야")
-                .build();
-        places.add(place1);
-        places.add(place2);
+        List<Place> places = Arrays.asList(place1, place2);
         placeRepository.saveAll(places);
-
         PostDtos postDtos = createPostDtos();
 
-        List<CrawlingResult> crawlingResults = new ArrayList<>();
-        crawlingResults.add(new CrawlingResult(
-                CrawlingDto.of(place1.getPlaceName(), "100", postDtos), place1)
-        );
-        crawlingResults.add(new CrawlingResult(
-                CrawlingDto.of(place2.getPlaceName(), "100", postDtos), place2)
+        List<CrawlingResult> crawlingResults = Arrays.asList(
+                new CrawlingResult(CrawlingDto.of(place1.getPlaceName(), "100", postDtos), place1),
+                new CrawlingResult(CrawlingDto.of(place2.getPlaceName(), "100", postDtos), place2)
         );
 
         when(instagramScheduleService.createCrawlingResult(anyList()))

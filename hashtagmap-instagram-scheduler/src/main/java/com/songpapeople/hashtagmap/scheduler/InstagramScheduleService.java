@@ -16,13 +16,13 @@ public class InstagramScheduleService {
 
     public List<CrawlingResult> createCrawlingResult(List<Place> places) {
         CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(
-            new ProxySetter(ProxiesFactory.create()), new InstagramCrawler());
+                new ProxySetter(ProxiesFactory.create()), new InstagramCrawler());
 
         return places.stream()
-            .map(place -> createCrawlingResult(place, crawlerWithProxy))
-            .filter(Optional::isPresent)
-            .map(crawlingResult -> crawlingResult.orElseThrow(NullPointerException::new))
-            .collect(Collectors.toList());
+                .map(place -> createCrawlingResult(place, crawlerWithProxy))
+                .filter(Optional::isPresent)
+                .map(crawlingResult -> crawlingResult.orElseThrow(NullPointerException::new))
+                .collect(Collectors.toList());
     }
 
     // TODO: 2020-07-24 Slf4j 적용해보기?

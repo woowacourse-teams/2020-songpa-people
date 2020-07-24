@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CrawlingResultTest extends SchedulerTestResource {
     private CrawlingDto crawlingDto;
@@ -35,7 +35,7 @@ class CrawlingResultTest extends SchedulerTestResource {
 
         Instagram expected = Instagram.builder()
                 .hashtagName("스타벅스")
-            .hashtagCount(100L)
+                .hashtagCount(100L)
                 .place(place)
                 .build();
 

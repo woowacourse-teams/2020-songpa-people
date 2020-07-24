@@ -6,6 +6,7 @@ import com.songpapeople.hashtagmap.place.domain.model.Place;
 
 public class CrawlerWithProxy {
     private static final int MAX_TRY_COUNT = 3;
+
     private final ProxySetter proxySetter;
     private final InstagramCrawler instagramCrawler;
 

@@ -1,13 +1,13 @@
 package com.songpapeople.hashtagmap.scheduler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CrawlingResult {
     private static final int MIN_HASHTAG_COUNT = 100;
@@ -42,6 +42,7 @@ public class CrawlingResult {
                 .hashtagCount(crawlingDto.getHashtagCount())
                 .build();
     }
+
     private InstagramPost createInstagramPost(Instagram instagram, PostDto postDto) {
         return InstagramPost.builder()
                 .instagram(instagram)
