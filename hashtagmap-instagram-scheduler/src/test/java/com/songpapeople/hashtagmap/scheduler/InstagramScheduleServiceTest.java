@@ -1,19 +1,20 @@
 package com.songpapeople.hashtagmap.scheduler;
 
-import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
-import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
-import com.songpapeople.hashtagmap.instagram.repository.InstagramPostRepository;
-import com.songpapeople.hashtagmap.place.domain.model.Place;
-import com.songpapeople.hashtagmap.place.repository.PlaceRepository;
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
+import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
+import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
+import com.songpapeople.hashtagmap.instagram.repository.InstagramPostRepository;
+import com.songpapeople.hashtagmap.place.domain.model.Place;
+import com.songpapeople.hashtagmap.place.repository.PlaceRepository;
 
 @SpringBootTest
 class InstagramScheduleServiceTest {
@@ -36,7 +37,7 @@ class InstagramScheduleServiceTest {
         Instagram instagram = Instagram.builder()
                 .place(place)
                 .hashtagName("스타벅스")
-                .hashtagCount(10L)
+            .hashtagCount(100L)
                 .build();
         instagramPosts.add(InstagramPost.builder()
                 .postUrl("postUrl1")

@@ -1,17 +1,18 @@
 package com.songpapeople.hashtagmap.scheduler;
 
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import com.songpapeople.hashtagmap.SchedulerTestResource;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
 
 class CrawlingResultTest extends SchedulerTestResource {
     private CrawlingDto crawlingDto;
@@ -35,7 +36,7 @@ class CrawlingResultTest extends SchedulerTestResource {
 
         Instagram expected = Instagram.builder()
                 .hashtagName("스타벅스")
-                .hashtagCount(10L)
+            .hashtagCount(100L)
                 .place(place)
                 .build();
 

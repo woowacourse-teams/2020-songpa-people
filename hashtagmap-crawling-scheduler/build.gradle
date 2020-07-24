@@ -1,7 +1,0 @@
-bootJar { enabled = false }
-jar { enabled = true }
-
-dependencies {
-    implementation project(':hashtagmap-core')
-    implementation project(':hashtagmap-instagram-crawler')
-}

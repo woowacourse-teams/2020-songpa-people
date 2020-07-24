@@ -1,9 +1,11 @@
 package com.songpapeople.hashtagmap.instagram.domain.model;
 
 import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.songpapeople.hashtagmap.config.entity.BaseEntity;
@@ -18,7 +20,8 @@ import lombok.NoArgsConstructor;
 @AttributeOverride(name = "id", column = @Column(name = "INSTAGRAM_ID"))
 @Entity
 public class Instagram extends BaseEntity {
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PLACE_ID")
     private Place place;
 
     private String hashtagName;
