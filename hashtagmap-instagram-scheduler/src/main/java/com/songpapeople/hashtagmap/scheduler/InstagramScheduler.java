@@ -1,33 +1,37 @@
 package com.songpapeople.hashtagmap.scheduler;
 
+import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
+import com.songpapeople.hashtagmap.instagram.repository.InstagramPostRepository;
+import com.songpapeople.hashtagmap.place.domain.model.Place;
+import com.songpapeople.hashtagmap.place.repository.PlaceRepository;
+import org.springframework.stereotype.Component;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Component;
-
-import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
-import com.songpapeople.hashtagmap.place.domain.model.Place;
-
 @Component
 public class InstagramScheduler {
-    private final InstagramScheduleService instagramScheduleService;
+    private final InstagramPostRepository instagramPostRepository;
+    private final PlaceRepository placeRepository;
 
-    public InstagramScheduler(InstagramScheduleService instagramScheduleService) {
-        this.instagramScheduleService = instagramScheduleService;
+    public InstagramScheduler(InstagramPostRepository instagramPostRepository, PlaceRepository placeRepository) {
+        this.instagramPostRepository = instagramPostRepository;
+        this.placeRepository = placeRepository;
     }
 
     public void update() {
-        List<Place> places = instagramScheduleService.findAllPlace();
+        List<Place> places = placeRepository.findAll();
         List<InstagramPost> instagramPosts = getInstagramPosts(places);
-        instagramScheduleService.saveAllInstagramPosts(instagramPosts);
+        instagramPostRepository.saveAll(instagramPosts);
     }
 
     private List<InstagramPost> getInstagramPosts(List<Place> places) {
+        InstagramScheduleService instagramScheduleService = new InstagramScheduleService();
         List<CrawlingResult> crawlingResults = instagramScheduleService.createCrawlingResult(places);
         return crawlingResults.stream()
-            .map(CrawlingResult::toInstagramPosts)
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList());
+                .map(CrawlingResult::toInstagramPosts)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 }

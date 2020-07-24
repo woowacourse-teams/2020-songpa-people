@@ -19,7 +19,7 @@ import javax.persistence.ManyToOne;
 @AttributeOverride(name = "id", column = @Column(name = "INSTAGRAM_POST_ID"))
 @Entity
 public class InstagramPost extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "INSTAGRAM_ID")
     private Instagram instagram;
     private String imageUrl;
