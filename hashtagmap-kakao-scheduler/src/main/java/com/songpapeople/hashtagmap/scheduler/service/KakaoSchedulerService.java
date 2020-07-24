@@ -33,7 +33,7 @@ public class KakaoSchedulerService {
 
     // TODO: 2020/07/23 데이터를 받았을 때 기존 데이터 업데이트, 갱신 로직이 필요하다.
     public void collectData() {
-        List<Zone> zones = zoneRepository.findByActivatedDistrict();
+        List<Zone> zones = zoneRepository.findByActivated();
         List<Rect> rects = zones.stream()
                 .map(this::zoneToRect)
                 .collect(Collectors.toList());

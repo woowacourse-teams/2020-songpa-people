@@ -48,7 +48,8 @@ public class KakaoSchedulerServiceTest {
         Zone zone = Zone.builder()
                 .topLeft(new Point("33", "130"))
                 .bottomRight(new Point("35", "128"))
-                .district(new District("서울시 송파구", true))
+                .district(new District("서울시 송파구"))
+                .isActivated(true)
                 .build();
         Rect rect = Rect.byOffset(new Latitude(33), new Longitude(130), 2);
 

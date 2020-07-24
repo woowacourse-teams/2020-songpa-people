@@ -16,6 +16,5 @@ import javax.persistence.Entity;
 @AttributeOverride(name = "id", column = @Column(name = "DISTRICT_ID"))
 @Entity
 public class District extends BaseEntity {
-    private String district;
-    private boolean activate;
+    private String districtName;
 }

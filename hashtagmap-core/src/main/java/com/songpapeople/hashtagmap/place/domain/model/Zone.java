@@ -31,11 +31,14 @@ public class Zone extends BaseEntity {
     @JoinColumn(name = "DISTRICT_ID", foreignKey = @ForeignKey(name = "FK_DISTRICT_ZONE"))
     private District district;
 
+    private boolean isActivated;
+
     @Builder
-    public Zone(Point topLeft, Point bottomRight, District district) {
+    public Zone(Point topLeft, Point bottomRight, District district, boolean isActivated) {
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
         this.district = district;
+        this.isActivated = isActivated;
     }
 
     public String getMinLatitude() {

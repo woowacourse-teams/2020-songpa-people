@@ -5,5 +5,5 @@ import com.songpapeople.hashtagmap.place.domain.model.Zone;
 import java.util.List;
 
 public interface ZoneRepositoryCustom {
-    List<Zone> findByActivatedDistrict();
+    List<Zone> findByActivated();
 }
