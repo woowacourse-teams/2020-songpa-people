@@ -16,10 +16,9 @@ public class InstagramScheduler {
     private final PlaceRepository placeRepository;
     private final InstagramScheduleService instagramScheduleService;
 
-    public InstagramScheduler(
-            InstagramPostRepository instagramPostRepository,
-            PlaceRepository placeRepository,
-            InstagramScheduleService instagramScheduleService) {
+    public InstagramScheduler(InstagramPostRepository instagramPostRepository,
+                              PlaceRepository placeRepository,
+                              InstagramScheduleService instagramScheduleService) {
         this.instagramPostRepository = instagramPostRepository;
         this.placeRepository = placeRepository;
         this.instagramScheduleService = instagramScheduleService;

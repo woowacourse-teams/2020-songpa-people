@@ -18,14 +18,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.anyList;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class InstagramSchedulerTest extends SchedulerTestResource {
     private InstagramScheduler instagramScheduler;
+    private Place place1;
+    private Place place2;
 
     @Mock
     private InstagramScheduleService instagramScheduleService;
@@ -35,19 +36,15 @@ class InstagramSchedulerTest extends SchedulerTestResource {
 
     @Autowired
     private PlaceRepository placeRepository;
-    private Place place1;
-    private Place place2;
 
     @BeforeEach
     void setUp() {
         instagramScheduler = new InstagramScheduler(instagramPostRepository, placeRepository, instagramScheduleService);
         place1 = Place.builder()
                 .placeName("스타벅스")
-                .kakaoId("1")
                 .build();
         place2 = Place.builder()
                 .placeName("이디야")
-                .kakaoId("2")
                 .build();
     }
 
