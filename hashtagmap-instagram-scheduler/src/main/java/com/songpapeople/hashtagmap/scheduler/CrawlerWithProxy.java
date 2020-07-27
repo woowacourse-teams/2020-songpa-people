@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.scheduler;
 
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.exception.CrawlerException;
+import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 
 public class CrawlerWithProxy {
@@ -17,7 +18,7 @@ public class CrawlerWithProxy {
 
     public CrawlingResult instagramCrawling(Place place, int tryCount) {
         if (tryCount > MAX_TRY_COUNT) {
-            throw new IllegalArgumentException();
+            throw new CrawlerException(CrawlerExceptionStatus.ILLEGAL_PROXY);
         }
         try {
             proxySetter.set();
