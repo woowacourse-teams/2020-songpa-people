@@ -16,6 +16,7 @@ export default {
   async mounted() {
     await this.$loadMap();
     this.$loadCurrentPosition();
+    this.$loadPlaces();
   },
   methods: {
     moveToCurrentLocation: function() {

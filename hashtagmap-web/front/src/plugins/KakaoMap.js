@@ -1,7 +1,7 @@
 import { KAKAO_WEB_KEY } from "@/secret";
 import navigatorUtils from "@/libs/navigator/navigator.js";
 import dotImgSrc from "@/assets/dot.png";
-import { KAKAO_MAP } from "@/utils/constants.js";
+import { KAKAO_MAP, MOCK_DATA } from "@/utils/constants.js";
 
 /**
  * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
@@ -33,7 +33,6 @@ export default {
 
       this.map = new kakao.maps.Map(container, options);
       this.map.setMapTypeId(kakao.maps.MapTypeId.NORMAL);
-      setPositionCenter(KAKAO_MAP.JAMSIL_STATION_8_EXIT);
     };
 
     Vue.prototype.$loadCurrentPosition = () => {
@@ -51,6 +50,10 @@ export default {
           //TODO snackbar 로 교체 필요
           alert("현재 위치를 불러오지 못했습니다.");
         });
+    };
+
+    Vue.prototype.$loadPlaces = () => {
+      displayPlaceMarker.call(this);
     };
 
     const setPositionCenter = position => {
@@ -83,6 +86,36 @@ export default {
     const createKakaoMapsLatLng = nowPosition => {
       const position = nowPosition || KAKAO_MAP.JAMSIL_STATION_8_EXIT;
       return new kakao.maps.LatLng(position.latitude, position.longitude);
+    };
+
+    const displayPlaceMarker = () => {
+      const places = MOCK_DATA.KAKAO_PLACES.map(function(place) {
+        let kakaoPlace = {};
+        kakaoPlace["title"] = place.title;
+        kakaoPlace["latlng"] = new kakao.maps.LatLng(
+          place.latitude,
+          place.longitude,
+        );
+        return kakaoPlace;
+      });
+
+      places.forEach(place => {
+        const imageSize = new kakao.maps.Size(
+          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_marker_width,
+          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_marker_height,
+        );
+        const markerImage = new kakao.maps.MarkerImage(
+          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_image_url,
+          imageSize,
+        );
+        const marker = new kakao.maps.Marker({
+          position: place.latlng,
+          title: place.title,
+          image: markerImage,
+        });
+
+        marker.setMap(this.map);
+      });
     };
   },
 };
