@@ -2,7 +2,8 @@ package com.songpapeople.hashtagmap.scheduler;
 
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.exception.CrawlerException;
-import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
+import com.songpapeople.hashtagmap.exception.InstagramSchedulerException;
+import com.songpapeople.hashtagmap.exception.InstagramSchedulerExceptionStatus;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 
 public class CrawlerWithProxy {
@@ -18,13 +19,12 @@ public class CrawlerWithProxy {
 
     public CrawlingResult instagramCrawling(Place place, int tryCount) {
         if (tryCount > MAX_TRY_COUNT) {
-            throw new CrawlerException(CrawlerExceptionStatus.ILLEGAL_PROXY);
+            throw new InstagramSchedulerException(InstagramSchedulerExceptionStatus.NON_EXIST_HASHTAG);
         }
         try {
             proxySetter.set();
             return new CrawlingResult(instagramCrawler.crawling(place.getPlaceName()), place);
         } catch (CrawlerException e) {
-            System.out.println(e.getMessage());
             return instagramCrawling(place, tryCount + 1);
         }
     }
