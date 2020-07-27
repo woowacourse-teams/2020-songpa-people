@@ -17,7 +17,7 @@ public class CrawlerWithProxy {
 
     public CrawlingResult instagramCrawling(Place place, int tryCount) {
         if (tryCount > MAX_TRY_COUNT) {
-            throw new CrawlerException(place.getPlaceName());
+            throw new IllegalArgumentException();
         }
         try {
             proxySetter.set();
