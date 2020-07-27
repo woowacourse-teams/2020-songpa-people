@@ -1,10 +1,11 @@
 package com.songpapeople.hashtagmap.crawler;
 
+import com.songpapeople.hashtagmap.exception.CrawlerException;
+import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
+import lombok.Getter;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.songpapeople.hashtagmap.exception.NotFoundRegexException;
-import lombok.Getter;
 
 @Getter
 enum RegexPattern {
@@ -22,6 +23,6 @@ enum RegexPattern {
         if (matcher.find()) {
             return matcher.group(2);
         }
-        throw new NotFoundRegexException();
+        throw new CrawlerException(CrawlerExceptionStatus.NOT_FOUND_MATCH_REGEX);
     }
 }

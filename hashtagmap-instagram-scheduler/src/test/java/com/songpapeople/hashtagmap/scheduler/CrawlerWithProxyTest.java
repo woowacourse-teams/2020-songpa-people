@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler;
 
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
-import com.songpapeople.hashtagmap.exception.CrawlingUrlException;
+import com.songpapeople.hashtagmap.exception.CrawlerException;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,9 +37,9 @@ class CrawlerWithProxyTest {
                 .build();
 
         when(instagramCrawler.crawling(place.getPlaceName()))
-                .thenThrow(CrawlingUrlException.class);
+                .thenThrow(CrawlerException.class);
 
         assertThatThrownBy(() -> crawlerWithProxy.instagramCrawling(place, 0))
-                .isInstanceOf(CrawlingUrlException.class);
+                .isInstanceOf(CrawlerException.class);
     }
 }

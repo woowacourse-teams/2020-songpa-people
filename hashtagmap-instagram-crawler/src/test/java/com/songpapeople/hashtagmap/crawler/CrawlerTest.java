@@ -1,11 +1,12 @@
 package com.songpapeople.hashtagmap.crawler;
 
-import com.songpapeople.hashtagmap.exception.CrawlingUrlException;
+import com.songpapeople.hashtagmap.exception.CrawlerException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class CrawlerTest {
     @Disabled
@@ -20,6 +21,6 @@ public class CrawlerTest {
     @Test
     void crawlingUrlException() {
         assertThatThrownBy(() -> Crawler.crawling("https://www.asd!@#ASDQQWE1.com/"))
-                .isInstanceOf(CrawlingUrlException.class);
+                .isInstanceOf(CrawlerException.class);
     }
 }

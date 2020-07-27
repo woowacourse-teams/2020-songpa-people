@@ -1,10 +1,10 @@
 package com.songpapeople.hashtagmap.crawler;
 
-import java.io.IOException;
-
+import com.songpapeople.hashtagmap.exception.CrawlerException;
+import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
 import org.jsoup.Jsoup;
 
-import com.songpapeople.hashtagmap.exception.CrawlingUrlException;
+import java.io.IOException;
 
 public class Crawler {
     private static final String USER_AGENT =
@@ -20,7 +20,7 @@ public class Crawler {
                     .body()
                     .toString();
         } catch (IOException e) {
-            throw new CrawlingUrlException(url);
+            throw new CrawlerException(CrawlerExceptionStatus.URL_NOT_CONNECT);
         }
     }
 }
