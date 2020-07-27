@@ -1,18 +1,17 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
-import com.songpapeople.hashtagmap.scheduler.service.KakaoSchedulerService;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
 
 public class KakaoScheduler {
-    private final KakaoSchedulerService kakaoSchedulerService;
     private final ThreadPoolTaskScheduler scheduler;
+    private final KakaoSchedulerTask kakaoSchedulerTask;
     private final PeriodicTrigger periodicTrigger;
 
-    public KakaoScheduler(KakaoSchedulerService kakaoSchedulerService, PeriodicTrigger periodicTrigger) {
-        this.kakaoSchedulerService = kakaoSchedulerService;
+    public KakaoScheduler(KakaoSchedulerTask kakaoSchedulerTask, PeriodicTrigger periodicTrigger) {
         this.scheduler = new ThreadPoolTaskScheduler();
+        this.kakaoSchedulerTask = kakaoSchedulerTask;
         this.periodicTrigger = periodicTrigger;
     }
 
@@ -22,7 +21,7 @@ public class KakaoScheduler {
     }
 
     private Runnable getRunnable() {
-        return kakaoSchedulerService::collectData;
+        return kakaoSchedulerTask::collectData;
     }
 
     private Trigger getTrigger() {

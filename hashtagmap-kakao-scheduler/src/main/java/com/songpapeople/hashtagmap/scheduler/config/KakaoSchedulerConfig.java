@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler.config;
 
 import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
-import com.songpapeople.hashtagmap.scheduler.service.KakaoSchedulerService;
+import com.songpapeople.hashtagmap.scheduler.domain.KakaoSchedulerTask;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -12,15 +12,15 @@ import java.util.concurrent.TimeUnit;
 @EnableScheduling
 @Configuration
 public class KakaoSchedulerConfig {
-    private final KakaoSchedulerService kakaoSchedulerService;
+    private final KakaoSchedulerTask kakaoSchedulerTask;
 
-    public KakaoSchedulerConfig(KakaoSchedulerService kakaoSchedulerService) {
-        this.kakaoSchedulerService = kakaoSchedulerService;
+    public KakaoSchedulerConfig(KakaoSchedulerTask kakaoSchedulerTask) {
+        this.kakaoSchedulerTask = kakaoSchedulerTask;
     }
 
     @Bean
     public KakaoScheduler kakaoPlaceScheduler() {
         PeriodicTrigger trigger = new PeriodicTrigger(30, TimeUnit.DAYS);
-        return new KakaoScheduler(kakaoSchedulerService, trigger);
+        return new KakaoScheduler(kakaoSchedulerTask, trigger);
     }
 }

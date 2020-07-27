@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.acceptance;
 
 import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
-import com.songpapeople.hashtagmap.scheduler.service.KakaoSchedulerService;
+import com.songpapeople.hashtagmap.scheduler.domain.KakaoSchedulerTask;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
@@ -22,26 +22,26 @@ public class SchedulerAcceptanceTest {
     private KakaoScheduler kakaoScheduler;
 
     @Mock
-    private KakaoSchedulerService kakaoSchedulerService;
+    private KakaoSchedulerTask kakaoSchedulerTask;
 
     @BeforeEach
     private void setUp() {
         /**
          * 주기: period * TimeUnit
          */
-        kakaoScheduler = new KakaoScheduler(kakaoSchedulerService,
+        kakaoScheduler = new KakaoScheduler(kakaoSchedulerTask,
                 new PeriodicTrigger(1, TimeUnit.SECONDS));
     }
 
     @DisplayName("스케쥴링 인수테스트")
     @TestFactory
     public Stream<DynamicTest> schedulingTest() {
-        doNothing().when(kakaoSchedulerService).collectData();
+        doNothing().when(kakaoSchedulerTask).collectData();
         return Stream.of(
                 dynamicTest("스케쥴러 실행", () -> {
                     kakaoScheduler.start();
 
-                    verify(kakaoSchedulerService).collectData();
+                    verify(kakaoSchedulerTask).collectData();
                 }),
                 /**
                  * 스케쥴러를 실행할 때 task가 1회 호출되기 때문에 총 3회 실행된다.
@@ -51,7 +51,7 @@ public class SchedulerAcceptanceTest {
                         Thread.sleep(1000L);
                     }
 
-                    verify(kakaoSchedulerService, times(3)).collectData();
+                    verify(kakaoSchedulerTask, times(3)).collectData();
 
                     kakaoScheduler.end();
                 })
