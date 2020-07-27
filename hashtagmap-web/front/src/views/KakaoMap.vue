@@ -1,5 +1,13 @@
 <template>
-  <div id="kakao-map"></div>
+  <div>
+    <div id="kakao-map">
+      <img
+        id="current-position"
+        src="@/assets/current-location-button.png"
+        @click="moveToCurrentLocation"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -9,6 +17,11 @@ export default {
     await this.$loadMap();
     this.$loadCurrentPosition();
   },
+  methods: {
+    moveToCurrentLocation: function() {
+      this.$loadCurrentPosition();
+    },
+  },
 };
 </script>
 
@@ -16,5 +29,13 @@ export default {
 #kakao-map {
   width: 100%;
   height: 600px;
+  z-index: 1;
+}
+#current-position {
+  z-index: 10;
+  height: 10%;
+  position: absolute;
+  left: 7px;
+  bottom: 7px;
 }
 </style>
