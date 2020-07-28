@@ -5,6 +5,7 @@ import com.songpapeople.hashtagmap.instagram.repository.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.repository.PlaceRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +25,7 @@ public class InstagramScheduler {
         this.instagramScheduleService = instagramScheduleService;
     }
 
+    @Transactional
     public void update() {
         List<Place> places = placeRepository.findAll();
         List<InstagramPost> instagramPosts = getInstagramPosts(places);
