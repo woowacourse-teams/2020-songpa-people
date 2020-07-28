@@ -2,6 +2,8 @@ import { KAKAO_WEB_KEY } from "@/secret";
 import navigatorUtils from "@/libs/navigator/navigator.js";
 import dotImgSrc from "@/assets/dot.png";
 import { KAKAO_MAP, MOCK_DATA } from "@/utils/constants.js";
+import {markerInfoTemplate} from "../utils/templates";
+import {EVENT_TYPE} from "../utils/constants";
 
 /**
  * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
@@ -87,15 +89,16 @@ export default {
       const position = nowPosition || KAKAO_MAP.JAMSIL_STATION_8_EXIT;
       return new kakao.maps.LatLng(position.latitude, position.longitude);
     };
-
     const displayPlaceMarker = () => {
-      const places = MOCK_DATA.KAKAO_PLACES.map(function(place) {
+      const map = this.map;
+      const places = MOCK_DATA.KAKAO_PLACES.map(function (place) {
         let kakaoPlace = {};
         kakaoPlace["title"] = place.title;
         kakaoPlace["latlng"] = new kakao.maps.LatLng(
           place.latitude,
           place.longitude,
         );
+        kakaoPlace["hashtag_count"] = place.hashtag_count;
         return kakaoPlace;
       });
 
@@ -114,7 +117,22 @@ export default {
           image: markerImage,
         });
 
-        marker.setMap(this.map);
+        marker.setMap(map);
+
+        let customOverlay = new kakao.maps.CustomOverlay({
+          content: markerInfoTemplate(place),
+          position: marker.getPosition(),
+        });
+
+        const clickOverlay = () => {
+          customOverlay.setMap(null);
+        };
+
+        kakao.maps.event.addListener(marker, EVENT_TYPE.CLICK, function () {
+          customOverlay.setMap(map);
+          const $infoBoxCloseBtn = document.querySelector(".info-box");
+          $infoBoxCloseBtn.addEventListener(EVENT_TYPE.CLICK, clickOverlay);
+        });
       });
     };
   },
