@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.scheduler;
 
-import com.songpapeople.hashtagmap.SchedulerTestResource;
+import com.songpapeople.hashtagmap.MockDataFactory;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
@@ -18,13 +18,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.anyList;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-class InstagramSchedulerTest extends SchedulerTestResource {
+class InstagramSchedulerTest {
     private InstagramScheduler instagramScheduler;
 
     @Mock
@@ -51,7 +50,7 @@ class InstagramSchedulerTest extends SchedulerTestResource {
                 .build();
         List<Place> places = Arrays.asList(place1, place2);
         placeRepository.saveAll(places);
-        PostDtos postDtos = createPostDtos();
+        PostDtos postDtos = MockDataFactory.createPostDtos();
 
         List<CrawlingResult> crawlingResults = Arrays.asList(
                 new CrawlingResult(CrawlingDto.of(place1.getPlaceName(), "100", postDtos), place1),

@@ -5,9 +5,9 @@ import com.songpapeople.hashtagmap.dto.PostDtos;
 
 import java.util.Arrays;
 
-public class SchedulerTestResource {
+public class MockDataFactory {
 
-    protected static PostDtos createPostDtos() {
+    public static PostDtos createPostDtos() {
         return new PostDtos(Arrays.asList(
                 new PostDto("1", "1"),
                 new PostDto("2", "2"),

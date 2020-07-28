@@ -20,7 +20,7 @@ class ProxySetterTest {
         );
         ProxySetter proxySetter = new ProxySetter(proxies);
 
-        proxySetter.set();
+        proxySetter.setProxy();
 
         assertThat(System.getProperty("http.proxyHost")).isBetween("1", "3");
     }

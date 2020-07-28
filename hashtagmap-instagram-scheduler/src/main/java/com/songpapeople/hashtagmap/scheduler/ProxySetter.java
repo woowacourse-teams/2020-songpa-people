@@ -12,7 +12,7 @@ public class ProxySetter {
         this.proxies = proxies;
     }
 
-    public void set() {
+    public void setProxy() {
         int size = proxies.size();
         proxies.setHostAndPort(random.nextInt(size));
     }

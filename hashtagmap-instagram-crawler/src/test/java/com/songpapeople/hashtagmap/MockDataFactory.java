@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class MockDataReader {
+public class MockDataFactory {
 
-    protected String createBody() {
+    public static String createBody() {
         StringBuilder builder = new StringBuilder();
         try (FileReader fileReader = new FileReader(new File("src/test/resources/crawling-mock-data.txt"))) {
             while (true) {
@@ -14,7 +14,7 @@ public class MockDataReader {
                 if (fileData == -1) {
                     break;
                 }
-                builder.append((char)fileData);
+                builder.append((char) fileData);
             }
         } catch (IOException e) {
             e.printStackTrace();

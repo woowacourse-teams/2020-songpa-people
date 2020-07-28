@@ -1,11 +1,11 @@
 package com.songpapeople.hashtagmap.crawler;
 
 import com.songpapeople.hashtagmap.exception.CrawlerException;
+import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.*;
 
 class RegexPatternTest {
     @DisplayName("정규표현식으로 해시태그 개수 추출 테스트")
@@ -27,6 +27,7 @@ class RegexPatternTest {
     @Test
     void extractNotFound() {
         assertThatThrownBy(() -> RegexPattern.HASH_TAG_COUNT.extract("abcdefg"))
-                .isInstanceOf(CrawlerException.class);
+                .isInstanceOf(CrawlerException.class)
+                .hasMessage(CrawlerExceptionStatus.NOT_FOUND_MATCH_REGEX.getMessage());
     }
 }

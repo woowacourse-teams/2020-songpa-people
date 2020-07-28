@@ -22,7 +22,7 @@ public class CrawlerWithProxy {
             return Optional.empty();
         }
         try {
-            proxySetter.set();
+            proxySetter.setProxy();
             return Optional.of(new CrawlingResult(instagramCrawler.crawling(place.getPlaceName()), place));
         } catch (CrawlerException e) {
             return instagramCrawling(place, tryCount + 1);

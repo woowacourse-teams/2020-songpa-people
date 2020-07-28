@@ -1,6 +1,7 @@
 package com.songpapeople.hashtagmap.dto;
 
 import com.songpapeople.hashtagmap.exception.CrawlerException;
+import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,8 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 
 public class PostDtosTest {
     private List<PostDto> postDtos;
@@ -33,13 +33,17 @@ public class PostDtosTest {
     @Test
     void createOverSize() {
         postDtos.add(new PostDto("a", "a"));
-        assertThatThrownBy(() -> new PostDtos(postDtos)).isInstanceOf(CrawlerException.class);
+        assertThatThrownBy(() -> new PostDtos(postDtos))
+                .isInstanceOf(CrawlerException.class)
+                .hasMessage(CrawlerExceptionStatus.NOT_ENOUGH_POPULAR_POST.getMessage());
     }
 
     @DisplayName("PostDto가 8개인 경우 Exception 테스트")
     @Test
     void createUnderSize() {
         postDtos.remove(0);
-        assertThatThrownBy(() -> new PostDtos(postDtos)).isInstanceOf(CrawlerException.class);
+        assertThatThrownBy(() -> new PostDtos(postDtos))
+                .isInstanceOf(CrawlerException.class)
+                .hasMessage(CrawlerExceptionStatus.NOT_ENOUGH_POPULAR_POST.getMessage());
     }
 }
