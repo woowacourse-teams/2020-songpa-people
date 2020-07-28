@@ -28,7 +28,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @ExtendWith(MockitoExtension.class)
-class KakaoServiceTest {
+class KakaoApiServiceTest {
     private static final String CATEGORY_GROUP_CODE = "CE7";
 
     private ObjectMapper objectMapper;
@@ -36,7 +36,7 @@ class KakaoServiceTest {
     private KakaoProperties kakaoProperties;
     private RestTemplate restTemplate;
     private KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller;
-    private KakaoService kakaoService;
+    private KakaoApiService kakaoApiService;
     private MockRestServiceServer server;
 
     @BeforeEach
@@ -54,7 +54,7 @@ class KakaoServiceTest {
 
         this.restTemplate = KakaoRestTemplateBuilder.get(kakaoSecurityProperties, kakaoProperties).build();
         this.kakaoRestTemplateApiCaller = new KakaoRestTemplateApiCaller(restTemplate, kakaoProperties);
-        this.kakaoService = new KakaoService(kakaoRestTemplateApiCaller);
+        this.kakaoApiService = new KakaoApiService(kakaoRestTemplateApiCaller);
         this.server = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true).build();
     }
 
@@ -68,7 +68,7 @@ class KakaoServiceTest {
         for (Rect rect : dividedRects) {
             stubServer(rect);
         }
-        List<KakaoPlaceDto> places = kakaoService.findPlaces(CATEGORY_GROUP_CODE, initialRect);
+        List<KakaoPlaceDto> places = kakaoApiService.findPlaces(CATEGORY_GROUP_CODE, initialRect);
 
         server.verify();
         assertThat(places).hasSize(7);

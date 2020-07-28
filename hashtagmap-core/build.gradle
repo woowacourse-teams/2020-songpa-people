@@ -1,7 +1,29 @@
 bootJar { enabled = false }
 jar { enabled = true }
 
+apply plugin: 'com.ewerk.gradle.plugins.querydsl'
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'com.querydsl:querydsl-jpa'
     runtimeOnly 'com.h2database:h2:1.4.199'
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
 }

@@ -2,8 +2,8 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
 }
 
 jacocoTestCoverageVerification {
@@ -21,7 +21,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'INSTRUCTION'
                 value = 'COVEREDRATIO'
-                minimum = 0.70
+                minimum = 0.50
             }
 
             excludes = []
