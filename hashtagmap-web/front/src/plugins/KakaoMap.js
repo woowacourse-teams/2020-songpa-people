@@ -1,7 +1,9 @@
-import { KAKAO_WEB_KEY } from "@/secret";
+import {KAKAO_WEB_KEY} from "@/secret";
 import navigatorUtils from "@/libs/navigator/navigator.js";
 import dotImgSrc from "@/assets/dot.png";
-import { KAKAO_MAP, MOCK_DATA } from "@/utils/constants.js";
+import {KAKAO_MAP, MOCK_DATA} from "@/utils/constants.js";
+import {EVENT_TYPE} from "../utils/constants";
+import {markerInfoTemplate} from "../utils/templates";
 
 /**
  * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
@@ -56,6 +58,53 @@ export default {
       displayPlaceMarker.call(this);
     };
 
+    const displayPlaceMarker = () => {
+      const map = this.map;
+      const places = MOCK_DATA.KAKAO_PLACES.map(function (place) {
+        let kakaoPlace = {};
+        kakaoPlace["title"] = place.title;
+        kakaoPlace["latlng"] = new kakao.maps.LatLng(
+          place.latitude,
+          place.longitude,
+        );
+        kakaoPlace["hashtag_count"] = place.hashtag_count;
+        return kakaoPlace;
+      });
+
+      places.forEach(place => {
+        const imageSize = new kakao.maps.Size(
+          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_marker_width,
+          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_marker_height,
+        );
+        const markerImage = new kakao.maps.MarkerImage(
+          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_image_url,
+          imageSize,
+        );
+        const marker = new kakao.maps.Marker({
+          position: place.latlng,
+          title: place.title,
+          image: markerImage,
+        });
+
+        marker.setMap(map);
+
+        let customOverlay = new kakao.maps.CustomOverlay({
+          content: markerInfoTemplate(place),
+          position: marker.getPosition(),
+        });
+
+        const clickOverlay = () => {
+          customOverlay.setMap(null);
+        };
+
+        kakao.maps.event.addListener(marker, EVENT_TYPE.CLICK, function () {
+          customOverlay.setMap(map);
+          const $infoBoxCloseBtn = document.querySelector(".info-box");
+          $infoBoxCloseBtn.addEventListener(EVENT_TYPE.CLICK, clickOverlay);
+        });
+      });
+    };
+
     const setPositionCenter = position => {
       this.map.setCenter(createKakaoMapsLatLng(position));
     };
@@ -86,36 +135,6 @@ export default {
     const createKakaoMapsLatLng = nowPosition => {
       const position = nowPosition || KAKAO_MAP.JAMSIL_STATION_8_EXIT;
       return new kakao.maps.LatLng(position.latitude, position.longitude);
-    };
-
-    const displayPlaceMarker = () => {
-      const places = MOCK_DATA.KAKAO_PLACES.map(function(place) {
-        let kakaoPlace = {};
-        kakaoPlace["title"] = place.title;
-        kakaoPlace["latlng"] = new kakao.maps.LatLng(
-          place.latitude,
-          place.longitude,
-        );
-        return kakaoPlace;
-      });
-
-      places.forEach(place => {
-        const imageSize = new kakao.maps.Size(
-          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_marker_width,
-          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_marker_height,
-        );
-        const markerImage = new kakao.maps.MarkerImage(
-          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_image_url,
-          imageSize,
-        );
-        const marker = new kakao.maps.Marker({
-          position: place.latlng,
-          title: place.title,
-          image: markerImage,
-        });
-
-        marker.setMap(this.map);
-      });
     };
   },
 };
