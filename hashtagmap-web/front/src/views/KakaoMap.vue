@@ -19,7 +19,7 @@ export default {
     this.$loadPlaces();
   },
   methods: {
-    moveToCurrentLocation: function() {
+    moveToCurrentLocation() {
       this.$loadCurrentPosition();
     },
   },
