@@ -124,7 +124,9 @@ export default {
           position: marker.getPosition(),
         });
 
-        const clickOverlay = () => {
+        const clickOverlay = event => {
+          event.preventDefault();
+          console.log("오버레이클릭");
           customOverlay.setMap(null);
         };
 
@@ -132,6 +134,10 @@ export default {
           customOverlay.setMap(map);
           const $infoBoxCloseBtn = document.querySelector(".info-box");
           $infoBoxCloseBtn.addEventListener(EVENT_TYPE.CLICK, clickOverlay);
+        });
+        kakao.maps.event.addListener(map, EVENT_TYPE.CLICK, function(event) {
+          event.preventDefault();
+          console.log("지도클릭");
         });
       });
     };
