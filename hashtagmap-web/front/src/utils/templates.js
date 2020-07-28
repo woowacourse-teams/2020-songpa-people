@@ -3,7 +3,7 @@ export const markerInfoTemplate = place =>
     style="position: relative;
            bottom: 77px;
            border-radius: 30px / 30px;
-           box-shadow: 3px 3px 3px 3px darkgrey">` +
+           box-shadow: 1px 1px 1px 1px darkgrey">` +
   `  <div class="text-primary" style="font-weight: bold">` +
   `    <div style="width: auto;right: 90%" >#${place.title}` +
   `    </div>` +
