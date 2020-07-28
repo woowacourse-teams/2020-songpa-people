@@ -142,3 +142,6 @@ gradle-app.setting
 
 ### Gradle Patch ###
 **/build/
+
+#vue 빌드 결과물
+./hashtagmap-web/src/main/resources/static/

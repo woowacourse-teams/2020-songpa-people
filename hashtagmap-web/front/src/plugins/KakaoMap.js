@@ -2,8 +2,8 @@ import { KAKAO_WEB_KEY } from "@/secret";
 import navigatorUtils from "@/libs/navigator/navigator.js";
 import dotImgSrc from "@/assets/dot.png";
 import { KAKAO_MAP, MOCK_DATA } from "@/utils/constants.js";
-import {markerInfoTemplate} from "../utils/templates";
-import {EVENT_TYPE} from "../utils/constants";
+import { markerInfoTemplate } from "../utils/templates";
+import { EVENT_TYPE } from "../utils/constants";
 
 /**
  * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
@@ -91,7 +91,7 @@ export default {
     };
     const displayPlaceMarker = () => {
       const map = this.map;
-      const places = MOCK_DATA.KAKAO_PLACES.map(function (place) {
+      const places = MOCK_DATA.KAKAO_PLACES.map(function(place) {
         let kakaoPlace = {};
         kakaoPlace["title"] = place.title;
         kakaoPlace["latlng"] = new kakao.maps.LatLng(
@@ -128,7 +128,7 @@ export default {
           customOverlay.setMap(null);
         };
 
-        kakao.maps.event.addListener(marker, EVENT_TYPE.CLICK, function () {
+        kakao.maps.event.addListener(marker, EVENT_TYPE.CLICK, function() {
           customOverlay.setMap(map);
           const $infoBoxCloseBtn = document.querySelector(".info-box");
           $infoBoxCloseBtn.addEventListener(EVENT_TYPE.CLICK, clickOverlay);
