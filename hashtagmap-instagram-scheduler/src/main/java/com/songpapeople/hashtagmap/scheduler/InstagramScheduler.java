@@ -27,6 +27,7 @@ public class InstagramScheduler {
 
     @Transactional
     public void update() {
+        instagramPostRepository.deleteAll();
         List<Place> places = placeRepository.findAll();
         List<InstagramPost> instagramPosts = getInstagramPosts(places);
         instagramPostRepository.saveAll(instagramPosts);
