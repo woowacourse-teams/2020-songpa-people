@@ -20,7 +20,7 @@ public class InstagramScheduleService {
                 new ProxySetter(ProxiesFactory.create()), instagramCrawler);
 
         return places.stream()
-                .map(place -> crawlerWithProxy.instagramCrawling(place, START_TRY_COUNT))
+                .map(place -> crawlerWithProxy.crawlInstagram(place, START_TRY_COUNT))
                 .filter(Optional::isPresent)
                 .map(optional -> optional.orElseThrow(NullPointerException::new))
                 .filter(CrawlingResult::isOverMinHashtagCount)

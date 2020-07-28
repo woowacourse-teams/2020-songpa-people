@@ -8,12 +8,10 @@ public class MockDataFactory {
 
     public static String createBody() {
         StringBuilder builder = new StringBuilder();
-        try (FileReader fileReader = new FileReader(new File("src/test/resources/crawling-mock-data.txt"))) {
-            while (true) {
-                int fileData = fileReader.read();
-                if (fileData == -1) {
-                    break;
-                }
+        File file = new File("src/test/resources/crawling-mock-data.txt");
+        try (FileReader fileReader = new FileReader(file)) {
+            int fileData;
+            while ((fileData = fileReader.read()) != -1) {
                 builder.append((char) fileData);
             }
         } catch (IOException e) {

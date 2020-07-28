@@ -17,15 +17,15 @@ public class CrawlerWithProxy {
         this.instagramCrawler = instagramCrawler;
     }
 
-    public Optional<CrawlingResult> instagramCrawling(Place place, int tryCount) {
+    public Optional<CrawlingResult> crawlInstagram(Place place, int tryCount) {
         if (tryCount > MAX_TRY_COUNT) {
             return Optional.empty();
         }
         try {
             proxySetter.setProxy();
-            return Optional.of(new CrawlingResult(instagramCrawler.crawling(place.getPlaceName()), place));
+            return Optional.of(new CrawlingResult(instagramCrawler.crawler(place.getPlaceName()), place));
         } catch (CrawlerException e) {
-            return instagramCrawling(place, tryCount + 1);
+            return crawlInstagram(place, tryCount + 1);
         }
     }
 }

@@ -13,8 +13,8 @@ public class InstagramCrawler {
         return CrawlingDto.of(placeName, hashTagCount, postDtos);
     }
 
-    public CrawlingDto crawling(String placeName) {
-        String body = Crawler.crawling(String.format(INSTAGRAM_URL_FORMAT, placeName));
+    public CrawlingDto crawler(String placeName) {
+        String body = Crawler.crawl(String.format(INSTAGRAM_URL_FORMAT, placeName));
         return createCrawlingDto(placeName, body);
     }
 }

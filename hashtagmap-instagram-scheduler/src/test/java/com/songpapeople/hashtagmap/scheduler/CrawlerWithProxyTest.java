@@ -36,10 +36,10 @@ class CrawlerWithProxyTest {
                 .placeName("잠실타로&사주")
                 .build();
 
-        when(instagramCrawler.crawling(place.getPlaceName()))
+        when(instagramCrawler.crawler(place.getPlaceName()))
                 .thenThrow(InstagramSchedulerException.class);
 
-        assertThatThrownBy(() -> crawlerWithProxy.instagramCrawling(place, 0))
+        assertThatThrownBy(() -> crawlerWithProxy.crawlInstagram(place, 0))
                 .isInstanceOf(InstagramSchedulerException.class);
     }
 }

@@ -8,6 +8,7 @@ import com.songpapeople.hashtagmap.instagram.repository.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.repository.PlaceRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -40,6 +41,7 @@ class InstagramSchedulerTest {
         instagramScheduler = new InstagramScheduler(instagramPostRepository, placeRepository, instagramScheduleService);
     }
 
+    @DisplayName("db에서 place를 가져와 instagramPosts를 만들어 저장하는 기능 테스트")
     @Test
     void update() {
         Place place1 = Place.builder()
