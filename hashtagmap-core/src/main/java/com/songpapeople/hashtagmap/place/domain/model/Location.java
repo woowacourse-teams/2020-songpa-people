@@ -1,22 +1,18 @@
 package com.songpapeople.hashtagmap.place.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import java.util.Objects;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Embeddable
 public class Location {
     @Embedded
     private Point point;
-
     private String roadAddressName;
 
     @Generated
@@ -29,13 +25,13 @@ public class Location {
             return false;
         }
         Location location = (Location) o;
-        return Objects.equals(point, location.point)
-                && Objects.equals(roadAddressName, location.roadAddressName);
+        return Objects.equals(this.getPoint(), location.getPoint())
+                && Objects.equals(this.getRoadAddressName(), location.getRoadAddressName());
     }
 
     @Generated
     @Override
     public int hashCode() {
-        return Objects.hash(point, roadAddressName);
+        return Objects.hash(this.getPoint(), this.getRoadAddressName());
     }
 }

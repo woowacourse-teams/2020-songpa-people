@@ -11,14 +11,15 @@ import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.place.domain.repository.ZoneRepository;
 import com.songpapeople.hashtagmap.scheduler.domain.factory.PlaceFactory;
 import com.songpapeople.hashtagmap.scheduler.domain.factory.RectFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class KakaoSchedulerTask {
     private final ZoneRepository zoneRepository;
     private final PlaceRepository placeRepository;
@@ -32,6 +33,7 @@ public class KakaoSchedulerTask {
     }
 
     // TODO: 2020/07/23 데이터를 받았을 때 기존 데이터 업데이트, 갱신 로직이 필요하다.
+    @Transactional
     public void collectData() {
         List<Zone> zones = zoneRepository.findByActivated();
         List<Rect> rects = RectFactory.from(zones);
@@ -51,7 +53,7 @@ public class KakaoSchedulerTask {
         placeRepository.saveAll(places);
     }
 
-    public List<KakaoPlaceDto> findPlacesByRect(Category category, Rect rect) {
+    private List<KakaoPlaceDto> findPlacesByRect(Category category, Rect rect) {
         return kakaoApiService.findPlaces(category.getCategoryGroupCode(), rect);
     }
 }

@@ -12,6 +12,8 @@ import java.util.concurrent.TimeUnit;
 @EnableScheduling
 @Configuration
 public class KakaoSchedulerConfig {
+    private static final int PERIOD = 30;
+
     private final KakaoSchedulerTask kakaoSchedulerTask;
 
     public KakaoSchedulerConfig(KakaoSchedulerTask kakaoSchedulerTask) {
@@ -20,7 +22,7 @@ public class KakaoSchedulerConfig {
 
     @Bean
     public KakaoScheduler kakaoPlaceScheduler() {
-        PeriodicTrigger trigger = new PeriodicTrigger(30, TimeUnit.DAYS);
-        return new KakaoScheduler(kakaoSchedulerTask, trigger);
+        PeriodicTrigger trigger = new PeriodicTrigger(PERIOD, TimeUnit.DAYS);
+        return new KakaoScheduler(kakaoSchedulerTask::collectData, trigger);
     }
 }

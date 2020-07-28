@@ -6,12 +6,12 @@ import org.springframework.scheduling.support.PeriodicTrigger;
 
 public class KakaoScheduler {
     private final ThreadPoolTaskScheduler scheduler;
-    private final KakaoSchedulerTask kakaoSchedulerTask;
+    private final Runnable runnable;
     private final PeriodicTrigger periodicTrigger;
 
-    public KakaoScheduler(KakaoSchedulerTask kakaoSchedulerTask, PeriodicTrigger periodicTrigger) {
+    public KakaoScheduler(Runnable runnable, PeriodicTrigger periodicTrigger) {
         this.scheduler = new ThreadPoolTaskScheduler();
-        this.kakaoSchedulerTask = kakaoSchedulerTask;
+        this.runnable = runnable;
         this.periodicTrigger = periodicTrigger;
     }
 
@@ -21,7 +21,7 @@ public class KakaoScheduler {
     }
 
     private Runnable getRunnable() {
-        return kakaoSchedulerTask::collectData;
+        return runnable;
     }
 
     private Trigger getTrigger() {

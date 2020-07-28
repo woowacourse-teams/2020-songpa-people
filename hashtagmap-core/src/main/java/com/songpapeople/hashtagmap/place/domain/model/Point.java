@@ -23,13 +23,13 @@ public class Point {
             return false;
         }
         Point point = (Point) o;
-        return Objects.equals(latitude, point.latitude)
-                && Objects.equals(longitude, point.longitude);
+        return Objects.equals(this.getLatitude(), point.getLatitude())
+                && Objects.equals(this.getLongitude(), point.getLongitude());
     }
 
     @Generated
     @Override
     public int hashCode() {
-        return Objects.hash(latitude, longitude);
+        return Objects.hash(this.getLatitude(), this.getLongitude());
     }
 }

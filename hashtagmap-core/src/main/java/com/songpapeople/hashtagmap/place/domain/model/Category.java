@@ -22,6 +22,6 @@ public enum Category {
         return Arrays.stream(Category.values())
                 .filter(category -> category.categoryGroupCode.equals(code))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하는 않는 카데고리 코드입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하는 않는 카테고리 코드입니다."));
     }
 }
