@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     kakaoMap: "",
-    mapApi: "",
+    kakaoMapApi: "",
     places: [
       {
         id: 1028853888,
@@ -28,8 +28,8 @@ export default new Vuex.Store({
     initKakaoMap(state, map) {
       state.kakaoMap = map;
     },
-    initMapApi(state, api) {
-      state.mapApi = api;
+    initKakaoMapApi(state, api) {
+      state.kakaoMapApi = api;
     },
   },
   actions: {},
@@ -38,7 +38,7 @@ export default new Vuex.Store({
       return state.places.map(function(place) {
         let kakaoPlace = {};
         kakaoPlace["title"] = place.title;
-        kakaoPlace["latlng"] = new state.mapApi.LatLng(
+        kakaoPlace["latlng"] = new state.kakaoMapApi.LatLng(
           place.latitude,
           place.longitude,
         );

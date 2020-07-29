@@ -23,7 +23,7 @@ export default {
       script.onload = () => kakao.maps.load(resolve);
     });
 
-    Vue.prototype.$loadMapApi = async () => {
+    Vue.prototype.$initKakaoMapApi = async () => {
       await loadApi;
       return kakao.maps;
     };

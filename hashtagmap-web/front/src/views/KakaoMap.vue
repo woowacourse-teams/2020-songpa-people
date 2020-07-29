@@ -6,12 +6,12 @@
 
 <script>
 import { EVENT_TYPE, KAKAO_MAP } from "../utils/constants";
-import { markerInfoTemplate } from "../utils/templates";
+import { textBallonTemplate } from "../utils/templates";
 
 export default {
   name: "KakaoMap",
   async mounted() {
-    this.$store.commit("initMapApi", await this.$loadMapApi());
+    this.$store.commit("initKakaoMapApi", await this.$initKakaoMapApi());
     this.$store.commit("initKakaoMap", this.$loadMap());
 
     this.loadMarker(this.$store.getters.getPlaces);
@@ -27,7 +27,7 @@ export default {
 
         let textBalloon = this.createTextBalloon(place, marker);
 
-        this.$store.state.mapApi.event.addListener(
+        this.$store.state.kakaoMapApi.event.addListener(
           marker,
           EVENT_TYPE.CLICK,
           function() {
@@ -41,7 +41,7 @@ export default {
       });
     },
     createMaker(place) {
-      const mapApi = this.$store.state.mapApi;
+      const mapApi = this.$store.state.kakaoMapApi;
       const imageSize = new mapApi.Size(
         KAKAO_MAP.PLACE_MARKER.width,
         KAKAO_MAP.PLACE_MARKER.height,
@@ -57,8 +57,8 @@ export default {
       });
     },
     createTextBalloon(place, marker) {
-      return new this.$store.state.mapApi.CustomOverlay({
-        content: markerInfoTemplate(place),
+      return new this.$store.state.kakaoMapApi.CustomOverlay({
+        content: textBallonTemplate(place),
         position: marker.getPosition(),
       });
     },

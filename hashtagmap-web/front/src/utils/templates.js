@@ -1,4 +1,4 @@
-export const markerInfoTemplate = place =>
+export const textBallonTemplate = place =>
   `<div class="btn btn-default text-balloon" 
     style="position: relative;
            bottom: 77px;
