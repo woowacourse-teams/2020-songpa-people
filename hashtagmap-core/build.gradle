@@ -6,7 +6,18 @@ apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.querydsl:querydsl-jpa'
+
+    runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly "org.mariadb.jdbc:mariadb-java-client"
     runtimeOnly 'com.h2database:h2:1.4.199'
+}
+
+processResources.dependsOn 'copyDataBaseSettings'
+
+task copyDataBaseSettings(type: Copy){
+    description = "Copy application-db.yml from hashtagmap-secret"
+    from '../hashtagmap-secret/core/application-db.yml'
+    into 'src/main/resources/'
 }
 
 def querydslDir = "$buildDir/generated/querydsl"
@@ -27,3 +38,4 @@ configurations {
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
 }
+

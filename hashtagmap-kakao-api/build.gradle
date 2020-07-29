@@ -6,6 +6,14 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
 }
 
+task copyApiKey(type: Copy) {
+    description = "Copy kakao api key from hashtagmap-secret"
+    from '../hashtagmap-secret/kakao/application-kakao-security.yml'
+    into 'src/main/resources/'
+}
+
+processResources.dependsOn 'copyApiKey'
+
 jacocoTestCoverageVerification {
     violationRules {
         rule {
