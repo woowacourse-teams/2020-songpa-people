@@ -41,7 +41,7 @@ public class KakaoSchedulerTest {
                         e.printStackTrace();
                     }
                 },
-                new PeriodicTrigger(30, TimeUnit.SECONDS));
+                new PeriodicTrigger(30, TimeUnit.DAYS));
 
         return Stream.of(
                 dynamicTest("스케쥴러 실행", () -> {
