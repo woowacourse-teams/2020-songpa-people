@@ -8,7 +8,9 @@
 export default {
   name: "KakaoMap",
   async mounted() {
-    await this.$loadMap();
+    const map = await this.$loadMap();
+    this.$store.commit("initKakaoMap", map);
+
     this.$loadCurrentPosition();
     this.$loadPlaces();
   },

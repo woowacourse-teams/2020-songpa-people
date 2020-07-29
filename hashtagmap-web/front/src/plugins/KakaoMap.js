@@ -35,6 +35,8 @@ export default {
 
       this.map = new kakao.maps.Map(container, options);
       this.map.setMapTypeId(kakao.maps.MapTypeId.NORMAL);
+
+      return this.map;
     };
 
     Vue.prototype.$loadCurrentPosition = () => {
