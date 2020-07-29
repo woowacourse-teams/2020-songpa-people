@@ -21,8 +21,9 @@ export default {
   methods: {
     loadMarker(places) {
       places.forEach(place => {
+        const map = this.$store.state.kakaoMap;
         const marker = this.createMaker(place);
-        marker.setMap(this.$store.state.kakaoMap);
+        marker.setMap(map);
 
         let textBalloon = this.createTextBalloon(place, marker);
 
@@ -30,7 +31,7 @@ export default {
           marker,
           EVENT_TYPE.CLICK,
           function() {
-            textBalloon.setMap(this.$store.state.kakaoMap);
+            textBalloon.setMap(map);
             const $textBalloon = document.querySelector(".text-balloon");
             $textBalloon.addEventListener(EVENT_TYPE.CLICK, function() {
               textBalloon.setMap(null);
