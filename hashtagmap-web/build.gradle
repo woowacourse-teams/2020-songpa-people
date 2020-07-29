@@ -1,3 +1,7 @@
+plugins {
+    id 'com.moowork.node' version '1.3.1'
+}
+
 dependencies {
     implementation project(':hashtagmap-core')
 
@@ -22,3 +26,24 @@ jacocoTestCoverageVerification {
 
     }
 }
+
+node {
+    workDir = file("./front")
+    npmWorkDir = file("./front")
+    nodeModulesDir = file("./front")
+}
+
+
+task setUp(type: NpmTask) {
+    description = "Install Node.js Package"
+    args = ['install']
+    inputs.files file('package.json')
+    outputs.files file('node_modules')
+}
+
+task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
+    description = "Build vue.js"
+    args = ['run', 'build']
+}
+
+processResources.dependsOn 'buildFrontEnd'
