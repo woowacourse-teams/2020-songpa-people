@@ -11,43 +11,42 @@ import { markerInfoTemplate } from "../utils/templates";
 export default {
   name: "KakaoMap",
   async mounted() {
-    const mapApi = await this.$loadMapApi();
-    this.$store.commit("initMapApi", mapApi);
+    this.$store.commit("initMapApi", await this.$loadMapApi());
+    this.$store.commit("initKakaoMap", this.$loadMap());
 
-    const map = this.$loadMap();
-    this.$store.commit("initKakaoMap", map);
-
-    const places = this.$store.getters.getPlaces;
-    this.loadMarker(places);
+    this.loadMarker(this.$store.getters.getPlaces);
 
     this.$loadCurrentPosition();
   },
   methods: {
     loadMarker(places) {
-      const mapApi = this.$store.state.mapApi;
-      const map = this.$store.state.kakaoMap;
       places.forEach(place => {
-        const marker = this.createMaker(place, mapApi);
+        const marker = this.createMaker(place);
         marker.setMap(this.$store.state.kakaoMap);
 
-        let textBalloon = this.createTextBalloon(place, marker, mapApi);
+        let textBalloon = this.createTextBalloon(place, marker);
 
-        mapApi.event.addListener(marker, EVENT_TYPE.CLICK, function() {
-          textBalloon.setMap(map);
-          const $textBalloon = document.querySelector(".text-balloon");
-          $textBalloon.addEventListener(EVENT_TYPE.CLICK, function() {
-            textBalloon.setMap(null);
-          });
-        });
+        this.$store.state.mapApi.event.addListener(
+          marker,
+          EVENT_TYPE.CLICK,
+          function() {
+            textBalloon.setMap(this.$store.state.kakaoMap);
+            const $textBalloon = document.querySelector(".text-balloon");
+            $textBalloon.addEventListener(EVENT_TYPE.CLICK, function() {
+              textBalloon.setMap(null);
+            });
+          },
+        );
       });
     },
-    createMaker(place, mapApi) {
+    createMaker(place) {
+      const mapApi = this.$store.state.mapApi;
       const imageSize = new mapApi.Size(
-        KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_marker_width,
-        KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_marker_height,
+        KAKAO_MAP.PLACE_MARKER.width,
+        KAKAO_MAP.PLACE_MARKER.height,
       );
       const markerImage = new mapApi.MarkerImage(
-        KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_image_url,
+        KAKAO_MAP.PLACE_MARKER.image_url,
         imageSize,
       );
       return new mapApi.Marker({
@@ -56,8 +55,8 @@ export default {
         image: markerImage,
       });
     },
-    createTextBalloon(place, marker, mapApi) {
-      return new mapApi.CustomOverlay({
+    createTextBalloon(place, marker) {
+      return new this.$store.state.mapApi.CustomOverlay({
         content: markerInfoTemplate(place),
         position: marker.getPosition(),
       });

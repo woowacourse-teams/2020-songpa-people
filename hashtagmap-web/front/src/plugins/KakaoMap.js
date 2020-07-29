@@ -15,8 +15,7 @@ import { KAKAO_MAP } from "@/utils/constants.js";
 export default {
   install(Vue) {
     const script = document.createElement("script");
-    script.src =
-      KAKAO_MAP.API_SRC_ADDRESS + KAKAO_WEB_KEY;
+    script.src = KAKAO_MAP.API_SRC_ADDRESS + KAKAO_WEB_KEY;
     document.head.appendChild(script);
 
     /* global kakao */
@@ -29,7 +28,7 @@ export default {
       return kakao.maps;
     };
 
-    Vue.prototype.$loadMap = (nowPosition) => {
+    Vue.prototype.$loadMap = nowPosition => {
       const options = createOptions(nowPosition);
       const container = document.getElementById("kakao-map");
 
@@ -76,8 +75,8 @@ export default {
       setPositionCenter.call(this, position);
 
       const imageSize = new kakao.maps.Size(
-        KAKAO_MAP.MAKER_SIZE,
-        KAKAO_MAP.MAKER_SIZE,
+        KAKAO_MAP.USER_MAKER_SIZE,
+        KAKAO_MAP.USER_MAKER_SIZE,
       );
       const markerImage = new kakao.maps.MarkerImage(dotImgSrc, imageSize);
       const marker = new kakao.maps.Marker({

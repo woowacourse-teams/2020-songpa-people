@@ -4,12 +4,12 @@ export const KAKAO_MAP = {
     latitude: 37.513898,
     longitude: 127.101463,
   },
-  MAKER_SIZE: 15,
-  KAKAO_DEFAULT_MARKER: {
-    default_image_url:
+  USER_MAKER_SIZE: 17,
+  PLACE_MARKER: {
+    image_url:
       "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
-    default_marker_width: 24,
-    default_marker_height: 35,
+    width: 25,
+    height: 36,
   },
 };
 
