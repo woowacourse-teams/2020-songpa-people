@@ -1,6 +1,7 @@
 package com.songpapeople.hashtagmap.crawler;
 
-import com.songpapeople.hashtagmap.exception.NotFoundRegexException;
+import com.songpapeople.hashtagmap.exception.CrawlerException;
+import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,7 @@ class RegexPatternTest {
     @Test
     void extractNotFound() {
         assertThatThrownBy(() -> RegexPattern.HASH_TAG_COUNT.extract("abcdefg"))
-                .isInstanceOf(NotFoundRegexException.class);
+                .isInstanceOf(CrawlerException.class)
+                .hasMessage(CrawlerExceptionStatus.NOT_FOUND_MATCH_REGEX.getMessage());
     }
 }

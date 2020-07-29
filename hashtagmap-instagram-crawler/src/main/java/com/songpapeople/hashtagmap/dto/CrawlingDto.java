@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.List;
+
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class CrawlingDto {
@@ -13,5 +15,9 @@ public class CrawlingDto {
 
     public static CrawlingDto of(String placeName, String hashtagCount, PostDtos postDtos) {
         return new CrawlingDto(placeName, Long.valueOf(hashtagCount), postDtos);
+    }
+
+    public List<PostDto> getPostDtoList() {
+        return postDtos.getPostDtos();
     }
 }

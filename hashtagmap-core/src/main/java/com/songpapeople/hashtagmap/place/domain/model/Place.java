@@ -27,11 +27,13 @@ public class Place extends BaseEntity {
     private String placeUrl;
 
     @Builder
-    public Place(String kakaoId, Category category, Location location, String placeName, String placeUrl) {
+    public Place(Long id, String kakaoId, Category category, Location location, String placeName, String placeUrl) {
+        this.id = id;
         this.kakaoId = kakaoId;
         this.category = category;
         this.location = location;
         this.placeName = placeName;
         this.placeUrl = placeUrl;
+
     }
 }
