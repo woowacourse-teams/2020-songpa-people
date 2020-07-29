@@ -2,16 +2,16 @@
   <v-app>
     <v-main>
       <KakaoMap id="kakao-map" />
-      <CurrentLocationButton />
+      <CurrentLocationButton id="current-location-button" />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import KakaoMap from "@/views/KakaoMap";
-import CurrentLocationButton from "./components/CurrentLocationButton";
+  import KakaoMap from "@/views/KakaoMap";
+  import CurrentLocationButton from "./components/CurrentLocationButton";
 
-export default {
+  export default {
   name: "App",
 
   components: {
@@ -27,17 +27,17 @@ export default {
 
 <style lang="stylus">
 #app {
-  font-family Avenir, Helvetica, Arial, sans-serif
+  font-family: 'Jua', sans-serif;
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   text-align center
   color #2c3e50
 }
 
-#kakao-map {
-  margin 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+#current-location-button {
+  z-index: 10;
+  position: fixed;
+  bottom: 5%;
+  left: 5%;
 }
 </style>
