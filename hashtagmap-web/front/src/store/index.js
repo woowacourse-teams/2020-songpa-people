@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     kakaoMap: "",
     kakaoMapApi: "",
+    //mock데이터
     places: [
       {
         id: 1028853888,
