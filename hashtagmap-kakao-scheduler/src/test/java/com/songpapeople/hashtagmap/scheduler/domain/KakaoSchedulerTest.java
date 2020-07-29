@@ -41,17 +41,13 @@ public class KakaoSchedulerTest {
                         e.printStackTrace();
                     }
                 },
-                new PeriodicTrigger(3, TimeUnit.SECONDS));
+                new PeriodicTrigger(30, TimeUnit.SECONDS));
 
         return Stream.of(
                 dynamicTest("스케쥴러 실행", () -> {
                     kakaoScheduler.start();
                     verify(kakaoSchedulerTask).collectData();
                 }),
-                /**
-                 * 스케쥴러를 실행할 때 task가 1회 호출되기 때문에 총 3회 실행된다.
-                 *
-                 */
                 dynamicTest("스케쥴러가 데이터 수집", () -> {
                     runnableLatch.await();
                     verify(kakaoSchedulerTask, times(1)).collectData();

@@ -49,4 +49,4 @@ chmod +x $JAR_NAME
 
 echo "> $JAR_NAME 실행"
 
-nohup java -jar $JAR_NAME &
+nohup java -jar -DSpring.profiles.active=prod $JAR_NAME &
