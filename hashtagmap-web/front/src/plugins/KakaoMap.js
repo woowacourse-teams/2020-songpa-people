@@ -1,10 +1,7 @@
 import { KAKAO_WEB_KEY } from "@/secret";
 import navigatorUtils from "@/libs/navigator/navigator.js";
 import dotImgSrc from "@/assets/dot.png";
-import { KAKAO_MAP, MOCK_DATA } from "@/utils/constants.js";
-import { markerInfoTemplate } from "../utils/templates";
-import { EVENT_TYPE } from "../utils/constants";
-
+import { KAKAO_MAP } from "@/utils/constants.js";
 /**
  * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
  * 사용할 컴포넌트에서 <div id="kakao-map"></div> 작성후
@@ -19,7 +16,7 @@ export default {
   install(Vue) {
     const script = document.createElement("script");
     script.src =
-      "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=" + KAKAO_WEB_KEY;
+      KAKAO_MAP.API_SRC_ADDRESS + KAKAO_WEB_KEY;
     document.head.appendChild(script);
 
     /* global kakao */
@@ -27,9 +24,12 @@ export default {
       script.onload = () => kakao.maps.load(resolve);
     });
 
-    Vue.prototype.$loadMap = async nowPosition => {
+    Vue.prototype.$loadMapApi = async () => {
       await loadApi;
+      return kakao.maps;
+    };
 
+    Vue.prototype.$loadMap = (nowPosition) => {
       const options = createOptions(nowPosition);
       const container = document.getElementById("kakao-map");
 
@@ -37,6 +37,13 @@ export default {
       this.map.setMapTypeId(kakao.maps.MapTypeId.NORMAL);
 
       return this.map;
+    };
+
+    const createOptions = nowPosition => {
+      return {
+        center: createKakaoMapsLatLng(nowPosition),
+        level: 5,
+      };
     };
 
     Vue.prototype.$loadCurrentPosition = () => {
@@ -48,7 +55,7 @@ export default {
             position,
           );
           setPositionCenter.call(this, currentPosition);
-          displayMarker.call(this, currentPosition);
+          displayUserMarker.call(this, currentPosition);
         })
         .catch(() => {
           //TODO snackbar 로 교체 필요
@@ -56,15 +63,16 @@ export default {
         });
     };
 
-    Vue.prototype.$loadPlaces = () => {
-      displayPlaceMarker.call(this);
-    };
-
     const setPositionCenter = position => {
       this.map.setCenter(createKakaoMapsLatLng(position));
     };
 
-    const displayMarker = position => {
+    const createKakaoMapsLatLng = nowPosition => {
+      const position = nowPosition || KAKAO_MAP.JAMSIL_STATION_8_EXIT;
+      return new kakao.maps.LatLng(position.latitude, position.longitude);
+    };
+
+    const displayUserMarker = position => {
       setPositionCenter.call(this, position);
 
       const imageSize = new kakao.maps.Size(
@@ -78,70 +86,6 @@ export default {
       });
 
       marker.setMap(this.map);
-    };
-
-    const createOptions = nowPosition => {
-      return {
-        center: createKakaoMapsLatLng(nowPosition),
-        level: 5,
-      };
-    };
-
-    const createKakaoMapsLatLng = nowPosition => {
-      const position = nowPosition || KAKAO_MAP.JAMSIL_STATION_8_EXIT;
-      return new kakao.maps.LatLng(position.latitude, position.longitude);
-    };
-    const displayPlaceMarker = () => {
-      const map = this.map;
-      const places = MOCK_DATA.KAKAO_PLACES.map(function(place) {
-        let kakaoPlace = {};
-        kakaoPlace["title"] = place.title;
-        kakaoPlace["latlng"] = new kakao.maps.LatLng(
-          place.latitude,
-          place.longitude,
-        );
-        kakaoPlace["hashtag_count"] = place.hashtag_count;
-        return kakaoPlace;
-      });
-
-      places.forEach(place => {
-        const imageSize = new kakao.maps.Size(
-          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_marker_width,
-          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_marker_height,
-        );
-        const markerImage = new kakao.maps.MarkerImage(
-          KAKAO_MAP.KAKAO_DEFAULT_MARKER.default_image_url,
-          imageSize,
-        );
-        const marker = new kakao.maps.Marker({
-          position: place.latlng,
-          title: place.title,
-          image: markerImage,
-        });
-
-        marker.setMap(map);
-
-        let customOverlay = new kakao.maps.CustomOverlay({
-          content: markerInfoTemplate(place),
-          position: marker.getPosition(),
-        });
-
-        const clickOverlay = event => {
-          event.preventDefault();
-          console.log("오버레이클릭");
-          customOverlay.setMap(null);
-        };
-
-        kakao.maps.event.addListener(marker, EVENT_TYPE.CLICK, function() {
-          customOverlay.setMap(map);
-          const $infoBoxCloseBtn = document.querySelector(".info-box");
-          $infoBoxCloseBtn.addEventListener(EVENT_TYPE.CLICK, clickOverlay);
-        });
-        kakao.maps.event.addListener(map, EVENT_TYPE.CLICK, function(event) {
-          event.preventDefault();
-          console.log("지도클릭");
-        });
-      });
     };
   },
 };
