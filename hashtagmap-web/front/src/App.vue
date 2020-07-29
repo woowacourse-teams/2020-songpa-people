@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <KakaoMap id="kakao-map" />
-      <CurrentLocationButton id="current-location-button" />
+      <CurrentLocationButton />
     </v-main>
   </v-app>
 </template>
@@ -32,13 +32,6 @@ export default {
   -moz-osx-font-smoothing grayscale
   text-align center
   color #2c3e50
-}
-
-#current-location-button {
-  z-index: 10;
-  position: fixed;
-  bottom: 5%;
-  left: 5%;
 }
 
 #kakao-map {
