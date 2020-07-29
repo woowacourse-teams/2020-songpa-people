@@ -6,7 +6,7 @@ import com.songpapeople.hashtagmap.dto.PostDtos;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.repository.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
-import com.songpapeople.hashtagmap.place.repository.PlaceRepository;
+import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -3,7 +3,7 @@ package com.songpapeople.hashtagmap.scheduler;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.repository.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
-import com.songpapeople.hashtagmap.place.repository.PlaceRepository;
+import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

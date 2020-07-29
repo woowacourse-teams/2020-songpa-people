@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 // TODO: 2020/07/24 @DataJpaTest를 활용해서 테스트 코드 변경해보기
 @SpringBootTest
