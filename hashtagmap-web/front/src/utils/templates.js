@@ -1,5 +1,5 @@
 export const markerInfoTemplate = place =>
-  `<div class="btn btn-default info-box" 
+  `<div class="btn btn-default text-balloon" 
     style="position: relative;
            bottom: 77px;
            border-radius: 30px / 30px;

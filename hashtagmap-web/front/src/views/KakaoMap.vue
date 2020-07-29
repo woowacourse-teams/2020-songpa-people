@@ -27,19 +27,16 @@ export default {
       const mapApi = this.$store.state.mapApi;
       const map = this.$store.state.kakaoMap;
       places.forEach(place => {
-        //마커 셋팅
         const marker = this.createMaker(place, mapApi);
         marker.setMap(this.$store.state.kakaoMap);
 
-        //마커에 말풍선(overlay)달기
-        let customOverlay = this.createOverlay(place, marker, mapApi);
+        let textBalloon = this.createTextBalloon(place, marker, mapApi);
 
-        //오버레이에 말풍선 제거 이벤트 등록
         mapApi.event.addListener(marker, EVENT_TYPE.CLICK, function() {
-          customOverlay.setMap(map);
-          const $infoBoxCloseBtn = document.querySelector(".info-box");
-          $infoBoxCloseBtn.addEventListener(EVENT_TYPE.CLICK, function() {
-            customOverlay.setMap(null);
+          textBalloon.setMap(map);
+          const $textBalloon = document.querySelector(".text-balloon");
+          $textBalloon.addEventListener(EVENT_TYPE.CLICK, function() {
+            textBalloon.setMap(null);
           });
         });
       });
@@ -59,7 +56,7 @@ export default {
         image: markerImage,
       });
     },
-    createOverlay(place, marker, mapApi) {
+    createTextBalloon(place, marker, mapApi) {
       return new mapApi.CustomOverlay({
         content: markerInfoTemplate(place),
         position: marker.getPosition(),
