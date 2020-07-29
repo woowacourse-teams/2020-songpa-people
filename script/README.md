@@ -1,0 +1,3 @@
+- 모든 스크립트는 root 프로젝트 기반으로 작성되어 있음
+- `*-bind.sh` 는 `./gradlew clean :module-name:build` 이후 실행되는 쉘 스크립트
+- `publish-over-ssh.sh` 는 build 이후 단계 publish over ssh 플러그인에서 사용할 쉘 스크립트 
