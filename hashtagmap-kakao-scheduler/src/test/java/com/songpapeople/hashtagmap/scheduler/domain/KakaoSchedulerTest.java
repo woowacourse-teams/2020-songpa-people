@@ -13,7 +13,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class KakaoSchedulerTest {
@@ -39,7 +41,7 @@ public class KakaoSchedulerTest {
                         e.printStackTrace();
                     }
                 },
-                new PeriodicTrigger(1, TimeUnit.SECONDS));
+                new PeriodicTrigger(3, TimeUnit.SECONDS));
 
         return Stream.of(
                 dynamicTest("스케쥴러 실행", () -> {
