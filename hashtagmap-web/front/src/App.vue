@@ -8,10 +8,10 @@
 </template>
 
 <script>
-  import KakaoMap from "@/views/KakaoMap";
-  import CurrentLocationButton from "./components/CurrentLocationButton";
+    import KakaoMap from "@/views/KakaoMap";
+    import CurrentLocationButton from "./components/CurrentLocationButton";
 
-  export default {
+    export default {
   name: "App",
 
   components: {
