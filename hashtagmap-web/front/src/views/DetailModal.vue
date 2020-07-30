@@ -1,10 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-btn color="primary" dark @click.stop="dialog = true">
-      Open Dialog
-    </v-btn>
-
-    <v-dialog v-model="dialog" max-width="800">
+    <v-dialog v-model="isShowDetailModal" max-width="800">
       <v-card>
         <v-card-title class="headline"
           >Use Google's location service?</v-card-title
@@ -17,14 +13,6 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-
-          <v-btn color="green darken-1" text @click="dialog = false">
-            Disagree
-          </v-btn>
-
-          <v-btn color="green darken-1" text @click="dialog = false">
-            Agree
-          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -32,11 +20,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
-    return {
-      dialog: false,
-    };
+    return {};
+  },
+  computed: {
+    ...mapState(["isShowDetailModal"]),
   },
 };
 </script>

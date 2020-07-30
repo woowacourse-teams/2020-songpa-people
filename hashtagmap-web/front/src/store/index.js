@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     kakaoMap: "",
     kakaoMapApi: "",
+    isShowDetailModal: false,
     //mock데이터
     places: [
       {
@@ -376,15 +377,26 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
-    initKakaoMap(state, map) {
-      state.kakaoMap = map;
+    initKakaoMapApi(state, kakaoMapApi) {
+      state.kakaoMapApi = kakaoMapApi;
     },
-    initKakaoMapApi(state, api) {
-      state.kakaoMapApi = api;
+    initKakaoMap(state, kakaoMap) {
+      state.kakaoMap = kakaoMap;
+    },
+    showDetailModal(state) {
+      state.isShowDetailModal = true;
+    },
+    closeDetailModal(state) {
+      state.isShowDetailModal = false;
     },
   },
-  actions: {},
+  actions: {
+    modal({ commit }) {
+      commit("showDetailModal");
+    },
+  },
   getters: {
+
     getPlaces: state => {
       return state.places.map(function(place) {
         let kakaoPlace = {};
