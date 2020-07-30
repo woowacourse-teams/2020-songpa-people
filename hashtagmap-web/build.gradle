@@ -37,8 +37,6 @@ node {
 task setUp(type: NpmTask) {
     description = "Install Node.js Package"
     args = ['install']
-    inputs.files file('package.json')
-    outputs.files file('node_modules')
 }
 
 task buildFrontEnd(type: NpmTask, dependsOn: setUp) {

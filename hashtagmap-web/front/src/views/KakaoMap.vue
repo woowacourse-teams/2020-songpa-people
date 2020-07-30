@@ -5,12 +5,63 @@
 </template>
 
 <script>
+import { EVENT_TYPE, KAKAO_MAP } from "../utils/constants";
+import { textBallonTemplate } from "../utils/templates";
+
 export default {
   name: "KakaoMap",
   async mounted() {
-    await this.$loadMap();
+    this.$store.commit("initKakaoMapApi", await this.$initKakaoMapApi());
+    this.$store.commit("initKakaoMap", this.$loadMap());
+
+    this.loadMarker(this.$store.getters.getPlaces);
+
     this.$loadCurrentPosition();
-    this.$loadPlaces();
+  },
+  methods: {
+    loadMarker(places) {
+      places.forEach(place => {
+        const map = this.$store.state.kakaoMap;
+        const marker = this.createMaker(place);
+        marker.setMap(map);
+
+        let textBalloon = this.createTextBalloon(place, marker);
+
+        this.$store.state.kakaoMapApi.event.addListener(
+          marker,
+          EVENT_TYPE.CLICK,
+          function() {
+            textBalloon.setMap(map);
+            const $textBalloon = document.querySelector(".text-balloon");
+            $textBalloon.addEventListener(EVENT_TYPE.CLICK, function() {
+              textBalloon.setMap(null);
+            });
+          },
+        );
+      });
+    },
+    createMaker(place) {
+      const mapApi = this.$store.state.kakaoMapApi;
+      const imageSize = new mapApi.Size(
+        KAKAO_MAP.PLACE_MARKER.width,
+        KAKAO_MAP.PLACE_MARKER.height,
+      );
+      const markerImage = new mapApi.MarkerImage(
+        KAKAO_MAP.PLACE_MARKER.image_url,
+        imageSize,
+      );
+      return new mapApi.Marker({
+        position: place.latlng,
+        title: place.title,
+        image: markerImage,
+      });
+    },
+    createTextBalloon(place, marker) {
+      return new this.$store.state.kakaoMapApi.CustomOverlay({
+        content: textBallonTemplate(place),
+        position: marker.getPosition(),
+      });
+    },
   },
 };
 </script>

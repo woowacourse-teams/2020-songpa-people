@@ -25,10 +25,6 @@ export default {
 
 <style scoped>
 #current-location-button {
-  z-index: 10;
-  position: fixed;
-  bottom: 5%;
-  left: 1%;
   height: 55px;
   width: 55px;
 }

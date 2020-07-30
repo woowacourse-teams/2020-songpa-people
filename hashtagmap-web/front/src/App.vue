@@ -37,7 +37,7 @@ export default {
 #current-location-button {
   z-index: 10;
   position: fixed;
-  bottom: 5%;
-  left: 5%;
+  bottom: 35px;
+  left: 35px;
 }
 </style>
