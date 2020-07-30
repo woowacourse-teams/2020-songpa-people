@@ -1,6 +1,6 @@
 <template>
   <v-container>
-      <v-img id="image" :src="faviconPath" contain width="400px" />
+    <v-img id="image" :src="faviconPath" contain width="400px" />
   </v-container>
 </template>
 

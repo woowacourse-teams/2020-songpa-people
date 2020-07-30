@@ -24,11 +24,7 @@ export default {
     instagramScheduling() {
       this.loading = true;
 
-      //작업
-      setTimeout(console.log("카카오 스케줄링 시작"), 4000);
-      console.log("끝!");
-
-      this.loading = false;
+      //작업이 끝나면 this.loading = false;
     }
   }
 };
