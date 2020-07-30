@@ -31,11 +31,10 @@ export default {
         const map = this.kakaoMap;
         const marker = this.createMaker(place);
         marker.setMap(map);
-
         const textBalloon = this.createTextBalloon(place, marker);
         this.kakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
           textBalloon.setMap(map);
-          const $textBalloon = document.querySelector(".text-balloon");
+          const $textBalloon = document.getElementById(`${place.id}`);
           $textBalloon.addEventListener(EVENT_TYPE.CLICK, this.showDetailModal);
         });
       });

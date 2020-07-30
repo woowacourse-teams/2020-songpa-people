@@ -399,6 +399,7 @@ export default new Vuex.Store({
     getPlaces: state => {
       return state.places.map(function(place) {
         let kakaoPlace = {};
+        kakaoPlace["id"] = place.id;
         kakaoPlace["title"] = place.title;
         kakaoPlace["latlng"] = new state.kakaoMapApi.LatLng(
           place.latitude,
