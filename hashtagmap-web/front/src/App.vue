@@ -26,18 +26,6 @@ export default {
 </script>
 
 <style lang="stylus">
-#app {
-  font-family: 'Jua', sans-serif;
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-}
-
-#current-location-button {
-  z-index: 10;
-  position: fixed;
-  bottom: 35px;
-  left: 35px;
-}
+@import "assets/css/textBalloon.css"
+@import "assets/css/app.css"
 </style>

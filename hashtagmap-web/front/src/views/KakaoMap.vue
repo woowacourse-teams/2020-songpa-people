@@ -6,7 +6,7 @@
 
 <script>
 import { EVENT_TYPE, KAKAO_MAP } from "../utils/constants";
-import { textBallonTemplate } from "../utils/templates";
+import { textBalloonTemplate } from "../utils/templates";
 
 export default {
   name: "KakaoMap",
@@ -58,7 +58,7 @@ export default {
     },
     createTextBalloon(place, marker) {
       return new this.$store.state.kakaoMapApi.CustomOverlay({
-        content: textBallonTemplate(place),
+        content: textBalloonTemplate(place),
         position: marker.getPosition(),
       });
     },
