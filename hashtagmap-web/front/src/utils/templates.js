@@ -1,5 +1,5 @@
 export const textBallonTemplate = place =>
-  `<div class="btn btn-default text-balloon" 
+`<div class="btn btn-default text-balloon" 
     style="position: relative;
            bottom: 77px;
            border-radius: 30px / 30px;
@@ -10,3 +10,14 @@ export const textBallonTemplate = place =>
   `    <div>#${place.hashtag_count}</div>` +
   `  </div>` +
   `</div>`;
+
+// style="position: relative;
+// bottom: 77px;
+// border-radius: 30px / 30px;
+// box-shadow: 1px 1px 1px 1px darkgrey"
+
+// style="font-weight: bold"
+
+// style="width: auto;right: 90%"
+
+//btn btn-default
