@@ -4,7 +4,7 @@
       Open Dialog
     </v-btn>
 
-    <v-dialog v-model="dialog" max-width="290">
+    <v-dialog v-model="dialog" max-width="800">
       <v-card>
         <v-card-title class="headline"
           >Use Google's location service?</v-card-title
