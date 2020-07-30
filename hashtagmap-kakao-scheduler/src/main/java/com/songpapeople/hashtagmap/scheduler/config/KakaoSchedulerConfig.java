@@ -1,18 +1,16 @@
 package com.songpapeople.hashtagmap.scheduler.config;
 
+import com.songpapeople.hashtagmap.scheduler.domain.CronPeriod;
 import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
 import com.songpapeople.hashtagmap.scheduler.domain.KakaoSchedulerTask;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.support.PeriodicTrigger;
-
-import java.util.concurrent.TimeUnit;
 
 @EnableScheduling
 @Configuration
 public class KakaoSchedulerConfig {
-    private static final int PERIOD = 30;
+    private static final String EXPRESSION = "0 0 2 1 * ?";
 
     private final KakaoSchedulerTask kakaoSchedulerTask;
 
@@ -22,7 +20,6 @@ public class KakaoSchedulerConfig {
 
     @Bean
     public KakaoScheduler kakaoPlaceScheduler() {
-        PeriodicTrigger trigger = new PeriodicTrigger(PERIOD, TimeUnit.DAYS);
-        return new KakaoScheduler(kakaoSchedulerTask::collectData, trigger);
+        return new KakaoScheduler(kakaoSchedulerTask::collectData, new CronPeriod(EXPRESSION));
     }
 }

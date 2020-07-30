@@ -1,59 +1,64 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.TestFactory;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.scheduling.support.PeriodicTrigger;
+import org.junit.jupiter.api.Test;
+import org.springframework.scheduling.support.CronTrigger;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.DynamicTest.dynamicTest;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
 public class KakaoSchedulerTest {
-    private KakaoScheduler kakaoScheduler;
 
-    @Mock
-    private KakaoSchedulerTask kakaoSchedulerTask;
+    @DisplayName("Kakao schedule cron 주기 변경하기")
+    @Test
+    void name() throws InterruptedException {
+        //given
+        String preExpression = "* * * * * ?";
+        String postExpression = "0/1 * * * * ?";
 
-    @DisplayName("스케쥴러 비동기 동작 확인")
-    @TestFactory
-    public Stream<DynamicTest> schedulingTest() {
-        doNothing().when(kakaoSchedulerTask).collectData();
+        Map<String, Integer> hitMap = new HashMap<>();
+        hitMap.put(preExpression, 0);
+        hitMap.put(postExpression, 0);
 
-        CountDownLatch runnableLatch = new CountDownLatch(1);
-        CountDownLatch waitLatch = new CountDownLatch(1);
-        kakaoScheduler = new KakaoScheduler(
+        CronPeriod cronPeriod = new CronPeriod(preExpression);
+
+        CountDownLatch preCountDownLatch = new CountDownLatch(1);
+        CountDownLatch postCountDownLatch = new CountDownLatch(1);
+
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(
                 () -> {
-                    kakaoSchedulerTask.collectData();
-                    runnableLatch.countDown();
-                    try {
-                        waitLatch.await();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                },
-                new PeriodicTrigger(30, TimeUnit.DAYS));
+                    CronTrigger nowTrigger = (CronTrigger) cronPeriod.getTrigger();
+                    String nowTriggerExpression = nowTrigger.getExpression();
 
-        return Stream.of(
-                dynamicTest("스케쥴러 실행", () -> {
-                    kakaoScheduler.start();
-                    verify(kakaoSchedulerTask).collectData();
-                }),
-                dynamicTest("스케쥴러가 데이터 수집", () -> {
-                    runnableLatch.await();
-                    verify(kakaoSchedulerTask, times(1)).collectData();
-                    waitLatch.countDown();
-                    kakaoScheduler.end();
-                })
+                    hitMap.put(nowTriggerExpression, hitMap.get(nowTriggerExpression) + 1);
+
+                    //cron 값을 바꾸고 난 후 postCountDownLatch 카운트
+                    if (preCountDownLatch.getCount() == 0) {
+                        postCountDownLatch.countDown();
+                    }
+                    preCountDownLatch.countDown();
+
+                },
+                cronPeriod
         );
+        kakaoScheduler.start();
+
+        //when
+        preCountDownLatch.await();
+        kakaoScheduler.changePeriod(postExpression);
+
+        postCountDownLatch.await();
+        kakaoScheduler.end();
+
+        //then
+        CronTrigger cronTrigger = (CronTrigger) cronPeriod.getTrigger();
+
+        assertThat(cronTrigger.getExpression()).isEqualTo(postExpression);
+        assertThat(hitMap.get(preExpression)).isEqualTo(1);
+        assertThat(hitMap.get(postExpression)).isEqualTo(1);
     }
+
 }
