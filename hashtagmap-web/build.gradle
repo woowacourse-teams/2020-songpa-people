@@ -33,8 +33,13 @@ node {
     nodeModulesDir = file("./front")
 }
 
+task copyApiKey(type: Copy) {
+    description = "Copy kakao map api key from hashtagmap-secret"
+    from '../hashtagmap-secret/kakao/index.js'
+    into 'front/src/secret/'
+}
 
-task setUp(type: NpmTask) {
+task setUp(type: NpmTask, dependsOn: copyApiKey) {
     description = "Install Node.js Package"
     args = ['install']
 }

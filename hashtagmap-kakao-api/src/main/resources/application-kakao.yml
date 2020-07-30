@@ -1,0 +1,6 @@
+kakao:
+  baseUrl: https://dapi.kakao.com
+  categoryUrl: /v2/local/search/category.json
+  categoryGroupCode: category_group_code
+  maxDocumentCount: 15
+  maxPageableCount: 45

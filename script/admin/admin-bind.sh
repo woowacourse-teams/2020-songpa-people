@@ -2,6 +2,7 @@
 
 set -e
 
+BASE=`pwd`
 WEB_JAR=./hashtagmap-admin/build/libs/*.jar
 WEB_DEPLOY_SCRIPT=./script/deploy.sh
 WEB_BASE=./script/hashtagmap-admin
@@ -26,6 +27,6 @@ rm *.jar
 rm deploy.sh
 
 echo "> tar 파일 이동"
-mv hashtagmap-admin.tar $WEB_BASE/
+mv hashtagmap-admin.tar $BASE/$WEB_BASE/
 
 echo "> PROJECT_ROOT/script/hashtagmap-admin/hashtagmap-admin.tar 생성"

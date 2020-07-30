@@ -142,3 +142,4 @@ gradle-app.setting
 
 ### Gradle Patch ###
 **/build/
+/hashtagmap-core/src/main/resources/application-db.yml

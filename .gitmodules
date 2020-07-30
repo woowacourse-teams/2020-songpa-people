@@ -1,0 +1,3 @@
+[submodule "hashtagmap-secret"]
+	path = hashtagmap-secret
+	url = https://github.com/songpa-people/hashtagmap-secret
