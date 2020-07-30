@@ -26,6 +26,6 @@ export default {
 </script>
 
 <style lang="stylus">
-  @import "assets/css/textBalloon.css"
-  @import "assets/css/app.css"
+@import "assets/css/textBalloon.css"
+@import "assets/css/app.css"
 </style>
