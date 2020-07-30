@@ -4,7 +4,7 @@
       <v-list dense>
         <v-list-item to="/">
           <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
+            <v-icon>mdi-account-box</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Home</v-list-item-title>
@@ -12,7 +12,7 @@
         </v-list-item>
         <v-list-item to="/kakao-scheduler">
           <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
+            <v-icon>mdi-chat</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>kakao scheduler</v-list-item-title>
@@ -20,7 +20,7 @@
         </v-list-item>
         <v-list-item to="/instagram-scheduler">
           <v-list-item-action>
-            <v-icon>mdi-cog</v-icon>
+            <v-icon>mdi-air-purifier</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>instagram schduler</v-list-item-title>
