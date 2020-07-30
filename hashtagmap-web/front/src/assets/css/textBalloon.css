@@ -1,0 +1,31 @@
+.marker-box {
+  position: relative;
+  bottom: 77px;
+  border-radius: 30px / 30px;
+  box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.5);
+  background-color: white;
+  min-width: 150px;
+}
+
+.marker-box::after {
+  border-left: 11px solid transparent;
+  border-top: 13px solid white;
+  border-right: 11px solid transparent;
+  content: "";
+  position: absolute;
+  bottom: -13px;
+  right: 63px;
+}
+
+.marker-box:hover {
+  box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
+}
+
+.marker-title {
+  width: auto;
+  right: 90%;
+}
+
+.marker-text {
+  font-weight: bold;
+}
