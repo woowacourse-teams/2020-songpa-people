@@ -1,8 +1,6 @@
 <template>
   <v-container>
-    <v-card>
-      <v-img src="src/assets/bright-cow-image.png"> </v-img>
-    </v-card>
+    인스타그램 스케줄러 관련 기능
   </v-container>
 </template>
 
