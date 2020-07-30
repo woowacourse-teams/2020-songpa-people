@@ -65,6 +65,6 @@ chmod +x $JAR_NAME
 
 echo "> $JAR_NAME 실행"
 
-nohup java -jar -DSpring.profiles.active=prod $JAR_NAME > nohup.txt &
+nohup java -jar -DSpring.profiles.active=prod $JAR_NAME 1 > nohup.txt &
 
 exit 0
