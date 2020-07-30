@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="isShowDetailModal" max-width="800">
+    <v-dialog :value="isShowDetailModal" @input="initCloseDetailModal">
       <v-card>
         <v-card-title class="headline"
           >Use Google's location service?</v-card-title
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {};
@@ -28,5 +28,8 @@ export default {
   computed: {
     ...mapState(["isShowDetailModal"]),
   },
+  methods: {
+    ...mapMutations(["initCloseDetailModal"]),
+  }
 };
 </script>

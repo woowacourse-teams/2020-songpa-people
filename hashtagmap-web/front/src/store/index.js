@@ -383,20 +383,19 @@ export default new Vuex.Store({
     initKakaoMap(state, kakaoMap) {
       state.kakaoMap = kakaoMap;
     },
-    showDetailModal(state) {
+    initShowDetailModal(state) {
       state.isShowDetailModal = true;
     },
-    closeDetailModal(state) {
+    initCloseDetailModal(state) {
       state.isShowDetailModal = false;
     },
   },
   actions: {
-    modal({ commit }) {
-      commit("showDetailModal");
+    showDetailModal({ commit }) {
+      commit("initShowDetailModal");
     },
   },
   getters: {
-
     getPlaces: state => {
       return state.places.map(function(place) {
         let kakaoPlace = {};

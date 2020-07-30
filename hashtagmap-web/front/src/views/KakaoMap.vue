@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="kakao-map"></div>
-    <DetailModal v-show="isShowDetailModal" @close="closeDetailModal" />
+    <DetailModal />
   </div>
 </template>
 
@@ -20,11 +20,11 @@ export default {
     this.$loadCurrentPosition();
   },
   computed: {
-    ...mapState(["isShowDetailModal", "kakaoMap", "kakaoMapApi"]),
+    ...mapState(["kakaoMap", "kakaoMapApi"]),
   },
   methods: {
     ...mapMutations(["initKakaoMapApi", "initKakaoMap"]),
-    ...mapActions(["modal"]),
+    ...mapActions(["showDetailModal"]),
     ...mapGetters(["getPlaces"]),
     loadMarker(places) {
       places.forEach(place => {
@@ -36,7 +36,7 @@ export default {
         this.kakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
           textBalloon.setMap(map);
           const $textBalloon = document.querySelector(".text-balloon");
-          $textBalloon.addEventListener("click", this.modal);
+          $textBalloon.addEventListener(EVENT_TYPE.CLICK, this.showDetailModal);
         });
       });
     },
