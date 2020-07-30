@@ -1,15 +1,20 @@
 <template>
-  <div>
-    <img
-      id="current-location-button-img"
-      src="@/assets/current-location-button.png"
-      @click="moveToCurrentLocation"
-    />
-  </div>
+  <v-avatar
+    class="white"
+    id="current-location-button"
+    @click="moveToCurrentLocation"
+  >
+    <v-icon id="gps" large color="red">{{ gps }}</v-icon>
+  </v-avatar>
 </template>
 
 <script>
+import { mdiCrosshairsGps } from "@mdi/js";
+
 export default {
+  data: () => ({
+    gps: mdiCrosshairsGps,
+  }),
   methods: {
     moveToCurrentLocation() {
       this.$loadCurrentPosition();
@@ -19,7 +24,12 @@ export default {
 </script>
 
 <style scoped>
-#current-location-button-img {
-  width: 60px;
+#current-location-button {
+  z-index: 10;
+  position: fixed;
+  bottom: 5%;
+  left: 1%;
+  height: 55px;
+  width: 55px;
 }
 </style>
