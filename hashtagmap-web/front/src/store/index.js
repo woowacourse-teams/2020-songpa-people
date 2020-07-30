@@ -8,6 +8,7 @@ export default new Vuex.Store({
     kakaoMap: "",
     kakaoMapApi: "",
     isShowDetailModal: false,
+    nowPlaceByDetailModal: "",
     //mock데이터
     places: [
       {
@@ -383,16 +384,17 @@ export default new Vuex.Store({
     initKakaoMap(state, kakaoMap) {
       state.kakaoMap = kakaoMap;
     },
-    initShowDetailModal(state) {
+    initShowDetailModal(state, place) {
       state.isShowDetailModal = true;
+      state.nowPlaceByDetailModal = place;
     },
     initCloseDetailModal(state) {
       state.isShowDetailModal = false;
     },
   },
   actions: {
-    showDetailModal({ commit }) {
-      commit("initShowDetailModal");
+    showDetailModal({ commit }, place) {
+      commit("initShowDetailModal", place);
     },
   },
   getters: {

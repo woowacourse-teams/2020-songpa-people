@@ -35,7 +35,10 @@ export default {
         this.kakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
           textBalloon.setMap(map);
           const $textBalloon = document.getElementById(`${place.id}`);
-          $textBalloon.addEventListener(EVENT_TYPE.CLICK, this.showDetailModal);
+          $textBalloon.addEventListener(EVENT_TYPE.CLICK, (event) => {
+              event.preventDefault()
+              this.showDetailModal(place)
+          });
         });
       });
     },

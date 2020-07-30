@@ -3,7 +3,7 @@
     <v-dialog :value="isShowDetailModal" @input="initCloseDetailModal">
       <v-card>
         <v-card-title class="headline"
-          >Use Google's location service?</v-card-title
+          >{{ nowPlaceByDetailModal.title }}</v-card-title
         >
 
         <v-card-text>
@@ -26,7 +26,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["isShowDetailModal"]),
+    ...mapState(["isShowDetailModal", "nowPlaceByDetailModal"]),
   },
   methods: {
     ...mapMutations(["initCloseDetailModal"]),
