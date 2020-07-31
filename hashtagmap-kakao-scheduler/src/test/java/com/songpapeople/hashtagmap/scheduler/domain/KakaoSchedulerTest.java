@@ -38,15 +38,16 @@ public class KakaoSchedulerTest {
                     //cron 값을 바꾸고 난 후 postCountDownLatch 카운트
                     if (preCountDownLatch.getCount() == 0) {
                         postCountDownLatch.countDown();
+                    } else {
+                        preCountDownLatch.countDown();
                     }
-                    preCountDownLatch.countDown();
-
                 },
                 cronPeriod
         );
-        kakaoScheduler.start();
 
         //when
+        kakaoScheduler.start();
+
         preCountDownLatch.await();
         kakaoScheduler.changePeriod(postExpression);
 
@@ -57,8 +58,8 @@ public class KakaoSchedulerTest {
         CronTrigger cronTrigger = (CronTrigger) cronPeriod.getTrigger();
 
         assertThat(cronTrigger.getExpression()).isEqualTo(postExpression);
-        assertThat(hitMap.get(preExpression)).isEqualTo(1);
-        assertThat(hitMap.get(postExpression)).isEqualTo(1);
+        assertThat(hitMap.get(preExpression)).isGreaterThan(0);
+        assertThat(hitMap.get(postExpression)).isGreaterThan(0);
     }
 
 }

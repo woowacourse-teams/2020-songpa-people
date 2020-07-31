@@ -27,7 +27,7 @@ public class KakaoScheduler {
     @PostConstruct
     public void start() {
         this.scheduledFuture = this.scheduler.schedule(this.runnable, getTrigger());
-        log.debug("KakaoScheduler started at : " + LocalDateTime.now());
+        log.info("KakaoScheduler started at : " + LocalDateTime.now());
     }
 
     private Trigger getTrigger() {
@@ -45,13 +45,13 @@ public class KakaoScheduler {
         this.stop();
         this.cronPeriod.change(expression);
         this.start();
-        log.debug("KakaoScheduler cron period changed at : " + LocalDateTime.now());
+        log.info("KakaoScheduler cron period changed at : " + LocalDateTime.now());
     }
 
     // TODO: 31/07/2020 graceful shutdown 하도록 로직 추가
     public void stop() {
         this.scheduledFuture.cancel(true);
-        log.debug("KakaoScheduler stopped at : " + LocalDateTime.now());
+        log.info("KakaoScheduler stopped at : " + LocalDateTime.now());
     }
 
 }
