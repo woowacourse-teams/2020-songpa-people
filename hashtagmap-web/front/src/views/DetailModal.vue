@@ -1,16 +1,13 @@
 <template>
   <v-row justify="center">
     <v-dialog :value="isShowDetailModal" @input="initCloseDetailModal">
-      <v-card>
-        <v-card-title class="headline"
-          >{{ nowPlaceByDetailModal.title }}</v-card-title
-        >
+      <v-card actions class="justify-center">
+        <div>
+          <p id="place-title">{{ nowPlaceByDetailModal.title }}</p>
+          <p id="hashtag-count">{{ makeHashtagCount }}k</p>
+        </div>
 
-        <v-card-text>
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
-        </v-card-text>
-
+        <v-card-text>가운데 정렬</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
         </v-card-actions>
@@ -27,9 +24,22 @@ export default {
   },
   computed: {
     ...mapState(["isShowDetailModal", "nowPlaceByDetailModal"]),
+    makeHashtagCount() {
+      return this.nowPlaceByDetailModal.hashtag_count / 1000;
+    },
   },
   methods: {
     ...mapMutations(["initCloseDetailModal"]),
-  }
+  },
 };
 </script>
+
+<style scoped>
+#place-title {
+  font-size: 50px;
+}
+  #hashtag-count {
+    margin-top: -25px;
+    font-size: 40px;
+  }
+</style>
