@@ -2,6 +2,9 @@ import { KAKAO_WEB_KEY } from "@/secret";
 import navigatorUtils from "@/libs/navigator/navigator.js";
 import dotImgSrc from "@/assets/dot.png";
 import { KAKAO_MAP } from "@/utils/constants.js";
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+
 /**
  * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
  * 사용할 컴포넌트에서 <div id="kakao-map"></div> 작성후
@@ -17,6 +20,7 @@ export default {
     const script = document.createElement("script");
     script.src = KAKAO_MAP.API_SRC_ADDRESS + KAKAO_WEB_KEY;
     document.head.appendChild(script);
+    const notyf = new Notyf();
 
     /* global kakao */
     const loadApi = new Promise(resolve => {
@@ -55,12 +59,13 @@ export default {
           );
           setPositionCenter.call(this, currentPosition);
           displayUserMarker.call(this, currentPosition);
+          notyf.success("사용자 위치를 불러왔습니다.");
         })
         .catch(() => {
-          //TODO snackbar 로 교체 필요
-          alert("현재 위치를 불러오지 못했습니다.");
+          notyf.error("현재 위치를 불러오지 못했습니다.");
         });
     };
+
 
     const setPositionCenter = position => {
       this.map.setCenter(createKakaoMapsLatLng(position));
