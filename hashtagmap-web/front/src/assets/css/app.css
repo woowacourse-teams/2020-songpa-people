@@ -1,5 +1,10 @@
+@font-face {
+  font-family: Jua;
+  src: url("../Jua.ttf");
+}
+
 #app {
-  font-family: "Jua", sans-serif;
+  font-family: Jua, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
