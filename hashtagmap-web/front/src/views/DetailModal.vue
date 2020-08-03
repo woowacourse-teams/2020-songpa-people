@@ -17,14 +17,14 @@
           </p>
           <div id="image-container">
             <a
-              v-bind:href="image.postUrl"
+              :href="image.postUrl"
               v-for="image in dummyImages"
               :key="image.id"
             >
               <img
                 id="post-image"
                 alt="인스타그램 인기 게시물 이미지"
-                v-bind:src="image.imagePath"
+                :src="image.imagePath"
               />
             </a>
           </div>
