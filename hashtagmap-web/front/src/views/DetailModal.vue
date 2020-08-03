@@ -144,10 +144,6 @@ export default {
   overflow: hidden;
 }
 
-#image-frame {
-  border: solid black;
-}
-
 #post-image {
   margin: 0.3rem;
   max-width: 30%;
