@@ -3,7 +3,7 @@
     <v-dialog
       :value="isShowDetailModal"
       @input="initCloseDetailModal"
-      max-width="80%"
+      max-width="70%"
     >
       <v-card>
         <div>
@@ -17,24 +17,18 @@
           </p>
           <div id="image-container">
             <a
-              id="post-linked"
               v-bind:href="image.postUrl"
               v-for="image in dummyImages"
               :key="image.id"
             >
               <img
                 id="post-image"
-                alt="post-image"
+                alt="인스타그램 인기 게시물 이미지"
                 v-bind:src="image.imagePath"
               />
             </a>
           </div>
         </div>
-
-        <v-card-text></v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-        </v-card-actions>
       </v-card>
     </v-dialog>
   </v-row>
@@ -118,34 +112,33 @@ export default {
 
 <style scoped>
 #place-title {
-  font-size: 2.8rem;
+  font-size: 5vw;
 }
 
 #hashtag-count {
-  margin-top: -1.5rem;
-  font-size: 2.4rem;
+  margin-top: -3vw;
+  font-size: 4vw;
 }
 
 #buttons {
-  margin-top: -1rem;
+  margin-top: -1.5vw;
 }
 
 #instagram-page-button,
 #detail-info {
-  margin-right: 0.7rem;
+  width: 20%;
+  height: 3.5vw;
+  font-size: 1.5vw;
+  margin-right: 0.7vw;
   border: fuchsia 1.5px solid;
 }
 
 #image-container {
-  margin-top: 1.7rem;
-}
-
-#post-linked {
-  overflow: hidden;
+  margin-top: 3vw;
 }
 
 #post-image {
-  margin: 0.3rem;
+  margin: 0.3vw;
   max-width: 30%;
   overflow: hidden;
   height: auto;
