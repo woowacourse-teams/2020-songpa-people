@@ -34,6 +34,5 @@ public class Place extends BaseEntity {
         this.location = location;
         this.placeName = placeName;
         this.placeUrl = placeUrl;
-
     }
 }
