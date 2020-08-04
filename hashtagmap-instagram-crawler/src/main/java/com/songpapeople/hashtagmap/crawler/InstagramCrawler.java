@@ -19,7 +19,7 @@ public class InstagramCrawler {
         return createCrawlingDto(placeName, body);
     }
 
-    public String parsePlaceName(String placeName) {
+    private String parsePlaceName(String placeName) {
         String parsedPlaceName = placeName.replaceAll(" ", "");
         if (parsedPlaceName.endsWith("점")) {
             return parsedPlaceName.substring(FIRST_INDEX, parsedPlaceName.length() - 1);

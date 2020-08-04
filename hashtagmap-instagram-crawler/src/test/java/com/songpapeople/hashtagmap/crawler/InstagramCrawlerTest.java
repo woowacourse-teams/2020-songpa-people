@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class InstagramCrawlerTest {
@@ -32,7 +33,7 @@ class InstagramCrawlerTest {
     @CsvSource({"스타벅스 강남역점,스타벅스강남역", "피자나라 치킨공주,피자나라치킨공주"})
     void parsePlaceName(String placeName, String expected) {
         InstagramCrawler instagramCrawler = new InstagramCrawler();
-        String actual = instagramCrawler.parsePlaceName(placeName);
-        assertThat(actual).isEqualTo(expected);
+        assertThatCode(() -> instagramCrawler.crawler(placeName))
+                .doesNotThrowAnyException();
     }
 }
