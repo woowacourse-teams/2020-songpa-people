@@ -126,11 +126,11 @@ export default {
 
 #instagram-page-button,
 #detail-info {
-  width: 20%;
   height: 3.5vw;
   font-size: 1.5vw;
   margin-right: 0.7vw;
   border: fuchsia 1.5px solid;
+  box-sizing: content-box;
 }
 
 #image-container {
