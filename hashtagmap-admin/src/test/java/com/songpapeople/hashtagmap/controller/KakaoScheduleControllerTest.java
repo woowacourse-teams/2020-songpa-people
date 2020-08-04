@@ -37,5 +37,4 @@ class KakaoScheduleControllerTest {
                 .content(expression))
                 .andExpect(status().isBadRequest());
     }
-
 }
