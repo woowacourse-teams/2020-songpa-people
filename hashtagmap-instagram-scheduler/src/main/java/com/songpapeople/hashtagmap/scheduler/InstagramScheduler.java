@@ -34,7 +34,7 @@ public class InstagramScheduler {
     }
 
     private List<InstagramPost> getInstagramPosts(List<Place> places) {
-        List<CrawlingResult> crawlingResults = instagramScheduleService.createCrawlingResult(places);
+        List<CrawlingResult> crawlingResults = instagramScheduleService.createCrawlingResult(places.subList(0, 10));
         return crawlingResults.stream()
                 .map(CrawlingResult::toInstagramPosts)
                 .flatMap(Collection::stream)

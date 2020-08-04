@@ -38,26 +38,32 @@ export default {
   methods: {
     instagramScheduling() {
       this.popUpSnackBar("update를 실행합니다.");
-      this.changeUpdateLoadingState();
+      this.setUpdateBtnLoading();
 
       this.axios
         .put("/instagram-scheduler")
         .then(() => {
-          this.snackbarText = "성공😊";
-          this.updateBtn.disabled = false;
+          console.log("s");
+          this.popUpSnackBar("성공😊");
+          this.setUpdateBtnInit();
         })
         .catch(() => {
-          this.snackbarText = "실패😨";
-          this.updateBtn.disabled = false;
+          console.log("e");
+          this.popUpSnackBar("실패😨");
+          this.setUpdateBtnInit();
         });
     },
-    changeUpdateLoadingState() {
+    setUpdateBtnLoading() {
       this.updateBtn.text = "인스타그램 post update 실행중";
       this.updateBtn.disabled = true;
     },
     popUpSnackBar(text) {
-      this.snackbar = true;
       this.snackbarText = text;
+      this.snackbar = true;
+    },
+    setUpdateBtnInit() {
+      this.updateBtn.text = "인스타그램 update 실행";
+      this.updateBtn.disabled = false;
     }
   }
 };
