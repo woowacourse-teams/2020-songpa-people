@@ -2,6 +2,6 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-    implementation project(':hashtagmap-core')
-    implementation project(':hashtagmap-kakao-api')
+    compile project(':hashtagmap-core')
+    compile project(':hashtagmap-kakao-api')
 }

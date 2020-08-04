@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    include: >
+      kakao,
+      kakao-security,
+      db

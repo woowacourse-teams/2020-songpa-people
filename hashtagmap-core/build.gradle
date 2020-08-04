@@ -9,7 +9,6 @@ dependencies {
 
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly "org.mariadb.jdbc:mariadb-java-client"
-    runtimeOnly 'com.h2database:h2:1.4.199'
 }
 
 processResources.dependsOn 'copyDataBaseSettings'

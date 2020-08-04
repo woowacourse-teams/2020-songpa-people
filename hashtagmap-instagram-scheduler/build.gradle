@@ -3,9 +3,8 @@ jar { enabled = true }
 
 dependencies {
     implementation project(':hashtagmap-common')
-    implementation project(':hashtagmap-core')
+    compile project(':hashtagmap-core')
     implementation project(':hashtagmap-instagram-crawler')
 
-    runtimeOnly 'com.h2database:h2:1.4.199'
     implementation 'org.springframework.boot:spring-boot-starter'
 }
