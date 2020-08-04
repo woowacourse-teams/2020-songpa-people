@@ -13,14 +13,19 @@
     <v-btn @click="changePeriod" class="ma-2" color="indigo" outlined>
       스케줄 시간 변경
     </v-btn>
+    <CustomSnackBar />
   </v-container>
 </template>
 
 <script>
 import axios from "axios";
+import CustomSnackBar from "../components/CustomSnackBar";
 
 export default {
   name: "KakaoScheduler",
+  components: {
+    CustomSnackBar
+  },
   data: () => ({
     period: ""
   }),
@@ -30,21 +35,26 @@ export default {
     },
     changePeriod() {
       if (this.period == "") {
-        alert("정규식을 입력해주세요");
+        this.$store.commit("SHOW_SNACKBAR", {
+          type: "info",
+          message: "정규식을 입력하세요."
+        });
       }
       axios
         .post("/kakao-scheduler/change-period", this.period)
         .then(res => {
           console.log(res);
           if (res.data.data) {
-            alert("성공했습니다.");
+            this.$store.commit("SHOW_SNACKBAR", {
+              type: "success",
+              message: "주기가 변경되었습니다."
+            });
           } else {
-            alert(
-              "실패했습니다. 에러코드: " +
-                res.data.code +
-                ", " +
-                res.data.message
-            );
+            this.$store.commit("SHOW_SNACKBAR", {
+              type: "error",
+              message: res.data.message,
+              code: res.data.code
+            });
           }
         })
         .catch(err => {
