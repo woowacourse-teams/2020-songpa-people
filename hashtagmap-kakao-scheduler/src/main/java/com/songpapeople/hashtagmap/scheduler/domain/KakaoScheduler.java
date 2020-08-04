@@ -41,11 +41,12 @@ public class KakaoScheduler {
         log.info("KakaoScheduler destroyed at : " + LocalDateTime.now());
     }
 
-    public void changePeriod(String expression) {
+    public String changePeriod(String expression) {
         this.stop();
         this.cronPeriod.change(expression);
         this.start();
         log.info("KakaoScheduler cron period changed at : " + LocalDateTime.now());
+        return expression;
     }
 
     // TODO: 31/07/2020 graceful shutdown 하도록 로직 추가
