@@ -4,4 +4,5 @@ jar { enabled = true }
 dependencies {
     compile project(':hashtagmap-core')
     compile project(':hashtagmap-kakao-api')
+    implementation project(':hashtagmap-common')
 }

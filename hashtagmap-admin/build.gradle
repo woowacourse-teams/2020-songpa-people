@@ -2,10 +2,11 @@ plugins {
     id 'com.moowork.node' version '1.3.1'
 }
 
-version = '0.2.1'
+version = '0.3.0'
 
 dependencies {
     compile project(':hashtagmap-core')
+    implementation project(':hashtagmap-common')
     implementation project(':hashtagmap-kakao-scheduler')
     implementation project(':hashtagmap-instagram-scheduler')
 
