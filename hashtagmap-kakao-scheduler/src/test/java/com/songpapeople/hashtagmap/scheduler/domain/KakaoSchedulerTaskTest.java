@@ -46,7 +46,7 @@ public class KakaoSchedulerTaskTest {
     @Disabled
     @DisplayName("Task Test - 실제 Kakao Api 호출")
     @Test
-    public void collectDataTest() {
+    void collectDataTest() {
         kakaoSchedulerTask.collectData();
 
         List<Place> result = placeRepository.findAll();
