@@ -1,10 +1,11 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoScheduleErrorCode;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoScheduleException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.time.LocalDateTime;
 import java.util.concurrent.ScheduledFuture;
@@ -24,10 +25,21 @@ public class KakaoScheduler {
         this.scheduler.initialize();
     }
 
-    @PostConstruct
     public void start() {
+        if (isActive()) {
+            log.info("KakaoScheduler already running");
+            throw new KakaoScheduleException(KakaoScheduleErrorCode.SCHEDULE_ALREADY_RUNNING);
+        }
         this.scheduledFuture = this.scheduler.schedule(this.runnable, getTrigger());
         log.info("KakaoScheduler started at : " + LocalDateTime.now());
+    }
+
+    private boolean isActive() {
+        return this.scheduledFuture != null && !this.scheduledFuture.isCancelled();
+    }
+
+    private boolean isNotActive() {
+        return !isActive();
     }
 
     private Trigger getTrigger() {
@@ -51,9 +63,14 @@ public class KakaoScheduler {
     }
 
     // TODO: 31/07/2020 graceful shutdown 하도록 로직 추가
-    public void stop() {
+    public boolean stop() {
+        if (isNotActive()) {
+            log.info("KakaoScheduler already stopped");
+            return false;
+        }
         this.scheduledFuture.cancel(true);
         log.info("KakaoScheduler stopped at : " + LocalDateTime.now());
+        return this.scheduledFuture.isCancelled();
     }
 
     private boolean isActive() {

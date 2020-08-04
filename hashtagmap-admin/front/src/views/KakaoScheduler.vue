@@ -24,12 +24,23 @@
       class="elevation-1"
     />
     <CustomSnackbar />
+    <v-btn @click="toggleKakaoScheduling" class="ma-2" color="indigo" outlined
+    >카카오 스케줄러 토글
+    </v-btn
+    >
+    <v-btn
+            :color="kakaoScheduleActiveStatus.color"
+            @click="getKakaoScheduleActiveStatus"
+            class="ma-2"
+            outlined
+    >상태 : {{ kakaoScheduleActiveStatus.message }}
+    </v-btn>
   </v-container>
 </template>
 
 <script>
   import axios from "axios";
-  import {mapMutations} from "vuex";
+  import {mapMutations, mapActions, mapState} from "vuex";
   import CustomSnackbar from "../components/CustomSnackBar";
   import {MESSAGE, SNACK_BAR_TYPE} from "../utils/constants";
 
@@ -54,7 +65,17 @@
       periods: []
     };
   },
+    created() {
+      this.getKakaoScheduleActiveStatus();
+    },
+    computed: {
+      ...mapState("kakao", ["kakaoScheduleActiveStatus"])
+    },
   methods: {
+    toggleKakaoScheduling() {
+      //작업이 끝나면 this.loading = false;
+    },
+    ...mapActions("kakao", ["getKakaoScheduleActiveStatus"])
     ...mapMutations(["showSnackbar"]),
     kakaoScheduling() {
       // do something

@@ -1,5 +1,6 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.scheduling.support.CronTrigger;
@@ -9,12 +10,13 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class KakaoSchedulerTest {
 
     @DisplayName("Kakao schedule cron 주기 변경하기")
     @Test
-    void name() throws InterruptedException {
+    void kakaoScheduleTest() throws InterruptedException {
         //given
         String preExpression = "* * * * * ?";
         String postExpression = "0/1 * * * * ?";
@@ -64,5 +66,20 @@ public class KakaoSchedulerTest {
 
     private boolean isExcute(CountDownLatch countDownLatch) {
         return countDownLatch.getCount() == 0;
+    }
+
+    @DisplayName("스케쥴러가 이미 실행중이면 Exception 발생")
+    @Test
+    void isRunningTest() {
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
+        }, new CronPeriod("* * * * * ?"));
+
+        kakaoScheduler.start();
+
+        assertThatThrownBy(kakaoScheduler::start)
+                .isInstanceOf(KakaoScheduleException.class)
+                .hasMessage("스케쥴러가 이미 실행중입니다.");
+
+        kakaoScheduler.stop();
     }
 }
