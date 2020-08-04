@@ -36,7 +36,7 @@ public class KakaoSchedulerTaskTest {
 
         Zone zone = Zone.builder()
                 .topLeft(new Point("37.508647", "127.125925"))
-                .bottomRight(new Point("37.515336", "127.102911"))
+                .bottomRight(new Point("37.510647", "127.123925"))
                 .district(district)
                 .isActivated(true)
                 .build();
