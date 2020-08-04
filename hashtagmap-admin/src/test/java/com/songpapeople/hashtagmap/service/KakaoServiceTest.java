@@ -24,7 +24,6 @@ class KakaoServiceTest {
     @BeforeEach
     public void setUp() {
         KakaoScheduler kakaoScheduler = new KakaoScheduler(new Thread(), new CronPeriod("0 0 * * * ?"));
-        kakaoScheduler.start();
         kakaoService = new KakaoService(kakaoScheduler, periodHistoryRepository);
     }
 
