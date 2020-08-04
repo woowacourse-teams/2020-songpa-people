@@ -17,25 +17,30 @@
 </template>
 
 <script>
-import axios from "axios";
+  import axios from "axios";
 
-export default {
-  name: "KakaoScheduler",
-  data: () => ({
-    period: ""
-  }),
-  methods: {
-    kakaoScheduling() {
-      // do something
-    },
-    changePeriod() {
-      if (this.period == "") {
+  export default {
+    name: "KakaoScheduler",
+    data: () => ({
+      period: ""
+    }),
+    methods: {
+      kakaoScheduling() {
+        // do something
+      },
+      changePeriod() {
+        if (this.period == "") {
         alert("정규식을 입력해주세요");
       }
       axios
         .post("/kakao-scheduler/change-period", this.period)
         .then(res => {
           console.log(res);
+          if (res.data.data) {
+            alert("성공했습니다.");
+          } else {
+            alert("실패했습니다. 에러코드: " + res.data.code + ", " + res.data.message);
+          }
         })
         .catch(err => {
           console.dir(err);
