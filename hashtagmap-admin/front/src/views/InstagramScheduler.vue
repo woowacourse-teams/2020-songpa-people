@@ -10,7 +10,7 @@
       >{{ updateBtn.text }}
     </v-btn>
 
-    <v-snackbar v-model="snackbar" right>
+    <v-snackbar v-model="snackbar" timeout="99999999" right>
       {{ snackbarText }}
 
       <template v-slot:action="{ attrs }">
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { MESSAGE, UPDATE_BUTTON_STATE } from "../utils/constants";
+
 export default {
   name: "InstagramScheduler",
   data() {
@@ -37,24 +39,22 @@ export default {
   },
   methods: {
     instagramScheduling() {
-      this.popUpSnackBar("update를 실행합니다.");
-      this.setUpdateBtnLoading();
+      this.popUpSnackBar(MESSAGE.UPDATE_START);
+      this.setUpdateBtnRunning();
 
       this.axios
         .put("/instagram-scheduler")
         .then(() => {
-          console.log("s");
-          this.popUpSnackBar("성공😊");
+          this.popUpSnackBar(MESSAGE.SUCCESS);
           this.setUpdateBtnInit();
         })
-        .catch(() => {
-          console.log("e");
-          this.popUpSnackBar("실패😨");
+        .catch(error => {
+          this.popUpSnackBar(error.message);
           this.setUpdateBtnInit();
         });
     },
-    setUpdateBtnLoading() {
-      this.updateBtn.text = "인스타그램 post update 실행중";
+    setUpdateBtnRunning() {
+      this.updateBtn.text = UPDATE_BUTTON_STATE.RUNNING;
       this.updateBtn.disabled = true;
     },
     popUpSnackBar(text) {
@@ -62,7 +62,7 @@ export default {
       this.snackbar = true;
     },
     setUpdateBtnInit() {
-      this.updateBtn.text = "인스타그램 update 실행";
+      this.updateBtn.text = UPDATE_BUTTON_STATE.STAND_BY;
       this.updateBtn.disabled = false;
     }
   }
