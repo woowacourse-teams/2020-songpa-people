@@ -22,10 +22,8 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.20
             }
-
             excludes = []
         }
-
     }
 }
 
