@@ -1,6 +1,10 @@
 spring:
+  resources:
+    static-locations:
+      - file:hashtagmap-admin/src/main/resources/static
   profiles:
     include: >
       kakao,
       kakao-security,
       db
+    active: local
