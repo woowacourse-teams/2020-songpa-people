@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    view:
+      suffix: .html
   profiles:
     include: >
       db
