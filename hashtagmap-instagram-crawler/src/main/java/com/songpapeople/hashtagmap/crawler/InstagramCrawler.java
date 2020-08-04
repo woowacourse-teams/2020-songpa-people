@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.crawler;
 
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
+import com.songpapeople.hashtagmap.util.PlaceNameParser;
 
 public class InstagramCrawler {
     private static final String INSTAGRAM_URL_FORMAT = "https://www.instagram.com/explore/tags/%s/?hl=ko";
@@ -14,7 +15,8 @@ public class InstagramCrawler {
     }
 
     public CrawlingDto crawler(String placeName) {
-        String body = Crawler.crawl(String.format(INSTAGRAM_URL_FORMAT, placeName));
+        String parsedPlaceName = PlaceNameParser.parsePlaceName(placeName);
+        String body = Crawler.crawl(String.format(INSTAGRAM_URL_FORMAT, parsedPlaceName));
         return createCrawlingDto(placeName, body);
     }
 }
