@@ -31,7 +31,7 @@ export default {
     return {
       updateBtn: {
         disabled: false,
-        text: "인스타그램 update 실행"
+        text: UPDATE_BUTTON_STATE.STAND_BY
       },
       snackbar: false,
       snackbarText: ""
