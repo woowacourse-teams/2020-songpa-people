@@ -65,5 +65,4 @@ public class KakaoSchedulerTest {
     private boolean isExcute(CountDownLatch countDownLatch) {
         return countDownLatch.getCount() == 0;
     }
-
 }

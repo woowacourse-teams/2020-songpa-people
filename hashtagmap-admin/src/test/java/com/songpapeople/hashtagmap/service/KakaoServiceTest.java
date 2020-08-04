@@ -10,7 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -32,8 +32,8 @@ class KakaoServiceTest {
     public void changeSchedulePeriod() throws Exception {
         when(periodHistoryRepository.save(any())).thenReturn(null);
 
-        String expected = "0 0/5 * * * ?";
-        String actual = kakaoService.changeSchedulePeriod(expected);
-        assertThat(actual).isEqualTo(expected);
+        String expression = "0 0/5 * * * ?";
+        assertThatCode(() -> kakaoService.changeSchedulePeriod(expression))
+                .doesNotThrowAnyException();
     }
 }
