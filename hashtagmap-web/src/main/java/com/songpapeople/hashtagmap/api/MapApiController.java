@@ -11,14 +11,14 @@ import java.util.List;
 
 @RequestMapping("/maps")
 @RestController
-public class MapController {
+public class MapApiController {
     private final InstagramQueryService instagramQueryService;
 
-    public MapController(InstagramQueryService instagramQueryService) {
+    public MapApiController(InstagramQueryService instagramQueryService) {
         this.instagramQueryService = instagramQueryService;
     }
 
-    @GetMapping
+    @GetMapping("/markers")
     public CustomResponse<List<MarkerResponse>> findAllMarkers() {
         return CustomResponse.of(instagramQueryService.findAll());
     }
