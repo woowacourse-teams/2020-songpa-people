@@ -16,7 +16,7 @@ buildscript {
 subprojects {
 
     group = 'com.songpapeople'
-    version = '0.2.1'
+    version = '0.3.0'
 
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
@@ -68,6 +68,7 @@ configure(asciidoctorConfigure) {
     apply plugin: "org.asciidoctor.convert"
 
     dependencies {
+        asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.4.RELEASE'
         testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc:2.0.4.RELEASE'
     }
 
@@ -91,4 +92,5 @@ configure(asciidoctorConfigure) {
             into 'static/docs'
         }
     }
+
 }
