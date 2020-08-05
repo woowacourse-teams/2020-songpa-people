@@ -6,12 +6,12 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
-    import {EVENT_TYPE, KAKAO_MAP} from "../utils/constants";
-    import {textBalloonTemplate} from "../utils/templates";
-    import DetailModal from "../components/DetailModal";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
+import { EVENT_TYPE, KAKAO_MAP } from "../utils/constants";
+import { textBalloonTemplate } from "../utils/templates";
+import DetailModal from "../components/DetailModal";
 
-    export default {
+export default {
   name: "KakaoMap",
   async mounted() {
     this.initKakaoMapApi(await this.$initKakaoMapApi());
@@ -32,25 +32,21 @@
         const marker = this.createMaker(place);
         marker.setMap(map);
         const textBalloon = this.createTextBalloon(place, marker);
-        this.kakaoMapApi.event.addListener(
-          marker,
-          EVENT_TYPE.CLICK,
-          this.onAddTextBalloonToMarker(map, place, textBalloon),
-        );
+        this.kakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
+          this.onAddTextBalloonToMarker(map, place, textBalloon);
+        });
       });
     },
     onAddTextBalloonToMarker(map, place, textBalloon) {
-      return () => {
-        textBalloon.setMap(map);
-        const $textBalloon = document.getElementById(`${place.id}`);
-          $textBalloon.addEventListener(EVENT_TYPE.CLICK, (event, place) => {
-              this.onAddModalToTextBalloon(event, place);
-          });
-      };
+      textBalloon.setMap(map);
+      const $textBalloon = document.getElementById(`${place.id}`);
+      $textBalloon.addEventListener(EVENT_TYPE.CLICK, () => {
+        this.onAddModalToTextBalloon(event, place);
+      });
     },
-      onAddModalToTextBalloon(event, place) {
-          event.preventDefault();
-          this.showDetailModal(place);
+    onAddModalToTextBalloon(event, place) {
+      event.preventDefault();
+      this.showDetailModal(place);
     },
     createMaker(place) {
       const mapApi = this.kakaoMapApi;
