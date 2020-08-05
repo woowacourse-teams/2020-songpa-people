@@ -3,6 +3,6 @@ export const textBalloonTemplate = place =>
   `  <div>` +
   `    <div class="marker-title" >${place.title}` +
   `    </div>` +
-  `    <div class="marker-text">#${place.hashtag_count}</div>` +
+  `    <div class="marker-text">#${place.hashtagCount}</div>` +
   `  </div>` +
   `</div>`;

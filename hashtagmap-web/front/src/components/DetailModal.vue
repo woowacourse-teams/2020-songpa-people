@@ -7,22 +7,22 @@
     >
       <v-card>
         <div>
-          <p id="place-title">{{ nowPlaceByDetailModal.title }}</p>
-          <p id="hashtag-count">{{ makeHashtagCount }}k</p>
-          <p id="buttons">
-            <v-btn id="instagram-page-button">
+          <p class="place-title">{{ nowPlaceByDetailModal.title }}</p>
+          <p class="hashtag-count">{{ makeHashtagCount }}k</p>
+          <p class="buttons">
+            <v-btn class="instagram-page-button">
               {{ nowPlaceByDetailModal.title }}
             </v-btn>
-            <v-btn id="detail-info">상세 정보</v-btn>
+            <v-btn class="detail-info">상세 정보</v-btn>
           </p>
-          <div id="image-container">
+          <div class="image-container">
             <a
               :href="image.postUrl"
               v-for="image in dummyImages"
               :key="image.id"
             >
               <img
-                id="post-image"
+                class="post-image"
                 alt="인스타그램 인기 게시물 이미지"
                 :src="image.imagePath"
               />
@@ -101,7 +101,7 @@ export default {
   computed: {
     ...mapState(["isShowDetailModal", "nowPlaceByDetailModal"]),
     makeHashtagCount() {
-      return (this.nowPlaceByDetailModal.hashtag_count / 1000).toFixed(0);
+      return (this.nowPlaceByDetailModal.hashtagCount / 1000).toFixed(0);
     },
   },
   methods: {
@@ -111,21 +111,21 @@ export default {
 </script>
 
 <style scoped>
-#place-title {
+.place-title {
   font-size: 5vw;
 }
 
-#hashtag-count {
+.hashtag-count {
   margin-top: -3vw;
   font-size: 4vw;
 }
 
-#buttons {
+.buttons {
   margin-top: -1.5vw;
 }
 
-#instagram-page-button,
-#detail-info {
+.instagram-page-button,
+.detail-info {
   height: 3.5vw;
   font-size: 1.5vw;
   margin-right: 0.7vw;
@@ -133,11 +133,11 @@ export default {
   box-sizing: content-box;
 }
 
-#image-container {
+.image-container {
   margin-top: 3vw;
 }
 
-#post-image {
+.post-image {
   margin: 0.3vw;
   max-width: 30%;
   overflow: hidden;
