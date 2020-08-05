@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    view:
+      suffix: .html
   resources:
     static-locations:
       - file:hashtagmap-admin/src/main/resources/static
@@ -7,4 +10,3 @@ spring:
       kakao,
       kakao-security,
       db
-    active: local

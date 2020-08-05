@@ -1,8 +1,8 @@
 export const MESSAGE = {
-  CHANGE_PERIOD: "주기가 변경되었습니다.",
   NO_INPUT: "입력값이 없습니다.",
   SUCCESS: "성공😊",
   FAIL: "실패😨",
+  NO_CONTENT: "데이터가 없습니다",
   UPDATE_START: "update를 시작합니다"
 };
 

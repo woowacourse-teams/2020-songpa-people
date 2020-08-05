@@ -1,10 +1,13 @@
 package com.songpapeople.hashtagmap.kakao.schedule;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class PeriodHistoryDto {
     private Long id;

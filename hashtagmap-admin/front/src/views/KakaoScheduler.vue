@@ -23,85 +23,97 @@
       :items-per-page="5"
       class="elevation-1"
     />
-    <CustomSnackBar />
+    <CustomSnackbar />
   </v-container>
 </template>
 
 <script>
   import axios from "axios";
-  import CustomSnackBar from "../components/CustomSnackBar";
+  import {mapMutations} from "vuex";
+  import CustomSnackbar from "../components/CustomSnackBar";
   import {MESSAGE, SNACK_BAR_TYPE} from "../utils/constants";
 
   export default {
     name: "KakaoScheduler",
     components: {
-      CustomSnackBar
+      CustomSnackbar
     },
-    data: () => ({
-      expression: "",
-      headers: [
-        {
-          text: "변경된 날짜 및 시간",
+    data() {
+      return {
+        expression: "",
+        headers: [
+          {
+            text: "변경된 날짜 및 시간",
           align: "start",
-        sortable: false,
-        value: "changedDate"
-      },
-      { text: "정규화식", value: "expression" },
-      { text: "변경한 사람", value: "member" }
-    ],
-    periods: []
-  }),
+          sortable: false,
+          value: "changedDate"
+        },
+        { text: "정규화식", value: "expression" },
+        { text: "변경한 사람", value: "member" }
+      ],
+      periods: []
+    };
+  },
   methods: {
+    ...mapMutations(["showSnackbar"]),
     kakaoScheduling() {
       // do something
     },
-    changePeriod() {
+    async changePeriod() {
       if (this.expression === "") {
-        this.$store.commit("SHOW_SNACKBAR", {
+        this.showSnackbar({
           type: SNACK_BAR_TYPE.INFO,
           message: MESSAGE.NO_INPUT
         });
+        return;
       }
-      axios
-              .put("/kakao/scheduler/period", this.expression, {
-                headers: {
-                  "Content-Type": "application/json"
-                }
-              })
-        .then(res => {
-          console.log(res);
-          if (res.data.data) {
-            this.$store.commit("SHOW_SNACKBAR", {
-              type: SNACK_BAR_TYPE.SUCCESS,
-              message: MESSAGE.CHANGE_PERIOD
-            });
+
+      try {
+        await axios.put("/kakao/scheduler/period", this.expression, {
+          headers: {
+            "Content-Type": "application/json"
           }
-        })
-        .catch(err => {
-          // Todo alert 띄우는 것 aop로 중복 제거 안되나
-          console.dir(err);
-          this.$store.commit("SHOW_SNACKBAR", {
-            type: SNACK_BAR_TYPE.ERROR,
-            message: err.response.data.message,
-            code: err.response.data.code
-          });
         });
-      this.expression = "";
+        this.showSnackbar({
+          type: SNACK_BAR_TYPE.SUCCESS,
+          message: MESSAGE.SUCCESS
+        });
+      } catch (e) {
+        this.showSnackbar({
+          type: SNACK_BAR_TYPE.ERROR,
+          message: e.response.data.message,
+          code: e.response.data.code
+        });
+      } finally {
+        this.expression = "";
+      }
     },
-    showPeriodHistory() {
-      this.periods = [];
-      axios.get("/kakao/scheduler/period").then(res => {
-        console.log(res);
-        if (res.data.data) {
-          res.data.data.map(period =>
-                  this.periods.push({
-                    changedDate: period.changedDate,
-                    expression: period.expression,
-                    member: period.member
-                  })
-          );
+    async showPeriodHistory() {
+      try {
+        this.periods = [];
+        const res = await axios.get("/kakao/scheduler/period");
+        console.dir(res);
+        if (res.data.data.length == 1) {
+          this.showSnackbar({
+            type: SNACK_BAR_TYPE.INFO,
+            message: MESSAGE.NO_CONTENT
+          });
+          return;
         }
-      });
+        res.data.data.map(period =>
+                this.periods.push({
+                  changedDate: period.changedDate,
+                  expression: period.expression,
+                  member: period.member
+                })
+        );
+      } catch (e) {
+        this.showSnackbar({
+          type: SNACK_BAR_TYPE.ERROR,
+          message: e.response.data.message,
+          code: e.response.data.code
+        });
+      }
     }
   }
 };

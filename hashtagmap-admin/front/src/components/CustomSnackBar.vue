@@ -5,9 +5,9 @@
       :color="snackbar.type"
       :timeout="snackbar.type === 'error' ? 10000 : 4000"
     >
-      {{ snackbar.code ? [snackbar.code] : '' }} {{ snackbar.message }}
+      {{ snackbar.code ? [snackbar.code] : "" }} {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
-        <v-btn dark text v-bind="attrs" @click="snackbar = false">
+        <v-btn dark text v-bind="attrs" @click="snackbar.show = false">
           Close
         </v-btn>
       </template>
@@ -17,12 +17,15 @@
 
 <!-- Todo snack bar 겹칠 때 안보이는 문제 해결 -->
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "CustomSnackBar",
+  name: "CustomSnackbar",
   computed: {
-    snackbar() {
-      return this.$store.state.snackbar;
-    }
+    ...mapGetters(["snackbar"])
+  },
+  created() {
+    console.log(this.snackbar);
   }
 };
 </script>

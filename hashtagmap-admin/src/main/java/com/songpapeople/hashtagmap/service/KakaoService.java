@@ -6,7 +6,6 @@ import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,15 +20,14 @@ public class KakaoService {
         this.historyRepository = historyRepository;
     }
 
-    public CustomResponse changeSchedulePeriod(String expression) {
+    public CustomResponse<Void> changeSchedulePeriod(String expression) {
         kakaoScheduler.changePeriod(expression);
         historyRepository.save(new PeriodHistory(expression));
 
-        return CustomResponse.of("카카오 스케줄러 주기가 변경되었습니다.");
+        return CustomResponse.empty();
     }
 
-    @Transactional(readOnly = true)
-    public CustomResponse showPeriodHistory() {
+    public CustomResponse<List<PeriodHistoryDto>> showPeriodHistory() {
         List<PeriodHistoryDto> histories = historyRepository.findAll()
                 .stream()
                 .map(PeriodHistory::toDto)

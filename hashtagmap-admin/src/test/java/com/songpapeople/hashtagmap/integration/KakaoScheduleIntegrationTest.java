@@ -6,6 +6,7 @@ import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
 import io.restassured.RestAssured;
+import io.restassured.mapper.TypeRef;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ class KakaoScheduleIntegrationTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    private void setUp() {
         RestAssured.port = port;
     }
 
@@ -43,9 +44,9 @@ class KakaoScheduleIntegrationTest {
     @Test
     public void changePeriodTest() throws Exception {
         String validExpression = "0 0/5 * * * ?";
-        CustomResponse response = changePeriod(validExpression, HttpStatus.OK);
+        CustomResponse<Void> response = changePeriod(validExpression, HttpStatus.OK);
 
-        assertThat(response.getData()).isEqualTo("카카오 스케줄러 주기가 변경되었습니다.");
+        assertThat(response.getData()).isNull();
         assertThat(response.getCode()).isNull();
         assertThat(response.getMessage()).isNull();
     }
@@ -54,7 +55,7 @@ class KakaoScheduleIntegrationTest {
     @Test
     public void changePeriodExceptionTest() throws Exception {
         String invalidExpression = "* * * * * * /";
-        CustomResponse response = changePeriod(invalidExpression, HttpStatus.BAD_REQUEST);
+        CustomResponse<Void> response = changePeriod(invalidExpression, HttpStatus.BAD_REQUEST);
 
         KakaoSchedulerExceptionStatus exceptionStatus = KakaoSchedulerExceptionStatus.INVALID_PERIOD_EXPRESSION;
 
@@ -65,21 +66,21 @@ class KakaoScheduleIntegrationTest {
 
     @DisplayName("주기 변경 기록 조회")
     @Test
-    public void showPeriodHistoryTest() throws Exception {
+    public void showPeriodHistoryTest() {
         List<PeriodHistory> expected = periodHistoryRepository.saveAll(Arrays.asList(
                 new PeriodHistory("0 0/5 * * * ?"),
                 new PeriodHistory("0 0 * * * ?")
         ));
 
-        CustomResponse response = showPeriodHistory();
+        CustomResponse<List<PeriodHistoryDto>> response = showPeriodHistory();
 
-        List<PeriodHistoryDto> actual = (List<PeriodHistoryDto>) response.getData();
+        List<PeriodHistoryDto> actual = response.getData();
         assertThat(actual).hasSameSizeAs(expected);
         assertThat(response.getCode()).isNull();
         assertThat(response.getMessage()).isNull();
     }
 
-    public CustomResponse changePeriod(String expression, HttpStatus expect) {
+    public CustomResponse<Void> changePeriod(String expression, HttpStatus expect) {
         return given()
                 .body(expression)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -88,10 +89,11 @@ class KakaoScheduleIntegrationTest {
                 .then()
                 .log().all()
                 .statusCode(expect.value())
-                .extract().as(CustomResponse.class);
+                .extract().as(new TypeRef<CustomResponse<Void>>() {
+                });
     }
 
-    public CustomResponse showPeriodHistory() {
+    public CustomResponse<List<PeriodHistoryDto>> showPeriodHistory() {
         return given()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when()
@@ -99,11 +101,12 @@ class KakaoScheduleIntegrationTest {
                 .then()
                 .log().all()
                 .statusCode(HttpStatus.OK.value())
-                .extract().as(CustomResponse.class);
+                .extract().as(new TypeRef<CustomResponse<List<PeriodHistoryDto>>>() {
+                });
     }
 
     @AfterEach
-    public void tearDown() {
+    private void tearDown() {
         periodHistoryRepository.deleteAll();
     }
 }

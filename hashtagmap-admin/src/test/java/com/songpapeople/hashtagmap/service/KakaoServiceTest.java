@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class KakaoServiceTest {
-    KakaoService kakaoService;
+    private KakaoService kakaoService;
 
     @Mock
     private PeriodHistoryRepository periodHistoryRepository;

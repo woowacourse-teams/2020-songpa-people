@@ -1,6 +1,5 @@
 package com.songpapeople.hashtagmap.kakao.schedule;
 
-import com.songpapeople.hashtagmap.config.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,7 +12,7 @@ import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class PeriodHistory extends BaseEntity {
+public class PeriodHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +25,7 @@ public class PeriodHistory extends BaseEntity {
 
     public PeriodHistory(String expression) {
         this.expression = expression;
-        this.member = "";
+        this.member = null;
     }
 
     public PeriodHistoryDto toDto() {

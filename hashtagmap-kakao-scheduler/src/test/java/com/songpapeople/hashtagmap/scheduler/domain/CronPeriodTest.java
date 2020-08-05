@@ -13,7 +13,7 @@ class CronPeriodTest {
 
     @DisplayName("(예외) 잘못된 정규화식을 입력했을 때")
     @ParameterizedTest
-    @ValueSource(strings = {"", "* * * * * * /", "* - * - *", "L * * * * *"})
+    @ValueSource(strings = {"", "* * * * * * /"})
     public void CronPeriodTest(String wronExpression) {
         KakaoSchedulerException excpetion = assertThrows(KakaoSchedulerException.class,
                 () -> new CronPeriod(wronExpression));
