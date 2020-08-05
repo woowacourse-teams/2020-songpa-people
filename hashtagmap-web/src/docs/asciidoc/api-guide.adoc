@@ -1,0 +1,22 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+
+[[resources]]
+= HashtagMap API Guide
+
+[[resources-maps]]
+== Map
+
+[[resources-maps-find-all-markers]]
+=== 마커 전부 조회
+
+operation::maps/find-all-markers[snippets='http-request,http-response,response-fields']

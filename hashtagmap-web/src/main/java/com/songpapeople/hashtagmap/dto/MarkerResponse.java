@@ -29,6 +29,7 @@ public class MarkerResponse {
 
     public static MarkerResponse from(Instagram instagram) {
         Place place = instagram.getPlace();
+
         return new MarkerResponse(
                 place.getPlaceName(),
                 place.getKakaoId(),
