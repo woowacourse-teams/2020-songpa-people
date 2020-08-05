@@ -2,9 +2,10 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
+    implementation project(':hashtagmap-common')
+
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
-    implementation project(':hashtagmap-common')
 }
 
 task copyApiKey(type: Copy) {
