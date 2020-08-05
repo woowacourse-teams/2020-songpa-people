@@ -27,7 +27,7 @@ export default {
     ...mapMutations(["initKakaoMapApi", "initKakaoMap"]),
     ...mapActions(["showDetailModal"]),
     loadMarker(places) {
-      places.forEach(place => {
+      places.map(place => {
         const map = this.kakaoMap;
         const marker = this.createMaker(place);
         marker.setMap(map);
