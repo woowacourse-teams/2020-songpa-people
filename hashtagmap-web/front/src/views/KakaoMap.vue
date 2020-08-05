@@ -1,47 +1,55 @@
 <template>
   <div>
     <div id="kakao-map"></div>
+    <DetailModal />
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import { EVENT_TYPE, KAKAO_MAP } from "../utils/constants";
 import { textBalloonTemplate } from "../utils/templates";
+import DetailModal from "../components/DetailModal";
 
 export default {
   name: "KakaoMap",
   async mounted() {
-    this.$store.commit("initKakaoMapApi", await this.$initKakaoMapApi());
-    this.$store.commit("initKakaoMap", this.$loadMap());
-
-    this.loadMarker(this.$store.getters.getPlaces);
-
+    this.initKakaoMapApi(await this.$initKakaoMapApi());
+    this.initKakaoMap(this.$loadMap());
+    this.loadMarker(this.getPlaces);
     this.$loadCurrentPosition();
   },
+  computed: {
+    ...mapState(["kakaoMap", "kakaoMapApi"]),
+    ...mapGetters(["getPlaces"]),
+  },
   methods: {
+    ...mapMutations(["initKakaoMapApi", "initKakaoMap"]),
+    ...mapActions(["showDetailModal"]),
     loadMarker(places) {
-      places.forEach(place => {
-        const map = this.$store.state.kakaoMap;
+      places.map(place => {
+        const map = this.kakaoMap;
         const marker = this.createMaker(place);
         marker.setMap(map);
-
-        let textBalloon = this.createTextBalloon(place, marker);
-
-        this.$store.state.kakaoMapApi.event.addListener(
-          marker,
-          EVENT_TYPE.CLICK,
-          function() {
-            textBalloon.setMap(map);
-            const $textBalloon = document.querySelector(".text-balloon");
-            $textBalloon.addEventListener(EVENT_TYPE.CLICK, function() {
-              textBalloon.setMap(null);
-            });
-          },
-        );
+        const textBalloon = this.createTextBalloon(place, marker);
+        this.kakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
+          this.onAddTextBalloonToMarker(map, place, textBalloon);
+        });
       });
     },
+    onAddTextBalloonToMarker(map, place, textBalloon) {
+      textBalloon.setMap(map);
+      const $textBalloon = document.getElementById(`${place.id}`);
+      $textBalloon.addEventListener(EVENT_TYPE.CLICK, () => {
+        this.onAddModalToTextBalloon(event, place);
+      });
+    },
+    onAddModalToTextBalloon(event, place) {
+      event.preventDefault();
+      this.showDetailModal(place);
+    },
     createMaker(place) {
-      const mapApi = this.$store.state.kakaoMapApi;
+      const mapApi = this.kakaoMapApi;
       const imageSize = new mapApi.Size(
         KAKAO_MAP.PLACE_MARKER.width,
         KAKAO_MAP.PLACE_MARKER.height,
@@ -57,11 +65,14 @@ export default {
       });
     },
     createTextBalloon(place, marker) {
-      return new this.$store.state.kakaoMapApi.CustomOverlay({
+      return new this.kakaoMapApi.CustomOverlay({
         content: textBalloonTemplate(place),
         position: marker.getPosition(),
       });
     },
+  },
+  components: {
+    DetailModal,
   },
 };
 </script>

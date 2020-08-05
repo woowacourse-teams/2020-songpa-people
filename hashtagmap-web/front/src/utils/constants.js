@@ -24,14 +24,14 @@ export const MOCK_DATA = {
       title: "사브레",
       latitude: 37.509140294116,
       longitude: 127.107425601793,
-      hashtag_count: 10000,
+      hashtagCount: 10000,
     },
     {
       id: 27184288,
       title: "멍멍멍",
       latitude: 37.49887677102432,
       longitude: 127.11799592169268,
-      hashtag_count: 20000,
+      hashtagCount: 20000,
     },
     // {
     //   id: 2052340190,
