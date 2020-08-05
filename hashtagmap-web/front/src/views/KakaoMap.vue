@@ -32,15 +32,28 @@ export default {
         const marker = this.createMaker(place);
         marker.setMap(map);
         const textBalloon = this.createTextBalloon(place, marker);
-        this.kakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
-          textBalloon.setMap(map);
-          const $textBalloon = document.getElementById(`${place.id}`);
-          $textBalloon.addEventListener(EVENT_TYPE.CLICK, event => {
-            event.preventDefault();
-            this.showDetailModal(place);
-          });
-        });
+        this.kakaoMapApi.event.addListener(
+          marker,
+          EVENT_TYPE.CLICK,
+          this.onAddTextBalloonToMarker(map, place, textBalloon),
+        );
       });
+    },
+    onAddTextBalloonToMarker(map, place, textBalloon) {
+      return () => {
+        textBalloon.setMap(map);
+        const $textBalloon = document.getElementById(`${place.id}`);
+        $textBalloon.addEventListener(
+          EVENT_TYPE.CLICK,
+          this.onAddModalToTextBalloon(place),
+        );
+      };
+    },
+    onAddModalToTextBalloon(place) {
+      return event => {
+        event.preventDefault();
+        this.showDetailModal(place);
+      };
     },
     createMaker(place) {
       const mapApi = this.kakaoMapApi;
