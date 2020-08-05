@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
-import { EVENT_TYPE, KAKAO_MAP } from "../utils/constants";
-import { textBalloonTemplate } from "../utils/templates";
-import DetailModal from "../components/DetailModal";
+    import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+    import {EVENT_TYPE, KAKAO_MAP} from "../utils/constants";
+    import {textBalloonTemplate} from "../utils/templates";
+    import DetailModal from "../components/DetailModal";
 
-export default {
+    export default {
   name: "KakaoMap",
   async mounted() {
     this.initKakaoMapApi(await this.$initKakaoMapApi());
@@ -43,17 +43,14 @@ export default {
       return () => {
         textBalloon.setMap(map);
         const $textBalloon = document.getElementById(`${place.id}`);
-        $textBalloon.addEventListener(
-          EVENT_TYPE.CLICK,
-          this.onAddModalToTextBalloon(place),
-        );
+          $textBalloon.addEventListener(EVENT_TYPE.CLICK, (event, place) => {
+              this.onAddModalToTextBalloon(event, place);
+          });
       };
     },
-    onAddModalToTextBalloon(place) {
-      return event => {
-        event.preventDefault();
-        this.showDetailModal(place);
-      };
+      onAddModalToTextBalloon(event, place) {
+          event.preventDefault();
+          this.showDetailModal(place);
     },
     createMaker(place) {
       const mapApi = this.kakaoMapApi;
