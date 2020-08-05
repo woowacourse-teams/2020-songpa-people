@@ -4,16 +4,17 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
-		maven { url "https://plugins.gradle.org/m2/"}
+		maven { url "https://plugins.gradle.org/m2/" }
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath "io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE"
 		classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10"
+		classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2"
 	}
 }
-
 subprojects {
+
 	group = 'com.songpapeople'
 	version = '0.2.1'
 
@@ -58,6 +59,36 @@ subprojects {
 	configurations {
 		compileOnly {
 			extendsFrom annotationProcessor
+		}
+	}
+}
+
+def asciidoctorConfigure = [project(':hashtagmap-web'), project(':hashtagmap-admin')]
+configure(asciidoctorConfigure) {
+	apply plugin: "org.asciidoctor.convert"
+
+	dependencies {
+		testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc:2.0.4.RELEASE'
+	}
+
+	ext {
+		snippetsDir = file('build/generated-snippets')
+	}
+
+	test {
+		useJUnitPlatform()
+		outputs.dir snippetsDir
+	}
+
+	asciidoctor {
+		inputs.dir snippetsDir
+		dependsOn test
+	}
+
+	bootJar {
+		dependsOn asciidoctor
+		from("${asciidoctor.outputDir}/html5") {
+			into 'static/docs'
 		}
 	}
 }
