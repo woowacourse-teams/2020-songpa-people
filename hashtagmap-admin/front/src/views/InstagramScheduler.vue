@@ -9,16 +9,9 @@
       :disabled="updateBtn.disabled"
       >{{ updateBtn.text }}
     </v-btn>
-
-    <v-snackbar v-model="snackbar" timeout="99999999" right>
-      {{ snackbarText }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
+    <v-alert type="info">
+      {{ updateResult }}
+    </v-alert>
   </v-container>
 </template>
 
@@ -33,6 +26,7 @@ export default {
         disabled: false,
         text: UPDATE_BUTTON_STATE.STAND_BY
       },
+      updateResult: "updateResult가 출력되는 곳",
       snackbar: false,
       snackbarText: ""
     };
@@ -43,12 +37,12 @@ export default {
       this.setUpdateBtnRunning();
 
       try {
-        await this.axios.put('/instagram-scheduler')
-        this.popUpSnackBar(MESSAGE.SUCCESS)
+        await this.axios.put("/instagram-scheduler");
+        this.updateResult = MESSAGE.SUCCESS;
       } catch (error) {
-        this.popUpSnackBar(error.message)
+        this.updateResult = error.message;
       } finally {
-        this.setUpdateBtnInit()
+        this.setUpdateBtnInit();
       }
     },
     setUpdateBtnRunning() {
