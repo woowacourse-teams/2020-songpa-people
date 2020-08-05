@@ -38,20 +38,18 @@ export default {
     };
   },
   methods: {
-    instagramScheduling() {
+    async instagramScheduling() {
       this.popUpSnackBar(MESSAGE.UPDATE_START);
       this.setUpdateBtnRunning();
 
-      this.axios
-        .put("/instagram-scheduler")
-        .then(() => {
-          this.popUpSnackBar(MESSAGE.SUCCESS);
-          this.setUpdateBtnInit();
-        })
-        .catch(error => {
-          this.popUpSnackBar(error.message);
-          this.setUpdateBtnInit();
-        });
+      try {
+        await this.axios.put('/instagram-scheduler')
+        this.popUpSnackBar(MESSAGE.SUCCESS)
+      } catch (error) {
+        this.popUpSnackBar(error.message)
+      } finally {
+        this.setUpdateBtnInit()
+      }
     },
     setUpdateBtnRunning() {
       this.updateBtn.text = UPDATE_BUTTON_STATE.RUNNING;
