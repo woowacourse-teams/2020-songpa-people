@@ -5,8 +5,10 @@ import router from "./router";
 import store from "./store";
 import KakaoMap from "@/plugins/KakaoMap";
 import vuetify from "./plugins/vuetify";
+import axios from "axios";
 
 Vue.config.productionTip = false;
+Vue.prototype.axios = axios;
 Vue.use(KakaoMap);
 
 new Vue({
