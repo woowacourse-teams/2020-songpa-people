@@ -1,14 +1,17 @@
 package com.songpapeople.hashtagmap.controller;
 
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExcpetion;
-import org.springframework.http.ResponseEntity;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@org.springframework.web.bind.annotation.ControllerAdvice
+@RestControllerAdvice
 public class ExceptionController {
-    @ExceptionHandler(KakaoSchedulerExcpetion.class)
-    public ResponseEntity<CustomResponse> kakaoSchedulerException(KakaoSchedulerExcpetion exception) {
-        return ResponseEntity.ok(CustomResponse.error(exception.getErrorCode(), exception.getMessage()));
+    @ExceptionHandler(KakaoSchedulerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public CustomResponse<Void> kakaoSchedulerException(KakaoSchedulerException exception) {
+        return CustomResponse.error(exception.getErrorCode(), exception.getMessage());
     }
 }

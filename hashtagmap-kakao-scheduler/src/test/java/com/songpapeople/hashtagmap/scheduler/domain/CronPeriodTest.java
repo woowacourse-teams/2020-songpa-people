@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExcpetion;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -15,7 +15,7 @@ class CronPeriodTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "* * * * * * /", "* - * - *", "L * * * * *"})
     public void CronPeriodTest(String wronExpression) {
-        KakaoSchedulerExcpetion excpetion = assertThrows(KakaoSchedulerExcpetion.class,
+        KakaoSchedulerException excpetion = assertThrows(KakaoSchedulerException.class,
                 () -> new CronPeriod(wronExpression));
 
         KakaoSchedulerExceptionStatus exceptionStatus = KakaoSchedulerExceptionStatus.INVALID_PERIOD_EXPRESSION;

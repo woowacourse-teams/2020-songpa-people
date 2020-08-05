@@ -43,7 +43,7 @@ class KakaoScheduleIntegrationTest {
     @Test
     public void changePeriodTest() throws Exception {
         String validExpression = "0 0/5 * * * ?";
-        CustomResponse response = changePeriod(validExpression);
+        CustomResponse response = changePeriod(validExpression, HttpStatus.OK);
 
         assertThat(response.getData()).isEqualTo("카카오 스케줄러 주기가 변경되었습니다.");
         assertThat(response.getCode()).isNull();
@@ -53,10 +53,11 @@ class KakaoScheduleIntegrationTest {
     @DisplayName("(예외) 잘못된 주기(정규식)으로 주기 변경 실패")
     @Test
     public void changePeriodExceptionTest() throws Exception {
-        String invalidExpression = "0 0/5 * * * ? *";
-        CustomResponse response = changePeriod(invalidExpression);
+        String invalidExpression = "* * * * * * /";
+        CustomResponse response = changePeriod(invalidExpression, HttpStatus.BAD_REQUEST);
 
         KakaoSchedulerExceptionStatus exceptionStatus = KakaoSchedulerExceptionStatus.INVALID_PERIOD_EXPRESSION;
+
         assertThat(response.getData()).isNull();
         assertThat(response.getCode()).isEqualTo(exceptionStatus.getStatusCode());
         assertThat(response.getMessage()).isEqualTo(exceptionStatus.getMessage());
@@ -74,34 +75,31 @@ class KakaoScheduleIntegrationTest {
 
         List<PeriodHistoryDto> actual = (List<PeriodHistoryDto>) response.getData();
         assertThat(actual).hasSameSizeAs(expected);
-        assertThat(actual.get(0).getChangedDate()).isNotNull();
-        assertThat(actual.get(0).getExpression()).isEqualTo("0 0/5 * * * ?");
-
         assertThat(response.getCode()).isNull();
         assertThat(response.getMessage()).isNull();
     }
 
-    public CustomResponse changePeriod(String expression) {
-        return given().
-                body(expression).
-                accept(MediaType.APPLICATION_JSON_VALUE).
-                when().
-                post("/kakao-scheduler/change-period").
-                then().
-                log().all().
-                statusCode(HttpStatus.OK.value()).
-                extract().as(CustomResponse.class);
+    public CustomResponse changePeriod(String expression, HttpStatus expect) {
+        return given()
+                .body(expression)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .put("/kakao/scheduler/period")
+                .then()
+                .log().all()
+                .statusCode(expect.value())
+                .extract().as(CustomResponse.class);
     }
 
     public CustomResponse showPeriodHistory() {
-        return given().
-                accept(MediaType.APPLICATION_JSON_VALUE).
-                when().
-                get("/kakao-scheduler/period-history").
-                then().
-                log().all().
-                statusCode(HttpStatus.OK.value()).
-                extract().as(CustomResponse.class);
+        return given()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/kakao/scheduler/period")
+                .then()
+                .log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(CustomResponse.class);
     }
 
     @AfterEach

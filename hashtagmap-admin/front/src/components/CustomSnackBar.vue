@@ -2,7 +2,6 @@
   <v-container>
     <v-snackbar
       v-model="snackbar.show"
-      :bottom="y === 'top'"
       :color="snackbar.type"
       :timeout="snackbar.type === 'error' ? 10000 : 4000"
     >

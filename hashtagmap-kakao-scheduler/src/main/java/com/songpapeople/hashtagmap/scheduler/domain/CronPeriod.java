@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExcpetion;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.support.CronTrigger;
 
@@ -12,18 +12,20 @@ public class CronPeriod {
     private Trigger trigger;
 
     public CronPeriod(String expression) {
-        this.trigger = validateCronTrigger(expression);
+        validateCronTrigger(expression);
+        this.trigger = new CronTrigger(expression, TIME_SEOUL);
     }
 
     public void change(final String expression) {
-        this.trigger = validateCronTrigger(expression);
+        validateCronTrigger(expression);
+        this.trigger = new CronTrigger(expression, TIME_SEOUL);
     }
 
-    private CronTrigger validateCronTrigger(String expression) {
+    private void validateCronTrigger(String expression) {
         try {
-            return new CronTrigger(expression, TIME_SEOUL);
+            new CronTrigger(expression, TIME_SEOUL);
         } catch (IllegalArgumentException e) {
-            throw new KakaoSchedulerExcpetion(KakaoSchedulerExceptionStatus.INVALID_PERIOD_EXPRESSION);
+            throw new KakaoSchedulerException(KakaoSchedulerExceptionStatus.INVALID_PERIOD_EXPRESSION);
         }
     }
 

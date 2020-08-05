@@ -28,20 +28,21 @@
 </template>
 
 <script>
-import axios from "axios";
-import CustomSnackBar from "../components/CustomSnackBar";
+  import axios from "axios";
+  import CustomSnackBar from "../components/CustomSnackBar";
+  import {MESSAGE, SNACK_BAR_TYPE} from "../utils/constants";
 
-export default {
-  name: "KakaoScheduler",
-  components: {
-    CustomSnackBar
-  },
-  data: () => ({
-    expression: "",
-    headers: [
-      {
-        text: "변경된 날짜 및 시간",
-        align: "start",
+  export default {
+    name: "KakaoScheduler",
+    components: {
+      CustomSnackBar
+    },
+    data: () => ({
+      expression: "",
+      headers: [
+        {
+          text: "변경된 날짜 및 시간",
+          align: "start",
         sortable: false,
         value: "changedDate"
       },
@@ -57,48 +58,47 @@ export default {
     changePeriod() {
       if (this.expression === "") {
         this.$store.commit("SHOW_SNACKBAR", {
-          type: "info",
-          message: "정규식을 입력하세요."
+          type: SNACK_BAR_TYPE.INFO,
+          message: MESSAGE.NO_INPUT
         });
       }
       axios
-        .post("/kakao-scheduler/change-period", this.expression, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
+              .put("/kakao/scheduler/period", this.expression, {
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              })
         .then(res => {
           console.log(res);
           if (res.data.data) {
-            // Todo AOP FE에서는 어떻게 안되나
             this.$store.commit("SHOW_SNACKBAR", {
-              type: "success",
-              message: "주기가 변경되었습니다."
-            });
-          } else {
-            this.$store.commit("SHOW_SNACKBAR", {
-              type: "error",
-              message: res.data.message,
-              code: res.data.code
+              type: SNACK_BAR_TYPE.SUCCESS,
+              message: MESSAGE.CHANGE_PERIOD
             });
           }
         })
         .catch(err => {
+          // Todo alert 띄우는 것 aop로 중복 제거 안되나
           console.dir(err);
+          this.$store.commit("SHOW_SNACKBAR", {
+            type: SNACK_BAR_TYPE.ERROR,
+            message: err.response.data.message,
+            code: err.response.data.code
+          });
         });
       this.expression = "";
     },
     showPeriodHistory() {
       this.periods = [];
-      axios.get("/kakao-scheduler/period-history").then(res => {
+      axios.get("/kakao/scheduler/period").then(res => {
         console.log(res);
         if (res.data.data) {
-          res.data.data.forEach(period =>
-            this.periods.push({
-              changedDate: period.changedDate,
-              expression: period.expression,
-              member: period.member
-            })
+          res.data.data.map(period =>
+                  this.periods.push({
+                    changedDate: period.changedDate,
+                    expression: period.expression,
+                    member: period.member
+                  })
           );
         }
       });
