@@ -40,8 +40,12 @@ export default {
     onAddTextBalloonToMarker(map, place, textBalloon) {
       textBalloon.setMap(map);
       const $textBalloon = document.getElementById(`${place.id}`);
-      $textBalloon.addEventListener(EVENT_TYPE.CLICK, () => {
-        this.onAddModalToTextBalloon(event, place);
+      $textBalloon.addEventListener(EVENT_TYPE.CLICK, event => {
+        if (event.target.classList.contains("marker-title")) {
+          this.onAddModalToTextBalloon(event, place);
+        } else {
+          textBalloon.setMap(null);
+        }
       });
     },
     onAddModalToTextBalloon(event, place) {
