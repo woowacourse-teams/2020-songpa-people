@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/kakao/scheduler")
@@ -26,15 +24,15 @@ public class KakaoSchedulerController {
 
     @PostMapping("/toggle")
     @ResponseStatus(HttpStatus.OK)
-    public CustomResponse<Void> startCron(@Valid @RequestBody final KakaoScheduleToggleDto kakaoScheduleToggleDto) {
-        kakaoScheduleCommandService.toggleSchedule(kakaoScheduleToggleDto.getTarget());
+    public CustomResponse<Void> startCron(@RequestBody final KakaoScheduleToggleDto kakaoScheduleToggleDto) {
+        kakaoScheduleCommandService.toggleSchedule(kakaoScheduleToggleDto.getName());
         return CustomResponse.empty();
     }
 
     @GetMapping("/status")
     @ResponseStatus(HttpStatus.OK)
-    public CustomResponse<Boolean> getActiveStatus(@RequestParam("target") String target) {
-        return CustomResponse.of(kakaoScheduleQueryService.getKakaoScheduleActiveStatus(target));
+    public CustomResponse<Boolean> getActiveStatus(@RequestParam("name") String name) {
+        return CustomResponse.of(kakaoScheduleQueryService.getKakaoScheduleActiveStatus(name));
     }
 
 }

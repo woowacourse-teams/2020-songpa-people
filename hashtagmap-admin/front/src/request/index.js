@@ -10,7 +10,9 @@ function createAxios(timeout) {
 }
 
 function customAxios(timeout) {
-    return createAxios(timeout);
+    let axiosInstance = createAxios(timeout);
+
+    return axiosInstance;
 }
 
 export default customAxios;

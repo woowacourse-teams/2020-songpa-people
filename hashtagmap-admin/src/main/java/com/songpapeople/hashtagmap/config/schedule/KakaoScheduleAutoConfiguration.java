@@ -19,7 +19,7 @@ public class KakaoScheduleAutoConfiguration {
 
     @PostConstruct
     public void configureKakaoSchedule() {
-        Optional<Schedule> kakao = scheduleRepository.findByTarget(KAKAO);
+        Optional<Schedule> kakao = scheduleRepository.findByName(KAKAO);
         if (kakao.isPresent() && kakao.get().isActive()) {
             kakaoScheduler.start();
             return;

@@ -1,11 +1,12 @@
 import customAxios from "@/request";
+import {KAKAO} from "@/utils/constants.js";
 
 export default {
   namespaced: true,
   state: {
     kakaoScheduleActiveStatus: {
-      message: "알 수 없음",
-      color: "indigo"
+      message: KAKAO.SCHEDULE.UNKNOWN_MESSAGE,
+      color: KAKAO.SCHEDULE.UNKNOWN_COLOR
     }
   },
   mutations: {
@@ -15,24 +16,36 @@ export default {
     }
   },
   actions: {
-    toggleKakaoSchedule({commit}) {
-      commit("SELECT_CATEGORY", "KAKAO");
+    async toggleKakaoSchedule({dispatch}) {
+      try {
+        const toggleDto = {
+          name: "KAKAO"
+        };
+
+        await customAxios().post("/kakao/scheduler/toggle", toggleDto);
+      } finally {
+        await dispatch("getKakaoScheduleActiveStatus");
+      }
     },
     async getKakaoScheduleActiveStatus({commit}) {
       const status = {
-        message: "갱신 실패",
-        color: "indigo"
+        message: KAKAO.SCHEDULE.UNKNOWN_MESSAGE,
+        color: KAKAO.SCHEDULE.UNKNOWN_COLOR
       };
 
       try {
         const response = await customAxios().get("/kakao/scheduler/status", {
           params: {
-            target: "KAKAO"
+            name: KAKAO.SCHEDULE.NAME
           }
         });
         const active = response.body.data;
-        status.message = active ? "실행중" : "중지";
-        status.color = active ? "primary" : "error";
+        status.message = active
+            ? KAKAO.SCHEDULE.ACTIVATE_MESSAGE
+            : KAKAO.SCHEDULE.DEACTIVATE_MESSAGE;
+        status.color = active
+            ? KAKAO.SCHEDULE.ACTIVATE_COLOR
+            : KAKAO.SCHEDULE.DEACTIVATE_COLOR;
       } finally {
         commit("GET_KAKAO_SCHEDULE_ACTIVE_STATUS", status);
       }

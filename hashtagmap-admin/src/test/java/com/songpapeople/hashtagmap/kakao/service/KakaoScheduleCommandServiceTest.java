@@ -44,7 +44,7 @@ class KakaoScheduleCommandServiceTest {
         kakaoScheduleCommandService.toggleSchedule(KAKAO);
 
         //then
-        Schedule schedule = scheduleRepository.findByTarget(KAKAO).get();
+        Schedule schedule = scheduleRepository.findByName(KAKAO).get();
         assertThat(schedule.isActive()).isFalse();
     }
 
@@ -70,7 +70,7 @@ class KakaoScheduleCommandServiceTest {
         kakaoScheduleCommandService.toggleSchedule(KAKAO);
 
         //then
-        Schedule schedule = scheduleRepository.findByTarget(KAKAO).get();
+        Schedule schedule = scheduleRepository.findByName(KAKAO).get();
         assertThat(schedule.isActive()).isTrue();
     }
 

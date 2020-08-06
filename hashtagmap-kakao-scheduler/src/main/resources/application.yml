@@ -4,3 +4,4 @@ spring:
       kakao,
       kakao-security,
       db
+    active: local

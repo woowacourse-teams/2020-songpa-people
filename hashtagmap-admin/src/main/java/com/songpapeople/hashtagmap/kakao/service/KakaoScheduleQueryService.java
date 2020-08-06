@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 public class KakaoScheduleQueryService {
     private final ScheduleRepository scheduleRepository;
 
-    public boolean getKakaoScheduleActiveStatus(String target) {
-        Schedule schedule = scheduleRepository.findByTarget(target)
+    public boolean getKakaoScheduleActiveStatus(String name) {
+        Schedule schedule = scheduleRepository.findByName(name)
                 .orElseThrow(() -> new AdminException(
                         AdminErrorCode.NOT_FOUND_SCHEDULER,
-                        String.format("%s : 스케쥴러가 존재하지 않습니다.", target)
+                        String.format("%s : 스케쥴러가 존재하지 않습니다.", name)
                 ));
         return schedule.isActive();
     }

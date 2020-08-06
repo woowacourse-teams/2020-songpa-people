@@ -16,20 +16,20 @@ import javax.persistence.UniqueConstraint;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "SCHEDULE_ID"))
-@Table(uniqueConstraints = @UniqueConstraint(name = "UK_SCEHDULE_TARGET", columnNames = "target"))
+@Table(uniqueConstraints = @UniqueConstraint(name = "UK_SCEHDULE_TARGET", columnNames = "name"))
 public class Schedule extends BaseEntity {
 
-    private String target;
+    private String name;
 
     @Column
-    private String name;
+    private String userName;
 
     @Enumerated(EnumType.STRING)
     private Flag flag;
 
-    public Schedule(final String target, final String name, final Flag flag) {
-        this.target = target;
+    public Schedule(final String name, final String userName, final Flag flag) {
         this.name = name;
+        this.userName = userName;
         this.flag = flag;
     }
 

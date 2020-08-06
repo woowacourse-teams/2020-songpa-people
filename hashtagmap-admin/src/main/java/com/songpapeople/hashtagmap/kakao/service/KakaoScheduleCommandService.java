@@ -16,8 +16,8 @@ public class KakaoScheduleCommandService {
     private final KakaoScheduler kakaoScheduler;
 
     @Transactional
-    public void toggleSchedule(String target) {
-        Schedule schedule = findScheduleByTarget(target);
+    public void toggleSchedule(String name) {
+        Schedule schedule = findScheduleByTarget(name);
         schedule.toggle();
         if (schedule.isActive()) {
             kakaoScheduler.stop();
@@ -26,11 +26,11 @@ public class KakaoScheduleCommandService {
         kakaoScheduler.start();
     }
 
-    private Schedule findScheduleByTarget(final String target) {
-        return scheduleRepository.findByTarget(target)
+    private Schedule findScheduleByTarget(final String name) {
+        return scheduleRepository.findByName(name)
                 .orElseThrow(() -> new AdminException(
                         AdminErrorCode.NOT_FOUND_SCHEDULER,
-                        String.format("스케쥴러(%s)가 존재하지 않습니다.", target)
+                        String.format("스케쥴러(%s)가 존재하지 않습니다.", name)
                 ));
     }
 }

@@ -15,6 +15,24 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured'
 }
 
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            element = 'CLASS'
+
+            limit {
+                counter = 'INSTRUCTION'
+                value = 'COVEREDRATIO'
+                minimum = 0.50
+            }
+
+            excludes = []
+        }
+
+    }
+}
+
 node {
     workDir = file("./front")
     npmWorkDir = file("./front")

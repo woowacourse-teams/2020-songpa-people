@@ -11,6 +11,18 @@ export const UPDATE_BUTTON_STATE = {
   RUNNING: "update 실행중"
 };
 
+export const KAKAO = {
+  SCHEDULE: {
+    NAME: "KAKAO",
+    ACTIVATE_COLOR: "primary",
+    ACTIVATE_MESSAGE: "ON",
+    DEACTIVATE_COLOR: "error",
+    DEACTIVATE_MESSAGE: "OFF",
+    UNKNOWN_COLOR: "indigo",
+    UNKNOWN_MESSAGE: "갱신 실패",
+  },
+}
+
 export const EVENT_TYPE = {
   CLICK: "click"
 };
