@@ -4,7 +4,7 @@ import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistory;
 import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryDto;
 import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerErrorCode;
 import io.restassured.RestAssured;
 import io.restassured.mapper.TypeRef;
 import io.restassured.specification.RequestSpecification;
@@ -57,10 +57,10 @@ class KakaoScheduleIntegrationTest {
         String invalidExpression = "* * * * * * /";
         CustomResponse<Void> response = changePeriod(invalidExpression, HttpStatus.BAD_REQUEST);
 
-        KakaoSchedulerExceptionStatus exceptionStatus = KakaoSchedulerExceptionStatus.INVALID_PERIOD_EXPRESSION;
+        KakaoSchedulerErrorCode exceptionStatus = KakaoSchedulerErrorCode.INVALID_PERIOD_EXPRESSION;
 
         assertThat(response.getData()).isNull();
-        assertThat(response.getCode()).isEqualTo(exceptionStatus.getStatusCode());
+        assertThat(response.getCode()).isEqualTo(exceptionStatus.getCode());
         assertThat(response.getMessage()).isEqualTo(exceptionStatus.getMessage());
     }
 

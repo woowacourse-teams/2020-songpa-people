@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoScheduleException;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.scheduling.support.CronTrigger;
@@ -77,7 +77,7 @@ public class KakaoSchedulerTest {
         kakaoScheduler.start();
 
         assertThatThrownBy(kakaoScheduler::start)
-                .isInstanceOf(KakaoScheduleException.class)
+                .isInstanceOf(KakaoSchedulerException.class)
                 .hasMessage("스케쥴러가 이미 실행중입니다.");
 
         kakaoScheduler.stop();

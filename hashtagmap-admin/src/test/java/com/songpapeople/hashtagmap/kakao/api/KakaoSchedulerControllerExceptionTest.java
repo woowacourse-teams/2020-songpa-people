@@ -8,8 +8,9 @@ import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleCommandService;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleQueryService;
 import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoScheduleErrorCode;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoScheduleException;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerErrorCode;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
+import com.songpapeople.hashtagmap.service.KakaoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,6 +51,9 @@ class KakaoSchedulerControllerExceptionTest {
     @MockBean
     private KakaoScheduleCommandService kakaoScheduleCommandService;
 
+    @MockBean
+    private KakaoService kakaoService;
+
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
@@ -87,7 +91,7 @@ class KakaoSchedulerControllerExceptionTest {
     @DisplayName("스케쥴러가 이미 실행중일때 Exception")
     @Test
     void startCron() throws Exception {
-        doThrow(new KakaoScheduleException(KakaoScheduleErrorCode.SCHEDULE_ALREADY_RUNNING, LOG)).when(kakaoScheduleCommandService).toggleSchedule(KAKAO);
+        doThrow(new KakaoSchedulerException(KakaoSchedulerErrorCode.SCHEDULE_ALREADY_RUNNING, LOG)).when(kakaoScheduleCommandService).toggleSchedule(KAKAO);
 
         KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(KAKAO);
         String contents = objectMapper.writeValueAsString(kakaoScheduleToggleDto);
@@ -107,8 +111,8 @@ class KakaoSchedulerControllerExceptionTest {
         });
 
         //then
-        assertThat(customResponse.getCode()).isEqualTo(KakaoScheduleErrorCode.SCHEDULE_ALREADY_RUNNING.getCode());
-        assertThat(customResponse.getMessage()).isEqualTo(KakaoScheduleErrorCode.SCHEDULE_ALREADY_RUNNING.getMessage());
+        assertThat(customResponse.getCode()).isEqualTo(KakaoSchedulerErrorCode.SCHEDULE_ALREADY_RUNNING.getCode());
+        assertThat(customResponse.getMessage()).isEqualTo(KakaoSchedulerErrorCode.SCHEDULE_ALREADY_RUNNING.getMessage());
     }
 
     @DisplayName("찾고자 하는 스케쥴러가 없는 경우 Exception")

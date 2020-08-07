@@ -1,7 +1,5 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

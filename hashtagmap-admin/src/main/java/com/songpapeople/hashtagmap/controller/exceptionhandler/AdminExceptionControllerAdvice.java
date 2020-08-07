@@ -3,7 +3,7 @@ package com.songpapeople.hashtagmap.controller.exceptionhandler;
 import com.songpapeople.hashtagmap.exception.AdminException;
 import com.songpapeople.hashtagmap.exception.InstagramSchedulerException;
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoScheduleException;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,8 +29,8 @@ public class AdminExceptionControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(KakaoScheduleException.class)
-    public CustomResponse<Void> handleKakaoScheduleException(KakaoScheduleException e) {
+    @ExceptionHandler(KakaoSchedulerException.class)
+    public CustomResponse<Void> handleKakaoScheduleException(KakaoSchedulerException e) {
         log.error(e.getMessage());
         return CustomResponse.error(e.getErrorCode(), e.getErrorMessage());
     }

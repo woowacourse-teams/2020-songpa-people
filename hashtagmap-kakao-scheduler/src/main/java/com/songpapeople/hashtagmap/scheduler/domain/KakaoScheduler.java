@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoScheduleErrorCode;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoScheduleException;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerErrorCode;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -28,7 +28,7 @@ public class KakaoScheduler {
     public void start() {
         if (isActive()) {
             log.info("KakaoScheduler already running");
-            throw new KakaoScheduleException(KakaoScheduleErrorCode.SCHEDULE_ALREADY_RUNNING);
+            throw new KakaoSchedulerException(KakaoSchedulerErrorCode.SCHEDULE_ALREADY_RUNNING);
         }
         this.scheduledFuture = this.scheduler.schedule(this.runnable, getTrigger());
         log.info("KakaoScheduler started at : " + LocalDateTime.now());
@@ -73,7 +73,4 @@ public class KakaoScheduler {
         return this.scheduledFuture.isCancelled();
     }
 
-    private boolean isActive() {
-        return this.scheduler.getActiveCount() > 0;
-    }
 }

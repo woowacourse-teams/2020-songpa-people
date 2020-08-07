@@ -5,7 +5,7 @@ import com.songpapeople.hashtagmap.exception.AdminException;
 import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
 import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoScheduleException;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -83,7 +83,7 @@ class KakaoScheduleCommandServiceTest {
 
         //then
         assertThatThrownBy(() -> kakaoScheduleCommandService.toggleSchedule(KAKAO))
-                .isInstanceOf(KakaoScheduleException.class)
+                .isInstanceOf(KakaoSchedulerException.class)
                 .hasMessage("스케쥴러가 이미 실행중입니다.");
     }
 }
