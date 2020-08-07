@@ -35,7 +35,7 @@ class InstagramQueryServiceTest {
     @DisplayName("findAllMarkers 테스트")
     @Test
     void findAllMarkers() {
-        given(instagramRepository.findAll()).willReturn(Arrays.asList(
+        List<Instagram> instagrams = Arrays.asList(
                 Instagram.builder()
                         .place(Place.builder()
                                 .placeName("스타벅스")
@@ -45,19 +45,21 @@ class InstagramQueryServiceTest {
                         .id(1L)
                         .hashtagCount(10000L)
                         .build()
-                )
         );
+        given(instagramRepository.findAllFetch()).willReturn(instagrams);
 
         List<MarkerResponse> actual = instagramQueryService.findAllMarkers();
-        MarkerResponse expected = MarkerResponse.from(Instagram.builder()
-                .place(Place.builder()
-                        .placeName("스타벅스")
-                        .kakaoId("777")
-                        .location(new Location(new Point("1", "2"), null))
-                        .build())
-                .id(1L)
-                .hashtagCount(10000L)
-                .build());
+        MarkerResponse expected = MarkerResponse.from(
+                Instagram.builder()
+                        .place(Place.builder()
+                                .placeName("스타벅스")
+                                .kakaoId("777")
+                                .location(new Location(new Point("1", "2"), null))
+                                .build())
+                        .id(1L)
+                        .hashtagCount(10000L)
+                        .build()
+        );
 
         // TODO: 2020-08-05 TagLevel 로직 정해진 후 테스트 수정
         assertThat(actual.get(0)).isEqualToIgnoringGivenFields(expected, "tagLevel");

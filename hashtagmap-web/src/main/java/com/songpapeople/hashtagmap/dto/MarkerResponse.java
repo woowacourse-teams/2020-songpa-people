@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.dto;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Random;
@@ -16,7 +17,8 @@ public class MarkerResponse {
     private final String latitude;
     private final String longitude;
 
-    public MarkerResponse(String placeName, String kakaoId, Long instagramId, Long hashtagCount,
+    @Builder
+    private MarkerResponse(String placeName, String kakaoId, Long instagramId, Long hashtagCount,
                           Integer tagLevel, String latitude, String longitude) {
         this.placeName = placeName;
         this.kakaoId = kakaoId;
@@ -27,17 +29,17 @@ public class MarkerResponse {
         this.longitude = longitude;
     }
 
+    // TODO: 2020-08-05 Tag Level 정해지면 수정, 우선 랜덤으로..
     public static MarkerResponse from(Instagram instagram) {
         Place place = instagram.getPlace();
-
-        return new MarkerResponse(
-                place.getPlaceName(),
-                place.getKakaoId(),
-                instagram.getId(),
-                instagram.getHashtagCount(),
-                // TODO: 2020-08-05 Tag Level 정해지면 수정, 우선 랜덤으로..
-                new Random().nextInt(5) + 1,
-                place.getLocation().getPoint().getLatitude(),
-                place.getLocation().getPoint().getLongitude());
+        return MarkerResponse.builder()
+                .placeName(place.getPlaceName())
+                .kakaoId(place.getKakaoId())
+                .instagramId(instagram.getId())
+                .hashtagCount(instagram.getHashtagCount())
+                .tagLevel(new Random().nextInt(5) + 1)
+                .latitude(place.getLocation().getPoint().getLatitude())
+                .longitude(place.getLocation().getPoint().getLongitude())
+                .build();
     }
 }

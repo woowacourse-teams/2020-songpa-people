@@ -16,7 +16,7 @@ public class InstagramQueryService {
     }
 
     public List<MarkerResponse> findAllMarkers() {
-        return instagramRepository.findAll()
+        return instagramRepository.findAllFetch()
                 .stream()
                 .map(MarkerResponse::from)
                 .collect(Collectors.toList());
