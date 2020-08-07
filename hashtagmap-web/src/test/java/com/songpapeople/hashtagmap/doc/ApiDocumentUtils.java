@@ -14,7 +14,7 @@ public interface ApiDocumentUtils {
         return preprocessRequest(
                 modifyUris()
                         .scheme("https")
-                        .host("docs.api.com")
+                        .host("https://hashtagmap.tk/")
                         .removePort(),
                 prettyPrint());
     }
