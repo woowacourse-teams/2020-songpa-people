@@ -32,9 +32,9 @@ class InstagramQueryServiceTest {
         instagramQueryService = new InstagramQueryService(instagramRepository);
     }
 
-    @DisplayName("")
+    @DisplayName("findAllMarkers 테스트")
     @Test
-    void findAll() {
+    void findAllMarkers() {
         given(instagramRepository.findAll()).willReturn(Arrays.asList(
                 Instagram.builder()
                         .place(Place.builder()
@@ -48,7 +48,7 @@ class InstagramQueryServiceTest {
                 )
         );
 
-        List<MarkerResponse> actual = instagramQueryService.findAll();
+        List<MarkerResponse> actual = instagramQueryService.findAllMarkers();
         MarkerResponse expected = MarkerResponse.from(Instagram.builder()
                 .place(Place.builder()
                         .placeName("스타벅스")

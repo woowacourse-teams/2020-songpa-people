@@ -7,11 +7,11 @@
     >
       <v-card>
         <div>
-          <p class="place-title">{{ nowPlaceByDetailModal.title }}</p>
+          <p class="place-title">{{ nowPlaceByDetailModal.placeName }}</p>
           <p class="hashtag-count">{{ makeHashtagCount }}k</p>
           <p class="buttons">
             <v-btn class="instagram-page-button">
-              {{ nowPlaceByDetailModal.title }}
+              {{ nowPlaceByDetailModal.placeName }}
             </v-btn>
             <v-btn class="detail-info">상세 정보</v-btn>
           </p>

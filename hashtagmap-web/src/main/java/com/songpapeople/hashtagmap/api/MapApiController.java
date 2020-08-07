@@ -20,6 +20,6 @@ public class MapApiController {
 
     @GetMapping("/markers")
     public CustomResponse<List<MarkerResponse>> findAllMarkers() {
-        return CustomResponse.of(instagramQueryService.findAll());
+        return CustomResponse.of(instagramQueryService.findAllMarkers());
     }
 }

@@ -55,7 +55,7 @@ public class MapApiControllerTest {
 
     @Test
     public void findAllMarkers() throws Exception {
-        given(instagramQueryService.findAll()).willReturn(Arrays.asList(
+        given(instagramQueryService.findAllMarkers()).willReturn(Arrays.asList(
                 MarkerResponse.from(Instagram.builder()
                         .place(Place.builder()
                                 .placeName("스타벅스")

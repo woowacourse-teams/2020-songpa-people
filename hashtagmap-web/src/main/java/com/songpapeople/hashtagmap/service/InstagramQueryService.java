@@ -3,6 +3,7 @@ package com.songpapeople.hashtagmap.service;
 import com.songpapeople.hashtagmap.dto.MarkerResponse;
 import com.songpapeople.hashtagmap.instagram.repository.InstagramRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,8 @@ public class InstagramQueryService {
         this.instagramRepository = instagramRepository;
     }
 
-    public List<MarkerResponse> findAll() {
+    @Transactional(readOnly = true)
+    public List<MarkerResponse> findAllMarkers() {
         return instagramRepository.findAll()
                 .stream()
                 .map(MarkerResponse::from)
