@@ -32,7 +32,6 @@ public class KakaoSchedulerTask {
         this.kakaoApiService = kakaoApiService;
     }
 
-    // TODO: 2020/07/23 데이터를 받았을 때 기존 데이터 업데이트, 갱신 로직이 필요하다.
     @Transactional
     public void collectData() {
         List<Zone> zones = zoneRepository.findByActivated();
@@ -50,7 +49,7 @@ public class KakaoSchedulerTask {
                 .collect(Collectors.toSet());
         List<Place> places = PlaceFactory.from(documents);
 
-        placeRepository.saveAll(places);
+        placeRepository.updateAndInsert(places);
     }
 
     private List<KakaoPlaceDto> findPlacesByRect(Category category, Rect rect) {

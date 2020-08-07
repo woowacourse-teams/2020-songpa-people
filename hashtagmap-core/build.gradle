@@ -5,6 +5,7 @@ apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'com.querydsl:querydsl-jpa'
 
     runtimeOnly 'mysql:mysql-connector-java'
