@@ -40,7 +40,7 @@ public class KakaoSchedulerTaskMockTest {
     private KakaoSchedulerTask kakaoSchedulerTask;
 
     @BeforeEach
-    private void setUpd() {
+    private void setUp() {
         List<Place> places = Arrays.asList(
                 Place.builder()
                         .kakaoId("123")
