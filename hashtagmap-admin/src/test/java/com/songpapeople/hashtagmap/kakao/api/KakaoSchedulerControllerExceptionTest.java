@@ -10,7 +10,6 @@ import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerErrorCode;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
-import com.songpapeople.hashtagmap.service.KakaoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,9 +49,6 @@ class KakaoSchedulerControllerExceptionTest {
 
     @MockBean
     private KakaoScheduleCommandService kakaoScheduleCommandService;
-
-    @MockBean
-    private KakaoService kakaoService;
 
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext) {

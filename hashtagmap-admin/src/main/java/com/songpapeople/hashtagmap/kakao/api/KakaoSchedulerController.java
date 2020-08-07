@@ -5,7 +5,6 @@ import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleCommandService;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleQueryService;
 import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.service.KakaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +23,6 @@ import java.util.List;
 @RequestMapping("/kakao/scheduler")
 public class KakaoSchedulerController {
 
-    private final KakaoService kakaoService;
     private final KakaoScheduleCommandService kakaoScheduleCommandService;
     private final KakaoScheduleQueryService kakaoScheduleQueryService;
 
@@ -44,15 +42,13 @@ public class KakaoSchedulerController {
     @PutMapping("/period")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<Void> changeSchedulePeriod(@RequestBody String expression) {
-        CustomResponse<Void> response = kakaoService.changeSchedulePeriod(expression);
-        return response;
+        return kakaoScheduleCommandService.changeSchedulePeriod(expression);
     }
 
     @GetMapping("/period")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<List<PeriodHistoryDto>> showPeriodHistory() {
-        CustomResponse<List<PeriodHistoryDto>> response = kakaoService.showPeriodHistory();
-        return response;
+        return kakaoScheduleQueryService.showPeriodHistory();
     }
 
 }
