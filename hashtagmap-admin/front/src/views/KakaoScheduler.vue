@@ -1,18 +1,126 @@
 <template>
   <v-container>
-    <v-btn class="ma-2" color="indigo" outlined @click="kakaoScheduling"
-      >카카오 스케줄러 실행</v-btn
-    >
+    <v-btn @click="kakaoScheduling" class="ma-2" color="indigo" outlined>
+      카카오 스케줄러 실행
+    </v-btn>
+    <div class="period-input">
+      <v-text-field
+        v-model="expression"
+        label="정규 표현식"
+        hint="(예) 0 0/5 * * * ?"
+      />
+    </div>
+    <v-btn @click="changePeriod" class="ma-2" color="indigo" outlined>
+      스케줄 시간 변경
+    </v-btn>
+    <br />
+    <v-btn @click="showPeriodHistory" class="ma-2" color="indigo" outlined>
+      스케줄 변경 기록 보기
+    </v-btn>
+    <v-data-table
+      :headers="headers"
+      :items="periods"
+      :items-per-page="5"
+      class="elevation-1"
+    />
+    <CustomSnackbar />
   </v-container>
 </template>
 
 <script>
-export default {
-  name: "KakaoScheduler",
+  import axios from "axios";
+  import {mapMutations} from "vuex";
+  import CustomSnackbar from "../components/CustomSnackBar";
+  import {MESSAGE, SNACK_BAR_TYPE} from "../utils/constants";
+
+  export default {
+    name: "KakaoScheduler",
+    components: {
+      CustomSnackbar
+    },
+    data() {
+      return {
+        expression: "",
+        headers: [
+          {
+            text: "변경된 날짜 및 시간",
+          align: "start",
+          sortable: false,
+          value: "changedDate"
+        },
+        { text: "정규화식", value: "expression" },
+        { text: "변경한 사람", value: "member" }
+      ],
+      periods: []
+    };
+  },
   methods: {
+    ...mapMutations(["showSnackbar"]),
     kakaoScheduling() {
-      //작업이 끝나면 this.loading = false;
+      // do something
+    },
+    async changePeriod() {
+      if (this.expression === "") {
+        this.showSnackbar({
+          type: SNACK_BAR_TYPE.INFO,
+          message: MESSAGE.NO_INPUT
+        });
+        return;
+      }
+
+      try {
+        await axios.put("/kakao/scheduler/period", this.expression, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        this.showSnackbar({
+          type: SNACK_BAR_TYPE.SUCCESS,
+          message: MESSAGE.SUCCESS
+        });
+      } catch (e) {
+        this.showSnackbar({
+          type: SNACK_BAR_TYPE.ERROR,
+          message: e.response.data.message,
+          code: e.response.data.code
+        });
+      } finally {
+        this.expression = "";
+      }
+    },
+    async showPeriodHistory() {
+      try {
+        this.periods = [];
+        const res = await axios.get("/kakao/scheduler/period");
+        console.dir(res);
+        if (res.data.data.length == 1) {
+          this.showSnackbar({
+            type: SNACK_BAR_TYPE.INFO,
+            message: MESSAGE.NO_CONTENT
+          });
+          return;
+        }
+        res.data.data.map(period =>
+                this.periods.push({
+                  changedDate: period.changedDate,
+                  expression: period.expression,
+                  member: period.member
+                })
+        );
+      } catch (e) {
+        this.showSnackbar({
+          type: SNACK_BAR_TYPE.ERROR,
+          message: e.response.data.message,
+          code: e.response.data.code
+        });
+      }
     }
   }
 };
 </script>
+
+<style>
+.period-input {
+  width: 200px;
+}
+</style>

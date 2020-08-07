@@ -42,7 +42,9 @@ public class KakaoScheduler {
     }
 
     public void changePeriod(String expression) {
-        this.stop();
+        if (isActive()) {
+            this.stop();
+        }
         this.cronPeriod.change(expression);
         this.start();
         log.info("KakaoScheduler cron period changed at : " + LocalDateTime.now());
@@ -54,4 +56,7 @@ public class KakaoScheduler {
         log.info("KakaoScheduler stopped at : " + LocalDateTime.now());
     }
 
+    private boolean isActive() {
+        return this.scheduler.getActiveCount() > 0;
+    }
 }

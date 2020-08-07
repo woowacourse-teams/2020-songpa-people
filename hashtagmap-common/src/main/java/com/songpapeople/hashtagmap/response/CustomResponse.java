@@ -1,7 +1,11 @@
 package com.songpapeople.hashtagmap.response;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+// Todo 순서 컨벤션 확인
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class CustomResponse<T> {
     private T data;
