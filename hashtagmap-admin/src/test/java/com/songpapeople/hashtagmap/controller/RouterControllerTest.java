@@ -1,37 +1,41 @@
 package com.songpapeople.hashtagmap.controller;
 
-import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
 class RouterControllerTest {
 
-    @LocalServerPort
-    private int port;
-
-    private static RequestSpecification given() {
-        return RestAssured.given().log().all();
-    }
+    private MockMvc mockMvc;
 
     @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
+    void setUp(WebApplicationContext webApplicationContext) {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .build();
     }
 
     @DisplayName("'/'로 get요청")
     @Test
-    void indexPage() {
-        given()
-                .when()
-                .get("/")
-                .then()
-                .log().all()
-                .statusCode(HttpStatus.OK.value());
+    void indexPage() throws Exception {
+        this.mockMvc.perform(get("/"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("'/error'로 get요청")
+    @Test
+    void errorPage() throws Exception {
+        this.mockMvc.perform(get("/"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

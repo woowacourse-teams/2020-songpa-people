@@ -4,10 +4,10 @@ import com.songpapeople.hashtagmap.exception.HashtagMapException;
 
 public class KakaoScheduleException extends HashtagMapException {
     public KakaoScheduleException(final KakaoScheduleErrorCode kakaoScheduleErrorCode) {
-        super(kakaoScheduleErrorCode.getMessgae(), kakaoScheduleErrorCode.getCode());
+        super(kakaoScheduleErrorCode.getMessage(), kakaoScheduleErrorCode.getCode());
     }
 
     public KakaoScheduleException(final KakaoScheduleErrorCode kakaoScheduleErrorCode, final String detailMessage) {
-        super(kakaoScheduleErrorCode.getMessgae(), kakaoScheduleErrorCode.getCode(), detailMessage);
+        super(kakaoScheduleErrorCode.getMessage(), kakaoScheduleErrorCode.getCode(), detailMessage);
     }
 }
