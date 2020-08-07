@@ -6,17 +6,17 @@ spring:
     static-locations:
       - file:hashtagmap-admin/src/main/resources/static
   profiles:
+    active: local
     include: >
       kakao,
       kakao-security,
       db
-    active: local
+  mvc:
+    view:
+      suffix: .html
 ---
 spring:
   profiles: local
   resources:
     static-locations:
       - file:hashtagmap-admin/src/main/resources/static
-  mvc:
-    view:
-      suffix: .html

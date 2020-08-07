@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class RouterController implements ErrorController {
-    @GetMapping({"/", "/error","/kakao-scheduler"})
+    @GetMapping(value = {"/", "/error"})
     public String index() {
         return "index";
     }
