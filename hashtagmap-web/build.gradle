@@ -9,6 +9,7 @@ dependencies {
     implementation project(':hashtagmap-common')
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'io.rest-assured:rest-assured:3.3.0'
 }
 
 jacocoTestCoverageVerification {
@@ -22,10 +23,8 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.20
             }
-
             excludes = []
         }
-
     }
 }
 

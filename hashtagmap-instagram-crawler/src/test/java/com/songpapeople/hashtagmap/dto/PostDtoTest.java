@@ -3,7 +3,7 @@ package com.songpapeople.hashtagmap.dto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class PostDtoTest {
     @DisplayName("PostDto 생성시 받아온 url key값으로 postUrl을 정상적으로 생성하는지 테스트")

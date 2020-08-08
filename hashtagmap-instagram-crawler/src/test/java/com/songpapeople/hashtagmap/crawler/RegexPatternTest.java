@@ -5,7 +5,8 @@ import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.*;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThatThrownBy;
 
 class RegexPatternTest {
     @DisplayName("정규표현식으로 해시태그 개수 추출 테스트")

@@ -5,8 +5,8 @@ import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class InstagramCrawlerTest {
 
@@ -19,7 +19,7 @@ class InstagramCrawlerTest {
         CrawlingDto crawlingDto = instagramCrawler.createCrawlingDto(searchKey, MockDataFactory.createBody());
 
         assertAll(
-            () -> assertThat(crawlingDto.getPlaceName()).isEqualTo(searchKey),
+                () -> assertThat(crawlingDto.getPlaceName()).isEqualTo(searchKey),
                 () -> assertThat(crawlingDto.getHashtagCount()).isNotNull(),
                 () -> assertThat(crawlingDto.getPostDtos().size()).isEqualTo(9)
         );

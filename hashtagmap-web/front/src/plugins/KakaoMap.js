@@ -2,8 +2,8 @@ import { KAKAO_WEB_KEY } from "@/secret";
 import navigatorUtils from "@/libs/navigator/navigator.js";
 import dotImgSrc from "@/assets/dot.png";
 import { KAKAO_MAP } from "@/utils/constants.js";
-import { Notyf } from 'notyf';
-import 'notyf/notyf.min.css';
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
 
 /**
  * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
@@ -65,7 +65,6 @@ export default {
           notyf.error("현재 위치를 불러오지 못했습니다.");
         });
     };
-
 
     const setPositionCenter = position => {
       this.map.setCenter(createKakaoMapsLatLng(position));

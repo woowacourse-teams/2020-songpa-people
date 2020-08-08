@@ -5,7 +5,7 @@ import com.songpapeople.hashtagmap.dto.PostDtos;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class InstaCrawlingResultTest {
     @DisplayName("body에서 인기게시물 정보를 가져와 PostDtos를 만드는 기능 테스트")

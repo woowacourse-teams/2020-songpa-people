@@ -13,6 +13,7 @@ public class ZoneRepositoryCustomImpl implements ZoneRepositoryCustom {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
+    @Override
     public List<Zone> findByActivated() {
         QZone zone = QZone.zone;
         return jpaQueryFactory.selectFrom(zone)

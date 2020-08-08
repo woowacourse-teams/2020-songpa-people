@@ -14,7 +14,7 @@ dependencies {
 
 processResources.dependsOn 'copyDataBaseSettings'
 
-task copyDataBaseSettings(type: Copy){
+task copyDataBaseSettings(type: Copy) {
     description = "Copy application-db.yml from hashtagmap-secret"
     from '../hashtagmap-secret/core/application-db.yml'
     into 'src/main/resources/'
