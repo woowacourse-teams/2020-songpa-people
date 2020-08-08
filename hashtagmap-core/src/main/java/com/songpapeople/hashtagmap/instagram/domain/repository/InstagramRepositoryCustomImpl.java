@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.instagram.repository;
+package com.songpapeople.hashtagmap.instagram.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;

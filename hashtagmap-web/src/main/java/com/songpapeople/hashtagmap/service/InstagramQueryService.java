@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.dto.MarkerResponse;
-import com.songpapeople.hashtagmap.instagram.repository.InstagramRepository;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
