@@ -28,7 +28,7 @@ public class KakaoSchedulerController {
 
     @PostMapping("/toggle")
     @ResponseStatus(HttpStatus.OK)
-    public CustomResponse<Void> startCron(@RequestBody final KakaoScheduleToggleDto kakaoScheduleToggleDto) {
+    public CustomResponse<Void> toggleScheduler(@RequestBody final KakaoScheduleToggleDto kakaoScheduleToggleDto) {
         kakaoScheduleCommandService.toggleSchedule(kakaoScheduleToggleDto.getName());
         return CustomResponse.empty();
     }

@@ -1,9 +1,14 @@
 package com.songpapeople.hashtagmap.integration;
 
+import com.songpapeople.hashtagmap.config.vo.Flag;
 import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistory;
 import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryDto;
 import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryRepository;
+import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
+import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
+import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
 import com.songpapeople.hashtagmap.response.CustomResponse;
+import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerErrorCode;
 import io.restassured.RestAssured;
 import io.restassured.mapper.TypeRef;
@@ -30,6 +35,12 @@ class KakaoScheduleIntegrationTest {
 
     @Autowired
     private PeriodHistoryRepository periodHistoryRepository;
+
+    @Autowired
+    private ScheduleRepository scheduleRepository;
+
+    @Autowired
+    private KakaoScheduler kakaoScheduler;
 
     protected static RequestSpecification given() {
         return RestAssured.given().log().all();
@@ -80,6 +91,62 @@ class KakaoScheduleIntegrationTest {
         assertThat(response.getMessage()).isNull();
     }
 
+    @DisplayName("KakaoScheduler 실행 상태 toggle 하기")
+    @Test
+    void toggleSchedulerTest() {
+        //given
+        String scheduleName = "KAKAO";
+        KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(scheduleName);
+        scheduleRepository.save(new Schedule(scheduleName, "", Flag.Y));
+
+        //when
+        CustomResponse<Void> response = toggleScheduler(kakaoScheduleToggleDto, HttpStatus.OK);
+
+        //then
+        Schedule schedule = scheduleRepository.findByName(scheduleName).orElseThrow(RuntimeException::new);
+        assertThat(schedule.isActive()).isFalse();
+    }
+
+    @DisplayName("KakaoScheduler 실행 상태 조회하기")
+    @Test
+    void getActiveStatus() {
+        //given
+        String scheduleName = "KAKAO";
+        scheduleRepository.save(new Schedule(scheduleName, "", Flag.Y));
+
+        //when
+        CustomResponse<Boolean> response = getActiveStatus(scheduleName, HttpStatus.OK);
+
+        //then
+        assertThat(response.getData()).isTrue();
+    }
+
+    public CustomResponse<Void> toggleScheduler(KakaoScheduleToggleDto kakaoScheduleToggleDto, HttpStatus expectStatus) {
+        return given()
+                .body(kakaoScheduleToggleDto)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .post("/kakao/scheduler/toggle")
+                .then()
+                .log().all()
+                .statusCode(expectStatus.value())
+                .extract().as(new TypeRef<CustomResponse<Void>>() {
+                });
+    }
+
+    public CustomResponse<Boolean> getActiveStatus(String schedulerName, HttpStatus expectStatus) {
+        return given()
+                .param("name", schedulerName)
+                .when()
+                .get("/kakao/scheduler/status")
+                .then()
+                .log().all()
+                .statusCode(expectStatus.value())
+                .extract().as(new TypeRef<CustomResponse<Boolean>>() {
+                });
+    }
+
     public CustomResponse<Void> changePeriod(String expression, HttpStatus expect) {
         return given()
                 .body(expression)
@@ -108,5 +175,7 @@ class KakaoScheduleIntegrationTest {
     @AfterEach
     private void tearDown() {
         periodHistoryRepository.deleteAll();
+        scheduleRepository.deleteAll();
+        kakaoScheduler.stop();
     }
 }
