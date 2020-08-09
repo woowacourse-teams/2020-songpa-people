@@ -6,6 +6,7 @@ import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ class InstagramRepositoryCustomImplTest {
     @Autowired
     private PlaceRepository placeRepository;
 
+    @AfterEach
+    void tearDown() {
+        instagramRepository.deleteAll();
+        placeRepository.deleteAll();
+    }
+
     @DisplayName("인스타그램 도메인 페치조인으로 가져오기")
     @Test
     void findAllFetch() {
@@ -35,7 +42,7 @@ class InstagramRepositoryCustomImplTest {
                 .location(new Location(new Point("33", "127"), ROAD_ADDRESS_NAME))
                 .placeName("starbucks")
                 .build();
-        placeRepository.save(place);
+        place = placeRepository.save(place);
 
         Instagram instagram = Instagram.builder()
                 .place(place)
