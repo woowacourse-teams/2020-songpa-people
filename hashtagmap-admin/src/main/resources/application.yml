@@ -1,7 +1,4 @@
 spring:
-  resources:
-    static-locations:
-      - file:hashtagmap-admin/src/main/resources/static
   profiles:
     active: local
     include: >
@@ -11,9 +8,11 @@ spring:
   mvc:
     view:
       suffix: .html
+  jpa:
+    show-sql: false
 ---
 spring:
   profiles: local
   resources:
     static-locations:
-      - file:hashtagmap-admin/src/main/resources/static
+      - file:./hashtagmap-admin/src/main/resources/static

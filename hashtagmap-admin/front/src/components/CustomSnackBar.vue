@@ -1,13 +1,13 @@
 <template>
   <v-container>
     <v-snackbar
-      v-model="snackbar.show"
-      :color="snackbar.type"
-      :timeout="snackbar.type === 'error' ? 10000 : 4000"
+      v-model="getSnackbar.show"
+      :color="getSnackbar.type"
+      :timeout="getSnackbar.type === 'error' ? 10000 : 4000"
     >
-      {{ snackbar.code ? [snackbar.code] : "" }} {{ snackbar.message }}
+      {{ getSnackbar.code ? [getSnackbar.code] : "" }} {{ getSnackbar.message }}
       <template v-slot:action="{ attrs }">
-        <v-btn dark text v-bind="attrs" @click="snackbar.show = false">
+        <v-btn dark text v-bind="attrs" @click="getSnackbar.show = false">
           Close
         </v-btn>
       </template>
@@ -22,10 +22,9 @@ import { mapGetters } from "vuex";
 export default {
   name: "CustomSnackbar",
   computed: {
-    ...mapGetters(["snackbar"])
+    ...mapGetters("snackbar",["getSnackbar"])
   },
   created() {
-    console.log(this.snackbar);
   }
 };
 </script>

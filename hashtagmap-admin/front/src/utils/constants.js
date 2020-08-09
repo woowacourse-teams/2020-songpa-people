@@ -19,7 +19,7 @@ export const KAKAO = {
     DEACTIVATE_COLOR: "error",
     DEACTIVATE_MESSAGE: "OFF",
     UNKNOWN_COLOR: "indigo",
-    UNKNOWN_MESSAGE: "갱신 실패",
+    UNKNOWN_MESSAGE: "알 수 없음",
   },
 }
 

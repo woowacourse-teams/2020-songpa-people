@@ -1,5 +1,5 @@
 import customAxios from "@/request";
-import {KAKAO} from "@/utils/constants.js";
+import { KAKAO, MESSAGE, SNACK_BAR_TYPE } from "@/utils/constants.js";
 
 export default {
   namespaced: true,
@@ -7,16 +7,41 @@ export default {
     kakaoScheduleActiveStatus: {
       message: KAKAO.SCHEDULE.UNKNOWN_MESSAGE,
       color: KAKAO.SCHEDULE.UNKNOWN_COLOR
+    },
+    expression: "",
+    periodHistory: []
+  },
+  getters: {
+    getExpression: state => {
+      return state.expression;
+    },
+    getPeriodHistory: state => {
+      return state.periodHistory;
+    },
+    getScheduleActiveStatus: state => {
+      return state.kakaoScheduleActiveStatus;
     }
   },
   mutations: {
-    GET_KAKAO_SCHEDULE_ACTIVE_STATUS(state, {message, color}) {
+    CHANGE_KAKAO_SCHEDULE_ACTIVE_STATUS(state, { message, color }) {
       state.kakaoScheduleActiveStatus.message = message;
       state.kakaoScheduleActiveStatus.color = color;
+    },
+    INPUT_EXPRESSION(state, newExpression) {
+      state.expression = newExpression;
+    },
+    CLEAR_EXPRESSION(state) {
+      state.expression = "";
+    },
+    ADD_PERIOD_HISTORY(state, history) {
+      state.periodHistory.push(history);
+    },
+    CLEAR_PERIOD_HISTORY(state) {
+      state.periodHistory = [];
     }
   },
   actions: {
-    async toggleKakaoSchedule({dispatch}) {
+    async toggleKakaoSchedule({ dispatch }) {
       try {
         const toggleDto = {
           name: "KAKAO"
@@ -24,10 +49,10 @@ export default {
 
         await customAxios().post("/kakao/scheduler/toggle", toggleDto);
       } finally {
-        await dispatch("getKakaoScheduleActiveStatus");
+        await dispatch("fetchScheduleActiveStatus");
       }
     },
-    async getKakaoScheduleActiveStatus({commit}) {
+    async fetchScheduleActiveStatus({ commit }) {
       const status = {
         message: KAKAO.SCHEDULE.UNKNOWN_MESSAGE,
         color: KAKAO.SCHEDULE.UNKNOWN_COLOR
@@ -41,14 +66,67 @@ export default {
         });
         const active = response.body.data;
         status.message = active
-            ? KAKAO.SCHEDULE.ACTIVATE_MESSAGE
-            : KAKAO.SCHEDULE.DEACTIVATE_MESSAGE;
+          ? KAKAO.SCHEDULE.ACTIVATE_MESSAGE
+          : KAKAO.SCHEDULE.DEACTIVATE_MESSAGE;
         status.color = active
-            ? KAKAO.SCHEDULE.ACTIVATE_COLOR
-            : KAKAO.SCHEDULE.DEACTIVATE_COLOR;
+          ? KAKAO.SCHEDULE.ACTIVATE_COLOR
+          : KAKAO.SCHEDULE.DEACTIVATE_COLOR;
       } finally {
-        commit("GET_KAKAO_SCHEDULE_ACTIVE_STATUS", status);
+        commit("CHANGE_KAKAO_SCHEDULE_ACTIVE_STATUS", status);
       }
+    },
+    async setPeriod({ commit, state }) {
+      const snackbarContents = {
+        type: SNACK_BAR_TYPE.SUCCESS,
+        message: MESSAGE.SUCCESS,
+        code: ""
+      };
+      const expression = state.expression;
+      if (!expression || expression.trim() === "") {
+        snackbarContents.type = SNACK_BAR_TYPE.INFO;
+        snackbarContents.message = MESSAGE.NO_INPUT;
+        return snackbarContents;
+      }
+
+      try {
+        await customAxios().put("/kakao/scheduler/period", expression, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+      } catch (error) {
+        snackbarContents.type = SNACK_BAR_TYPE.ERROR;
+        snackbarContents.message = error.response.data.message;
+        snackbarContents.code = error.response.data.code;
+      }
+      commit("CLEAR_EXPRESSION");
+      return snackbarContents;
+    },
+    async findPeriodHistory({ commit }) {
+      const snackbarContents = {
+        type: SNACK_BAR_TYPE.INFO,
+        message: MESSAGE.NO_CONTENT,
+        code: ""
+      };
+      try {
+        commit("CLEAR_PERIOD_HISTORY");
+        const response = await customAxios().get("/kakao/scheduler/period");
+        if (response.data.data.length === 1) {
+          return snackbarContents;
+        }
+        response.data.data.map(period =>
+          commit("ADD_PERIOD_HISTORY", {
+            changedDate: period.changedDate,
+            expression: period.expression,
+            member: period.member
+          })
+        );
+      } catch (error) {
+        snackbarContents.type = SNACK_BAR_TYPE.ERROR;
+        snackbarContents.message = error.response.data.message;
+        snackbarContents.code = error.response.data.code;
+      }
+      return snackbarContents;
     }
   }
 };
