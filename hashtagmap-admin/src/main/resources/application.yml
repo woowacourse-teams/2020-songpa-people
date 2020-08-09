@@ -9,7 +9,7 @@ spring:
     view:
       suffix: .html
   jpa:
-    show-sql: false
+    open-in-view: false
 ---
 spring:
   profiles: local

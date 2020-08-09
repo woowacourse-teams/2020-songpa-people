@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerErrorCode;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -18,8 +18,8 @@ class CronPeriodTest {
         KakaoSchedulerException excpetion = assertThrows(KakaoSchedulerException.class,
                 () -> new CronPeriod(wronExpression));
 
-        KakaoSchedulerErrorCode kakaoSchedulerErrorCode = KakaoSchedulerErrorCode.INVALID_PERIOD_EXPRESSION;
-        assertThat(excpetion.getErrorCode()).isEqualTo(kakaoSchedulerErrorCode.getCode());
-        assertThat(excpetion.getMessage()).isEqualTo(kakaoSchedulerErrorCode.getMessage());
+        KakaoSchedulerExceptionStatus kakaoSchedulerExceptionStatus = KakaoSchedulerExceptionStatus.INVALID_PERIOD_EXPRESSION;
+        assertThat(excpetion.getErrorCode()).isEqualTo(kakaoSchedulerExceptionStatus.getCode());
+        assertThat(excpetion.getMessage()).isEqualTo(kakaoSchedulerExceptionStatus.getMessage());
     }
 }

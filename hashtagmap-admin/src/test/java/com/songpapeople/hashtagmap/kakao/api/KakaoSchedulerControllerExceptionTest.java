@@ -2,14 +2,14 @@ package com.songpapeople.hashtagmap.kakao.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.songpapeople.hashtagmap.exception.AdminErrorCode;
 import com.songpapeople.hashtagmap.exception.AdminException;
+import com.songpapeople.hashtagmap.exception.AdminExceptionStatus;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleCommandService;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleQueryService;
 import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerErrorCode;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +60,7 @@ class KakaoSchedulerControllerExceptionTest {
     @DisplayName("찾고자 하는 스케쥴러가 없는 경우 Exception")
     @Test
     void startCronNotFound() throws Exception {
-        doThrow(new AdminException(AdminErrorCode.NOT_FOUND_SCHEDULER, LOG)).when(kakaoScheduleCommandService).toggleSchedule(KAKAO);
+        doThrow(new AdminException(AdminExceptionStatus.NOT_FOUND_SCHEDULER, LOG)).when(kakaoScheduleCommandService).toggleSchedule(KAKAO);
 
         KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(KAKAO);
         String contents = objectMapper.writeValueAsString(kakaoScheduleToggleDto);
@@ -80,14 +80,14 @@ class KakaoSchedulerControllerExceptionTest {
         });
 
         //then
-        assertThat(customResponse.getCode()).isEqualTo(AdminErrorCode.NOT_FOUND_SCHEDULER.getCode());
-        assertThat(customResponse.getMessage()).isEqualTo(AdminErrorCode.NOT_FOUND_SCHEDULER.getMessage());
+        assertThat(customResponse.getCode()).isEqualTo(AdminExceptionStatus.NOT_FOUND_SCHEDULER.getCode());
+        assertThat(customResponse.getMessage()).isEqualTo(AdminExceptionStatus.NOT_FOUND_SCHEDULER.getMessage());
     }
 
     @DisplayName("스케쥴러가 이미 실행중일때 Exception")
     @Test
     void startCron() throws Exception {
-        doThrow(new KakaoSchedulerException(KakaoSchedulerErrorCode.SCHEDULE_ALREADY_RUNNING, LOG)).when(kakaoScheduleCommandService).toggleSchedule(KAKAO);
+        doThrow(new KakaoSchedulerException(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING, LOG)).when(kakaoScheduleCommandService).toggleSchedule(KAKAO);
 
         KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(KAKAO);
         String contents = objectMapper.writeValueAsString(kakaoScheduleToggleDto);
@@ -107,14 +107,14 @@ class KakaoSchedulerControllerExceptionTest {
         });
 
         //then
-        assertThat(customResponse.getCode()).isEqualTo(KakaoSchedulerErrorCode.SCHEDULE_ALREADY_RUNNING.getCode());
-        assertThat(customResponse.getMessage()).isEqualTo(KakaoSchedulerErrorCode.SCHEDULE_ALREADY_RUNNING.getMessage());
+        assertThat(customResponse.getCode()).isEqualTo(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING.getCode());
+        assertThat(customResponse.getMessage()).isEqualTo(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING.getMessage());
     }
 
     @DisplayName("찾고자 하는 스케쥴러가 없는 경우 Exception")
     @Test
     void getActiveStatusNotFound() throws Exception {
-        doThrow(new AdminException(AdminErrorCode.NOT_FOUND_SCHEDULER, LOG)).when(kakaoScheduleQueryService).getKakaoScheduleActiveStatus(KAKAO);
+        doThrow(new AdminException(AdminExceptionStatus.NOT_FOUND_SCHEDULER, LOG)).when(kakaoScheduleQueryService).getKakaoScheduleActiveStatus(KAKAO);
 
         //given
         MvcResult mvcResult = this.mockMvc.perform(
@@ -131,7 +131,7 @@ class KakaoSchedulerControllerExceptionTest {
         });
 
         //then
-        assertThat(customResponse.getCode()).isEqualTo(AdminErrorCode.NOT_FOUND_SCHEDULER.getCode());
-        assertThat(customResponse.getMessage()).isEqualTo(AdminErrorCode.NOT_FOUND_SCHEDULER.getMessage());
+        assertThat(customResponse.getCode()).isEqualTo(AdminExceptionStatus.NOT_FOUND_SCHEDULER.getCode());
+        assertThat(customResponse.getMessage()).isEqualTo(AdminExceptionStatus.NOT_FOUND_SCHEDULER.getMessage());
     }
 }

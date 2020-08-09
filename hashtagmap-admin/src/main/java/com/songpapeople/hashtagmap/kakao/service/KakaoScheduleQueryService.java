@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.kakao.service;
 
-import com.songpapeople.hashtagmap.exception.AdminErrorCode;
 import com.songpapeople.hashtagmap.exception.AdminException;
+import com.songpapeople.hashtagmap.exception.AdminExceptionStatus;
 import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistory;
 import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryDto;
 import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryRepository;
@@ -23,7 +23,7 @@ public class KakaoScheduleQueryService {
     public boolean getKakaoScheduleActiveStatus(String name) {
         Schedule schedule = scheduleRepository.findByName(name)
                 .orElseThrow(() -> new AdminException(
-                        AdminErrorCode.NOT_FOUND_SCHEDULER,
+                        AdminExceptionStatus.NOT_FOUND_SCHEDULER,
                         String.format("%s : 스케쥴러가 존재하지 않습니다.", name)
                 ));
         return schedule.isActive();
