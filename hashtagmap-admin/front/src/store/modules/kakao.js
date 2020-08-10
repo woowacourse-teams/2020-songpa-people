@@ -47,7 +47,11 @@ export default {
           name: "KAKAO"
         };
 
-        await customAxios().post("/kakao/scheduler/toggle", toggleDto);
+        await customAxios().post("/kakao/scheduler/toggle", toggleDto, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
       } finally {
         await dispatch("fetchScheduleActiveStatus");
       }
@@ -64,7 +68,7 @@ export default {
             name: KAKAO.SCHEDULE.NAME
           }
         });
-        const active = response.body.data;
+        const active = response.data.data;
         status.message = active
           ? KAKAO.SCHEDULE.ACTIVATE_MESSAGE
           : KAKAO.SCHEDULE.DEACTIVATE_MESSAGE;
@@ -111,7 +115,7 @@ export default {
       try {
         commit("CLEAR_PERIOD_HISTORY");
         const response = await customAxios().get("/kakao/scheduler/period");
-        if (response.data.data.length === 1) {
+        if (response.data.data.length === 0) {
           return snackbarContents;
         }
         response.data.data.map(period =>
