@@ -6,7 +6,6 @@ import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistory;
 import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
-import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,11 +38,8 @@ public class KakaoScheduleCommandService {
     }
 
     @Transactional
-    public CustomResponse<Void> changeSchedulePeriod(String expression) {
+    public void changeSchedulePeriod(String expression) {
         kakaoScheduler.changePeriod(expression);
         historyRepository.save(new PeriodHistory(expression));
-
-        return CustomResponse.empty();
     }
-
 }

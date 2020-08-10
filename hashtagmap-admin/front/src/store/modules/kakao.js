@@ -23,25 +23,25 @@ export default {
     }
   },
   mutations: {
-    CHANGE_KAKAO_SCHEDULE_ACTIVE_STATUS(state, { message, color }) {
+    CHANGE_KAKAO_SCHEDULE_ACTIVE_STATUS: (state, { message, color }) => {
       state.kakaoScheduleActiveStatus.message = message;
       state.kakaoScheduleActiveStatus.color = color;
     },
-    INPUT_EXPRESSION(state, newExpression) {
+    INPUT_EXPRESSION: (state, newExpression) => {
       state.expression = newExpression;
     },
-    CLEAR_EXPRESSION(state) {
+    CLEAR_EXPRESSION: state => {
       state.expression = "";
     },
-    ADD_PERIOD_HISTORY(state, history) {
+    ADD_PERIOD_HISTORY: (state, history) => {
       state.periodHistory.push(history);
     },
-    CLEAR_PERIOD_HISTORY(state) {
+    CLEAR_PERIOD_HISTORY: state => {
       state.periodHistory = [];
     }
   },
   actions: {
-    async toggleKakaoSchedule({ dispatch }) {
+    toggleKakaoSchedule: async ({ dispatch }) => {
       try {
         const toggleDto = {
           name: "KAKAO"
@@ -56,7 +56,7 @@ export default {
         await dispatch("fetchScheduleActiveStatus");
       }
     },
-    async fetchScheduleActiveStatus({ commit }) {
+    fetchScheduleActiveStatus: async ({ commit }) => {
       const status = {
         message: KAKAO.SCHEDULE.UNKNOWN_MESSAGE,
         color: KAKAO.SCHEDULE.UNKNOWN_COLOR
@@ -79,7 +79,7 @@ export default {
         commit("CHANGE_KAKAO_SCHEDULE_ACTIVE_STATUS", status);
       }
     },
-    async setPeriod({ commit, state }) {
+    setPeriod: async ({ commit, state }) => {
       const snackbarContents = {
         type: SNACK_BAR_TYPE.SUCCESS,
         message: MESSAGE.SUCCESS,
@@ -106,7 +106,7 @@ export default {
       commit("CLEAR_EXPRESSION");
       return snackbarContents;
     },
-    async findPeriodHistory({ commit }) {
+    findPeriodHistory: async ({ commit }) => {
       const snackbarContents = {
         type: SNACK_BAR_TYPE.INFO,
         message: MESSAGE.NO_CONTENT,

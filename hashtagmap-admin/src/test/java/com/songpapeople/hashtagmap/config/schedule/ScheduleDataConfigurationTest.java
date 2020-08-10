@@ -20,11 +20,6 @@ class ScheduleDataConfigurationTest {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    @AfterEach
-    void tearDown() {
-        scheduleRepository.deleteAll();
-    }
-
     @DisplayName("profile=data 환경에서 schedule 정보 한개 주입")
     @Test
     void run() throws Exception {
@@ -34,6 +29,10 @@ class ScheduleDataConfigurationTest {
         List<Schedule> schedules = scheduleRepository.findAll();
         assertThat(schedules).hasSize(1);
         assertThat(schedules.get(0).isActive()).isEqualTo(false);
+    }
 
+    @AfterEach
+    void tearDown() {
+        scheduleRepository.deleteAll();
     }
 }

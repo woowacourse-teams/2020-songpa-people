@@ -14,8 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class KakaoScheduleAutoConfigurationTest {
-
     private static final String KAKAO = "KAKAO";
+
     @Autowired
     private KakaoScheduleAutoConfiguration kakaoScheduleAutoConfiguration;
 
@@ -24,12 +24,6 @@ class KakaoScheduleAutoConfigurationTest {
 
     @Autowired
     private KakaoScheduler kakaoScheduler;
-
-    @AfterEach
-    void tearDown() {
-        scheduleRepository.deleteAll();
-        kakaoScheduler.stop();
-    }
 
     @DisplayName("Kakao 스케쥴러가 실행되지 않도록 설정")
     @Test
@@ -57,5 +51,11 @@ class KakaoScheduleAutoConfigurationTest {
         //then
         boolean result = kakaoScheduler.stop();
         assertThat(result).isTrue();
+    }
+
+    @AfterEach
+    void tearDown() {
+        scheduleRepository.deleteAll();
+        kakaoScheduler.stop();
     }
 }

@@ -27,12 +27,6 @@ class KakaoScheduleCommandServiceTest {
     @Autowired
     private KakaoScheduler kakaoScheduler;
 
-    @AfterEach
-    void tearDown() {
-        scheduleRepository.deleteAll();
-        kakaoScheduler.stop();
-    }
-
     @DisplayName("스케쥴러 멈추기 성공")
     @Test
     void stopSchedule() {
@@ -72,4 +66,11 @@ class KakaoScheduleCommandServiceTest {
         Schedule schedule = scheduleRepository.findByName(KAKAO).get();
         assertThat(schedule.isActive()).isTrue();
     }
+
+    @AfterEach
+    void tearDown() {
+        scheduleRepository.deleteAll();
+        kakaoScheduler.stop();
+    }
+
 }

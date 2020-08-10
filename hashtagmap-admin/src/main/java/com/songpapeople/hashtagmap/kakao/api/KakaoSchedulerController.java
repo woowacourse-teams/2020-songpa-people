@@ -22,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/kakao/scheduler")
 public class KakaoSchedulerController {
-
     private final KakaoScheduleCommandService kakaoScheduleCommandService;
     private final KakaoScheduleQueryService kakaoScheduleQueryService;
 
@@ -42,7 +41,8 @@ public class KakaoSchedulerController {
     @PutMapping("/period")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<Void> changeSchedulePeriod(@RequestBody String expression) {
-        return kakaoScheduleCommandService.changeSchedulePeriod(expression);
+        kakaoScheduleCommandService.changeSchedulePeriod(expression);
+        return CustomResponse.empty();
     }
 
     @GetMapping("/period")
@@ -50,5 +50,4 @@ public class KakaoSchedulerController {
     public CustomResponse<List<PeriodHistoryDto>> showPeriodHistory() {
         return CustomResponse.of(kakaoScheduleQueryService.showPeriodHistory());
     }
-
 }

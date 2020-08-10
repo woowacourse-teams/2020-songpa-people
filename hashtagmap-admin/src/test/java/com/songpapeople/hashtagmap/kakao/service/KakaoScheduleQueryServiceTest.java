@@ -24,11 +24,6 @@ class KakaoScheduleQueryServiceTest {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    @AfterEach
-    void tearDown() {
-        scheduleRepository.deleteAll();
-    }
-
     @DisplayName("입력한 스케쥴러의 이름으로 스케쥴러의 활성화 상태 조회하기")
     @Test
     void getKakaoScheduleActiveStatus() {
@@ -55,4 +50,8 @@ class KakaoScheduleQueryServiceTest {
                 .hasMessage("%s : 스케쥴러가 존재하지 않습니다.", KAKAO);
     }
 
+    @AfterEach
+    void tearDown() {
+        scheduleRepository.deleteAll();
+    }
 }
