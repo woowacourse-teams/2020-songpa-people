@@ -28,22 +28,19 @@ public class PlaceRepositoryTest {
     private void setUp() {
         List<Place> places = Arrays.asList(
                 Place.builder()
-                        .id(1L)
-                        .kakaoId("1234")
+                        .kakaoId("1")
                         .category(Category.CAFE)
                         .location(new Location(new Point("33", "127"), ROAD_ADDRESS_NAME))
                         .placeName("starbucks")
                         .build(),
                 Place.builder()
-                        .id(2L)
-                        .kakaoId("1423")
+                        .kakaoId("2")
                         .category(Category.CAFE)
                         .location(new Location(new Point("33.5", "127.5"), ROAD_ADDRESS_NAME))
                         .placeName("mahogani")
                         .build(),
                 Place.builder()
-                        .id(3L)
-                        .kakaoId("1324")
+                        .kakaoId("3")
                         .category(Category.CAFE)
                         .location(new Location(new Point("33.2", "127.2"), ROAD_ADDRESS_NAME))
                         .placeName("cu")
@@ -57,22 +54,19 @@ public class PlaceRepositoryTest {
     void updateInsertQueryTest() {
         List<Place> duplicateKakaoIdPlaces = Arrays.asList(
                 Place.builder()
-                        .id(1L)
-                        .kakaoId("1234")
+                        .kakaoId("1")
                         .category(Category.CAFE)
                         .location(new Location(new Point("33", "127"), ROAD_ADDRESS_NAME))
                         .placeName("starbucks2")
                         .build(),
                 Place.builder()
-                        .id(2L)
-                        .kakaoId("1423")
+                        .kakaoId("2")
                         .category(Category.CAFE)
                         .location(new Location(new Point("33.5", "127.5"), ROAD_ADDRESS_NAME))
                         .placeName("mahogani2")
                         .build(),
                 Place.builder()
-                        .id(3L)
-                        .kakaoId("1324")
+                        .kakaoId("3")
                         .category(Category.CAFE)
                         .location(new Location(new Point("33.2", "127.2"), ROAD_ADDRESS_NAME))
                         .placeName("cu")
@@ -81,9 +75,9 @@ public class PlaceRepositoryTest {
         placeRepository.updateAndInsert(duplicateKakaoIdPlaces);
 
         assertAll(
-                () -> assertThat(placeRepository.findById(1L).get().getPlaceName()).isEqualTo("starbucks2"),
-                () -> assertThat(placeRepository.findById(2L).get().getPlaceName()).isEqualTo("mahogani2"),
-                () -> assertThat(placeRepository.findById(3L).get().getPlaceName()).isEqualTo("cu")
+                () -> assertThat(placeRepository.findByPlaceName("starbucks2").get(0).getKakaoId()).isEqualTo("1"),
+                () -> assertThat(placeRepository.findByPlaceName("mahogani2").get(0).getKakaoId()).isEqualTo("2"),
+                () -> assertThat(placeRepository.findByPlaceName("cu").get(0).getKakaoId()).isEqualTo("3")
         );
     }
 
