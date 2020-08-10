@@ -7,7 +7,6 @@ import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryDto;
 import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
-import com.songpapeople.hashtagmap.response.CustomResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +28,10 @@ public class KakaoScheduleQueryService {
         return schedule.isActive();
     }
 
-    public CustomResponse<List<PeriodHistoryDto>> showPeriodHistory() {
-        List<PeriodHistoryDto> histories = historyRepository.findAll()
+    public List<PeriodHistoryDto> showPeriodHistory() {
+        return historyRepository.findAll()
                 .stream()
                 .map(PeriodHistory::toDto)
                 .collect(Collectors.toList());
-
-        return CustomResponse.of(histories);
     }
 }

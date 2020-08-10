@@ -48,7 +48,7 @@ public class KakaoSchedulerController {
     @GetMapping("/period")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<List<PeriodHistoryDto>> showPeriodHistory() {
-        return kakaoScheduleQueryService.showPeriodHistory();
+        return CustomResponse.of(kakaoScheduleQueryService.showPeriodHistory());
     }
 
 }

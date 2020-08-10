@@ -5,7 +5,6 @@ import com.songpapeople.hashtagmap.exception.AdminException;
 import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
 import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
-import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -72,18 +71,5 @@ class KakaoScheduleCommandServiceTest {
         //then
         Schedule schedule = scheduleRepository.findByName(KAKAO).get();
         assertThat(schedule.isActive()).isTrue();
-    }
-
-    @DisplayName("스케쥴러 이미 시작한 스케쥴러를 시작하려하는 경우 Exception 발생")
-    @Test
-    void startAlreadyRunningSchedule() {
-        //given
-        scheduleRepository.save(new Schedule(KAKAO, "비밥", Flag.Y));
-        kakaoScheduler.start();
-
-        //then
-        assertThatThrownBy(() -> kakaoScheduleCommandService.toggleSchedule(KAKAO))
-                .isInstanceOf(KakaoSchedulerException.class)
-                .hasMessage("스케쥴러가 이미 실행중입니다.");
     }
 }

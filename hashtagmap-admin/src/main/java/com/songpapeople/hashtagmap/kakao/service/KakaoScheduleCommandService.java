@@ -24,10 +24,10 @@ public class KakaoScheduleCommandService {
         Schedule schedule = findScheduleByTarget(name);
         schedule.toggle();
         if (schedule.isActive()) {
-            kakaoScheduler.stop();
+            kakaoScheduler.start();
             return;
         }
-        kakaoScheduler.start();
+        kakaoScheduler.stop();
     }
 
     private Schedule findScheduleByTarget(final String name) {
