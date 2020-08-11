@@ -8,15 +8,15 @@
         </div>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
-        <v-slider
-          :tick-labels="ticksLabels"
-          :max="5"
-          step="1"
-          ticks="always"
-          tick-size="4"
-          color="rgb(216, 160, 250)"
-          @click="changeColor"
-        ></v-slider>
+        <div class="tag-level-detail">
+          <ul class="progressbar">
+            <li class="level-one">25k</li>
+            <li class="level-two">20k</li>
+            <li class="level-three">15k</li>
+            <li class="level-four">10k</li>
+            <li class="level-five"></li>
+          </ul>
+        </div>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -29,8 +29,6 @@ export default {
   data: () => ({
     chevronDown: mdiChevronDown,
     chevronUp: mdiChevronUp,
-    toggle: false,
-    ticksLabels: ["0", "5k", "10k", "15k", "20k", "25k"],
   }),
 
   methods: {
@@ -39,58 +37,6 @@ export default {
     },
     showIcon() {
       return !this.toggle ? this.chevronDown : this.chevronUp;
-    },
-    changeColor() {
-      const value = document.querySelector(
-        "#tag-level > div > div > div > " +
-          "div.v-item-group.theme--light.v-expansion-panels.v-expansion-panels--flat > div > div > div > " +
-          "div.v-input.theme--light.v-input__slider > div > div.v-input__slot > div > input",
-      ).value;
-      const slideBar = document.querySelector(
-        "#tag-level > div > div > div > " +
-          "div.v-item-group.theme--light.v-expansion-panels.v-expansion-panels--flat > div > div > div > " +
-          "div.v-input.v-input--is-label-active.v-input--is-dirty.theme--light.v-input__slider > div > " +
-          "div.v-input__slot > div > div.v-slider__track-container > div.v-slider__track-fill",
-      );
-      const slideThumb = document.querySelector(
-        "#tag-level > div > div > div > " +
-          "div.v-item-group.theme--light.v-expansion-panels.v-expansion-panels--flat > div > div > div > div > " +
-          "div > div.v-input__slot > div > div.v-slider__thumb-container > div",
-      );
-      if (value === "5") {
-        slideThumb.style.cssText =
-          "background-color: rgb(65, 12, 162); border-color: rgb(65, 12, 162);";
-        slideBar.style.cssText =
-          "left: 0px; right: auto; width: 100%; background: rgb(65, 12, 162) !important;";
-      }
-      if (value === "4") {
-        slideThumb.style.cssText =
-          "background-color: rgb(116, 22, 227); border-color: rgb(116, 22, 227);";
-        slideBar.style.cssText =
-          "left: 0px; right: auto; width: 80%; background: rgb(116, 22, 227) !important;";
-      }
-      if (value === "3") {
-        slideThumb.style.cssText =
-          "background-color: rgb(158, 76, 237); border-color: rgb(158, 76, 237);";
-        slideBar.style.cssText =
-          "left: 0px; right: auto; width: 60%; background: rgb(158, 76, 237) !important;";
-      }
-      if (value === "2") {
-        slideThumb.style.cssText =
-          "background-color: rgb(185, 112, 243); border-color: rgb(185, 112, 243);";
-        slideBar.style.cssText =
-          "left: 0px; right: auto; width: 40%; background: rgb(185, 112, 243) !important;";
-      }
-      if (value === "1") {
-        slideThumb.style.cssText =
-          "background-color: rgb(216, 160, 250); border-color: rgb(216, 160, 250);";
-        slideBar.style.cssText =
-          "left: 0px; right: auto; width: 20%; background: rgb(216, 160, 250) !important;";
-      }
-      if (value === "0") {
-        slideThumb.style.cssText =
-          "background-color: rgb(216, 160, 250); border-color: rgb(216, 160, 250);";
-      }
     },
   },
 };
@@ -109,7 +55,78 @@ export default {
   padding: 0 !important;
 }
 
-.v-slider--horizontal .v-slider__track-container {
-  height: 4px !important;
+.tag-level-detail {
+  width: 100%;
+}
+
+.progressbar li {
+  list-style-type: none;
+  float: left;
+  height: 10px;
+  width: 20%;
+  position: relative;
+  text-align: center;
+  z-index: 10;
+}
+
+.progressbar li::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background-color: #ddd;
+  top: -15px;
+  left: -50%;
+}
+
+.progressbar li:first-child::after {
+  border: 3px solid rgb(65,12,162);
+  background-color: rgb(65,12,162);
+}
+
+.progressbar li.level-one:before {
+  border-color: #ddd;
+}
+
+.progressbar li.level-one + li:after {
+  border: 3px solid rgb(116,22,227);
+  background-color: rgb(116,22,227);
+}
+
+.progressbar li.level-two:before {
+  border-color: #ddd;
+}
+
+.progressbar li.level-two + li:after {
+  border: 3px solid rgb(158,76,237);
+  background-color: rgb(158,76,237);
+}
+
+.progressbar li.level-three:before {
+  border-color: #ddd;
+}
+
+.progressbar li.level-three + li:after {
+  border: 3px solid rgb(185,112,243);
+  background-color: rgb(185,112,243);
+}
+
+.progressbar li.level-four:before {
+  border-color: #ddd;
+}
+
+.progressbar li.level-four + li:after {
+  border: 3px solid rgb(216,160,250);
+  background-color: rgb(216,160,250);
+}
+
+.progressbar li.level-five::before {
+  background-color: rgb(216,160,250) !important;
+  content: "";
+  position: absolute;
+  top: -15px;
+  border: 1px solid rgb(216,160,250);
+  width: 5px;
+  height: 6px;
 }
 </style>
