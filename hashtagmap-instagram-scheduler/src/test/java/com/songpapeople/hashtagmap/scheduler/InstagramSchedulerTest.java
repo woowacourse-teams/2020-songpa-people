@@ -4,7 +4,7 @@ import com.songpapeople.hashtagmap.MockDataFactory;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
-import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramPostRepository;
+import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import org.junit.jupiter.api.BeforeEach;
