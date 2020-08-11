@@ -32,11 +32,14 @@ class InstagramPostQueryServiceTest {
     @DisplayName("인스타 아이디로부터 모든 post 정보를 가져오는 기능 테스트")
     @Test
     void findAllByInstagramId() {
-        List<InstagramPost> expected = IntStream.rangeClosed(1, 9).boxed()
+        List<InstagramPost> instagramPosts = IntStream.rangeClosed(1, 9).boxed()
                 .map(this::createInstagramPost)
                 .collect(Collectors.toList());
+        when(instagramPostRepository.findAllByInstagramId(any())).thenReturn(instagramPosts);
 
-        when(instagramPostRepository.findAllByInstagramId(any())).thenReturn(expected);
+        List<InstagramPostResponse> expected = instagramPosts.stream()
+                .map(InstagramPostResponse::of)
+                .collect(Collectors.toList());
 
         List<InstagramPostResponse> actual = instagramPostQueryService.findAllByInstagramId(1L);
 
