@@ -44,7 +44,7 @@ export default {
   components: {
     CustomSnackbar
   },
-  data() {
+  data: () => {
     return {
       headers: [
         {
@@ -75,7 +75,7 @@ export default {
       "setPeriod",
       "findPeriodHistory"
     ]),
-    ...mapMutations("snackbar",["SHOW_SNACKBAR"]),
+    ...mapMutations("snackbar", ["SHOW_SNACKBAR"]),
     ...mapMutations("kakao", ["INPUT_EXPRESSION"]),
     async changePeriod() {
       const snackbarContents = await this.setPeriod();

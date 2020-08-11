@@ -23,7 +23,15 @@
             <v-icon>mdi-air-purifier</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>instagram schduler</v-list-item-title>
+            <v-list-item-title>instagram scheduler</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/district-manage">
+          <v-list-item-action>
+            <v-icon>mdi-air-purifier</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>district manage</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

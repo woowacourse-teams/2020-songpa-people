@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Home from "../views/Home";
 import KakaoScheduler from "../views/KakaoScheduler";
 import InstagramScheduler from "../views/InstagramScheduler";
-import Home from "../views/Home";
+import DistrictManage from "../views/DistrictManage";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/instagram-scheduler",
     name: "InstagramScheduler",
     component: InstagramScheduler
+  },
+  {
+    path: "/district-manage",
+    name: "DistrictManage",
+    component: DistrictManage
   }
 ];
 
