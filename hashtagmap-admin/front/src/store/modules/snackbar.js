@@ -1,19 +1,15 @@
-import Vue from "vue";
-import Vuex from "vuex";
-
-Vue.use(Vuex);
-
-const snackbar = {
+export default {
+  namespaced:true,
   state: {
     snackbar: { show: false, type: "", message: "", code: "" }
   },
   getters: {
-    snackbar(state) {
+    getSnackbar(state) {
       return state.snackbar;
     }
   },
   mutations: {
-    showSnackbar(state, input) {
+    SHOW_SNACKBAR(state, input) {
       state.snackbar.show = true;
       state.snackbar.type = input.type ? input.type : "info";
       state.snackbar.message = input.message;
@@ -21,5 +17,3 @@ const snackbar = {
     }
   }
 };
-
-export default snackbar;

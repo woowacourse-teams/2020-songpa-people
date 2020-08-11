@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.api;
+package com.songpapeople.hashtagmap.instagram.api;
 
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.InstagramScheduler;

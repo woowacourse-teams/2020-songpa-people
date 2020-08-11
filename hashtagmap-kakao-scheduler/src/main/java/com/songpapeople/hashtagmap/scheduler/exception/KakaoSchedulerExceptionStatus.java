@@ -4,13 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum KakaoSchedulerExceptionStatus {
-    INVALID_PERIOD_EXPRESSION("기간(정규식)이 잘못되었습니다.", "KAKAO_SCHEDULER_1001");
+    SCHEDULE_ALREADY_RUNNING("KAKAO_SCHEDULE_1000", "스케쥴러가 이미 실행중입니다."),
+    INVALID_PERIOD_EXPRESSION("KAKAO_SCHEDULER_1001", "기간(정규식)이 잘못되었습니다.");
 
+    private final String code;
     private final String message;
-    private final String statusCode;
 
-    KakaoSchedulerExceptionStatus(String message, String statusCode) {
+
+    KakaoSchedulerExceptionStatus(final String code, final String message) {
+        this.code = code;
         this.message = message;
-        this.statusCode = statusCode;
     }
 }

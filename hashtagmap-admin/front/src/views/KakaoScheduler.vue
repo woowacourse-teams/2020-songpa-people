@@ -1,11 +1,19 @@
 <template>
   <v-container>
-    <v-btn @click="kakaoScheduling" class="ma-2" color="indigo" outlined>
-      카카오 스케줄러 실행
+    <v-btn @click="toggleKakaoSchedule" class="ma-2" color="indigo" outlined
+      >카카오 스케줄러 토글
+    </v-btn>
+    <v-btn
+      :color="getScheduleActiveStatus.color"
+      @click="fetchScheduleActiveStatus"
+      class="ma-2"
+      outlined
+      >상태 : {{ getScheduleActiveStatus.message }}
     </v-btn>
     <div class="period-input">
       <v-text-field
-        v-model="expression"
+        :value="getExpression"
+        @input="INPUT_EXPRESSION"
         label="정규 표현식"
         hint="(예) 0 0/5 * * * ?"
       />
@@ -19,7 +27,7 @@
     </v-btn>
     <v-data-table
       :headers="headers"
-      :items="periods"
+      :items="getPeriodHistory"
       :items-per-page="5"
       class="elevation-1"
     />
@@ -28,92 +36,54 @@
 </template>
 
 <script>
-  import axios from "axios";
-  import {mapMutations} from "vuex";
-  import CustomSnackbar from "../components/CustomSnackBar";
-  import {MESSAGE, SNACK_BAR_TYPE} from "../utils/constants";
+import { mapMutations, mapActions, mapGetters } from "vuex";
+import CustomSnackbar from "../components/CustomSnackBar";
 
-  export default {
-    name: "KakaoScheduler",
-    components: {
-      CustomSnackbar
-    },
-    data() {
-      return {
-        expression: "",
-        headers: [
-          {
-            text: "변경된 날짜 및 시간",
+export default {
+  name: "KakaoScheduler",
+  components: {
+    CustomSnackbar
+  },
+  data() {
+    return {
+      headers: [
+        {
+          text: "변경된 날짜 및 시간",
           align: "start",
           sortable: false,
           value: "changedDate"
         },
         { text: "정규화식", value: "expression" },
         { text: "변경한 사람", value: "member" }
-      ],
-      periods: []
+      ]
     };
   },
+  created() {
+    this.fetchScheduleActiveStatus();
+  },
+  computed: {
+    ...mapGetters("kakao", [
+      "getPeriodHistory",
+      "getExpression",
+      "getScheduleActiveStatus"
+    ])
+  },
   methods: {
-    ...mapMutations(["showSnackbar"]),
-    kakaoScheduling() {
-      // do something
-    },
+    ...mapActions("kakao", [
+      "toggleKakaoSchedule",
+      "fetchScheduleActiveStatus",
+      "setPeriod",
+      "findPeriodHistory"
+    ]),
+    ...mapMutations("snackbar",["SHOW_SNACKBAR"]),
+    ...mapMutations("kakao", ["INPUT_EXPRESSION"]),
     async changePeriod() {
-      if (this.expression === "") {
-        this.showSnackbar({
-          type: SNACK_BAR_TYPE.INFO,
-          message: MESSAGE.NO_INPUT
-        });
-        return;
-      }
-
-      try {
-        await axios.put("/kakao/scheduler/period", this.expression, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-        this.showSnackbar({
-          type: SNACK_BAR_TYPE.SUCCESS,
-          message: MESSAGE.SUCCESS
-        });
-      } catch (e) {
-        this.showSnackbar({
-          type: SNACK_BAR_TYPE.ERROR,
-          message: e.response.data.message,
-          code: e.response.data.code
-        });
-      } finally {
-        this.expression = "";
-      }
+      const snackbarContents = await this.setPeriod();
+      this.SHOW_SNACKBAR(snackbarContents);
     },
     async showPeriodHistory() {
-      try {
-        this.periods = [];
-        const res = await axios.get("/kakao/scheduler/period");
-        console.dir(res);
-        if (res.data.data.length == 1) {
-          this.showSnackbar({
-            type: SNACK_BAR_TYPE.INFO,
-            message: MESSAGE.NO_CONTENT
-          });
-          return;
-        }
-        res.data.data.map(period =>
-                this.periods.push({
-                  changedDate: period.changedDate,
-                  expression: period.expression,
-                  member: period.member
-                })
-        );
-      } catch (e) {
-        this.showSnackbar({
-          type: SNACK_BAR_TYPE.ERROR,
-          message: e.response.data.message,
-          code: e.response.data.code
-        });
-      }
+      const snackbarContents = await this.findPeriodHistory();
+      this.SHOW_SNACKBAR(snackbarContents);
     }
   }
 };

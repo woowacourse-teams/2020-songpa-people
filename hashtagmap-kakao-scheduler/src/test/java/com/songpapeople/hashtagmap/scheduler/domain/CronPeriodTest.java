@@ -18,8 +18,8 @@ class CronPeriodTest {
         KakaoSchedulerException excpetion = assertThrows(KakaoSchedulerException.class,
                 () -> new CronPeriod(wronExpression));
 
-        KakaoSchedulerExceptionStatus exceptionStatus = KakaoSchedulerExceptionStatus.INVALID_PERIOD_EXPRESSION;
-        assertThat(excpetion.getErrorCode()).isEqualTo(exceptionStatus.getStatusCode());
-        assertThat(excpetion.getMessage()).isEqualTo(exceptionStatus.getMessage());
+        KakaoSchedulerExceptionStatus kakaoSchedulerExceptionStatus = KakaoSchedulerExceptionStatus.INVALID_PERIOD_EXPRESSION;
+        assertThat(excpetion.getErrorCode()).isEqualTo(kakaoSchedulerExceptionStatus.getCode());
+        assertThat(excpetion.getMessage()).isEqualTo(kakaoSchedulerExceptionStatus.getMessage());
     }
 }

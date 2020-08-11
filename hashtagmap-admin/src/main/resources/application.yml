@@ -1,12 +1,21 @@
 spring:
-  mvc:
-    view:
-      suffix: .html
-  resources:
-    static-locations:
-      - file:hashtagmap-admin/src/main/resources/static
   profiles:
+    active: local
     include: >
       kakao,
       kakao-security,
       db
+  mvc:
+    view:
+      suffix: .html
+  jpa:
+    open-in-view: false
+---
+spring:
+  profiles: local
+  resources:
+    static-locations:
+      - file:./hashtagmap-admin/src/main/resources/static
+  h2:
+    console:
+      enabled: true

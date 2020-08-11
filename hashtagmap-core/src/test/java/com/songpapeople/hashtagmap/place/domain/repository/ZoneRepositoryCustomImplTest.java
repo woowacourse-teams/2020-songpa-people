@@ -3,6 +3,7 @@ package com.songpapeople.hashtagmap.place.domain.repository;
 import com.songpapeople.hashtagmap.place.domain.model.District;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
 import com.songpapeople.hashtagmap.place.domain.model.Zone;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,11 @@ public class ZoneRepositoryCustomImplTest {
 
         List<Zone> activatedZones = zoneRepository.findByActivated();
         assertThat(activatedZones).hasSize(2);
+    }
+
+    @AfterEach
+    void tearDown() {
+        zoneRepository.deleteAll();
+        districtRepository.deleteAll();
     }
 }
