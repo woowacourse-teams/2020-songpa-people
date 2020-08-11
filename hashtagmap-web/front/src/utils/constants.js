@@ -5,12 +5,6 @@ export const KAKAO_MAP = {
     longitude: 127.101463,
   },
   USER_MAKER_SIZE: 17,
-  PLACE_MARKER: {
-    image_url:
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
-    width: 25,
-    height: 36,
-  },
 };
 
 export const EVENT_TYPE = {
