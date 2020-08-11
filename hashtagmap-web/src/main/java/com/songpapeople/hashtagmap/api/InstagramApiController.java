@@ -24,7 +24,7 @@ public class InstagramApiController {
     @GetMapping("/{id}/post")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<List<InstagramPostResponse>> getInstagramPost(@PathVariable Long id) {
-        List<InstagramPostResponse> response = instagramPostQueryService.findAllByInstagramId(id);
-        return CustomResponse.of(response);
+        List<InstagramPostResponse> instagramPostResponses = instagramPostQueryService.findAllByInstagramId(id);
+        return CustomResponse.of(instagramPostResponses);
     }
 }

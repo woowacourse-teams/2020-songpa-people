@@ -18,15 +18,22 @@ public class CrawlingResult {
     private Place place;
 
     public CrawlingResult(CrawlingDto crawlingDto, Place place) {
+        validateHashtagCount(crawlingDto);
         this.crawlingDto = crawlingDto;
         this.place = place;
     }
 
-    public List<InstagramPost> toInstagramPosts() {
-        Instagram instagram = createInstagram();
+    public void validateHashtagCount(CrawlingDto crawlingDto) {
+        if (crawlingDto.getHashtagCount() < MIN_HASHTAG_COUNT) {
+            throw new IllegalArgumentException("해시태그개수가 100개 이하입니다.");
+        }
+        ;
+    }
+
+    public List<InstagramPost> toInstagramPosts(Long instagramId) {
         List<PostDto> postDtoList = crawlingDto.getPostDtoList();
         return postDtoList.stream()
-                .map(postDto -> createInstagramPost(instagram, postDto))
+                .map(postDto -> createInstagramPost(instagramId, postDto))
                 .collect(Collectors.toList());
     }
 
@@ -38,15 +45,11 @@ public class CrawlingResult {
                 .build();
     }
 
-    private InstagramPost createInstagramPost(Instagram instagram, PostDto postDto) {
+    private InstagramPost createInstagramPost(Long instagramId, PostDto postDto) {
         return InstagramPost.builder()
-                .instagram(instagram)
+                .instagramId(instagramId)
                 .postUrl(postDto.getPostUrl())
                 .imageUrl(postDto.getImageUrl())
                 .build();
-    }
-
-    public boolean isOverMinHashtagCount() {
-        return this.crawlingDto.getHashtagCount() >= MIN_HASHTAG_COUNT;
     }
 }
