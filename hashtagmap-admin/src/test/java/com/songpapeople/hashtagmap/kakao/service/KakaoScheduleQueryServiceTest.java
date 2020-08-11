@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class KakaoScheduleQueryServiceTest {
-
     private static final String KAKAO = "KAKAO";
     private static final String INSTAGRAM = "INSTAGRAM";
+
     @Autowired
     private KakaoScheduleQueryService kakaoScheduleQueryService;
 

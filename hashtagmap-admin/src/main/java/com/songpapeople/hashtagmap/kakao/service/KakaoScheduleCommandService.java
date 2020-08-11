@@ -37,9 +37,8 @@ public class KakaoScheduleCommandService {
                 ));
     }
 
-    @Transactional
     public void changeSchedulePeriod(String expression) {
-        kakaoScheduler.changePeriod(expression);
         historyRepository.save(new PeriodHistory(expression));
+        kakaoScheduler.changePeriod(expression);
     }
 }

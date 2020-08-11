@@ -6,6 +6,6 @@ class HashTagMapAdminApplicationTest {
 
     @Test
     void main() {
-        HashTagMapAdminApplication.main(new String[]{"--server.port=9999"});
+        HashTagMapAdminApplication.main(new String[]{"--server.port=0"});
     }
 }

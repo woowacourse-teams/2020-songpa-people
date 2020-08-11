@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class KakaoSchedulerController {
 
     @PostMapping("/toggle")
     @ResponseStatus(HttpStatus.OK)
-    public CustomResponse<Void> toggleScheduler(@RequestBody final KakaoScheduleToggleDto kakaoScheduleToggleDto) {
+    public CustomResponse<Void> toggleScheduler(@RequestBody @Valid final KakaoScheduleToggleDto kakaoScheduleToggleDto) {
         kakaoScheduleCommandService.toggleSchedule(kakaoScheduleToggleDto.getName());
         return CustomResponse.empty();
     }

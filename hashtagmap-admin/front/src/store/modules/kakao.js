@@ -125,6 +125,8 @@ export default {
             member: period.member
           })
         );
+        snackbarContents.type = SNACK_BAR_TYPE.SUCCESS;
+        snackbarContents.message = MESSAGE.SUCCESS;
       } catch (error) {
         snackbarContents.type = SNACK_BAR_TYPE.ERROR;
         snackbarContents.message = error.response.data.message;

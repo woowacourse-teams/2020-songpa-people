@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.songpapeople.hashtagmap.exception.AdminException;
 import com.songpapeople.hashtagmap.exception.AdminExceptionStatus;
+import com.songpapeople.hashtagmap.exception.CommonExceptionStatus;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleCommandService;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleQueryService;
 import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
@@ -133,5 +134,28 @@ class KakaoSchedulerControllerExceptionTest {
         //then
         assertThat(customResponse.getCode()).isEqualTo(AdminExceptionStatus.NOT_FOUND_SCHEDULER.getCode());
         assertThat(customResponse.getMessage()).isEqualTo(AdminExceptionStatus.NOT_FOUND_SCHEDULER.getMessage());
+    }
+
+    @DisplayName("전달받은 dto의 값이 비어있는 경우 Exception")
+    @Test
+    void bindException() throws Exception {
+        KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto("");
+        String contents = objectMapper.writeValueAsString(kakaoScheduleToggleDto);
+
+        MvcResult mvcResult = this.mockMvc.perform(
+                post(BASE_URI + "/toggle")
+                        .content(contents)
+                        .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        CustomResponse<Void> customResponse = objectMapper.readValue(contentAsString, new TypeReference<CustomResponse<Void>>() {
+        });
+
+        assertThat(customResponse.getCode()).isEqualTo(CommonExceptionStatus.BIND_VALIDATION.getCode());
+        assertThat(customResponse.getMessage()).isEqualTo(CommonExceptionStatus.BIND_VALIDATION.getMessage());
     }
 }
