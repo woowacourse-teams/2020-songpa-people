@@ -18,4 +18,10 @@ public class HashtagMapException extends RuntimeException {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
     }
+
+    public HashtagMapException(CommonExceptionStatus commonExceptionStatus, final String detailMessage) {
+        super(detailMessage);
+        this.errorCode = commonExceptionStatus.getCode();
+        this.errorMessage = commonExceptionStatus.getMessage();
+    }
 }

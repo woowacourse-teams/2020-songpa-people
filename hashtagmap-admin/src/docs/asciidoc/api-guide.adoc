@@ -1,0 +1,29 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:operation-http-request-title: 요청 예시
+:operation-request-body-title: 요청 본문 예시
+:operation-http-response-title: 응답 예시
+:operation-response-fields-title: 응답 필드 상세설명
+
+[[resources]]
+= HashtagMap Admin API Guide
+
+[[resources-district]]
+== District
+
+[[resources-district-getAllDistrict]]
+=== 전체 지역 정보 조회
+
+operation::district/getAllDistrict[snippets='http-request,http-response,response-fields']
+
+[[resources-district-saveDistrict]]
+=== 새로운 지역 정보 저장
+
+operation::district/saveDistrict[snippets='http-request,request-body,http-response,response-fields']

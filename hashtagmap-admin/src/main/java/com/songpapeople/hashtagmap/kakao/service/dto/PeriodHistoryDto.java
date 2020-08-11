@@ -18,14 +18,6 @@ public class PeriodHistoryDto {
     private String member;
     private Date changedDate;
 
-    @Builder
-    public PeriodHistoryDto(Long id, String expression, String member, Date changedDate) {
-        this.id = id;
-        this.expression = expression;
-        this.member = member;
-        this.changedDate = changedDate;
-    }
-
     public static List<PeriodHistoryDto> listOf(final List<PeriodHistory> periodHistories) {
         return periodHistories.stream()
                 .map(PeriodHistoryDto::of)
@@ -39,5 +31,13 @@ public class PeriodHistoryDto {
                 .expression(periodHistory.getExpression())
                 .member(periodHistory.getMember())
                 .build();
+    }
+
+    @Builder
+    public PeriodHistoryDto(Long id, String expression, String member, Date changedDate) {
+        this.id = id;
+        this.expression = expression;
+        this.member = member;
+        this.changedDate = changedDate;
     }
 }
