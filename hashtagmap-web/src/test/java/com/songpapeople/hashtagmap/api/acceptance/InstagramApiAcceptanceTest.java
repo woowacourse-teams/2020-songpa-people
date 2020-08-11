@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.api.acceptance;
 
-import com.songpapeople.hashtagmap.dto.InstagramPostResponse;
+import com.songpapeople.hashtagmap.dto.InstagramPost.InstagramPostResponse;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import io.restassured.RestAssured;
 import io.restassured.mapper.TypeRef;
