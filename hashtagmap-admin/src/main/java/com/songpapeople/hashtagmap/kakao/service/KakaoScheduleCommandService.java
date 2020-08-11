@@ -2,9 +2,9 @@ package com.songpapeople.hashtagmap.kakao.service;
 
 import com.songpapeople.hashtagmap.exception.AdminException;
 import com.songpapeople.hashtagmap.exception.AdminExceptionStatus;
-import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistory;
-import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryRepository;
+import com.songpapeople.hashtagmap.kakao.schedule.model.PeriodHistory;
 import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
+import com.songpapeople.hashtagmap.kakao.schedule.repository.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
 import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
 import lombok.RequiredArgsConstructor;

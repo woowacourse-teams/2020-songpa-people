@@ -16,7 +16,7 @@ import javax.persistence.UniqueConstraint;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "SCHEDULE_ID"))
-@Table(uniqueConstraints = @UniqueConstraint(name = "UK_SCEHDULE_TARGET", columnNames = "name"))
+@Table(uniqueConstraints = @UniqueConstraint(name = "UK_SCHEDULE_NAME", columnNames = "name"))
 public class Schedule extends BaseEntity {
 
     private String name;

@@ -1,9 +1,9 @@
 package com.songpapeople.hashtagmap.kakao.api;
 
-import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryDto;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleCommandService;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleQueryService;
 import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
+import com.songpapeople.hashtagmap.kakao.service.dto.PeriodHistoryDto;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
