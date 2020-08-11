@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -34,6 +36,6 @@ public class InstagramApiAcceptanceTest {
         .then()
                 .log().all()
                 .extract()
-                .as(new TypeRef<CustomResponse<InstagramPostResponse>>() {});
+                .as(new TypeRef<CustomResponse<List<InstagramPostResponse>>>() {});
     }
 }

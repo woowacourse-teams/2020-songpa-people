@@ -1,28 +1,21 @@
 package com.songpapeople.hashtagmap.api;
 
-import com.songpapeople.hashtagmap.doc.ApiDocument;
+import com.songpapeople.hashtagmap.doc.InstagramApiDocumentation;
 import com.songpapeople.hashtagmap.dto.InstagramPost.InstagramPostResponse;
-import com.songpapeople.hashtagmap.service.InstagramPostQueryService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class InstagramApiControllerTest extends ApiDocument {
-    @MockBean
-    private InstagramPostQueryService instagramPostQueryService;
-
+public class InstagramApiControllerTest extends InstagramApiDocumentation {
     @DisplayName("인스타그램post요청 controller 테스트")
     @Test
     void getInstagramPost() throws Exception {
@@ -45,7 +38,7 @@ public class InstagramApiControllerTest extends ApiDocument {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", Matchers.hasSize(9)))
                 .andExpect(jsonPath("$.data[0].imageUrl", Matchers.instanceOf(String.class)))
-                .andExpect(jsonPath("$.data[0].postUrl",Matchers.instanceOf(String.class)))
-                .andDo(print());
+                .andExpect(jsonPath("$.data[0].postUrl", Matchers.instanceOf(String.class)))
+                .andDo(getDocumentByGetInstagramPost());
     }
 }

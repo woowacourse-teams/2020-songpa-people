@@ -1,32 +1,16 @@
 package com.songpapeople.hashtagmap.doc;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import static com.songpapeople.hashtagmap.doc.ApiDocumentUtils.getDocumentRequest;
 import static com.songpapeople.hashtagmap.doc.ApiDocumentUtils.getDocumentResponse;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class MapApiDocumentation extends ApiDocument {
-    @DisplayName("findAllMarkers 문서화를 위한 테스트")
-    @Test
-    void findAllMarkers() throws Exception {
-        given(instagramQueryService.findAllMarkers()).willReturn(markerResponses);
-        mockMvc.perform(get("/markers")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(getDocumentByFindAllMarkers());
-    }
-
-    private RestDocumentationResultHandler getDocumentByFindAllMarkers() {
+    protected RestDocumentationResultHandler getDocumentByFindAllMarkers() {
         return document("maps/find-all-markers",
                 getDocumentRequest(),
                 getDocumentResponse(),
