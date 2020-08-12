@@ -20,15 +20,15 @@ public class InstagramApiControllerTest extends InstagramApiDocumentation {
     @Test
     void getInstagramPost() throws Exception {
         List<InstagramPostResponse> instagramPostResponses = Arrays.asList(
-                new InstagramPostResponse("imageUrl1", "postUrl1"),
-                new InstagramPostResponse("imageUrl2", "postUrl2"),
-                new InstagramPostResponse("imageUrl3", "postUrl3"),
-                new InstagramPostResponse("imageUrl4", "postUrl4"),
-                new InstagramPostResponse("imageUrl5", "postUrl5"),
-                new InstagramPostResponse("imageUrl6", "postUrl6"),
-                new InstagramPostResponse("imageUrl7", "postUrl7"),
-                new InstagramPostResponse("imageUrl8", "postUrl8"),
-                new InstagramPostResponse("imageUrl9", "postUrl9")
+                new InstagramPostResponse(1L, "imageUrl1", "postUrl1"),
+                new InstagramPostResponse(2L, "imageUrl2", "postUrl2"),
+                new InstagramPostResponse(3L, "imageUrl3", "postUrl3"),
+                new InstagramPostResponse(4L, "imageUrl4", "postUrl4"),
+                new InstagramPostResponse(5L, "imageUrl5", "postUrl5"),
+                new InstagramPostResponse(6L, "imageUrl6", "postUrl6"),
+                new InstagramPostResponse(7L, "imageUrl7", "postUrl7"),
+                new InstagramPostResponse(8L, "imageUrl8", "postUrl8"),
+                new InstagramPostResponse(9L, "imageUrl9", "postUrl9")
         );
 
         given(instagramPostQueryService.findAllByInstagramId(any()))
@@ -37,6 +37,7 @@ public class InstagramApiControllerTest extends InstagramApiDocumentation {
         mockMvc.perform(get("/instagram/1/post"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", Matchers.hasSize(9)))
+                .andExpect(jsonPath("$.data[0].id", Matchers.instanceOf(Long.class)))
                 .andExpect(jsonPath("$.data[0].imageUrl", Matchers.instanceOf(String.class)))
                 .andExpect(jsonPath("$.data[0].postUrl", Matchers.instanceOf(String.class)))
                 .andDo(getDocumentByGetInstagramPost());

@@ -8,35 +8,57 @@ export default new Vuex.Store({
   state: {
     kakaoMap: "",
     kakaoMapApi: "",
-    isShowDetailModal: false,
-    nowPlaceByDetailModal: "",
-    places: [],
+    detailModal: {
+      isShow: false,
+      placeName: "",
+      hashtagCount: "",
+      posts: "",
+    },
+    places: [
+      {
+        hashtagCount: "",
+        instagramId: "",
+        kakaoId: "",
+        latitude: "",
+        longitude: "",
+        placeName: "",
+        tagLevel: "",
+      },
+    ],
   },
   mutations: {
-    initKakaoMapApi(state, kakaoMapApi) {
+    SET_KAKAO_MAP_API(state, kakaoMapApi) {
       state.kakaoMapApi = kakaoMapApi;
     },
     initKakaoMap(state, kakaoMap) {
       state.kakaoMap = kakaoMap;
     },
-    initShowDetailModal(state, place) {
-      state.isShowDetailModal = true;
-      state.nowPlaceByDetailModal = place;
+    SET_DETAIL_MODAL(state, detailModal) {
+      state.detailModal = detailModal;
     },
-    initCloseDetailModal(state) {
-      state.isShowDetailModal = false;
+    SET_DETAIL_MODAL_CLOSE(state) {
+      state.detailModal.isShow = false;
     },
     initPlaces(state, places) {
       state.places = places;
     },
   },
   actions: {
-    showDetailModal({ commit }, place) {
-      commit("initShowDetailModal", place);
+    async showDetailModal({commit}, place) {
+      const posts = await axios.get(`/instagram/${place.instagramId}/post`);
+      const detailModal = {
+        isShow: true,
+        placeName: place.placeName,
+        hashtagCount: place.hashtagCount,
+        posts: posts.data.data,
+      };
+      console.log(detailModal);
+      commit("SET_DETAIL_MODAL", detailModal);
     },
-    async getPlaces({ commit }) {
+    async getPlaces({commit}) {
       try {
         const places = await axios.get("/markers");
+        console.log(places.data.data);
         commit("initPlaces", places.data.data);
       } catch (error) {
         // todo : 스낵바로 에러내용 출력

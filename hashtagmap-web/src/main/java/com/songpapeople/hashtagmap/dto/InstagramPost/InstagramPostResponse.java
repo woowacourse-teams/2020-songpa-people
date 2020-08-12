@@ -11,17 +11,20 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 public class InstagramPostResponse {
+    private Long id;
     private String imageUrl;
     private String postUrl;
 
     @Builder
-    public InstagramPostResponse(String imageUrl, String postUrl) {
+    public InstagramPostResponse(Long id, String imageUrl, String postUrl) {
+        this.id = id;
         this.imageUrl = imageUrl;
         this.postUrl = postUrl;
     }
 
     public static InstagramPostResponse of(InstagramPost instagramPosts) {
         return InstagramPostResponse.builder()
+                .id(instagramPosts.getId())
                 .imageUrl(instagramPosts.getImageUrl())
                 .postUrl(instagramPosts.getPostUrl())
                 .build();

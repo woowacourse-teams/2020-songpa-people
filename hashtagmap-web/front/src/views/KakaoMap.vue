@@ -12,20 +12,20 @@ import { textBalloonTemplate } from "../utils/templates";
 import DetailModal from "../components/DetailModal";
 import { getMarkerImage, SIZE } from "../utils/markerImages";
 
-export default {
-  name: "KakaoMap",
-  async mounted() {
-    this.initKakaoMapApi(await this.$initKakaoMapApi());
-    this.initKakaoMap(this.$loadMap());
-    await this.getPlaces();
-    this.loadMarker();
-    this.$loadCurrentPosition();
-  },
-  computed: {
-    ...mapState(["kakaoMap", "kakaoMapApi", "places"]),
+  export default {
+    name: "KakaoMap",
+    async mounted() {
+      this.SET_KAKAO_MAP_API(await this.$initKakaoMapApi());
+      this.initKakaoMap(this.$loadMap());
+      await this.getPlaces();
+      this.loadMarker();
+      this.$loadCurrentPosition();
+    },
+    computed: {
+      ...mapState(["kakaoMap", "kakaoMapApi", "places"]),
   },
   methods: {
-    ...mapMutations(["initKakaoMapApi", "initKakaoMap"]),
+    ...mapMutations(["SET_KAKAO_MAP_API", "initKakaoMap"]),
     ...mapActions(["showDetailModal", "getPlaces"]),
     loadMarker() {
       this.places.map(place => {
