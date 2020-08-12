@@ -10,24 +10,41 @@
           <p class="place-title">{{ detailModal.placeName }}</p>
           <p class="hashtag-count">{{ makeHashtagCount }}k</p>
           <p class="buttons">
-            <v-btn class="instagram-page-button">
+            <v-btn
+              x-large
+              class="instagram-page-button"
+              color="rgb(116,22,227)"
+            >
               {{ detailModal.placeName }}
             </v-btn>
-            <v-btn class="detail-info">상세 정보</v-btn>
-          </p>
-          <div class="image-container">
-            <a
-              :href="post.postUrl"
-              :key="post.id"
-              v-for="post in detailModal.posts"
+            <v-btn x-large class="detail-info" color="rgb(116,22,227)"
+              >상세 정보</v-btn
             >
-              <img
-                class="post-image"
-                alt="인스타그램 인기 게시물 이미지"
-                :src="post.imageUrl"
-              />
-            </a>
-          </div>
+          </p>
+          <v-sheet class="mx-auto" max-width="100%">
+            <v-slide-group
+              class="pa-0"
+              :prev-icon="mdiLeft"
+              :next-icon="mdiRight"
+              show-arrows
+            >
+              <v-slide-item v-for="post in detailModal.posts" :key="post.id">
+                <v-card
+                  color="grey lighten-1"
+                  class="ma-5"
+                  height="300"
+                  width="300"
+                >
+                  <v-img
+                    height="100%"
+                    width="100%"
+                    :src="post.imageUrl"
+                    onerror="this.src='../assets/No-Image.png'"
+                  ></v-img>
+                </v-card>
+              </v-slide-item>
+            </v-slide-group>
+          </v-sheet>
         </div>
       </v-card>
     </v-dialog>
@@ -36,12 +53,17 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
+import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 
 export default {
+  data: () => ({
+    mdiLeft: mdiChevronLeft,
+    mdiRight: mdiChevronRight,
+  }),
   computed: {
     ...mapState(["detailModal"]),
     makeHashtagCount() {
-      return (this.detailModal.hashtagCount / 1000).toFixed(0);
+      return (this.detailModal.hashtagCount / 1000).toFixed(1);
     },
   },
   methods: {
@@ -50,7 +72,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
 .place-title {
   font-size: 5vw;
 }
@@ -67,20 +89,9 @@ export default {
 .instagram-page-button,
 .detail-info {
   height: 3.5vw;
-  font-size: 1.5vw;
+  font-size: 2vw;
+  color: white !important;
   margin-right: 0.7vw;
-  border: fuchsia 1.5px solid;
   box-sizing: content-box;
-}
-
-.image-container {
-  margin-top: 3vw;
-}
-
-.post-image {
-  margin: 0.3vw;
-  max-width: 30%;
-  overflow: hidden;
-  height: auto;
 }
 </style>
