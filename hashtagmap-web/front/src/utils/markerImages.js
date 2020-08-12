@@ -1,8 +1,8 @@
 import mapMarker1 from "../assets/markers/mapMarker1.png";
-import mapMarker2 from "../assets/markers/mapMarker1.png";
-import mapMarker3 from "../assets/markers/mapMarker1.png";
-import mapMarker4 from "../assets/markers/mapMarker1.png";
-import mapMarker5 from "../assets/markers/mapMarker1.png";
+import mapMarker2 from "../assets/markers/mapMarker2.png";
+import mapMarker3 from "../assets/markers/mapMarker3.png";
+import mapMarker4 from "../assets/markers/mapMarker4.png";
+import mapMarker5 from "../assets/markers/mapMarker5.png";
 
 const markerImages = new Map();
 markerImages.set(1, mapMarker1);
