@@ -37,7 +37,7 @@ export default new Vuex.Store({
     },
     async getPlaces({ commit }) {
       try {
-        const places = await axios.get("maps/markers");
+        const places = await axios.get("markers");
         commit("initPlaces", places.data.data);
       } catch (error) {
         // todo : 스낵바로 에러내용 출력
