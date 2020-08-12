@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(DistrictCommandController.class)
 @ExtendWith({MockitoExtension.class})
 public class DistrictCommandDocumentTest extends ApiDocument {
-    private static final String BASE_URI = "/district";
+    private static final String BASE_URI = "/districts";
 
     @Autowired
     private ObjectMapper objectMapper;

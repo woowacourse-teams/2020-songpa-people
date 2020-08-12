@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(DistrictQueryController.class)
 @ExtendWith({MockitoExtension.class})
 public class DistrictQueryDocumentTest extends ApiDocument {
-    private static final String BASE_URI = "/district";
+    private static final String BASE_URI = "/districts";
 
     @MockBean
     private DistrictQueryService districtQueryService;

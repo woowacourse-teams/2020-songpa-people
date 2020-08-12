@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/district")
+@RequestMapping("/districts")
 public class DistrictQueryController {
     private final DistrictQueryService districtQueryService;
 

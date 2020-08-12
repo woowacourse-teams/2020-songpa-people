@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/district")
+@RequestMapping("/districts")
 public class DistrictCommandController {
     private final DistrictCommandService districtCommandService;
 

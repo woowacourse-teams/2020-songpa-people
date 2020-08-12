@@ -1,5 +1,6 @@
 package com.songpapeople.hashtagmap.district.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.songpapeople.hashtagmap.place.domain.model.District;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,9 @@ import java.util.stream.Collectors;
 public class DistrictDto {
     private final Long districtId;
     private final String districtName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ssS", timezone = "Asia/Seoul")
     private final LocalDateTime createdTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ssS", timezone = "Asia/Seoul")
     private final LocalDateTime updatedTime;
     private final String memberName;
 
