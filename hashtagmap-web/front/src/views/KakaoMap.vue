@@ -12,21 +12,21 @@ import { textBalloonTemplate } from "../utils/templates";
 import DetailModal from "../components/DetailModal";
 import { getMarkerImage, SIZE } from "../utils/markerImages";
 
-  export default {
-    name: "KakaoMap",
-    async mounted() {
-      this.SET_KAKAO_MAP_API(await this.$initKakaoMapApi());
-      this.initKakaoMap(this.$loadMap());
-      await this.getPlaces();
-      this.loadMarker();
-      this.$loadCurrentPosition();
-    },
-    computed: {
-      ...mapState(["kakaoMap", "kakaoMapApi", "places"]),
+export default {
+  name: "KakaoMap",
+  async mounted() {
+    this.SET_KAKAO_MAP_API(await this.$initKakaoMapApi());
+    this.SET_KAKAO_MAP(this.$loadMap());
+    await this.setPlaces();
+    this.loadMarker();
+    this.$loadCurrentPosition();
+  },
+  computed: {
+    ...mapState(["kakaoMap", "kakaoMapApi", "places"]),
   },
   methods: {
-    ...mapMutations(["SET_KAKAO_MAP_API", "initKakaoMap"]),
-    ...mapActions(["showDetailModal", "getPlaces"]),
+    ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP"]),
+    ...mapActions(["setDetailModal", "setPlaces"]),
     loadMarker() {
       this.places.map(place => {
         const marker = this.createMaker(place);
@@ -50,7 +50,7 @@ import { getMarkerImage, SIZE } from "../utils/markerImages";
     },
     onAddModalToTextBalloon(event, place) {
       event.preventDefault();
-      this.showDetailModal(place);
+      this.setDetailModal(place);
     },
     createMaker(place) {
       const imageSize = new this.kakaoMapApi.Size(SIZE.width, SIZE.height);

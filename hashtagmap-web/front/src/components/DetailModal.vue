@@ -1,9 +1,9 @@
 <template>
   <v-row justify="center">
     <v-dialog
-        :value="detailModal.isShow"
-        @input="SET_DETAIL_MODAL_CLOSE"
-        max-width="70%"
+      :value="detailModal.isShow"
+      @input="SET_DETAIL_MODAL_CLOSE"
+      max-width="70%"
     >
       <v-card>
         <div>
@@ -17,14 +17,14 @@
           </p>
           <div class="image-container">
             <a
-                :href="post.postUrl"
-                :key="post.id"
-                v-for="post in detailModal.posts"
+              :href="post.postUrl"
+              :key="post.id"
+              v-for="post in detailModal.posts"
             >
               <img
-                  class="post-image"
-                  alt="인스타그램 인기 게시물 이미지"
-                  :src="post.imageUrl"
+                class="post-image"
+                alt="인스타그램 인기 게시물 이미지"
+                :src="post.imageUrl"
               />
             </a>
           </div>
@@ -35,19 +35,19 @@
 </template>
 
 <script>
-  import {mapMutations, mapState} from "vuex";
+import { mapMutations, mapState } from "vuex";
 
-  export default {
-    computed: {
-      ...mapState(["detailModal"]),
-      makeHashtagCount() {
-        return (this.detailModal.hashtagCount / 1000).toFixed(0);
-      },
+export default {
+  computed: {
+    ...mapState(["detailModal"]),
+    makeHashtagCount() {
+      return (this.detailModal.hashtagCount / 1000).toFixed(0);
     },
-    methods: {
-      ...mapMutations(["SET_DETAIL_MODAL_CLOSE"]),
-    },
-  };
+  },
+  methods: {
+    ...mapMutations(["SET_DETAIL_MODAL_CLOSE"]),
+  },
+};
 </script>
 
 <style scoped>
