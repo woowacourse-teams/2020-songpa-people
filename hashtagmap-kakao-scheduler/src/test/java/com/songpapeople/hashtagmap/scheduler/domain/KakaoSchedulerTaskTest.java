@@ -9,6 +9,7 @@ import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.place.domain.repository.ZoneRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class KakaoSchedulerTaskTest {
         zoneRepository.save(zone);
     }
 
-    //    @Disabled
+    @Disabled
     @DisplayName("Task Test - 실제 Kakao Api 호출")
     @Test
     void collectDataTest() {

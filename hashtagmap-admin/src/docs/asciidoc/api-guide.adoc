@@ -26,4 +26,9 @@ operation::district/getAllDistrict[snippets='http-request,http-response,response
 [[resources-district-saveDistrict]]
 === 새로운 지역 정보 저장
 
-operation::district/saveDistrict[snippets='http-request,request-body,http-response,response-fields']
+operation::district/deleteDistricts[snippets='http-request,request-body,http-response,response-fields']
+
+[[resources-district-deleteDistricts]]
+=== 선택한 지역 정보 삭제
+
+operation::district/deleteDistricts[snippets='http-request,request-body,http-response,response-fields']

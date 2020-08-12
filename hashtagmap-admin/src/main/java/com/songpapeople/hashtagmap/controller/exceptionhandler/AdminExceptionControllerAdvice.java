@@ -17,30 +17,37 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class AdminExceptionControllerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RuntimeException.class)
+    public CustomResponse<Void> handleRuntimeException(RuntimeException e) {
+        log.error("Unexpected Exception : {}", e.getMessage());
+        return CustomResponse.error(CommonExceptionStatus.UNEXPECTED.getCode(), CommonExceptionStatus.UNEXPECTED.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(AdminException.class)
     public CustomResponse<Void> handleAdminException(AdminException e) {
-        log.error(e.getMessage());
+        log.info(e.getMessage());
         return CustomResponse.error(e.getErrorCode(), e.getErrorMessage());
     }
 
     @ExceptionHandler(InstagramSchedulerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public CustomResponse<Void> methodArgumentNotValidException(InstagramSchedulerException e) {
-        log.error(e.getMessage());
+        log.info(e.getMessage());
         return CustomResponse.error(e.getErrorCode(), e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(KakaoSchedulerException.class)
     public CustomResponse<Void> handleKakaoScheduleException(KakaoSchedulerException e) {
-        log.error(e.getMessage());
+        log.info(e.getMessage());
         return CustomResponse.error(e.getErrorCode(), e.getErrorMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public CustomResponse<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.error(e.getMessage());
+        log.info(e.getMessage());
         return CustomResponse.error(CommonExceptionStatus.BIND_VALIDATION.getCode(), CommonExceptionStatus.BIND_VALIDATION.getMessage());
     }
 }

@@ -4,6 +4,7 @@ import com.songpapeople.hashtagmap.config.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -22,5 +23,11 @@ public class District extends BaseEntity {
 
     public District(final String districtName) {
         this.districtName = districtName.trim();
+    }
+
+    public void update(final String districtName) {
+        if (!StringUtils.isEmpty(districtName)) {
+            this.districtName = districtName;
+        }
     }
 }
