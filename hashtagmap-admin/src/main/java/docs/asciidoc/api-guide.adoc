@@ -1,0 +1,45 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+
+[[resources]]
+= HashtagMap Admin API Guide
+
+[[resources-maps]]
+== Instagram
+
+[[resources-maps-find-all-markers]]
+=== scheduler 실행
+
+operation::instagram/scheduler/update[snippets='http-request,http-response']
+
+[[resources-maps]]
+== Kakao
+
+[[resources-maps-find-all-markers]]
+=== scheduler toggle (ON/OFF)
+
+operation::kakao/scheduler/toggle[snippets='http-request,http-response,request-fields']
+
+[[resources-maps-find-all-markers]]
+=== scheduler 상태 조회
+
+operation::kakao/scheduler/status[snippets='http-request,http-response,request-parameters,response-fields']
+
+[[resources-maps-find-all-markers]]
+=== scheduler 주기 변경
+
+operation::kakao/scheduler/period/put[snippets='http-request,http-response']
+
+[[resources-maps-find-all-markers]]
+=== scheduler 주기 조회
+
+operation::kakao/scheduler/period/get[snippets='http-request,http-response,response-fields']
