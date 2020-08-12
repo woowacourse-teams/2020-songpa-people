@@ -37,7 +37,7 @@ public class InstagramApiControllerTest extends InstagramApiDocumentation {
         mockMvc.perform(get("/instagram/1/post"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", Matchers.hasSize(9)))
-                .andExpect(jsonPath("$.data[0].id", Matchers.instanceOf(Long.class)))
+                .andExpect(jsonPath("$.data[0].id", Matchers.instanceOf(Integer.class)))
                 .andExpect(jsonPath("$.data[0].imageUrl", Matchers.instanceOf(String.class)))
                 .andExpect(jsonPath("$.data[0].postUrl", Matchers.instanceOf(String.class)))
                 .andDo(getDocumentByGetInstagramPost());

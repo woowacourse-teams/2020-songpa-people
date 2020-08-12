@@ -15,7 +15,7 @@ public class InstagramApiDocumentation extends ApiDocument {
                 getDocumentRequest(),
                 getDocumentResponse(),
                 responseFields(
-                        fieldWithPath("data[0].id").type(JsonFieldType.STRING)
+                        fieldWithPath("data[0].id").type(JsonFieldType.NUMBER)
                                 .description("instagramPost의 id"),
                         fieldWithPath("data[0].imageUrl").type(JsonFieldType.STRING)
                                 .description("modal에서 사용하는 이미지의 url"),

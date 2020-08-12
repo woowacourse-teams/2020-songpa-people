@@ -30,19 +30,18 @@ public class InstagramPostResponse {
                 .build();
     }
 
-    @Generated
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         final InstagramPostResponse that = (InstagramPostResponse) o;
-        return Objects.equals(imageUrl, that.imageUrl) &&
+        return Objects.equals(id, that.id) &&
+                Objects.equals(imageUrl, that.imageUrl) &&
                 Objects.equals(postUrl, that.postUrl);
     }
 
-    @Generated
     @Override
     public int hashCode() {
-        return Objects.hash(imageUrl, postUrl);
+        return Objects.hash(id, imageUrl, postUrl);
     }
 }
