@@ -12,7 +12,7 @@ BACKUP_DIR='/home/'$DEPLOY_USER'/backup-app'
 mkdir -p $BACKUP_DIR
 echo "BACKUP_DIR = $BACKUP_DIR"
 
-PROJECT_NAME=hashtagmap-web
+PROJECT_NAME=hashtagmap
 
 echo "> Build 파일 이동"
 
