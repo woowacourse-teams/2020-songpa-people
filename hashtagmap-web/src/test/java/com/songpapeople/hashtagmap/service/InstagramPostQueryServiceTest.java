@@ -25,8 +25,9 @@ class InstagramPostQueryServiceTest {
     @DisplayName("인스타 아이디로부터 모든 post 정보를 가져오는 기능 테스트")
     @Test
     void findAllByInstagramId() {
+        Long instagramId = 1L;
         List<InstagramPost> instagramPosts = IntStream.rangeClosed(1, 9).boxed()
-                .map(this::createInstagramPost)
+                .map(count -> createInstagramPost(count, instagramId))
                 .collect(Collectors.toList());
         instagramPostRepository.saveAll(instagramPosts);
 
@@ -34,15 +35,15 @@ class InstagramPostQueryServiceTest {
                 .map(InstagramPostResponse::of)
                 .collect(Collectors.toList());
 
-        List<InstagramPostResponse> actual = instagramPostQueryService.findAllByInstagramId(1L);
+        List<InstagramPostResponse> actual = instagramPostQueryService.findAllByInstagramId(instagramId);
 
         assertThat(actual).isEqualTo(expected);
     }
 
-    private InstagramPost createInstagramPost(Integer number) {
-        String url = String.valueOf(number);
+    private InstagramPost createInstagramPost(Integer count, Long instagramId) {
+        String url = String.valueOf(count);
         return InstagramPost.builder()
-                .instagramId(1L)
+                .instagramId(instagramId)
                 .imageUrl(url)
                 .postUrl(url)
                 .build();
