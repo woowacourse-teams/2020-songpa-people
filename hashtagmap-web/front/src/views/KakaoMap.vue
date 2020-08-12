@@ -7,9 +7,10 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
-import { EVENT_TYPE, KAKAO_MAP } from "../utils/constants";
+import { EVENT_TYPE } from "../utils/constants";
 import { textBalloonTemplate } from "../utils/templates";
 import DetailModal from "../components/DetailModal";
+import { getMarkerImage, SIZE } from "../utils/markerImages";
 
 export default {
   name: "KakaoMap",
@@ -52,12 +53,9 @@ export default {
       this.showDetailModal(place);
     },
     createMaker(place) {
-      const imageSize = new this.kakaoMapApi.Size(
-        KAKAO_MAP.PLACE_MARKER.width,
-        KAKAO_MAP.PLACE_MARKER.height,
-      );
+      const imageSize = new this.kakaoMapApi.Size(SIZE.width, SIZE.height);
       const markerImage = new this.kakaoMapApi.MarkerImage(
-        KAKAO_MAP.PLACE_MARKER.image_url,
+        getMarkerImage(place.tagLevel),
         imageSize,
       );
       return new this.kakaoMapApi.Marker({
