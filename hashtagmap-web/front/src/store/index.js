@@ -28,7 +28,6 @@ export default new Vuex.Store({
     },
     initPlaces(state, places) {
       state.places = places;
-      console.log(state.places);
     },
   },
   actions: {
