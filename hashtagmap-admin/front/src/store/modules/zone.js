@@ -44,7 +44,13 @@ export default {
       state.zoneInput = newZone;
     },
     CLEAR_ZONE_INPUT: state => {
-      state.zoneInput = {};
+      state.zoneInput = {
+        districtName: "",
+        topLeftLatitude: "",
+        topLeftLongitude: "",
+        bottomRightLatitude: "",
+        bottomRightLongitude: ""
+      };
     },
     ADD_ZONE: (state, zone) => {
       state.zones.push(zone);

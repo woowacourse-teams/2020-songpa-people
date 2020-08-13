@@ -28,7 +28,7 @@
         </v-list-item>
         <v-list-item to="/district-manage">
           <v-list-item-action>
-            <v-icon>mdi-air-purifier</v-icon>
+            <v-icon>mdi-flag-variant</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>district manage</v-list-item-title>
