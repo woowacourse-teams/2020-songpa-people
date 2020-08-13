@@ -26,12 +26,6 @@ class InstagramRepositoryCustomImplTest {
     @Autowired
     private PlaceRepository placeRepository;
 
-    @AfterEach
-    void tearDown() {
-        instagramRepository.deleteAll();
-        placeRepository.deleteAll();
-    }
-
     @DisplayName("인스타그램 도메인 페치조인으로 가져오기")
     @Test
     void findAllFetch() {
@@ -54,5 +48,11 @@ class InstagramRepositoryCustomImplTest {
         List<Instagram> instagrams = instagramRepository.findAllFetch();
 
         assertThat(instagrams.size()).isEqualTo(1);
+    }
+
+    @AfterEach
+    void tearDown() {
+        instagramRepository.deleteAll();
+        placeRepository.deleteAll();
     }
 }

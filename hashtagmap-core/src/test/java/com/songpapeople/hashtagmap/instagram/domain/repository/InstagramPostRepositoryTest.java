@@ -1,8 +1,8 @@
-package com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost;
+package com.songpapeople.hashtagmap.instagram.domain.repository;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
-import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
+import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -34,7 +34,7 @@ class InstagramPostRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        place = placeRepository.save(Place.builder().id(1L).build());
+        place = placeRepository.save(Place.builder().build());
         instagram = instagramRepository.save(Instagram.builder()
                 .place(place)
                 .build());
@@ -48,7 +48,7 @@ class InstagramPostRepositoryTest {
                 .collect(Collectors.toList());
         instagramPostRepository.saveAll(instagramPosts);
 
-        assertThat(instagramPostRepository.findAllByInstagramId(1L)).hasSize(9);
+        assertThat(instagramPostRepository.findAllByInstagramId(instagram.getId())).hasSize(9);
     }
 
     private InstagramPost createInstagramPost(Integer number) {
