@@ -5,6 +5,7 @@ import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class InstagramPostRepositoryTest {
@@ -45,7 +48,7 @@ class InstagramPostRepositoryTest {
                 .collect(Collectors.toList());
         instagramPostRepository.saveAll(instagramPosts);
 
-//        assertThat(instagramPostRepository.findAllByInstagramId(1L)).hasSize(9);
+        assertThat(instagramPostRepository.findAllByInstagramId(1L)).hasSize(9);
     }
 
     private InstagramPost createInstagramPost(Integer number) {
@@ -55,5 +58,12 @@ class InstagramPostRepositoryTest {
                 .imageUrl(url)
                 .postUrl(url)
                 .build();
+    }
+
+    @AfterEach
+    void tearDown() {
+        instagramPostRepository.deleteAll();
+        instagramRepository.deleteAll();
+        placeRepository.deleteAll();
     }
 }
