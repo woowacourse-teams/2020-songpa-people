@@ -16,10 +16,10 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             enabled = true
-            element = 'CLASS'
+            element = 'PACKAGE'
 
             limit {
-                counter = 'LINE'
+                counter = 'BRANCH'
                 value = 'COVEREDRATIO'
                 minimum = 0.20
             }
