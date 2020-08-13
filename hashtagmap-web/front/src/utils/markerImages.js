@@ -16,6 +16,6 @@ export const getMarkerImage = tagLevel => {
 };
 
 export const SIZE = {
-  width: 50,
-  height: 50,
+  width: 40,
+  height: 40,
 };
