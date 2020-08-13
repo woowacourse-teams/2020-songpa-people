@@ -14,23 +14,32 @@ import { getMarkerImage, SIZE } from "../utils/markerImages";
 
 export default {
   name: "KakaoMap",
-  async mounted() {
+  async created() {
     this.SET_KAKAO_MAP_API(await this.$initKakaoMapApi());
     this.SET_KAKAO_MAP(this.$loadMap());
     await this.setPlaces();
     this.loadMarker();
     this.$loadCurrentPosition();
   },
+
+  mounted() {
+    this.$store.watch(() => {
+      this.$store.getters.activeMarker();
+    });
+  },
+
   computed: {
     ...mapState(["kakaoMap", "kakaoMapApi", "places"]),
   },
+
   methods: {
-    ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP"]),
+    ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP", "ADD_MARKER"]),
     ...mapActions(["setDetailModal", "setPlaces"]),
     loadMarker() {
       this.places.map(place => {
         const marker = this.createMaker(place);
         marker.setMap(this.kakaoMap);
+        this.ADD_MARKER(marker);
         const textBalloon = this.createTextBalloon(place, marker);
         this.kakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
           this.onAddTextBalloonToMarker(this.kakaoMap, place, textBalloon);
@@ -71,6 +80,7 @@ export default {
       });
     },
   },
+
   components: {
     DetailModal,
   },
