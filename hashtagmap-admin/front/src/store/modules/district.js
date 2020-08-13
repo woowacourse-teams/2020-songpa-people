@@ -4,7 +4,6 @@ import { MESSAGE, SNACK_BAR_TYPE } from "@/utils/constants";
 export default {
   namespaced: true,
   state: {
-    selectedDistricts: [],
     districts: [],
     districtInput: "",
     editTargetDistrict: {}

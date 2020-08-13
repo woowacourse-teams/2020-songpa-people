@@ -1,6 +1,10 @@
 <template>
   <v-row justify="center">
-    <v-dialog :value="isActive" @input="DEACTIVATE_MODAL" max-width="70%">
+    <v-dialog
+      :value="isActive(modalName)"
+      @input="DEACTIVATE_MODAL(modalName)"
+      max-width="70%"
+    >
       <v-card>
         <v-card-title>
           <span class="headline">{{ title }}</span>
@@ -14,7 +18,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="DEACTIVATE_MODAL"
+          <v-btn color="blue darken-1" text @click="DEACTIVATE_MODAL(modalName)"
             >Cancel
           </v-btn>
           <v-btn color="blue darken-1" text @click="ok"
@@ -32,6 +36,10 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "DefaultModal",
   props: {
+    modalName: {
+      type: String,
+      required: true
+    },
     title: {
       type: String,
       required: false

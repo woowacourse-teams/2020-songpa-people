@@ -1,5 +1,5 @@
 export default {
-  namespaced:true,
+  namespaced: true,
   state: {
     snackbar: { show: false, type: "", message: "", code: "" }
   },

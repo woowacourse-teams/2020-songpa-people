@@ -19,9 +19,9 @@ export const KAKAO = {
     DEACTIVATE_COLOR: "error",
     DEACTIVATE_MESSAGE: "OFF",
     UNKNOWN_COLOR: "indigo",
-    UNKNOWN_MESSAGE: "알 수 없음",
-  },
-}
+    UNKNOWN_MESSAGE: "알 수 없음"
+  }
+};
 
 export const EVENT_TYPE = {
   CLICK: "click"

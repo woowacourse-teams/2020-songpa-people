@@ -1,7 +1,12 @@
 export default {
   namespaced: true,
   state: {
-    active: false,
+    status: [
+      {
+        modalName: "",
+        active: false
+      }
+    ],
     objectData: {
       type: Object
     },
@@ -10,16 +15,33 @@ export default {
     }
   },
   getters: {
-    isActive: state => {
-      return state.active;
+    isActive: state => modalName => {
+      const status = state.status.find(
+        status => status.modalName === modalName
+      );
+      if (!status) {
+        return false;
+      }
+      return status.active;
     }
   },
   mutations: {
-    ACTIVATE_MODAL: state => {
-      state.active = true;
+    ACTIVATE_MODAL: (state, modalName) => {
+      let status = state.status.find(status => status.modalName === modalName);
+      if (!status) {
+        status = { modalName: modalName, active: false };
+        state.status.push(status);
+      }
+      status.active = true;
     },
-    DEACTIVATE_MODAL: state => {
-      state.active = false;
+    DEACTIVATE_MODAL: (state, modalName) => {
+      const status = state.status.find(
+        status => status.modalName === modalName
+      );
+      if (!status) {
+        return;
+      }
+      status.active = false;
     }
   }
 };

@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home";
 import KakaoScheduler from "../views/KakaoScheduler";
 import InstagramScheduler from "../views/InstagramScheduler";
-import DistrictManage from "../views/DistrictManage";
+import DistrictContainer from "../views/district/DistrictContainer";
 
 Vue.use(VueRouter);
 
@@ -25,8 +25,8 @@ const routes = [
   },
   {
     path: "/district-manage",
-    name: "DistrictManage",
-    component: DistrictManage
+    name: "DistrictContainer",
+    component: DistrictContainer
   }
 ];
 
