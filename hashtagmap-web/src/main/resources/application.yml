@@ -5,3 +5,5 @@ spring:
   profiles:
     include: >
       db
+server:
+  port: 9000
