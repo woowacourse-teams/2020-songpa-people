@@ -4,6 +4,9 @@ import com.songpapeople.hashtagmap.district.service.DistrictCommandService;
 import com.songpapeople.hashtagmap.district.service.dto.DistrictDeleteDto;
 import com.songpapeople.hashtagmap.district.service.dto.DistrictSaveDto;
 import com.songpapeople.hashtagmap.district.service.dto.DistrictUpdateDto;
+import com.songpapeople.hashtagmap.district.service.dto.ZoneDeleteDto;
+import com.songpapeople.hashtagmap.district.service.dto.ZoneSaveDto;
+import com.songpapeople.hashtagmap.district.service.dto.ZoneUpdateDto;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,4 +46,23 @@ public class DistrictCommandController {
         return CustomResponse.empty();
     }
 
+    @PostMapping("/zones")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CustomResponse<Long> saveZone(@RequestBody @Valid ZoneSaveDto zoneSaveDto) {
+        return CustomResponse.of(districtCommandService.saveZone(zoneSaveDto));
+    }
+
+    @PatchMapping("/zones")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomResponse<Void> updateZone(@RequestBody @Valid ZoneUpdateDto zoneUpdateDto) {
+        districtCommandService.updateZone(zoneUpdateDto);
+        return CustomResponse.empty();
+    }
+
+    @DeleteMapping("/zones")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomResponse<Void> deleteZones(@RequestBody @Valid ZoneDeleteDto zoneDeleteDto) {
+        districtCommandService.deleteZones(zoneDeleteDto);
+        return CustomResponse.empty();
+    }
 }

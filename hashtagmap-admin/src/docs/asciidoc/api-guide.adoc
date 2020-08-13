@@ -32,3 +32,8 @@ operation::district/deleteDistricts[snippets='http-request,request-body,http-res
 === 선택한 지역 정보 삭제
 
 operation::district/deleteDistricts[snippets='http-request,request-body,http-response,response-fields']
+
+[[resources-district-updateDistrict]]
+=== 선택한 지역 정보 수정
+
+operation::district/updateDistrict[snippets='http-request,request-body,http-response,response-fields']

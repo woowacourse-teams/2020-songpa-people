@@ -3,7 +3,9 @@ package com.songpapeople.hashtagmap.district.service;
 import com.songpapeople.hashtagmap.district.service.dto.DistrictDeleteDto;
 import com.songpapeople.hashtagmap.district.service.dto.DistrictSaveDto;
 import com.songpapeople.hashtagmap.district.service.dto.DistrictUpdateDto;
+import com.songpapeople.hashtagmap.district.service.dto.ZoneDeleteDto;
 import com.songpapeople.hashtagmap.district.service.dto.ZoneSaveDto;
+import com.songpapeople.hashtagmap.district.service.dto.ZoneUpdateDto;
 import com.songpapeople.hashtagmap.exception.AdminException;
 import com.songpapeople.hashtagmap.exception.CommonExceptionStatus;
 import com.songpapeople.hashtagmap.place.domain.model.District;
@@ -47,7 +49,7 @@ public class DistrictCommandService {
         District district = districtRepository.findById(districtUpdateDto.getDistrictId())
                 .orElseThrow(() -> new AdminException(
                         CommonExceptionStatus.NOT_PERSIST,
-                        String.format("존재하지 않는 지역(%s)입니다.", districtUpdateDto.getDistrictId())));
+                        String.format("존재하지 않는 지역(%d)입니다.", districtUpdateDto.getDistrictId())));
 
         district.update(districtUpdateDto.getDistrictName());
     }
@@ -57,7 +59,7 @@ public class DistrictCommandService {
         District district = districtRepository.findByDistrictName(zoneSaveDto.getDistrictName())
                 .orElseThrow(() -> new AdminException(
                         CommonExceptionStatus.NOT_PERSIST,
-                        String.format("존재하지 않는 지역(%s)입니다.", zoneSaveDto.getDistrictName()))
+                        String.format("존재하지 않는 지역이름(%s)입니다.", zoneSaveDto.getDistrictName()))
                 );
         Zone zone = Zone.builder()
                 .district(district)
@@ -67,5 +69,28 @@ public class DistrictCommandService {
                 .build();
         zone = zoneRepository.save(zone);
         return zone.getId();
+    }
+
+    @Transactional
+    public void updateZone(final ZoneUpdateDto zoneUpdateDto) {
+        Zone zone = zoneRepository.findById(zoneUpdateDto.getZoneId())
+                .orElseThrow(() -> new AdminException(
+                        CommonExceptionStatus.NOT_PERSIST,
+                        String.format("존재하지 않는 구역Id(%d)입니다.", zoneUpdateDto.getZoneId())
+                ));
+
+        districtRepository.findByDistrictName(zoneUpdateDto.getDistrictName())
+                .ifPresent(zone::changeDistrict);
+
+        zone.updatePosition(zoneUpdateDto.getTopLeftLatitude(),
+                zoneUpdateDto.getTopLeftLongitude(),
+                zoneUpdateDto.getBottomRightLatitude(),
+                zoneUpdateDto.getBottomRightLongitude());
+
+    }
+
+    @Transactional
+    public void deleteZones(final ZoneDeleteDto zoneDeleteDto) {
+        zoneRepository.deleteAllByIdIn(zoneDeleteDto.getZoneIds());
     }
 }
