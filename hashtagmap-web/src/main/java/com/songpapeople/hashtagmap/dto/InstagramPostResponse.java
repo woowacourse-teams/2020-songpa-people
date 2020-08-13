@@ -36,14 +36,14 @@ public class InstagramPostResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         final InstagramPostResponse that = (InstagramPostResponse) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(imageUrl, that.imageUrl) &&
-                Objects.equals(postUrl, that.postUrl);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getImageUrl(), that.getImageUrl()) &&
+                Objects.equals(getPostUrl(), that.getPostUrl());
     }
 
     @Generated
     @Override
     public int hashCode() {
-        return Objects.hash(id, imageUrl, postUrl);
+        return Objects.hash(getId(), getImageUrl(), getPostUrl());
     }
 }
