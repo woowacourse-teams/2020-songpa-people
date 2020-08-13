@@ -20,7 +20,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             enabled = true
-            element = 'PACKAGE'
+            element = 'BUNDLE'
 
             limit {
                 counter = 'BRANCH'
