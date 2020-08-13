@@ -1,5 +1,6 @@
 package com.songpapeople.hashtagmap.kakaoapi.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
@@ -33,21 +34,23 @@ public class Document {
     private String phone;
     private String addressName;
     private String roadAddressName;
-    private String x;
-    private String y;
+    @JsonAlias("x")
+    private String latitude;
+    @JsonAlias("y")
+    private String longitude;
     private String placeUrl;
     private String distance;
 
     @Generated
     @Builder
     public Document(String id, String placeName, String categoryGroupCode, String roadAddressName,
-                    String x, String y, String placeUrl) {
+                    String latitude, String longitude, String placeUrl) {
         this.id = id;
         this.placeName = placeName;
         this.categoryGroupCode = categoryGroupCode;
         this.roadAddressName = roadAddressName;
-        this.x = x;
-        this.y = y;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.placeUrl = placeUrl;
     }
 
@@ -65,8 +68,8 @@ public class Document {
                 && Objects.equals(phone, document.phone)
                 && Objects.equals(addressName, document.addressName)
                 && Objects.equals(roadAddressName, document.roadAddressName)
-                && Objects.equals(x, document.x)
-                && Objects.equals(y, document.y)
+                && Objects.equals(latitude, document.latitude)
+                && Objects.equals(longitude, document.longitude)
                 && Objects.equals(placeUrl, document.placeUrl)
                 && Objects.equals(distance, document.distance);
     }
@@ -75,6 +78,6 @@ public class Document {
     @Override
     public int hashCode() {
         return Objects.hash(id, placeName, categoryName, categoryGroupCode, categoryGroupName, phone, addressName,
-                roadAddressName, x, y, placeUrl, distance);
+                roadAddressName, latitude, longitude, placeUrl, distance);
     }
 }

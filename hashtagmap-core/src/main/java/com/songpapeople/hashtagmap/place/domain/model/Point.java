@@ -42,8 +42,6 @@ public class Point {
     }
 
     private boolean isNotBetween(BigDecimal min, BigDecimal value, BigDecimal max) {
-        System.out.println(value.compareTo(max));
-        System.out.println(value.compareTo(min));
         return !(value.compareTo(max) <= 0
                 && value.compareTo(min) >= 0);
     }

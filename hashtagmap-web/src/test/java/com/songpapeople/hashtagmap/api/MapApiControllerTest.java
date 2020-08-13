@@ -50,8 +50,8 @@ public class MapApiControllerTest extends MapApiDocumentation {
                 .andExpect(jsonPath("$.data", Matchers.hasSize(1)))
                 .andExpect(jsonPath("$.data[0].placeName", Matchers.is("스타벅스")))
                 .andExpect(jsonPath("$.data[0].kakaoId", Matchers.is("777")))
-                .andExpect(jsonPath("$.data[0].latitude", Matchers.is("1")))
-                .andExpect(jsonPath("$.data[0].longitude", Matchers.is("2")))
+                .andExpect(jsonPath("$.data[0].latitude", Matchers.is("34")))
+                .andExpect(jsonPath("$.data[0].longitude", Matchers.is("127")))
                 .andExpect(jsonPath("$.data[0].instagramId", Matchers.is(1)))
                 .andExpect(jsonPath("$.data[0].hashtagCount", Matchers.is(10000)))
                 .andDo(getDocumentByFindAllMarkers());
