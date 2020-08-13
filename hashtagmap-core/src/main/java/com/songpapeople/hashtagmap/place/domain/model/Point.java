@@ -34,10 +34,10 @@ public class Point {
         BigDecimal convertedLatitude = BigDecimal.valueOf(Double.parseDouble(latitude));
         BigDecimal convertedLongitude = BigDecimal.valueOf(Double.parseDouble(longitude));
         if (isNotBetween(MIN_LATITUDE, convertedLatitude, MAX_LATITUDE)) {
-            throw new IllegalArgumentException(String.format("not correct latitude range %s", convertedLatitude));
+            throw new IllegalArgumentException(String.format("잘못된 latitude 값 %s", convertedLatitude));
         }
         if (isNotBetween(MIN_LONGITUDE, convertedLongitude, MAX_LONGITUDE)) {
-            throw new IllegalArgumentException(String.format("not correct longitude range %s", convertedLatitude));
+            throw new IllegalArgumentException(String.format("잘못된 longitude 값 %s", convertedLatitude));
         }
     }
 

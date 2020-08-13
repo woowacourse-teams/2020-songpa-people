@@ -32,3 +32,34 @@ export const SNACK_BAR_TYPE = {
   ERROR: "error",
   INFO: "info"
 };
+
+export const SNACK_BAR_TEMPLATE = {
+  CUSTOM: (type, message, code) => {
+    return {
+      type: "",
+      message: message,
+      code: code
+    };
+  },
+  INFO: message => {
+    return {
+      type: SNACK_BAR_TYPE.INFO,
+      message: message,
+      code: ""
+    };
+  },
+  SUCCESS: () => {
+    return {
+      type: SNACK_BAR_TYPE.SUCCESS,
+      message: MESSAGE.SUCCESS,
+      code: ""
+    };
+  },
+  ERROR: error => {
+    return {
+      type: SNACK_BAR_TYPE.ERROR,
+      message: error.response.data.message,
+      code: error.response.data.code
+    };
+  }
+};

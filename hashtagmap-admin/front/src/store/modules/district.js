@@ -1,5 +1,5 @@
 import customAxios from "@/request";
-import { MESSAGE, SNACK_BAR_TYPE } from "@/utils/constants";
+import { MESSAGE, SNACK_BAR_TEMPLATE } from "@/utils/constants";
 
 export default {
   namespaced: true,
@@ -41,17 +41,12 @@ export default {
   },
   actions: {
     setDistrict: async ({ commit, dispatch, state }) => {
-      const snackbarContents = {
-        type: SNACK_BAR_TYPE.SUCCESS,
-        message: MESSAGE.SUCCESS,
-        code: ""
-      };
+      let snackbarContents = SNACK_BAR_TEMPLATE.SUCCESS();
 
       try {
         const newDistrict = state.districtInput;
         if (!newDistrict || newDistrict.trim().length === 0) {
-          snackbarContents.type = SNACK_BAR_TYPE.INFO;
-          snackbarContents.message = MESSAGE.NO_INPUT;
+          snackbarContents = SNACK_BAR_TEMPLATE.INFO(MESSAGE.NO_INPUT);
           return snackbarContents;
         }
         const saveDto = {
@@ -64,9 +59,7 @@ export default {
         });
         return snackbarContents;
       } catch (error) {
-        snackbarContents.type = SNACK_BAR_TYPE.ERROR;
-        snackbarContents.message = error.response.data.message;
-        snackbarContents.code = error.response.data.code;
+        snackbarContents = SNACK_BAR_TEMPLATE.ERROR(error);
       } finally {
         commit("CLEAR_DISTRICT_INPUT");
         dispatch("fetchDistricts");
@@ -95,11 +88,7 @@ export default {
         districtId: target.districtId,
         districtName: target.districtName
       };
-      const snackbarContents = {
-        type: SNACK_BAR_TYPE.SUCCESS,
-        message: MESSAGE.SUCCESS,
-        code: ""
-      };
+      let snackbarContents = SNACK_BAR_TEMPLATE.SUCCESS();
       try {
         await customAxios().patch("/districts", editDistrict, {
           headers: {
@@ -107,18 +96,12 @@ export default {
           }
         });
       } catch (error) {
-        snackbarContents.type = SNACK_BAR_TYPE.ERROR;
-        snackbarContents.message = error.response.data.message;
-        snackbarContents.code = error.response.data.code;
+        snackbarContents = SNACK_BAR_TEMPLATE.ERROR(error);
       }
       return snackbarContents;
     },
     fetchDistricts: async ({ commit }) => {
-      const snackbarContents = {
-        type: SNACK_BAR_TYPE.INFO,
-        message: MESSAGE.NO_CONTENT,
-        code: ""
-      };
+      let snackbarContents = SNACK_BAR_TEMPLATE.INFO(MESSAGE.NO_CONTENT);
       try {
         const response = await customAxios().get("/districts");
         commit("CLEAR_DISTRICTS");
@@ -127,12 +110,9 @@ export default {
           return snackbarContents;
         }
         responseDistricts.map(district => commit("ADD_DISTRICT", district));
-        snackbarContents.type = SNACK_BAR_TYPE.SUCCESS;
-        snackbarContents.message = MESSAGE.SUCCESS;
+        snackbarContents = SNACK_BAR_TEMPLATE.SUCCESS();
       } catch (error) {
-        snackbarContents.type = SNACK_BAR_TYPE.ERROR;
-        snackbarContents.message = error.response.data.message;
-        snackbarContents.code = error.response.data.code;
+        snackbarContents = SNACK_BAR_TEMPLATE.ERROR(error);
       }
       return snackbarContents;
     }
