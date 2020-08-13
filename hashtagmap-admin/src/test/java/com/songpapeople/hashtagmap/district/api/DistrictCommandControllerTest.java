@@ -78,7 +78,7 @@ public class DistrictCommandControllerTest extends ApiDocument {
                         .content(content)
         )
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(emptyDocs("district/deleteDistricts"));
     }
 
@@ -97,7 +97,7 @@ public class DistrictCommandControllerTest extends ApiDocument {
                         .content(content)
         )
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(emptyDocs("district/updateDistrict"));
     }
 
@@ -146,7 +146,7 @@ public class DistrictCommandControllerTest extends ApiDocument {
                         .content(content)
         )
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(updateZoneDocs());
     }
 
@@ -162,7 +162,7 @@ public class DistrictCommandControllerTest extends ApiDocument {
                         .content(content)
         )
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(deleteZonesDocs());
     }
 }

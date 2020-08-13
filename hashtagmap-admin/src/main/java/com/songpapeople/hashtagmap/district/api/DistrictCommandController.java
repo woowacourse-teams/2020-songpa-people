@@ -33,14 +33,14 @@ public class DistrictCommandController {
     }
 
     @DeleteMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public CustomResponse<Void> deleteDistricts(@RequestBody @Valid DistrictDeleteDto districtDeleteDto) {
         districtCommandService.deleteDistricts(districtDeleteDto);
         return CustomResponse.empty();
     }
 
     @PatchMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public CustomResponse<Void> updateDistrict(@RequestBody @Valid DistrictUpdateDto districtUpdateDto) {
         districtCommandService.updateDistrict(districtUpdateDto);
         return CustomResponse.empty();
@@ -53,14 +53,14 @@ public class DistrictCommandController {
     }
 
     @PatchMapping("/zones")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public CustomResponse<Void> updateZone(@RequestBody @Valid ZoneUpdateDto zoneUpdateDto) {
         districtCommandService.updateZone(zoneUpdateDto);
         return CustomResponse.empty();
     }
 
     @DeleteMapping("/zones")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public CustomResponse<Void> deleteZones(@RequestBody @Valid ZoneDeleteDto zoneDeleteDto) {
         districtCommandService.deleteZones(zoneDeleteDto);
         return CustomResponse.empty();
