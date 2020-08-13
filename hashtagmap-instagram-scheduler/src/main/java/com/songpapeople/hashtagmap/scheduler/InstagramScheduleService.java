@@ -5,9 +5,7 @@ import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.proxy.ProxiesFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class InstagramScheduleService {
@@ -15,15 +13,11 @@ public class InstagramScheduleService {
 
     private final InstagramCrawler instagramCrawler = new InstagramCrawler();
 
-    public List<CrawlingResult> createCrawlingResult(List<Place> places) {
+    public Optional<CrawlingResult> createCrawlingResult(Place place) {
         CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(
                 new ProxySetter(ProxiesFactory.create()), instagramCrawler);
 
-        return places.stream()
-                .map(place -> crawlerWithProxy.crawlInstagram(place, START_TRY_COUNT))
-                .filter(Optional::isPresent)
-                .map(optional -> optional.orElseThrow(NullPointerException::new))
-                .filter(CrawlingResult::isOverMinHashtagCount)
-                .collect(Collectors.toList());
+        return crawlerWithProxy.crawlInstagram(place, START_TRY_COUNT);
+
     }
 }

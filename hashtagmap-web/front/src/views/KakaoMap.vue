@@ -15,9 +15,9 @@ import { getMarkerImage, SIZE } from "../utils/markerImages";
 export default {
   name: "KakaoMap",
   async mounted() {
-    this.initKakaoMapApi(await this.$initKakaoMapApi());
-    this.initKakaoMap(this.$loadMap());
-    await this.getPlaces();
+    this.SET_KAKAO_MAP_API(await this.$initKakaoMapApi());
+    this.SET_KAKAO_MAP(this.$loadMap());
+    await this.setPlaces();
     this.loadMarker();
     this.$loadCurrentPosition();
   },
@@ -25,8 +25,8 @@ export default {
     ...mapState(["kakaoMap", "kakaoMapApi", "places"]),
   },
   methods: {
-    ...mapMutations(["initKakaoMapApi", "initKakaoMap"]),
-    ...mapActions(["showDetailModal", "getPlaces"]),
+    ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP"]),
+    ...mapActions(["setDetailModal", "setPlaces"]),
     loadMarker() {
       this.places.map(place => {
         const marker = this.createMaker(place);
@@ -39,7 +39,7 @@ export default {
     },
     onAddTextBalloonToMarker(kakaoMap, place, textBalloon) {
       textBalloon.setMap(kakaoMap);
-      const $textBalloon = document.getElementById(`${place.id}`);
+      const $textBalloon = document.getElementById(`${place.kakaoId}`);
       $textBalloon.addEventListener(EVENT_TYPE.CLICK, event => {
         if (event.target.classList.contains("marker-title")) {
           this.onAddModalToTextBalloon(event, place);
@@ -50,7 +50,7 @@ export default {
     },
     onAddModalToTextBalloon(event, place) {
       event.preventDefault();
-      this.showDetailModal(place);
+      this.setDetailModal(place);
     },
     createMaker(place) {
       const imageSize = new this.kakaoMapApi.Size(SIZE.width, SIZE.height);

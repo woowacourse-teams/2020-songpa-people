@@ -20,3 +20,13 @@ endif::[]
 === 마커 전부 조회
 
 operation::maps/find-all-markers[snippets='http-request,http-response,response-fields']
+
+[[resources-instagram]]
+== Instagram
+
+[[resources-instagram-get-post]]
+=== Instagram Post 정보 요청
+
+operation::instagram/get-post[snippets='http-request,http-response,response-fields']
+
+

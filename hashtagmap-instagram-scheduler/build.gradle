@@ -8,3 +8,18 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter'
 }
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            element = 'BUNDLE'
+
+            limit {
+                counter = 'INSTRUCTION'
+                value = 'COVEREDRATIO'
+                minimum = 0.60
+            }
+            excludes = []
+        }
+    }
+}
