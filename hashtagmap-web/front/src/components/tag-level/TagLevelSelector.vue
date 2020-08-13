@@ -10,7 +10,9 @@
           :key="color"
           @click.stop="showMarker"
         >
-          <v-icon color="white" style="visibility: hidden;">{{ marked }}</v-icon>
+          <v-icon color="white" style="visibility: hidden;">{{
+            marked
+          }}</v-icon>
         </v-chip>
       </v-row>
     </v-chip-group>
