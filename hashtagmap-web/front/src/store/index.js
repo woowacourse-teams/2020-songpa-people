@@ -12,7 +12,7 @@ export default new Vuex.Store({
       isShow: false,
       placeName: "",
       hashtagCount: "",
-      posts: "",
+      posts: [],
     },
     places: [
       {
