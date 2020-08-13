@@ -1,8 +1,7 @@
-package com.songpapeople.hashtagmap.dto.InstagramPost;
+package com.songpapeople.hashtagmap.dto;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import lombok.Builder;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

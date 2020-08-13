@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.service;
 
-import com.songpapeople.hashtagmap.dto.InstagramPost.InstagramPostResponse;
+import com.songpapeople.hashtagmap.dto.InstagramPostResponse;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import org.junit.jupiter.api.DisplayName;

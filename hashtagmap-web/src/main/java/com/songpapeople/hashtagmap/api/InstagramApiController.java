@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.api;
 
-import com.songpapeople.hashtagmap.dto.InstagramPost.InstagramPostResponse;
+import com.songpapeople.hashtagmap.dto.InstagramPostResponse;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.service.InstagramPostQueryService;
 import org.springframework.http.HttpStatus;

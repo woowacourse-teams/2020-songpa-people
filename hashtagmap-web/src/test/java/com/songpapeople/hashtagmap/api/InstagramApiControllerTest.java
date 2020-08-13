@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.api;
 
 import com.songpapeople.hashtagmap.doc.InstagramApiDocumentation;
-import com.songpapeople.hashtagmap.dto.InstagramPost.InstagramPostResponse;
+import com.songpapeople.hashtagmap.dto.InstagramPostResponse;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
