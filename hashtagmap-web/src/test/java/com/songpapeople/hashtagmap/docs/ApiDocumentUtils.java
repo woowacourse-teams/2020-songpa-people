@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.doc;
+package com.songpapeople.hashtagmap.docs;
 
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;

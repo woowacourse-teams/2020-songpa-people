@@ -33,9 +33,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = KakaoSchedulerController.class)
+@WebMvcTest(controllers = KakaoSchedulerApiController.class)
 @ExtendWith(MockitoExtension.class)
-class KakaoSchedulerControllerExceptionTest {
+class KakaoSchedulerApiControllerExceptionTest {
     private static final String BASE_URI = "/kakao/scheduler";
     private static final String KAKAO = "KAKAO";
     private static final String LOG = "LOG";

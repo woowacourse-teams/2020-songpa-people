@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/kakao/scheduler")
-public class KakaoSchedulerController {
+public class KakaoSchedulerApiController {
     private final KakaoScheduleCommandService kakaoScheduleCommandService;
     private final KakaoScheduleQueryService kakaoScheduleQueryService;
 
