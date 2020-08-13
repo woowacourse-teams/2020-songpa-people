@@ -31,7 +31,7 @@ public class MapApiControllerTest extends MapApiDocumentation {
                         .place(Place.builder()
                                 .placeName("스타벅스")
                                 .kakaoId("777")
-                                .location(new Location(new Point("1", "2"), null))
+                                .location(new Location(new Point("34", "127"), null))
                                 .build())
                         .id(1L)
                         .hashtagCount(10000L)
