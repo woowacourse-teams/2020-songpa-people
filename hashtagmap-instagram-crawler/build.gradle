@@ -25,8 +25,18 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.70
             }
-
             excludes = []
+        }
+
+        rule {
+            enabled = true
+            element = "CLASS"
+
+            limit {
+                counter = 'INSTRUCTION'
+                value = 'COVEREDRATIO'
+                minimum = 0.30
+            }
         }
     }
 }

@@ -23,15 +23,22 @@ jacocoTestCoverageVerification {
             element = 'BUNDLE'
 
             limit {
-                counter = 'BRANCH'
+                counter = 'INSTRUCTION'
                 value = 'COVEREDRATIO'
-                minimum = 0.60
+                minimum = 0.70
             }
+
+            excludes = []
+        }
+
+        rule {
+            enabled = true
+            element = 'CLASS'
 
             limit {
                 counter = 'INSTRUCTION'
                 value = 'COVEREDRATIO'
-                minimum = 0.50
+                minimum = 0.30
             }
 
             excludes = []
