@@ -45,14 +45,25 @@
           </v-btn>
         </v-col>
         <v-col class="text-right">
-          <v-btn
-            class="ma-2"
-            color="error"
-            outlined
-            @click="deleteSelectedDistrict"
-          >
-            삭제
-          </v-btn>
+          <v-dialog v-model="dialog" persistent max-width="300px">
+            <template v-slot:activator="{ on }">
+              <v-btn class="ma-2" color="error" outlined dark v-on="on">
+                삭제
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title class="headline">삭제하시겠습니까?</v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="dialog = false"
+                  >취소</v-btn
+                >
+                <v-btn color="red darken-1" text @click="deleteSelectedDistrict"
+                  >삭제</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-col>
       </v-row>
 
@@ -90,6 +101,7 @@ export default {
   },
   data: () => {
     return {
+      dialog: false,
       selected: [],
       headers: [
         { text: "ID", value: "districtId", align: "start" },
@@ -131,6 +143,7 @@ export default {
       this.SHOW_SNACKBAR(snackbarContents);
     },
     deleteSelectedDistrict() {
+      this.dialog = false;
       this.removeDistricts(this.selected);
     },
     showEditModal(modalName, district) {
