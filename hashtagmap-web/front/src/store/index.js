@@ -52,7 +52,7 @@ export default new Vuex.Store({
         active: true,
       },
     ],
-    markers: [],
+    markerDetails: [],
   },
 
   mutations: {
@@ -76,8 +76,8 @@ export default new Vuex.Store({
         t.level === tagLevel.level ? { ...t, active: !tagLevel.active } : t,
       );
     },
-    ADD_MARKER(state, marker) {
-      state.markers.push(marker);
+    ADD_MARKER_DETAIL(state, markerDetail) {
+      state.markerDetails.push(markerDetail);
     },
   },
 
@@ -108,18 +108,11 @@ export default new Vuex.Store({
       const activeTagLevels = state.tagLevels
         .filter(tagLevel => tagLevel.active)
         .map(tagLevel => tagLevel.level);
-      const activePlaceNames = state.places
-        .filter(place => {
-          if (activeTagLevels.includes(place.tagLevel)) {
-            return place;
-          }
-        })
-        .map(place => place.placeName);
-      state.markers.filter(marker => {
-        if (activePlaceNames.includes(marker.mc)) {
-          marker.setMap(state.kakaoMap);
+      return state.markerDetails.filter(markerDetail => {
+        if (activeTagLevels.includes(markerDetail.tagLevel)) {
+          markerDetail.marker.setMap(state.kakaoMap);
         } else {
-          marker.setMap(null);
+          markerDetail.marker.setMap(null);
         }
       });
     },
