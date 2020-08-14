@@ -47,9 +47,17 @@ public class KakaoApiDocumentation {
     }
 
     public static RestDocumentationResultHandler getDocumentByShowPeriodHistory() {
-        return document("kakao/scheduler/period/put",
+        return document("kakao/scheduler/period/get",
                 getDocumentRequest(),
-                getDocumentResponse()
+                getDocumentResponse(),
+                responseFields(
+                        fieldWithPath("data[0].id").type(JsonFieldType.NUMBER).description("데이터 베이스 Id"),
+                        fieldWithPath("data[0].expression").type(JsonFieldType.STRING).description("변경된 주기 (cron)"),
+                        fieldWithPath("data[0].member").type(JsonFieldType.STRING).description("수정한 사람"),
+                        fieldWithPath("data[0].changedDate").type(JsonFieldType.STRING).description("수정한 날짜"),
+                        fieldWithPath("code").type(JsonFieldType.NULL).description("에러 코드"),
+                        fieldWithPath("message").type(JsonFieldType.NULL).description("에러 메세지")
+                )
         );
     }
 }
