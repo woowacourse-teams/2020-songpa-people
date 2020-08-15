@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class AdminExceptionControllerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(RuntimeException.class)
-    public CustomResponse<Void> handleRuntimeException(RuntimeException e) {
+    @ExceptionHandler(Exception.class)
+    public CustomResponse<Void> handleException(Exception e) {
         log.error("Unexpected Exception : {}", e.getMessage());
         return CustomResponse.error(CommonExceptionStatus.UNEXPECTED.getCode(), CommonExceptionStatus.UNEXPECTED.getMessage());
     }

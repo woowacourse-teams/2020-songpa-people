@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class DistrictQueryService {
     private final DistrictRepository districtRepository;
     private final ZoneRepository zoneRepository;

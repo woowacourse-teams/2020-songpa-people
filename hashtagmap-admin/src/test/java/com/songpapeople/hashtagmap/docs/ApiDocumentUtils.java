@@ -14,7 +14,7 @@ public interface ApiDocumentUtils {
         return preprocessRequest(
                 modifyUris()
                         .scheme("https")
-                        .host("localhost")
+                        .host("admin.themiso.kr")
                         .removePort(),
                 prettyPrint());
     }

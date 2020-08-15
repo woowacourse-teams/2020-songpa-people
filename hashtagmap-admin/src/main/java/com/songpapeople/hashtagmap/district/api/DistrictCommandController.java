@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RestController
 @RequiredArgsConstructor
+@RestController
 @RequestMapping("/districts")
 public class DistrictCommandController {
     private final DistrictCommandService districtCommandService;

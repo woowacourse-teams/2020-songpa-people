@@ -18,7 +18,8 @@ public class ZoneDto {
     private final String bottomRightLongitude;
 
     @Builder
-    public ZoneDto(final Long zoneId, final Long districtId, final String districtName, final String topLeftLatitude, final String topLeftLongitude, final String bottomRightLatitude, final String bottomRightLongitude) {
+    public ZoneDto(final Long zoneId, final Long districtId, final String districtName, final String topLeftLatitude,
+                   final String topLeftLongitude, final String bottomRightLatitude, final String bottomRightLongitude) {
         this.zoneId = zoneId;
         this.districtId = districtId;
         this.districtName = districtName;
