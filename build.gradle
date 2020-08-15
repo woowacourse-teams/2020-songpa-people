@@ -16,7 +16,6 @@ buildscript {
 subprojects {
 
     group = 'com.songpapeople'
-    version = '0.3.0'
 
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
@@ -92,5 +91,4 @@ configure(asciidoctorConfigure) {
             into 'static/docs'
         }
     }
-
 }
