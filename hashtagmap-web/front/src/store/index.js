@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import { TAG_LEVEL } from "../utils/constants";
 
 Vue.use(Vuex);
 
@@ -27,28 +28,28 @@ export default new Vuex.Store({
     ],
     tagLevels: [
       {
-        level: 5,
-        rgb: "rgb(65,12,162)",
+        level: TAG_LEVEL.LEVEL_FIVE.LEVEL,
+        rgb: TAG_LEVEL.LEVEL_FIVE.RGB,
         active: true,
       },
       {
-        level: 4,
-        rgb: "rgb(116,22,227)",
+        level: TAG_LEVEL.LEVEL_FOUR.LEVEL,
+        rgb: TAG_LEVEL.LEVEL_FOUR.RGB,
         active: true,
       },
       {
-        level: 3,
-        rgb: "rgb(158,76,237)",
+        level: TAG_LEVEL.LEVEL_THREE.LEVEL,
+        rgb: TAG_LEVEL.LEVEL_THREE.RGB,
         active: true,
       },
       {
-        level: 2,
-        rgb: "rgb(185,112,243)",
+        level: TAG_LEVEL.LEVEL_TWO.LEVEL,
+        rgb: TAG_LEVEL.LEVEL_TWO.RGB,
         active: true,
       },
       {
-        level: 1,
-        rgb: "rgb(216,160,250)",
+        level: TAG_LEVEL.LEVEL_ONE.LEVEL,
+        rgb: TAG_LEVEL.LEVEL_ONE.RGB,
         active: true,
       },
     ],
