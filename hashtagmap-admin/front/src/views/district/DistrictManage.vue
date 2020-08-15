@@ -32,15 +32,25 @@
       </v-data-table>
       <v-row>
         <v-col class="col-sm-3">
-          <v-text-field
-            label="구 이름"
-            hint="(예) 서울 송파구"
-            :value="getDistrictInput"
-            @input="INPUT_DISTRICT_TEXT"
-          />
+          <v-form v-model="isValid">
+            <v-text-field
+              label="구 이름"
+              hint="(예) 서울 송파구"
+              :value="getDistrictInput"
+              @input="INPUT_DISTRICT_TEXT"
+              :rules="rules.district.name"
+              required
+            />
+          </v-form>
         </v-col>
         <v-col>
-          <v-btn class="ma-2" color="indigo" outlined @click="addNewDistrict">
+          <v-btn
+            :disabled="!isValid"
+            class="ma-2"
+            color="indigo"
+            outlined
+            @click="addNewDistrict"
+          >
             저장
           </v-btn>
         </v-col>
@@ -56,11 +66,11 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="dialog = false"
-                  >취소</v-btn
-                >
+                  >취소
+                </v-btn>
                 <v-btn color="red darken-1" text @click="deleteSelectedDistrict"
-                  >삭제</v-btn
-                >
+                  >삭제
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -92,6 +102,7 @@
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import CustomSnackbar from "@/components/CustomSnackBar";
 import DefaultModal from "@/components/DefaultModal";
+import validator from "@/utils/validator";
 
 export default {
   name: "DistrictManage",
@@ -101,6 +112,8 @@ export default {
   },
   data: () => {
     return {
+      isValid: true,
+      rules: { ...validator },
       dialog: false,
       selected: [],
       headers: [

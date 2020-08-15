@@ -52,46 +52,55 @@
         </v-dialog>
       </v-col>
     </v-row>
-
-    <v-row>
-      <v-col class="col-sm-3">
-        <v-text-field
-          label="좌상단 위도(y) 입력"
-          hint="36.xxxx"
-          :value="getZoneInput.topLeftLatitude"
-          @input="INPUT_NEW_TOP_LEFT_LATITUDE"
-        />
-      </v-col>
-      <v-col class="col-sm-3">
-        <v-text-field
-          label="좌상단 경도(x) 입력"
-          hint="124.xxxx"
-          :value="getZoneInput.topLeftLongitude"
-          @input="INPUT_NEW_TOP_LEFT_LONGITUDE"
-        />
-      </v-col>
-      <v-col class="col-sm-3">
-        <v-text-field
-          label="우하단 위도(y) 입력"
-          hint="36.xxxx"
-          :value="getZoneInput.bottomRightLatitude"
-          @input="INPUT_NEW_BOTTOM_RIGHT_LATITUDE"
-        />
-      </v-col>
-      <v-col class="col-sm-3">
-        <v-text-field
-          label="우하단 경도(x) 입력"
-          hint="124.xxxx"
-          :value="getZoneInput.bottomRightLongitude"
-          @input="INPUT_NEW_BOTTOM_RIGHT_LONGITUDE"
-        />
-      </v-col>
-      <v-col>
-        <v-btn class="ma-2" color="indigo" outlined @click="addNewZone">
-          저장
-        </v-btn>
-      </v-col>
-    </v-row>
+    <v-form v-model="isValidForNew">
+      <v-row>
+        <v-col class="col-sm-3">
+          <v-text-field
+            label="좌상단 위도(y) 입력"
+            hint="36.xxxx"
+            :value="getZoneInput.topLeftLatitude"
+            @input="INPUT_NEW_TOP_LEFT_LATITUDE"
+            :rules="rules.zone.latitude"
+            required
+          />
+        </v-col>
+        <v-col class="col-sm-3">
+          <v-text-field
+            label="좌상단 경도(x) 입력"
+            hint="124.xxxx"
+            :value="getZoneInput.topLeftLongitude"
+            @input="INPUT_NEW_TOP_LEFT_LONGITUDE"
+            :rules="rules.zone.longitude"
+            required
+          />
+        </v-col>
+        <v-col class="col-sm-3">
+          <v-text-field
+            label="우하단 위도(y) 입력"
+            hint="36.xxxx"
+            :value="getZoneInput.bottomRightLatitude"
+            @input="INPUT_NEW_BOTTOM_RIGHT_LATITUDE"
+            :rules="rules.zone.latitude"
+            required
+          />
+        </v-col>
+        <v-col class="col-sm-3">
+          <v-text-field
+            label="우하단 경도(x) 입력"
+            hint="124.xxxx"
+            :value="getZoneInput.bottomRightLongitude"
+            @input="INPUT_NEW_BOTTOM_RIGHT_LONGITUDE"
+            :rules="rules.zone.longitude"
+            required
+          />
+        </v-col>
+        <v-col>
+          <v-btn :disabled="!isValidForNew" class="ma-2" color="indigo" outlined @click="addNewZone">
+            저장
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
     <DefaultModal
       modalName="zoneEdit"
       title="좌표 수정"
@@ -147,6 +156,8 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import CustomSnackbar from "@/components/CustomSnackBar";
 import DefaultModal from "@/components/DefaultModal";
 import DistrictNameSelectBox from "@/components/DistrictNameSelectBox";
+import validator from "@/utils/validator";
+
 export default {
   name: "ZoneManage",
   components: {
@@ -159,6 +170,15 @@ export default {
   },
   data: () => {
     return {
+      isValidForNew: true,
+      rules: { ...validator },
+      zoneInput: {
+        inputDistrictName: "",
+        topLeftLatitude: "",
+        topLeftLongitude: "",
+        bottomRightLatitude: "",
+        bottomRightLongitude: ""
+      },
       dialog: false,
       names: [
         { id: 1, text: "a" },
