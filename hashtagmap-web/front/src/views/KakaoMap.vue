@@ -44,7 +44,11 @@ export default {
       this.places.map(place => {
         const marker = this.createMaker(place);
         marker.setMap(this.kakaoMap);
-        this.ADD_MARKER_DETAIL({ marker, tagLevel: place.tagLevel });
+        this.ADD_MARKER_DETAIL({
+          marker,
+          tagLevel: place.tagLevel,
+          category: place.category,
+        });
         const textBalloon = this.createTextBalloon(place, marker);
         this.kakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
           this.onAddTextBalloonToMarker(this.kakaoMap, place, textBalloon);
