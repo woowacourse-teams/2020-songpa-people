@@ -32,12 +32,4 @@ export default {
 .v-chip-group .v-chip {
   margin: 0 !important;
 }
-
-.v-application .primary {
-  background-color: darkgray !important;
-}
-
-.theme--light.v-chip {
-  border-color: black !important;
-}
 </style>

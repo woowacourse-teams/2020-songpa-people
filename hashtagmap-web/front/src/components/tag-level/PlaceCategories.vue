@@ -37,4 +37,12 @@ export default {
 .v-chip--label {
   border: 2px solid;
 }
+
+.v-application .primary {
+  background-color: darkgray !important;
+}
+
+.theme--light.v-chip {
+  border-color: black !important;
+}
 </style>
