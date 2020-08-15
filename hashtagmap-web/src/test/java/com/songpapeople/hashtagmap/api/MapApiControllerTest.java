@@ -4,6 +4,7 @@ package com.songpapeople.hashtagmap.api;
 import com.songpapeople.hashtagmap.doc.MapApiDocumentation;
 import com.songpapeople.hashtagmap.dto.MarkerResponse;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
+import com.songpapeople.hashtagmap.place.domain.model.Category;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
@@ -32,6 +33,7 @@ public class MapApiControllerTest extends MapApiDocumentation {
                                 .placeName("스타벅스")
                                 .kakaoId("777")
                                 .location(new Location(new Point("1", "2"), null))
+                                .category(Category.CAFE)
                                 .build())
                         .id(1L)
                         .hashtagCount(10000L)
@@ -54,6 +56,7 @@ public class MapApiControllerTest extends MapApiDocumentation {
                 .andExpect(jsonPath("$.data[0].longitude", Matchers.is("2")))
                 .andExpect(jsonPath("$.data[0].instagramId", Matchers.is(1)))
                 .andExpect(jsonPath("$.data[0].hashtagCount", Matchers.is(10000)))
+                .andExpect(jsonPath("$.data[0].category", Matchers.is("카페")))
                 .andDo(getDocumentByFindAllMarkers());
     }
 }

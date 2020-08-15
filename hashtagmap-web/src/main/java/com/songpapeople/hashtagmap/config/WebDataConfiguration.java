@@ -2,8 +2,8 @@ package com.songpapeople.hashtagmap.config;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
-import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
+import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Category;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;

@@ -16,10 +16,11 @@ public class MarkerResponse {
     private final Integer tagLevel;
     private final String latitude;
     private final String longitude;
+    private final String category;
 
     @Builder
     private MarkerResponse(String placeName, String kakaoId, Long instagramId, Long hashtagCount,
-                          Integer tagLevel, String latitude, String longitude) {
+                           Integer tagLevel, String latitude, String longitude, String category) {
         this.placeName = placeName;
         this.kakaoId = kakaoId;
         this.instagramId = instagramId;
@@ -27,6 +28,7 @@ public class MarkerResponse {
         this.tagLevel = tagLevel;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.category = category;
     }
 
     // TODO: 2020-08-05 Tag Level 정해지면 수정, 우선 랜덤으로..
@@ -40,6 +42,7 @@ public class MarkerResponse {
                 .tagLevel(new Random().nextInt(5) + 1)
                 .latitude(place.getLocation().getPoint().getLatitude())
                 .longitude(place.getLocation().getPoint().getLongitude())
+                .category(place.getCategory().getCategoryGroupName())
                 .build();
     }
 }

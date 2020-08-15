@@ -3,6 +3,7 @@ package com.songpapeople.hashtagmap.service;
 import com.songpapeople.hashtagmap.dto.MarkerResponse;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
+import com.songpapeople.hashtagmap.place.domain.model.Category;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
@@ -41,6 +42,7 @@ class InstagramQueryServiceTest {
                                 .placeName("스타벅스")
                                 .kakaoId("777")
                                 .location(new Location(new Point("1", "2"), null))
+                                .category(Category.CAFE)
                                 .build())
                         .id(1L)
                         .hashtagCount(10000L)
@@ -55,6 +57,7 @@ class InstagramQueryServiceTest {
                                 .placeName("스타벅스")
                                 .kakaoId("777")
                                 .location(new Location(new Point("1", "2"), null))
+                                .category(Category.CAFE)
                                 .build())
                         .id(1L)
                         .hashtagCount(10000L)
