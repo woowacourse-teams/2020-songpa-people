@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-import { TAG_LEVEL } from "../utils/constants";
+import { TAG_LEVEL, CATEGORY } from "../utils/constants";
 
 Vue.use(Vuex);
 
@@ -58,11 +58,11 @@ export default new Vuex.Store({
     markerDetails: [],
     categories: [
       {
-        name: "카페",
+        name: CATEGORY.CAFE,
         active: true,
       },
       {
-        name: "음식점",
+        name: CATEGORY.RESTAURANT,
         active: true,
       },
     ],

@@ -33,3 +33,8 @@ export const TAG_LEVEL = {
     RGB: "rgb(216,160,250)",
   },
 };
+
+export const CATEGORY = {
+  CAFE: "카페",
+  RESTAURANT: "음식점",
+};
