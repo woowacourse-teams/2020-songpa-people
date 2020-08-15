@@ -58,8 +58,8 @@ export const SNACK_BAR_TEMPLATE = {
   ERROR: error => {
     return {
       type: SNACK_BAR_TYPE.ERROR,
-      message: error.response.data.message,
-      code: error.response.data.code
+      message: error.body.message,
+      code: error.body.code
     };
   }
 };

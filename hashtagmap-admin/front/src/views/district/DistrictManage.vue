@@ -32,12 +32,11 @@
       </v-data-table>
       <v-row>
         <v-col class="col-sm-3">
-          <v-form v-model="isValid">
+          <v-form v-model="isValidForNew">
             <v-text-field
               label="구 이름"
               hint="(예) 서울 송파구"
-              :value="getDistrictInput"
-              @input="INPUT_DISTRICT_TEXT"
+              v-model="districtName"
               :rules="rules.district.name"
               required
             />
@@ -45,7 +44,7 @@
         </v-col>
         <v-col>
           <v-btn
-            :disabled="!isValid"
+            :disabled="!isValidForNew"
             class="ma-2"
             color="indigo"
             outlined
@@ -82,14 +81,18 @@
         title="구역 수정"
         :ok-event="editDistrict"
         ok-event-text="수정하기"
+        :is-valid="isValidForEdit"
       >
         <v-row>
           <v-col cols="12" sm="6" md="4">
-            <v-text-field
-              :value="getEditTargetDistrictName"
-              @input="INPUT_EDIT_TARGET_DISTRICT_NAME"
-              label="변경할 지역 이름"
-            />
+            <v-form v-model="isValidForEdit">
+              <v-text-field
+                v-model="editDistrictName"
+                label="변경할 지역 이름"
+                :rules="rules.district.name"
+                required
+              />
+            </v-form>
           </v-col>
         </v-row>
       </DefaultModal>
@@ -103,6 +106,8 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import CustomSnackbar from "@/components/CustomSnackBar";
 import DefaultModal from "@/components/DefaultModal";
 import validator from "@/utils/validator";
+import { convert } from "@/utils/responseConverter";
+import { SNACK_BAR_TYPE } from "@/utils/constants";
 
 export default {
   name: "DistrictManage",
@@ -112,8 +117,11 @@ export default {
   },
   data: () => {
     return {
-      isValid: true,
+      isValidForNew: true,
+      isValidForEdit: true,
       rules: { ...validator },
+      districtName: "",
+      editDistrictName: "",
       dialog: false,
       selected: [],
       headers: [
@@ -127,11 +135,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("district", [
-      "getDistricts",
-      "getDistrictInput",
-      "getEditTargetDistrictName"
-    ])
+    ...mapGetters("district", ["getDistricts", "getEditTargetDistrictName"])
   },
   methods: {
     ...mapActions("district", [
@@ -143,28 +147,39 @@ export default {
     ...mapMutations("modal", ["ACTIVATE_MODAL", "DEACTIVATE_MODAL"]),
     ...mapMutations("snackbar", ["SHOW_SNACKBAR"]),
     ...mapMutations("district", [
-      "INPUT_DISTRICT_TEXT",
       "INPUT_EDIT_TARGET_DISTRICT_NAME",
       "SET_EDIT_TARGET_DISTRICT"
     ]),
     async addNewDistrict() {
-      const snackbarContents = await this.setDistrict();
+      const response = await this.setDistrict(this.districtName);
+      const snackbarContents = convert.toSnackBarContent(response);
       this.SHOW_SNACKBAR(snackbarContents);
+      if (snackbarContents.type !== SNACK_BAR_TYPE.ERROR) {
+        this.districtName = "";
+      }
     },
     async findAllDistricts() {
-      const snackbarContents = await this.fetchDistricts();
+      const response = await this.fetchDistricts();
+      const snackbarContents = convert.toSnackBarContent(response);
       this.SHOW_SNACKBAR(snackbarContents);
     },
-    deleteSelectedDistrict() {
+    async deleteSelectedDistrict() {
       this.dialog = false;
-      this.removeDistricts(this.selected);
+      const response = await this.removeDistricts(this.selected);
+      const snackbarContents = convert.toSnackBarContent(response);
+      this.SHOW_SNACKBAR(snackbarContents);
     },
     showEditModal(modalName, district) {
       this.SET_EDIT_TARGET_DISTRICT(district);
       this.ACTIVATE_MODAL(modalName);
     },
     async editDistrict() {
-      await this.modifyDistrict();
+      const response = await this.modifyDistrict(this.editDistrictName);
+      const snackbarContents = convert.toSnackBarContent(response);
+      this.SHOW_SNACKBAR(snackbarContents);
+      if (snackbarContents.type !== SNACK_BAR_TYPE.ERROR) {
+        this.editDistrictName = "";
+      }
       await this.fetchDistricts();
     }
   }

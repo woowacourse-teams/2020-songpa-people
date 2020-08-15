@@ -21,7 +21,7 @@
           <v-btn color="blue darken-1" text @click="DEACTIVATE_MODAL(modalName)"
             >Cancel
           </v-btn>
-          <v-btn color="blue darken-1" text @click="ok"
+          <v-btn :disabled="!isValid" color="blue darken-1" text @click="ok"
             >{{ okEventText }}
           </v-btn>
         </v-card-actions>
@@ -51,6 +51,10 @@ export default {
     okEventText: {
       type: String,
       required: true
+    },
+    isValid: {
+      type: Boolean,
+      required: true
     }
   },
   computed: {
@@ -60,7 +64,7 @@ export default {
     ...mapMutations("modal", ["DEACTIVATE_MODAL"]),
     ok() {
       this.okEvent();
-      this.DEACTIVATE_MODAL();
+      this.DEACTIVATE_MODAL(this.modalName);
     }
   }
 };
