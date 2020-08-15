@@ -24,6 +24,7 @@ export default new Vuex.Store({
         longitude: "",
         placeName: "",
         tagLevel: "",
+        category: "",
       },
     ],
     tagLevels: [
@@ -54,6 +55,16 @@ export default new Vuex.Store({
       },
     ],
     markerDetails: [],
+    categories: [
+      {
+        name: "카페",
+        active: true,
+      },
+      {
+        name: "음식점",
+        active: true,
+      },
+    ],
   },
 
   mutations: {
@@ -79,6 +90,36 @@ export default new Vuex.Store({
     },
     ADD_MARKER_DETAIL(state, markerDetail) {
       state.markerDetails.push(markerDetail);
+    },
+    CHECK_CATEGORY(state, category) {
+      const activeCategoriesCount = state.categories.filter(
+        category => category.active,
+      ).length;
+      if (activeCategoriesCount === state.categories.length) {
+        state.categories = state.categories.map(c =>
+          c.name === category.name
+            ? { ...c, active: true }
+            : { ...c, active: false },
+        );
+      } else {
+        const activeCategory = state.categories.filter(
+          category => category.active,
+        )[0];
+        if (activeCategory.name === category.name) {
+          state.categories = state.categories.map(c => {
+            return {
+              name: c.name,
+              active: true,
+            };
+          });
+        } else {
+          state.categories = state.categories.map(c =>
+            c.name === category.name
+              ? { ...c, active: true }
+              : { ...c, active: false },
+          );
+        }
+      }
     },
   },
 
@@ -106,11 +147,17 @@ export default new Vuex.Store({
 
   getters: {
     activeMarker: state => {
+      const activeCategory = state.categories
+        .filter(category => category.active)
+        .map(category => category.name);
       const activeTagLevels = state.tagLevels
         .filter(tagLevel => tagLevel.active)
         .map(tagLevel => tagLevel.level);
       return state.markerDetails.filter(markerDetail => {
-        if (activeTagLevels.includes(markerDetail.tagLevel)) {
+        if (
+          activeTagLevels.includes(markerDetail.tagLevel) &&
+          activeCategory.includes(markerDetail.category)
+        ) {
           markerDetail.marker.setMap(state.kakaoMap);
         } else {
           markerDetail.marker.setMap(null);
