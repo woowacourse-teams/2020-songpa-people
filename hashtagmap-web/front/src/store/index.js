@@ -12,6 +12,7 @@ export default new Vuex.Store({
     detailModal: {
       isShow: false,
       placeName: "",
+      placeUrl: "",
       hashtagCount: "",
       posts: [],
     },
@@ -88,6 +89,7 @@ export default new Vuex.Store({
       const detailModal = {
         isShow: true,
         placeName: place.placeName,
+        placeUrl: place.placeUrl,
         hashtagCount: place.hashtagCount,
         posts: posts.data.data,
       };
