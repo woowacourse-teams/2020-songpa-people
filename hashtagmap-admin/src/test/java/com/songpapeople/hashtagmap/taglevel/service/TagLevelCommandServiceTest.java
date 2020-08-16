@@ -35,9 +35,7 @@ class TagLevelCommandServiceTest {
     public void updateTagLevelTest() {
         // given
         List<TagLevel> tagLevels = Arrays.asList(
-                new TagLevel(1L, null, null),
-                new TagLevel(2L, null, null),
-                new TagLevel(3L, null, null)
+                new TagLevel(1L), new TagLevel(2L), new TagLevel(3L)
         );
         tagLevelRepository.saveAll(tagLevels);
 

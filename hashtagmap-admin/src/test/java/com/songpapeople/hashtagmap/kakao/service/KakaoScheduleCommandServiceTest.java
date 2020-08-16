@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
@@ -67,10 +68,17 @@ class KakaoScheduleCommandServiceTest {
         assertThat(schedule.isActive()).isTrue();
     }
 
+    @DisplayName("카카오 스케줄러 주기 변경")
+    @Test
+    public void changeSchedulePeriod() throws Exception {
+        String expression = "0 0/5 * * * ?";
+        assertThatCode(() -> kakaoScheduleCommandService.changeSchedulePeriod(expression))
+                .doesNotThrowAnyException();
+    }
+
     @AfterEach
     void tearDown() {
         scheduleRepository.deleteAll();
         kakaoScheduler.stop();
     }
-
 }
