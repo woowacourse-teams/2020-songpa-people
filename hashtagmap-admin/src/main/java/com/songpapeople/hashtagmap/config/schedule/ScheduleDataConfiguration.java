@@ -32,7 +32,7 @@ public class ScheduleDataConfiguration implements ApplicationRunner {
         List<TagLevel> tagLevels = tagLevelRepository.findAll();
         if (tagLevels.isEmpty()) {
             for (int i = 1; i <= 5; i++) {
-                tagLevels.add(new TagLevel(Long.valueOf(i)));
+                tagLevels.add(new TagLevel());
             }
             tagLevelRepository.saveAll(tagLevels);
         }

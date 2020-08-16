@@ -35,7 +35,7 @@ class TagLevelCommandServiceTest {
     public void updateTagLevelTest() {
         // given
         List<TagLevel> tagLevels = Arrays.asList(
-                new TagLevel(1L), new TagLevel(2L), new TagLevel(3L)
+                new TagLevel(), new TagLevel(), new TagLevel()
         );
         tagLevelRepository.saveAll(tagLevels);
 
@@ -49,7 +49,7 @@ class TagLevelCommandServiceTest {
                 );
 
         // when
-        tagLevelCommandService.updateTagLevels();
+        tagLevelCommandService.update();
 
         // then
         List<TagLevel> actual = tagLevelRepository.findAll();
@@ -64,7 +64,7 @@ class TagLevelCommandServiceTest {
     @DisplayName("TagLevel 정보를 갱신할 때, TagLevel이 존재하지 않을 경우 예외 처리")
     @Test
     public void tagLevelNotExistTest() {
-        assertThatThrownBy(() -> tagLevelCommandService.updateTagLevels())
+        assertThatThrownBy(() -> tagLevelCommandService.update())
                 .hasMessage("TagLevel이 존재하지 않습니다.");
     }
 

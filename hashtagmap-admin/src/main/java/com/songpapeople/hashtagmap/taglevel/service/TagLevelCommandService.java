@@ -16,7 +16,7 @@ public class TagLevelCommandService {
     private final TagLevelRepository tagLevelRepository;
 
     @Transactional
-    public void updateTagLevels() {
+    public void update() {
         List<TagLevel> tagLevels = tagLevelRepository.findAll();
         if (tagLevels.isEmpty()) {
             throw new IllegalArgumentException("TagLevel이 존재하지 않습니다."); // Todo custom으로
@@ -31,5 +31,15 @@ public class TagLevelCommandService {
         for (int i = 0; i < tagLevelSize; i++) {
             tagLevels.get(i).update(tiledHashtagCount.get(i));
         }
+    }
+
+    public void create() {
+        tagLevelRepository.save(new TagLevel());
+        update();
+    }
+
+    public void delete() {
+        tagLevelRepository.deleteById(tagLevelRepository.count());
+        update();
     }
 }

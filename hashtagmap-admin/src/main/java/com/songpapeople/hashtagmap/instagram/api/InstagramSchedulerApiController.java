@@ -21,7 +21,7 @@ public class InstagramSchedulerApiController {
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<Void> update() {
         instagramScheduler.update();
-        tagLevelCommandService.updateTagLevels();
+        tagLevelCommandService.update();
         return CustomResponse.empty();
     }
 }
