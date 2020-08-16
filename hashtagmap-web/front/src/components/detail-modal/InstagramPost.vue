@@ -5,7 +5,8 @@
         height="100%"
         width="100%"
         :src="onLoadInstagramPostImage(post.imageUrl)"
-        v-on:error="onImgError"
+        @error="onImgError"
+        @click="onClickInstagramPostImage"
       ></v-img>
     </v-card>
   </v-slide-item>
@@ -33,8 +34,15 @@ export default {
     onImgError() {
       this.isFailLoadImage = true;
     },
+    onClickInstagramPostImage() {
+      return window.open(this.post.postUrl);
+    },
   },
 };
 </script>
 
-<style scoped></style>
+<style lang="stylus" scoped>
+.theme--light.v-image:hover {
+  cursor: pointer !important;
+}
+</style>

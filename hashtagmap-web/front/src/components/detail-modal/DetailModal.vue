@@ -23,12 +23,12 @@
               class="detail-info"
               color="rgb(116,22,227)"
               @click="onClickModalDetail"
-              >상세 정보</v-btn
-            >
+              >상세 정보
+            </v-btn>
           </p>
           <v-sheet class="mx-auto" max-width="100%">
             <v-slide-group
-              class="pa-0"
+              class="pa-4"
               :prev-icon="mdiLeft"
               :next-icon="mdiRight"
               show-arrows
@@ -101,7 +101,7 @@ export default {
 .instagram-page-button,
 .detail-info {
   height: 3.5vw;
-  font-size: 2vw;
+  font-size: 2vw !important;
   color: white !important;
   margin-right: 0.7vw;
   box-sizing: content-box;
