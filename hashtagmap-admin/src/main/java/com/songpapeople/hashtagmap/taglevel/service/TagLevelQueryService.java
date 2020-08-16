@@ -14,7 +14,8 @@ public class TagLevelQueryService {
     private final TagLevelRepository tagLevelRepository;
 
     public List<TagLevelDto> findAll() {
-        List<TagLevelDto> tagLevels = tagLevelRepository.findAll().stream()
+        List<TagLevelDto> tagLevels = tagLevelRepository.findAll()
+                .stream()
                 .map(TagLevelDto::from)
                 .collect(Collectors.toList());
         return tagLevels;
