@@ -72,8 +72,13 @@ export default {
       });
     },
     createTextBalloon(place, marker) {
-      return new this.getKakaoMapApi.CustomOverlay({
-        content: textBalloonTemplate(place),
+      const $content = textBalloonTemplate(place);
+      $content.addEventListener(EVENT_TYPE.CLICK, event => {
+        event.preventDefault();
+        this.setDetailModal(place);
+      });
+      return new his.getKakaoMapApi.CustomOverlay({
+        content: $content,
         position: marker.getPosition(),
       });
     },
