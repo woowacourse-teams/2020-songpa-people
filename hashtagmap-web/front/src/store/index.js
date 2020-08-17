@@ -55,7 +55,7 @@ export default new Vuex.Store({
         active: true,
       },
     ],
-    markerDetails: [],
+    mapOverlays: [],
     categories: [
       {
         name: CATEGORY.CAFE,
@@ -89,8 +89,8 @@ export default new Vuex.Store({
         t.level === tagLevel.level ? { ...t, active: !tagLevel.active } : t,
       );
     },
-    ADD_MARKER_DETAIL(state, markerDetail) {
-      state.markerDetails.push(markerDetail);
+    ADD_MAP_OVERLAYS(state, overlayObj) {
+      state.mapOverlays.push(overlayObj);
     },
     SET_CATEGORY(state, category) {
       state.categories = state.categories.map(c =>
@@ -98,7 +98,6 @@ export default new Vuex.Store({
           ? { ...c, active: !category.active }
           : { ...c, active: true },
       );
-    },
   },
 
   actions: {
@@ -150,19 +149,20 @@ export default new Vuex.Store({
       const activeTagLevels = state.tagLevels
         .filter(tagLevel => tagLevel.active)
         .map(tagLevel => tagLevel.level);
-      return state.markerDetails.filter(markerDetail => {
-        if (activeTagLevels.includes(markerDetail.place.tagLevel)) {
-          return state.markerDetails.filter(markerDetail => {
-            if (
-              activeTagLevels.includes(markerDetail.tagLevel) &&
-              activeCategory.includes(markerDetail.category)
-            ) {
-              markerDetail.marker.setMap(state.kakaoMap);
-              markerDetail.textBalloon.setMap(state.kakaoMap);
-              markerDetail.textBalloon.setZIndex(1);
-            } else {
-              markerDetail.marker.setMap(null);
-              markerDetail.textBalloon.setMap(null);
+      return state.mapOverlays.filter(mapOverlay => {
+          if (activeTagLevels.includes(markerDetail.place.tagLevel)) {
+              return state.markerDetails.filter(markerDetail => {
+                      if (
+                          activeTagLevels.includes(markerDetail.tagLevel) &&
+                          activeCategory.includes(markerDetail.category)
+                      ) {
+          mapOverlay.marker.setMap(state.kakaoMap);
+          mapOverlay.textBalloon.setMap(state.kakaoMap);
+          mapOverlay.textBalloon.setZIndex(1);
+        } else {
+          mapOverlay.marker.setMap(null);
+          mapOverlay.textBalloon.setMap(null);
+
             }
           });
         }

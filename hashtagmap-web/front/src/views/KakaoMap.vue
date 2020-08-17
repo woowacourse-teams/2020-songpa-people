@@ -19,13 +19,13 @@ export default {
     this.SET_KAKAO_MAP_API(await this.$initKakaoMapApi());
     this.SET_KAKAO_MAP(this.$loadMap());
     await this.setPlaces();
-    this.loadMarker();
+    this.setMapOverlays();
     this.$loadCurrentPosition();
   },
 
   mounted() {
     this.$store.watch(() => {
-       this.$store.getters.activeMarker;
+      this.$store.getters.activeOverlays;
     });
   },
 
@@ -34,30 +34,14 @@ export default {
   },
 
   methods: {
-    ...mapMutations([
-      "SET_KAKAO_MAP_API",
-      "SET_KAKAO_MAP",
-      "ADD_MARKER_DETAIL",
-    ]),
+    ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP", "ADD_MAP_OVERLAYS"]),
     ...mapActions(["setDetailModal", "setPlaces"]),
-    loadMarker() {
-      this.getPlaces.map(place => {
+    async setMapOverlays() {
+      await this.places.map(place => {
         const marker = this.createMaker(place);
-        marker.setMap(this.getKakaoMap);
-        this.ADD_MARKER_DETAIL({
-          marker,
-          tagLevel: place.tagLevel,
-          category: place.category,
-        });
         const textBalloon = this.createTextBalloon(place, marker);
-        this.getKakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
-          this.onAddTextBalloonToMarker(this.getKakaoMap, place, textBalloon);
-        });
+        this.ADD_MAP_OVERLAYS({ place, marker, textBalloon });
       });
-    },
-    onAddModalToTextBalloon(event, place) {
-      event.preventDefault();
-      this.setDetailModal(place);
     },
     createMaker(place) {
       const imageSize = new this.getKakaoMapApi.Size(SIZE.width, SIZE.height);
@@ -73,13 +57,17 @@ export default {
     },
     createTextBalloon(place, marker) {
       const $content = textBalloonTemplate(place);
+      this.onAddModalToTextBalloon(place, $content);
+      return new this.kakaoMapApi.CustomOverlay({
+        content: $content,
+        position: marker.getPosition(),
+        yAnchor: 2,
+      });
+    },
+    onAddModalToTextBalloon(place, $content) {
       $content.addEventListener(EVENT_TYPE.CLICK, event => {
         event.preventDefault();
         this.setDetailModal(place);
-      });
-      return new his.getKakaoMapApi.CustomOverlay({
-        content: $content,
-        position: marker.getPosition(),
       });
     },
   },
