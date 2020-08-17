@@ -43,19 +43,29 @@
     </v-app-bar>
 
     <v-main>
-      <router-view />
+      <div v-if="isLoginMember">
+        <router-view />
+      </div>
+      <Login v-else/>
     </v-main>
   </v-app>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import Login from "@/components/Login";
+
 export default {
   name: "App",
-  data() {
+  components: {
+    Login
+  },
+  data: () => {
     return {
       drawer: null
     };
-  }
+  },
+  computed: { ...mapGetters("member", ["isLoginMember"]) }
 };
 </script>
 
