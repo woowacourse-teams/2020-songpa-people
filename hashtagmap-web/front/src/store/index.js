@@ -125,6 +125,24 @@ export default new Vuex.Store({
   },
 
   getters: {
+    getKakaoMap: state => {
+      return state.kakaoMap;
+    },
+    getKakaoMapApi: state => {
+      return state.kakaoMapApi;
+    },
+    getPlaces: state => {
+      return state.places;
+    },
+    getTagLevels: state => {
+      return state.tagLevels;
+    },
+    getDetailModal: state => {
+      return state.detailModal;
+    },
+    getCategories: state => {
+      return state.categories;
+    },
     activeMarker: state => {
       const activeCategory = state.categories
         .filter(category => category.active)

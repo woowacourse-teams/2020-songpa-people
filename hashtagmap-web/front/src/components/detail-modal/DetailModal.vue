@@ -1,13 +1,13 @@
 <template>
   <v-row justify="center">
     <v-dialog
-      :value="detailModal.isShow"
+      :value="getDetailModal.isShow"
       @input="SET_DETAIL_MODAL_CLOSE"
       max-width="70%"
     >
       <v-card>
         <div>
-          <p class="place-title">{{ detailModal.placeName }}</p>
+          <p class="place-title">{{ getDetailModal.placeName }}</p>
           <p class="hashtag-count">{{ makeHashtagCount }}k</p>
           <p class="buttons">
             <v-btn
@@ -16,7 +16,7 @@
               color="rgb(116,22,227)"
               @click="onClickPlaceName"
             >
-              {{ detailModal.placeName }}
+              {{ getDetailModal.placeName }}
             </v-btn>
             <v-btn
               x-large
@@ -34,7 +34,7 @@
               show-arrows
             >
               <InstagramPost
-                v-for="post in detailModal.posts"
+                v-for="post in getDetailModal.posts"
                 :key="post.id"
                 :post="post"
               />
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 import InstagramPost from "./InstagramPost";
 
@@ -60,9 +60,9 @@ export default {
   }),
 
   computed: {
-    ...mapState(["detailModal"]),
+    ...mapGetters(["getDetailModal"]),
     makeHashtagCount() {
-      return (this.detailModal.hashtagCount / 1000).toFixed(1);
+      return (this.getDetailModal.hashtagCount / 1000).toFixed(1);
     },
   },
 

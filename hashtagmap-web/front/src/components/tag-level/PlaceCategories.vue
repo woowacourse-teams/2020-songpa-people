@@ -3,7 +3,7 @@
     <v-chip-group active-class="primary" column>
       <v-row align="start" justify="space-around">
         <PlaceCategoryFilter
-          v-for="category in categories"
+          v-for="category in getCategories"
           :key="category.name"
           :category="category"
         />
@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import PlaceCategoryFilter from "./PlaceCategoryFilter";
 
 export default {
   components: { PlaceCategoryFilter },
 
   computed: {
-    ...mapState(["categories"]),
+    ...mapGetters(["getCategories"]),
   },
 };
 </script>
