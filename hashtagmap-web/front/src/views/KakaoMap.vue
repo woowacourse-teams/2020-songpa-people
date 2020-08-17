@@ -55,17 +55,6 @@ export default {
         });
       });
     },
-    onAddTextBalloonToMarker(kakaoMap, place, textBalloon) {
-      textBalloon.setMap(kakaoMap);
-      const $textBalloon = document.getElementById(`${place.kakaoId}`);
-      $textBalloon.addEventListener(EVENT_TYPE.CLICK, event => {
-        if (event.target.classList.contains("marker-title")) {
-          this.onAddModalToTextBalloon(event, place);
-        } else {
-          textBalloon.setMap(null);
-        }
-      });
-    },
     onAddModalToTextBalloon(event, place) {
       event.preventDefault();
       this.setDetailModal(place);
