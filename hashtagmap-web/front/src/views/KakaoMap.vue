@@ -36,8 +36,8 @@ export default {
   methods: {
     ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP", "ADD_MAP_OVERLAYS"]),
     ...mapActions(["setDetailModal", "setPlaces"]),
-    async setMapOverlays() {
-      await this.getPlaces.map(place => {
+    setMapOverlays() {
+      this.getPlaces.map(place => {
         const marker = this.createMaker(place);
         const textBalloon = this.createTextBalloon(place, marker);
         this.ADD_MAP_OVERLAYS({ place, marker, textBalloon });
