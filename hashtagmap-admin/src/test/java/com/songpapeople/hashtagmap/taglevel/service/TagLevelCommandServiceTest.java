@@ -25,8 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class TagLevelCommandServiceTest {
-    private static final int INSTAGRAM_SIZE = 10;
-
     @Autowired
     private TagLevelCommandService tagLevelCommandService;
 
@@ -40,7 +38,7 @@ class TagLevelCommandServiceTest {
     @BeforeEach
     private void setUp() {
         List<Instagram> instagrams = new ArrayList<>();
-        for (int i = 0; i < INSTAGRAM_SIZE; i++) {
+        for (int i = 0; i < 10; i++) {
             instagrams.add(Instagram.builder()
                     .hashtagCount(100L + i)
                     .build());
@@ -83,14 +81,6 @@ class TagLevelCommandServiceTest {
         assertThat(actual.get(0).getMaxHashtagCount()).isEqualTo(104);
         assertThat(actual.get(1).getMinHashtagCount()).isEqualTo(105);
         assertThat(actual.get(1).getMaxHashtagCount()).isEqualTo(109);
-    }
-
-    @DisplayName("TagLevel이 없을 때 갱신하는 예외")
-    @Test
-    public void tagLevelUpdateNotExistExceptionTest() {
-        AdminException exception = assertThrows(AdminException.class, () -> tagLevelCommandService.update());
-        assertThat(exception.getErrorCode()).isEqualTo(AdminExceptionStatus.NOT_FOUND_TAG_LEVEL.getCode());
-        assertThat(exception.getMessage()).isEqualTo("테그레벨이 존재하지 않습니다.");
     }
 
     @DisplayName("TagLevel을 삭제한다.")

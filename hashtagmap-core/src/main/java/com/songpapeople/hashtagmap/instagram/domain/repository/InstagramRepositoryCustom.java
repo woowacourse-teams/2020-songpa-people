@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface InstagramRepositoryCustom {
     List<Instagram> findAllFetch();
+
+    List<Long> findAllHashtagCountByOrderAsc();
 }

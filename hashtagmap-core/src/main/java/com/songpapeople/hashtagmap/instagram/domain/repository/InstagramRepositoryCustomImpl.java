@@ -22,4 +22,12 @@ public class InstagramRepositoryCustomImpl implements InstagramRepositoryCustom 
                 .fetchJoin()
                 .fetch();
     }
+
+    @Override
+    public List<Long> findAllHashtagCountByOrderAsc() {
+        return jpaQueryFactory.select(instagram.hashtagCount)
+                .from(instagram)
+                .orderBy(instagram.hashtagCount.asc())
+                .fetch();
+    }
 }

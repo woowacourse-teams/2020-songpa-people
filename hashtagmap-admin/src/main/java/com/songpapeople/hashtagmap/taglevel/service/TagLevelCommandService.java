@@ -20,25 +20,24 @@ public class TagLevelCommandService {
     private final InstagramRepository instagramRepository;
     private final TagLevelRepository tagLevelRepository;
 
+    private TagLevelFactory tagLevelFactory = new TagLevelFactory();
+
     @Transactional(propagation = Propagation.REQUIRED)
     public void update() {
         List<TagLevel> tagLevels = tagLevelRepository.findAll();
-        validateTagLevelNotEmpty(tagLevels);
+        List<Long> hashtagCounts = instagramRepository.findAllHashtagCountByOrderAsc();
 
-        int tagLevelSize = tagLevels.size();
-
-        List<List<Long>> tiledHashtagCount = instagramRepository.findTiledHashtagCount(tagLevelSize);
-        for (int i = 0; i < tagLevelSize; i++) {
-            tagLevels.get(i).update(tiledHashtagCount.get(i));
-        }
-        tagLevelRepository.saveAll(tagLevels); // todo 이거 없어도 되야 하는 거 아님?
+        List<TagLevel> updatedTagLevels = tagLevelFactory.update(hashtagCounts, tagLevels);
+        tagLevelRepository.saveAll(updatedTagLevels); // Todo check
     }
 
+    @Transactional
     public void create() {
         tagLevelRepository.save(new TagLevel());
         update();
     }
 
+    @Transactional
     public void delete() {
         List<TagLevel> tagLevels = tagLevelRepository.findAll();
         validateTagLevelNotEmpty(tagLevels);
