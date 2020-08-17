@@ -37,7 +37,7 @@ export default {
     ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP", "ADD_MAP_OVERLAYS"]),
     ...mapActions(["setDetailModal", "setPlaces"]),
     async setMapOverlays() {
-      await this.places.map(place => {
+      await this.getPlaces.map(place => {
         const marker = this.createMaker(place);
         const textBalloon = this.createTextBalloon(place, marker);
         this.ADD_MAP_OVERLAYS({ place, marker, textBalloon });
@@ -50,7 +50,10 @@ export default {
         imageSize,
       );
       return new this.getKakaoMapApi.Marker({
-        position: new this.getKakaoMapApi.LatLng(place.latitude, place.longitude),
+        position: new this.getKakaoMapApi.LatLng(
+          place.latitude,
+          place.longitude,
+        ),
         title: place.placeName,
         image: markerImage,
       });
@@ -58,7 +61,7 @@ export default {
     createTextBalloon(place, marker) {
       const $content = textBalloonTemplate(place);
       this.onAddModalToTextBalloon(place, $content);
-      return new this.kakaoMapApi.CustomOverlay({
+      return new this.getKakaoMapApi.CustomOverlay({
         content: $content,
         position: marker.getPosition(),
         yAnchor: 2,
