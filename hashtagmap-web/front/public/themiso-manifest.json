@@ -2,7 +2,7 @@
   "name": "당신이 몰랐던 그 곳, 미소",
   "short_name": "미소",
   "theme_color": "#C485AD",
-  "background_color": "#C485AD",
+  "background_color": "#FFFFFF",
   "display": "fullscreen",
   "icons": [
     {
