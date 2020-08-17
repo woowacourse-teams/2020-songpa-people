@@ -17,6 +17,8 @@ public class MapApiDocumentation extends ApiDocument {
                 responseFields(
                         fieldWithPath("data[0].placeName").type(JsonFieldType.STRING)
                                 .description("The place name of the first data."),
+                        fieldWithPath("data[0].placeUrl").type(JsonFieldType.STRING)
+                                .description("The Url of the place. "),
                         fieldWithPath("data[0].kakaoId").type(JsonFieldType.STRING)
                                 .description("The unique kakao place id of the first data."),
                         fieldWithPath("data[0].instagramId").type(JsonFieldType.NUMBER)

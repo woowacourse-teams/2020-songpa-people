@@ -14,35 +14,30 @@
               x-large
               class="instagram-page-button"
               color="rgb(116,22,227)"
+              @click="onClickPlaceName"
             >
               {{ detailModal.placeName }}
             </v-btn>
-            <v-btn x-large class="detail-info" color="rgb(116,22,227)"
-              >상세 정보</v-btn
-            >
+            <v-btn
+              x-large
+              class="detail-info"
+              color="rgb(116,22,227)"
+              @click="onClickModalDetail"
+              >상세 정보
+            </v-btn>
           </p>
           <v-sheet class="mx-auto" max-width="100%">
             <v-slide-group
-              class="pa-0"
+              class="pa-4"
               :prev-icon="mdiLeft"
               :next-icon="mdiRight"
               show-arrows
             >
-              <v-slide-item v-for="post in detailModal.posts" :key="post.id">
-                <v-card
-                  color="grey lighten-1"
-                  class="ma-5"
-                  height="300"
-                  width="300"
-                >
-                  <v-img
-                    height="100%"
-                    width="100%"
-                    :src="post.imageUrl"
-                    onerror="this.src='../assets/No-Image.png'"
-                  ></v-img>
-                </v-card>
-              </v-slide-item>
+              <InstagramPost
+                v-for="post in detailModal.posts"
+                :key="post.id"
+                :post="post"
+              />
             </v-slide-group>
           </v-sheet>
         </div>
@@ -54,20 +49,37 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
+import InstagramPost from "./InstagramPost";
 
 export default {
+  components: { InstagramPost },
+
   data: () => ({
     mdiLeft: mdiChevronLeft,
     mdiRight: mdiChevronRight,
   }),
+
   computed: {
     ...mapState(["detailModal"]),
     makeHashtagCount() {
       return (this.detailModal.hashtagCount / 1000).toFixed(1);
     },
   },
+
   methods: {
     ...mapMutations(["SET_DETAIL_MODAL_CLOSE"]),
+    onClickPlaceName() {
+      let parsedPlaceName = this.detailModal.placeName.replace(/ /g, "");
+      if (parsedPlaceName.endsWith("점")) {
+        parsedPlaceName = parsedPlaceName.substr(0, parsedPlaceName.length - 1);
+      }
+      return window.open(
+        `https://www.instagram.com/explore/tags/${parsedPlaceName}/?hl=ko`,
+      );
+    },
+    onClickModalDetail() {
+      return window.open(this.detailModal.placeUrl);
+    },
   },
 };
 </script>
@@ -89,7 +101,7 @@ export default {
 .instagram-page-button,
 .detail-info {
   height: 3.5vw;
-  font-size: 2vw;
+  font-size: 2vw !important;
   color: white !important;
   margin-right: 0.7vw;
   box-sizing: content-box;

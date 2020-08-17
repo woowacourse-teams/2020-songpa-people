@@ -10,6 +10,7 @@ import java.util.Random;
 @Getter
 public class MarkerResponse {
     private final String placeName;
+    private final String placeUrl;
     private final String kakaoId;
     private final Long instagramId;
     private final Long hashtagCount;
@@ -18,9 +19,10 @@ public class MarkerResponse {
     private final String longitude;
 
     @Builder
-    private MarkerResponse(String placeName, String kakaoId, Long instagramId, Long hashtagCount,
-                          Integer tagLevel, String latitude, String longitude) {
+    private MarkerResponse(String placeName, String placeUrl, String kakaoId, Long instagramId, Long hashtagCount,
+                           Integer tagLevel, String latitude, String longitude) {
         this.placeName = placeName;
+        this.placeUrl = placeUrl;
         this.kakaoId = kakaoId;
         this.instagramId = instagramId;
         this.hashtagCount = hashtagCount;
@@ -34,6 +36,7 @@ public class MarkerResponse {
         Place place = instagram.getPlace();
         return MarkerResponse.builder()
                 .placeName(place.getPlaceName())
+                .placeUrl(place.getPlaceUrl())
                 .kakaoId(place.getKakaoId())
                 .instagramId(instagram.getId())
                 .hashtagCount(instagram.getHashtagCount())

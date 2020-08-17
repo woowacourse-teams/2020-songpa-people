@@ -9,7 +9,7 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 import { EVENT_TYPE } from "../utils/constants";
 import { textBalloonTemplate } from "../utils/templates";
-import DetailModal from "../components/DetailModal";
+import DetailModal from "../components/detail-modal/DetailModal";
 import { getMarkerImage, SIZE } from "../utils/markerImages";
 
 export default {
