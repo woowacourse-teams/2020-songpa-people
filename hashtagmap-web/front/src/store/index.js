@@ -151,13 +151,20 @@ export default new Vuex.Store({
         .filter(tagLevel => tagLevel.active)
         .map(tagLevel => tagLevel.level);
       return state.markerDetails.filter(markerDetail => {
-        if (
-          activeTagLevels.includes(markerDetail.tagLevel) &&
-          activeCategory.includes(markerDetail.category)
-        ) {
-          markerDetail.marker.setMap(state.kakaoMap);
-        } else {
-          markerDetail.marker.setMap(null);
+        if (activeTagLevels.includes(markerDetail.place.tagLevel)) {
+          return state.markerDetails.filter(markerDetail => {
+            if (
+              activeTagLevels.includes(markerDetail.tagLevel) &&
+              activeCategory.includes(markerDetail.category)
+            ) {
+              markerDetail.marker.setMap(state.kakaoMap);
+              markerDetail.textBalloon.setMap(state.kakaoMap);
+              markerDetail.textBalloon.setZIndex(1);
+            } else {
+              markerDetail.marker.setMap(null);
+              markerDetail.textBalloon.setMap(null);
+            }
+          });
         }
       });
     },

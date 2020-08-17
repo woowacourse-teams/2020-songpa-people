@@ -25,7 +25,7 @@ export default {
 
   mounted() {
     this.$store.watch(() => {
-      this.$store.getters.activeMarker;
+       this.$store.getters.activeMarker;
     });
   },
 
