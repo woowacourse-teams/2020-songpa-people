@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import java.util.Objects;
 
@@ -18,9 +19,7 @@ import java.util.Objects;
 @AttributeOverride(name = "id", column = @Column(name = "ADMIN_MEMBER_ID"))
 @Entity
 public class AdminMember extends BaseEntity {
-    @Column(nullable = false)
     private String nickName;
-    @Column(nullable = false)
     private String password;
 
     public AdminMember(String nickName, String password) {

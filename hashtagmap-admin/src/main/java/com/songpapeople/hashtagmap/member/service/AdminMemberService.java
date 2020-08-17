@@ -2,7 +2,7 @@ package com.songpapeople.hashtagmap.member.service;
 
 import com.songpapeople.hashtagmap.exception.AdminException;
 import com.songpapeople.hashtagmap.exception.AdminExceptionStatus;
-import com.songpapeople.hashtagmap.member.dto.LoginRequest;
+import com.songpapeople.hashtagmap.member.service.dto.LoginRequest;
 import com.songpapeople.hashtagmap.member.model.AdminMember;
 import com.songpapeople.hashtagmap.member.repository.AdminMemberRepository;
 import org.springframework.stereotype.Service;

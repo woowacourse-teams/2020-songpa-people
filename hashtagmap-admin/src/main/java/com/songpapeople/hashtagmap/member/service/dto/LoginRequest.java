@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.member.dto;
+package com.songpapeople.hashtagmap.member.service.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

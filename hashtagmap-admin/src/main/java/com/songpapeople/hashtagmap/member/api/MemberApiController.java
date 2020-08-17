@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.member.api;
 
-import com.songpapeople.hashtagmap.member.dto.LoginRequest;
+import com.songpapeople.hashtagmap.member.service.dto.LoginRequest;
 import com.songpapeople.hashtagmap.member.service.AdminMemberService;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import org.springframework.web.bind.annotation.PostMapping;

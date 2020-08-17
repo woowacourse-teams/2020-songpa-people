@@ -43,10 +43,10 @@
     </v-app-bar>
 
     <v-main>
-      <div v-if="isLoginMember">
+      <div v-if="isLogin">
         <router-view />
       </div>
-      <Login v-else/>
+      <Login v-else />
     </v-main>
   </v-app>
 </template>
@@ -65,7 +65,7 @@ export default {
       drawer: null
     };
   },
-  computed: { ...mapGetters("member", ["isLoginMember"]) }
+  computed: { ...mapGetters("member", ["isLogin"]) }
 };
 </script>
 

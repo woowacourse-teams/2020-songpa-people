@@ -1,21 +1,28 @@
+import customAxios from "@/request";
+
 export default {
   namespaced: true,
   state: {
-    token: null
+    isLogin: false
   },
   mutations: {
-    SET_TOKEN: (state, token) => {
-      state.token = token;
+    SET_LOGIN: (state, isLogin) => {
+      state.isLogin = isLogin;
     }
   },
   getters: {
-    isLoginMember: state => {
-      return state.token !== null;
+    isLogin: state => {
+      return state.isLogin;
     }
   },
   actions: {
-    loginRequest: (commit, member) => {
-      console.log(member);
+    loginRequest: async ({ commit }, member) => {
+      try {
+        await customAxios().post("/admin-member", member);
+        commit("SET_LOGIN", true);
+      } catch (e) {
+        console.log(e.message);
+      }
     }
   }
 };
