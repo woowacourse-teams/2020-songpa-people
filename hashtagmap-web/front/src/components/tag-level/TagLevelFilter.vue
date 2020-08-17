@@ -28,9 +28,9 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["CHECK_TAG_LEVEL"]),
+    ...mapMutations(["SET_TAG_LEVEL"]),
     showIcon(event) {
-      this.CHECK_TAG_LEVEL(this.tagLevel);
+      this.SET_TAG_LEVEL(this.tagLevel);
       const markerStyle =
         event.currentTarget.childNodes[0].firstChild.style.cssText;
       if (markerStyle === "visibility: visible;") {

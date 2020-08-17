@@ -84,7 +84,7 @@ export default new Vuex.Store({
     SET_PLACES(state, places) {
       state.places = places;
     },
-    CHECK_TAG_LEVEL(state, tagLevel) {
+    SET_TAG_LEVEL(state, tagLevel) {
       state.tagLevels = state.tagLevels.map(t =>
         t.level === tagLevel.level ? { ...t, active: !tagLevel.active } : t,
       );
@@ -92,35 +92,12 @@ export default new Vuex.Store({
     ADD_MARKER_DETAIL(state, markerDetail) {
       state.markerDetails.push(markerDetail);
     },
-    CHECK_CATEGORY(state, category) {
-      const activeCategoriesCount = state.categories.filter(
-        category => category.active,
-      ).length;
-      if (activeCategoriesCount === state.categories.length) {
-        state.categories = state.categories.map(c =>
-          c.name === category.name
-            ? { ...c, active: true }
-            : { ...c, active: false },
-        );
-      } else {
-        const activeCategory = state.categories.filter(
-          category => category.active,
-        )[0];
-        if (activeCategory.name === category.name) {
-          state.categories = state.categories.map(c => {
-            return {
-              name: c.name,
-              active: true,
-            };
-          });
-        } else {
-          state.categories = state.categories.map(c =>
-            c.name === category.name
-              ? { ...c, active: true }
-              : { ...c, active: false },
-          );
-        }
-      }
+    SET_CATEGORY(state, category) {
+      state.categories = state.categories.map(c =>
+        c.name === category.name
+          ? { ...c, active: !category.active }
+          : { ...c, active: true },
+      );
     },
   },
 

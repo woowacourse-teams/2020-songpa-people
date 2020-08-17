@@ -1,5 +1,5 @@
 <template>
-  <v-chip label color="white" @click.stop="onClickCategory">
+  <v-chip label color="#a9a9a9" @click.stop="onClickCategory">
     {{ category.name }}
   </v-chip>
 </template>
@@ -16,9 +16,9 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["CHECK_CATEGORY"]),
+    ...mapMutations(["SET_CATEGORY"]),
     onClickCategory() {
-      this.CHECK_CATEGORY(this.category);
+      this.SET_CATEGORY(this.category);
     },
   },
 };
@@ -31,5 +31,9 @@ export default {
 
 .v-chip-group .v-chip {
   margin: 0 !important;
+}
+
+.theme--light.v-chip--active::before {
+  opacity: 0 !important;
 }
 </style>

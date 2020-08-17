@@ -39,10 +39,18 @@ export default {
 }
 
 .v-application .primary {
-  background-color: darkgray !important;
+  background-color: white !important;
 }
 
 .theme--light.v-chip {
   border-color: black !important;
+}
+
+.v-chip {
+  color: white !important;
+}
+
+.v-chip:not(.v-chip--outlined).primary {
+  color: black !important;
 }
 </style>
