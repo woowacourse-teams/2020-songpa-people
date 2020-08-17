@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.service;
 
-import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryRepository;
+import com.songpapeople.hashtagmap.kakao.schedule.repository.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleCommandService;
 import com.songpapeople.hashtagmap.scheduler.domain.CronPeriod;

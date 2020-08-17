@@ -7,8 +7,9 @@ endif::[]
 :toc: left
 :toclevels: 4
 :sectlinks:
-:operation-http-request-title: Example Request
-:operation-http-response-title: Example Response
+:operation-http-request-title: 요청 예시
+:operation-http-response-title: 응답 예시
+:operation-response-fields-title: 응답 필드 상세설명
 
 [[resources]]
 = HashtagMap API Guide

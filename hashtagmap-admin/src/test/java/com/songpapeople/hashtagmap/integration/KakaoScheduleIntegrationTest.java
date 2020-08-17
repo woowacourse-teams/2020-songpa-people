@@ -1,12 +1,12 @@
 package com.songpapeople.hashtagmap.integration;
 
 import com.songpapeople.hashtagmap.config.vo.Flag;
-import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistory;
-import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryDto;
-import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryRepository;
+import com.songpapeople.hashtagmap.kakao.schedule.model.PeriodHistory;
 import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
+import com.songpapeople.hashtagmap.kakao.schedule.repository.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
 import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
+import com.songpapeople.hashtagmap.kakao.service.dto.PeriodHistoryDto;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;

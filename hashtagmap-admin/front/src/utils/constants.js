@@ -19,9 +19,9 @@ export const KAKAO = {
     DEACTIVATE_COLOR: "error",
     DEACTIVATE_MESSAGE: "OFF",
     UNKNOWN_COLOR: "indigo",
-    UNKNOWN_MESSAGE: "알 수 없음",
-  },
-}
+    UNKNOWN_MESSAGE: "알 수 없음"
+  }
+};
 
 export const EVENT_TYPE = {
   CLICK: "click"
@@ -31,4 +31,35 @@ export const SNACK_BAR_TYPE = {
   SUCCESS: "success",
   ERROR: "error",
   INFO: "info"
+};
+
+export const SNACK_BAR_TEMPLATE = {
+  CUSTOM: (type, message, code) => {
+    return {
+      type: "",
+      message: message,
+      code: code
+    };
+  },
+  INFO: message => {
+    return {
+      type: SNACK_BAR_TYPE.INFO,
+      message: message,
+      code: ""
+    };
+  },
+  SUCCESS: () => {
+    return {
+      type: SNACK_BAR_TYPE.SUCCESS,
+      message: MESSAGE.SUCCESS,
+      code: ""
+    };
+  },
+  ERROR: error => {
+    return {
+      type: SNACK_BAR_TYPE.ERROR,
+      message: error.body.message,
+      code: error.body.code
+    };
+  }
 };

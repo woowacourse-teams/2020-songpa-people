@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -46,6 +47,28 @@ public class Zone extends BaseEntity {
         this.bottomRight = bottomRight;
         this.district = district;
         this.isActivated = isActivated;
+    }
+
+    public void updatePosition(final String topLeftLatitude, final String topLeftLongitude, final String bottomRightLatitude, final String bottomRightLongitude) {
+        if (!StringUtils.isEmpty(topLeftLatitude)) {
+            this.topLeft.changeLatitude(topLeftLatitude);
+        }
+        if (!StringUtils.isEmpty(topLeftLongitude)) {
+            this.topLeft.changeLongitude(topLeftLongitude);
+        }
+        if (!StringUtils.isEmpty(bottomRightLatitude)) {
+            this.bottomRight.changeLatitude(bottomRightLatitude);
+        }
+        if (!StringUtils.isEmpty(bottomRightLongitude)) {
+            this.bottomRight.changeLongitude(bottomRightLongitude);
+        }
+    }
+
+    public void changeDistrict(final District district) {
+        if (district == null) {
+            return;
+        }
+        this.district = district;
     }
 
     public String getMinLatitude() {

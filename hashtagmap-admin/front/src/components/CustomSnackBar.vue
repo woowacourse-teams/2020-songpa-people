@@ -22,9 +22,8 @@ import { mapGetters } from "vuex";
 export default {
   name: "CustomSnackbar",
   computed: {
-    ...mapGetters("snackbar",["getSnackbar"])
+    ...mapGetters("snackbar", ["getSnackbar"])
   },
-  created() {
-  }
+  created() {}
 };
 </script>

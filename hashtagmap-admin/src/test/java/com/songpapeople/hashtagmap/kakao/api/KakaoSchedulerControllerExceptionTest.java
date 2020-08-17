@@ -155,7 +155,7 @@ class KakaoSchedulerControllerExceptionTest {
         CustomResponse<Void> customResponse = objectMapper.readValue(contentAsString, new TypeReference<CustomResponse<Void>>() {
         });
 
-        assertThat(customResponse.getCode()).isEqualTo(CommonExceptionStatus.BIND_VALIDATION.getCode());
-        assertThat(customResponse.getMessage()).isEqualTo(CommonExceptionStatus.BIND_VALIDATION.getMessage());
+        assertThat(customResponse.getCode()).isEqualTo(CommonExceptionStatus.WRONG_ARGUMENT.getCode());
+        assertThat(customResponse.getMessage()).isEqualTo(CommonExceptionStatus.WRONG_ARGUMENT.getMessage());
     }
 }

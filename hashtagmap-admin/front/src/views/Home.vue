@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "InstagramScheduler",
+  name: "Home",
   data() {
     return {
       faviconPath: require("../assets/bright-cow-image.png")
