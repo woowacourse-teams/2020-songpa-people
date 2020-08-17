@@ -1,0 +1,25 @@
+{
+  "name": "당신이 몰랐던 그 곳, 미소",
+  "short_name": "미소",
+  "theme_color": "#C485AD",
+  "background_color": "#FFFFFF",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "src": "./img/icons/themiso-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/icons/themiso-icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/icons/themiso-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "."
+}
