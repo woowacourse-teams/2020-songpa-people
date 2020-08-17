@@ -19,9 +19,24 @@ public class TagLevel extends BaseEntity {
     Long maxHashtagCount;
     // todo DB에 Table 생성
 
+
+    public TagLevel(Long id) {
+        this.id = id;
+    }
+
+    public TagLevel(Long id, Long minHashtagCount, Long maxHashtagCount) {
+        this.id = id;
+        this.minHashtagCount = minHashtagCount;
+        this.maxHashtagCount = maxHashtagCount;
+    }
+
     public void update(List<Long> hashtagCount) {
         this.minHashtagCount = hashtagCount.get(0);
         this.maxHashtagCount = hashtagCount.get(1);
+    }
+
+    public boolean contains(Long hashtagCount) {
+        return hashtagCount >= minHashtagCount && hashtagCount <= maxHashtagCount;
     }
 }
 

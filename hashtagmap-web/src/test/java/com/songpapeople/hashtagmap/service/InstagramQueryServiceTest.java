@@ -7,6 +7,8 @@ import com.songpapeople.hashtagmap.place.domain.model.Category;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
+import com.songpapeople.hashtagmap.taglevel.domain.TagLevel;
+import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,9 +30,12 @@ class InstagramQueryServiceTest {
     @Mock
     private InstagramRepository instagramRepository;
 
+    @Mock
+    private TagLevelRepository tagLevelRepository;
+
     @BeforeEach
     void setUp() {
-        instagramQueryService = new InstagramQueryService(instagramRepository);
+        instagramQueryService = new InstagramQueryService(instagramRepository, tagLevelRepository);
     }
 
     @DisplayName("findAllMarkers 테스트")
@@ -49,9 +54,15 @@ class InstagramQueryServiceTest {
                         .build()
         );
         given(instagramRepository.findAllFetch()).willReturn(instagrams);
+        given(tagLevelRepository.findAll()).willReturn(
+                Arrays.asList(
+                        new TagLevel(1L, 100L, 5000L),
+                        new TagLevel(2L, 5001L, 10000L)
+                )
+        );
 
         List<MarkerResponse> actual = instagramQueryService.findAllMarkers();
-        MarkerResponse expected = MarkerResponse.from(
+        MarkerResponse expected = MarkerResponse.of(
                 Instagram.builder()
                         .place(Place.builder()
                                 .placeName("스타벅스")
@@ -61,10 +72,10 @@ class InstagramQueryServiceTest {
                                 .build())
                         .id(1L)
                         .hashtagCount(10000L)
-                        .build()
+                        .build(),
+                2L
         );
 
-        // TODO: 2020-08-05 TagLevel 로직 정해진 후 테스트 수정
-        assertThat(actual.get(0)).isEqualToIgnoringGivenFields(expected, "tagLevel");
+        assertThat(actual.get(0)).isEqualToComparingFieldByField(expected);
     }
 }

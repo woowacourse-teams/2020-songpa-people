@@ -24,12 +24,10 @@ class TagLevelQueryServiceTest {
     @DisplayName("TagLevel의 정보를 조회한다.")
     @Test
     public void findAllTest() {
-        TagLevel tagLevel1 = new TagLevel();
-        tagLevel1.update(Arrays.asList(100L, 200L));
-        TagLevel tagLevel2 = new TagLevel();
-        tagLevel1.update(Arrays.asList(201L, 300L));
-
-        tagLevelRepository.saveAll(Arrays.asList(tagLevel1, tagLevel2));
+        tagLevelRepository.saveAll(Arrays.asList(
+                new TagLevel(1L, 100L, 200L),
+                new TagLevel(2L, 201L, 300L)
+        ));
 
         List<TagLevelDto> tagLevelDtos = tagLevelQueryService.findAll();
         assertThat(tagLevelDtos.size()).isEqualTo(2);
