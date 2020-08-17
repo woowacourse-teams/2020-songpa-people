@@ -1,7 +1,10 @@
 package com.songpapeople.hashtagmap.place.domain.model;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum Category {
     CAFE("CE7", "카페"),
     RESTAURANT("FD6", "음식점");
@@ -12,10 +15,6 @@ public enum Category {
     Category(String categoryGroupCode, String categoryGroupName) {
         this.categoryGroupCode = categoryGroupCode;
         this.categoryGroupName = categoryGroupName;
-    }
-
-    public String getCategoryGroupCode() {
-        return categoryGroupCode;
     }
 
     public static Category fromCategoryGroupCode(String code) {

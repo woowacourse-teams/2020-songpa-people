@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapActions, mapMutations, mapGetters } from "vuex";
 import { EVENT_TYPE } from "../utils/constants";
 import { textBalloonTemplate } from "../utils/templates";
 import DetailModal from "../components/detail-modal/DetailModal";
@@ -30,7 +30,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["kakaoMap", "kakaoMapApi", "places"]),
+    ...mapGetters(["getKakaoMap", "getKakaoMapApi", "getPlaces"]),
   },
 
   methods: {
@@ -41,13 +41,17 @@ export default {
     ]),
     ...mapActions(["setDetailModal", "setPlaces"]),
     loadMarker() {
-      this.places.map(place => {
+      this.getPlaces.map(place => {
         const marker = this.createMaker(place);
-        marker.setMap(this.kakaoMap);
-        this.ADD_MARKER_DETAIL({ marker, tagLevel: place.tagLevel });
+        marker.setMap(this.getKakaoMap);
+        this.ADD_MARKER_DETAIL({
+          marker,
+          tagLevel: place.tagLevel,
+          category: place.category,
+        });
         const textBalloon = this.createTextBalloon(place, marker);
-        this.kakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
-          this.onAddTextBalloonToMarker(this.kakaoMap, place, textBalloon);
+        this.getKakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
+          this.onAddTextBalloonToMarker(this.getKakaoMap, place, textBalloon);
         });
       });
     },
@@ -67,19 +71,19 @@ export default {
       this.setDetailModal(place);
     },
     createMaker(place) {
-      const imageSize = new this.kakaoMapApi.Size(SIZE.width, SIZE.height);
-      const markerImage = new this.kakaoMapApi.MarkerImage(
+      const imageSize = new this.getKakaoMapApi.Size(SIZE.width, SIZE.height);
+      const markerImage = new this.getKakaoMapApi.MarkerImage(
         getMarkerImage(place.tagLevel),
         imageSize,
       );
-      return new this.kakaoMapApi.Marker({
-        position: new this.kakaoMapApi.LatLng(place.latitude, place.longitude),
+      return new this.getKakaoMapApi.Marker({
+        position: new this.getKakaoMapApi.LatLng(place.latitude, place.longitude),
         title: place.placeName,
         image: markerImage,
       });
     },
     createTextBalloon(place, marker) {
-      return new this.kakaoMapApi.CustomOverlay({
+      return new this.getKakaoMapApi.CustomOverlay({
         content: textBalloonTemplate(place),
         position: marker.getPosition(),
       });

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-import { TAG_LEVEL } from "../utils/constants";
+import { TAG_LEVEL, CATEGORY } from "../utils/constants";
 
 Vue.use(Vuex);
 
@@ -25,6 +25,7 @@ export default new Vuex.Store({
         longitude: "",
         placeName: "",
         tagLevel: "",
+        category: "",
       },
     ],
     tagLevels: [
@@ -55,6 +56,16 @@ export default new Vuex.Store({
       },
     ],
     markerDetails: [],
+    categories: [
+      {
+        name: CATEGORY.CAFE,
+        active: true,
+      },
+      {
+        name: CATEGORY.RESTAURANT,
+        active: true,
+      },
+    ],
   },
 
   mutations: {
@@ -73,13 +84,20 @@ export default new Vuex.Store({
     SET_PLACES(state, places) {
       state.places = places;
     },
-    CHECK_TAG_LEVEL(state, tagLevel) {
+    SET_TAG_LEVEL(state, tagLevel) {
       state.tagLevels = state.tagLevels.map(t =>
         t.level === tagLevel.level ? { ...t, active: !tagLevel.active } : t,
       );
     },
     ADD_MARKER_DETAIL(state, markerDetail) {
       state.markerDetails.push(markerDetail);
+    },
+    SET_CATEGORY(state, category) {
+      state.categories = state.categories.map(c =>
+        c.name === category.name
+          ? { ...c, active: !category.active }
+          : { ...c, active: true },
+      );
     },
   },
 
@@ -107,12 +125,36 @@ export default new Vuex.Store({
   },
 
   getters: {
+    getKakaoMap: state => {
+      return state.kakaoMap;
+    },
+    getKakaoMapApi: state => {
+      return state.kakaoMapApi;
+    },
+    getPlaces: state => {
+      return state.places;
+    },
+    getTagLevels: state => {
+      return state.tagLevels;
+    },
+    getDetailModal: state => {
+      return state.detailModal;
+    },
+    getCategories: state => {
+      return state.categories;
+    },
     activeMarker: state => {
+      const activeCategory = state.categories
+        .filter(category => category.active)
+        .map(category => category.name);
       const activeTagLevels = state.tagLevels
         .filter(tagLevel => tagLevel.active)
         .map(tagLevel => tagLevel.level);
       return state.markerDetails.filter(markerDetail => {
-        if (activeTagLevels.includes(markerDetail.tagLevel)) {
+        if (
+          activeTagLevels.includes(markerDetail.tagLevel) &&
+          activeCategory.includes(markerDetail.category)
+        ) {
           markerDetail.marker.setMap(state.kakaoMap);
         } else {
           markerDetail.marker.setMap(null);

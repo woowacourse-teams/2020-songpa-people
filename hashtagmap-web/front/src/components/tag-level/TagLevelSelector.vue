@@ -3,7 +3,7 @@
     <v-chip-group column multiple>
       <v-row class="ma-0" align="start" justify="space-around">
         <TagLevelFilter
-          v-for="tagLevel in tagLevels"
+          v-for="tagLevel in getTagLevels"
           :key="tagLevel.level"
           :tag-level="tagLevel"
         />
@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import TagLevelFilter from "./TagLevelFilter";
 
 export default {
   components: { TagLevelFilter },
 
   computed: {
-    ...mapState(["tagLevels"]),
+    ...mapGetters(["getTagLevels"]),
   },
 };
 </script>
