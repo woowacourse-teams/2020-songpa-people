@@ -26,10 +26,6 @@
   right: 90%;
 }
 
-.marker-title:hover {
-  text-decoration: underline;
-}
-
 .marker-text {
   font-weight: bold;
 }
