@@ -1,10 +1,13 @@
 package com.songpapeople.hashtagmap.api;
 
-import com.songpapeople.hashtagmap.doc.InstagramApiDocumentation;
+import com.songpapeople.hashtagmap.docs.InstagramApiDocumentation;
 import com.songpapeople.hashtagmap.dto.InstagramPostResponse;
+import com.songpapeople.hashtagmap.service.InstagramPostQueryService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +18,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(controllers = InstagramApiController.class)
 public class InstagramApiControllerTest extends InstagramApiDocumentation {
+    @MockBean
+    protected InstagramPostQueryService instagramPostQueryService;
+
     @DisplayName("인스타그램post요청 controller 테스트")
     @Test
     void getInstagramPost() throws Exception {
