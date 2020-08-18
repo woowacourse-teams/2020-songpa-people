@@ -1,5 +1,5 @@
-import { customWrapAxios } from "@/request";
 import { CONST } from "@/utils/constants";
+import memberApi from "@/request/api/member";
 
 export default {
   namespaced: true,
@@ -17,7 +17,7 @@ export default {
   actions: {
     loginRequest: async (commit, member) => {
       try {
-        await customWrapAxios().post("/admin-member/login", member);
+        await memberApi.login(member);
         localStorage.setItem(CONST.ADMIN_LOGIN_KEY, true);
         location.href = "/";
       } catch (e) {
