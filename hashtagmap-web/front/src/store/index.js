@@ -55,7 +55,6 @@ export default new Vuex.Store({
         active: true,
       },
     ],
-    markerDetails: [],
     categories: [
       {
         name: CATEGORY.CAFE,
@@ -66,6 +65,7 @@ export default new Vuex.Store({
         active: true,
       },
     ],
+    mapOverlays: [],
   },
 
   mutations: {
@@ -89,15 +89,15 @@ export default new Vuex.Store({
         t.level === tagLevel.level ? { ...t, active: !tagLevel.active } : t,
       );
     },
-    ADD_MARKER_DETAIL(state, markerDetail) {
-      state.markerDetails.push(markerDetail);
-    },
     SET_CATEGORY(state, category) {
       state.categories = state.categories.map(c =>
         c.name === category.name
           ? { ...c, active: !category.active }
           : { ...c, active: true },
       );
+    },
+    ADD_MAP_OVERLAYS(state, overlayObj) {
+      state.mapOverlays.push(overlayObj);
     },
   },
 
@@ -114,13 +114,8 @@ export default new Vuex.Store({
       commit("SET_DETAIL_MODAL", detailModal);
     },
     async setPlaces({ commit }) {
-      try {
-        const places = await axios.get("/markers");
-        commit("SET_PLACES", places.data.data);
-      } catch (error) {
-        // todo : 스낵바로 에러내용 출력
-        alert(error);
-      }
+      const places = await axios.get("/markers");
+      commit("SET_PLACES", places.data.data);
     },
   },
 
@@ -143,21 +138,24 @@ export default new Vuex.Store({
     getCategories: state => {
       return state.categories;
     },
-    activeMarker: state => {
+    activeOverlays: state => {
       const activeCategory = state.categories
         .filter(category => category.active)
         .map(category => category.name);
       const activeTagLevels = state.tagLevels
         .filter(tagLevel => tagLevel.active)
         .map(tagLevel => tagLevel.level);
-      return state.markerDetails.filter(markerDetail => {
+      return state.mapOverlays.filter(mapOverlay => {
         if (
-          activeTagLevels.includes(markerDetail.tagLevel) &&
-          activeCategory.includes(markerDetail.category)
+          activeTagLevels.includes(mapOverlay.place.tagLevel) &&
+          activeCategory.includes(mapOverlay.place.category)
         ) {
-          markerDetail.marker.setMap(state.kakaoMap);
+          mapOverlay.marker.setMap(state.kakaoMap);
+          mapOverlay.textBalloon.setMap(state.kakaoMap);
+          mapOverlay.textBalloon.setZIndex(1);
         } else {
-          markerDetail.marker.setMap(null);
+          mapOverlay.marker.setMap(null);
+          mapOverlay.textBalloon.setMap(null);
         }
       });
     },

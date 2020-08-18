@@ -19,13 +19,13 @@ export default {
     this.SET_KAKAO_MAP_API(await this.$initKakaoMapApi());
     this.SET_KAKAO_MAP(this.$loadMap());
     await this.setPlaces();
-    this.loadMarker();
+    this.setMapOverlays();
     this.$loadCurrentPosition();
   },
 
   mounted() {
     this.$store.watch(() => {
-      this.$store.getters.activeMarker;
+      this.$store.getters.activeOverlays;
     });
   },
 
@@ -34,41 +34,14 @@ export default {
   },
 
   methods: {
-    ...mapMutations([
-      "SET_KAKAO_MAP_API",
-      "SET_KAKAO_MAP",
-      "ADD_MARKER_DETAIL",
-    ]),
+    ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP", "ADD_MAP_OVERLAYS"]),
     ...mapActions(["setDetailModal", "setPlaces"]),
-    loadMarker() {
+    setMapOverlays() {
       this.getPlaces.map(place => {
         const marker = this.createMaker(place);
-        marker.setMap(this.getKakaoMap);
-        this.ADD_MARKER_DETAIL({
-          marker,
-          tagLevel: place.tagLevel,
-          category: place.category,
-        });
         const textBalloon = this.createTextBalloon(place, marker);
-        this.getKakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () => {
-          this.onAddTextBalloonToMarker(this.getKakaoMap, place, textBalloon);
-        });
+        this.ADD_MAP_OVERLAYS({ place, marker, textBalloon });
       });
-    },
-    onAddTextBalloonToMarker(kakaoMap, place, textBalloon) {
-      textBalloon.setMap(kakaoMap);
-      const $textBalloon = document.getElementById(`${place.kakaoId}`);
-      $textBalloon.addEventListener(EVENT_TYPE.CLICK, event => {
-        if (event.target.classList.contains("marker-title")) {
-          this.onAddModalToTextBalloon(event, place);
-        } else {
-          textBalloon.setMap(null);
-        }
-      });
-    },
-    onAddModalToTextBalloon(event, place) {
-      event.preventDefault();
-      this.setDetailModal(place);
     },
     createMaker(place) {
       const imageSize = new this.getKakaoMapApi.Size(SIZE.width, SIZE.height);
@@ -77,15 +50,27 @@ export default {
         imageSize,
       );
       return new this.getKakaoMapApi.Marker({
-        position: new this.getKakaoMapApi.LatLng(place.latitude, place.longitude),
+        position: new this.getKakaoMapApi.LatLng(
+          place.latitude,
+          place.longitude,
+        ),
         title: place.placeName,
         image: markerImage,
       });
     },
     createTextBalloon(place, marker) {
+      const $content = textBalloonTemplate(place);
+      this.onAddModalToTextBalloon(place, $content);
       return new this.getKakaoMapApi.CustomOverlay({
-        content: textBalloonTemplate(place),
+        content: $content,
         position: marker.getPosition(),
+        yAnchor: 2,
+      });
+    },
+    onAddModalToTextBalloon(place, $content) {
+      $content.addEventListener(EVENT_TYPE.CLICK, event => {
+        event.preventDefault();
+        this.setDetailModal(place);
       });
     },
   },
