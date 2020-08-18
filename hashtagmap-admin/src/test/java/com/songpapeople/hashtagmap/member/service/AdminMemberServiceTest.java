@@ -29,7 +29,7 @@ class AdminMemberServiceTest {
 
     @DisplayName("로그인 / 존재하지 않는 아이디 예외처리 테스트")
     @Test
-    void loginWithError1() {
+    void loginWhenNotFoundNickName() {
         LoginRequest loginRequest = new LoginRequest("bebop", "1234");
 
         assertThatThrownBy(() -> adminMemberService.validate(loginRequest))
@@ -39,7 +39,7 @@ class AdminMemberServiceTest {
 
     @DisplayName("로그인 / 비밀번호가 틀렸을 때 예외처리 테스트")
     @Test
-    void loginWithError2() {
+    void loginWhenWrongPassword() {
         LoginRequest loginRequest = new LoginRequest("hakseong", "0000");
 
         assertThatThrownBy(() -> adminMemberService.validate(loginRequest))
