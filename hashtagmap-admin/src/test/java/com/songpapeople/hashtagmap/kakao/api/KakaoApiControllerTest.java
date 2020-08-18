@@ -1,10 +1,10 @@
 package com.songpapeople.hashtagmap.kakao.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryDto;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleCommandService;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleQueryService;
 import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
+import com.songpapeople.hashtagmap.kakao.service.dto.PeriodHistoryDto;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -2,15 +2,15 @@ package com.songpapeople.hashtagmap.kakao.service;
 
 import com.songpapeople.hashtagmap.exception.AdminException;
 import com.songpapeople.hashtagmap.exception.AdminExceptionStatus;
-import com.songpapeople.hashtagmap.kakao.schedule.PeriodHistoryDto;
+import com.songpapeople.hashtagmap.kakao.schedule.model.PeriodHistory;
 import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
+import com.songpapeople.hashtagmap.kakao.service.dto.PeriodHistoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +28,7 @@ public class KakaoScheduleQueryService {
     }
 
     public List<PeriodHistoryDto> showPeriodHistory() {
-        return historyRepository.findAll()
-                .stream()
-                .map(PeriodHistoryDto::from)
-                .collect(Collectors.toList());
+        List<PeriodHistory> periodHistories = historyRepository.findAll();
+        return PeriodHistoryDto.listOf(periodHistories);
     }
 }

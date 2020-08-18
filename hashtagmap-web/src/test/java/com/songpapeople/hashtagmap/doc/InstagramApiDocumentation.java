@@ -1,10 +1,11 @@
 package com.songpapeople.hashtagmap.doc;
 
+import com.songpapeople.hashtagmap.docs.ApiDocument;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-import static com.songpapeople.hashtagmap.doc.ApiDocumentUtils.getDocumentRequest;
-import static com.songpapeople.hashtagmap.doc.ApiDocumentUtils.getDocumentResponse;
+import static com.songpapeople.hashtagmap.docs.ApiDocumentUtils.getDocumentRequest;
+import static com.songpapeople.hashtagmap.docs.ApiDocumentUtils.getDocumentResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
