@@ -1,13 +1,16 @@
 export default {
   namespaced: true,
+
   state: {
     snackbar: { show: false, type: "", message: "", code: "" }
   },
+
   getters: {
     getSnackbar(state) {
       return state.snackbar;
     }
   },
+
   mutations: {
     SHOW_SNACKBAR(state, input) {
       state.snackbar.show = true;

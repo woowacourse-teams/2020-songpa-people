@@ -61,14 +61,17 @@ import Login from "@/components/Login";
 
 export default {
   name: "App",
+
   components: {
     Login
   },
+
   data: () => {
     return {
       drawer: null
     };
   },
+
   methods: {
     ...mapActions("member", ["logout"])
   },

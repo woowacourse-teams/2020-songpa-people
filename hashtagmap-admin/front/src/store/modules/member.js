@@ -3,13 +3,17 @@ import { CONST } from "@/utils/constants";
 
 export default {
   namespaced: true,
+
   state: {},
+
   mutations: {},
+
   getters: {
     isLogin: () => {
       return localStorage.getItem(CONST.ADMIN_LOGIN_KEY);
     }
   },
+
   actions: {
     loginRequest: async (commit, member) => {
       try {

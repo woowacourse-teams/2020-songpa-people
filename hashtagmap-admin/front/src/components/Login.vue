@@ -18,6 +18,7 @@
           prepend-icon="mdi-lock-open"
           dense
           lang="en"
+          v-on:keyup.enter="login"
         />
         <v-btn
           class="form-item text-center margin-bottom-25px"

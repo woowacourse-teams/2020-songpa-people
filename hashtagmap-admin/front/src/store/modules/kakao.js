@@ -3,6 +3,7 @@ import { KAKAO, MESSAGE, SNACK_BAR_TYPE } from "@/utils/constants.js";
 
 export default {
   namespaced: true,
+
   state: {
     kakaoScheduleActiveStatus: {
       message: KAKAO.SCHEDULE.UNKNOWN_MESSAGE,
@@ -11,6 +12,7 @@ export default {
     expression: "",
     periodHistory: []
   },
+
   getters: {
     getExpression: state => {
       return state.expression;
@@ -22,6 +24,7 @@ export default {
       return state.kakaoScheduleActiveStatus;
     }
   },
+
   mutations: {
     CHANGE_KAKAO_SCHEDULE_ACTIVE_STATUS: (state, { message, color }) => {
       state.kakaoScheduleActiveStatus.message = message;
@@ -40,6 +43,7 @@ export default {
       state.periodHistory = [];
     }
   },
+
   actions: {
     toggleKakaoSchedule: async ({ dispatch }) => {
       try {
