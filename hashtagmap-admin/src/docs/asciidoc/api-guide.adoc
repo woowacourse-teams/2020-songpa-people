@@ -15,6 +15,36 @@ endif::[]
 [[resources]]
 = HashtagMap Admin API Guide
 
+[[resources-instagram]]
+== Instagram
+
+[[resources-instagram-scheduler-update]]
+=== scheduler 실행
+
+operation::instagram/scheduler/update[snippets='http-request,http-response']
+
+[[resources-kakao]]
+== Kakao
+
+[[resources-kakao-scheduler-toggle]]
+=== scheduler toggle (ON/OFF)
+
+operation::kakao/scheduler/toggle[snippets='http-request,request-fields,http-response']
+
+[[resources-kakao-scheduler-status]]
+=== scheduler 상태 조회
+
+operation::kakao/scheduler/status[snippets='http-request,request-parameters,http-response,response-fields']
+
+[[resources-kakao-scheduler-period-put]]
+=== scheduler 주기 변경
+
+operation::kakao/scheduler/period/put[snippets='http-request,http-response']
+
+[[resources-kakao-scheduler-period-get]]
+=== scheduler 주기 조회
+
+operation::kakao/scheduler/period/get[snippets='http-request,http-response,response-fields']
 [[resources-district]]
 == District
 

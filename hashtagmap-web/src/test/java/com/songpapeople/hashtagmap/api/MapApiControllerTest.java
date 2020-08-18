@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.api;
 
 
-import com.songpapeople.hashtagmap.doc.MapApiDocumentation;
+import com.songpapeople.hashtagmap.docs.MapApiDocumentation;
 import com.songpapeople.hashtagmap.dto.MarkerResponse;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.place.domain.model.Category;

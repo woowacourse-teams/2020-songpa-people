@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.doc;
+package com.songpapeople.hashtagmap.docs;
 
 import com.songpapeople.hashtagmap.service.InstagramPostQueryService;
 import com.songpapeople.hashtagmap.service.InstagramQueryService;

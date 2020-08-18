@@ -1,10 +1,10 @@
-package com.songpapeople.hashtagmap.doc;
+package com.songpapeople.hashtagmap.docs;
 
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-import static com.songpapeople.hashtagmap.doc.ApiDocumentUtils.getDocumentRequest;
-import static com.songpapeople.hashtagmap.doc.ApiDocumentUtils.getDocumentResponse;
+import static com.songpapeople.hashtagmap.docs.ApiDocumentUtils.getDocumentRequest;
+import static com.songpapeople.hashtagmap.docs.ApiDocumentUtils.getDocumentResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -32,7 +32,7 @@ public class MapApiDocumentation extends ApiDocument {
                         fieldWithPath("data[0].longitude").type(JsonFieldType.STRING)
                                 .description("The longitude of the first data."),
                         fieldWithPath("data[0].category").type(JsonFieldType.STRING)
-                        .description("The category name which place belong to"),
+                                .description("The category name which place belong to"),
                         fieldWithPath("code").type(JsonFieldType.NULL).description("The error code"),
                         fieldWithPath("message").type(JsonFieldType.NULL).description("The error message")
                 )

@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.doc;
+package com.songpapeople.hashtagmap.docs;
 
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
@@ -14,7 +14,7 @@ public interface ApiDocumentUtils {
         return preprocessRequest(
                 modifyUris()
                         .scheme("https")
-                        .host("hashtagmap.tk")
+                        .host("admin.themiso.kr")
                         .removePort(),
                 prettyPrint());
     }
