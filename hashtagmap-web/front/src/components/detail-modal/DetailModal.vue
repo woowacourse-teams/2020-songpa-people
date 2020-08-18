@@ -69,7 +69,7 @@ export default {
   methods: {
     ...mapMutations(["SET_DETAIL_MODAL_CLOSE"]),
     onClickPlaceName() {
-      let parsedPlaceName = this.detailModal.placeName.replace(/ /g, "");
+      let parsedPlaceName = this.getDetailModal.placeName.replace(/ /g, "");
       if (parsedPlaceName.endsWith("점")) {
         parsedPlaceName = parsedPlaceName.substr(0, parsedPlaceName.length - 1);
       }
@@ -78,7 +78,7 @@ export default {
       );
     },
     onClickModalDetail() {
-      return window.open(this.detailModal.placeUrl);
+      return window.open(this.getDetailModal.placeUrl);
     },
   },
 };
