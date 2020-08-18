@@ -1,28 +1,28 @@
-import customAxios from "@/request";
+import { customWrapAxios } from "@/request";
+import { CONST } from "@/utils/constants";
 
 export default {
   namespaced: true,
-  state: {
-    isLogin: false
-  },
-  mutations: {
-    SET_LOGIN: (state, isLogin) => {
-      state.isLogin = isLogin;
-    }
-  },
+  state: {},
+  mutations: {},
   getters: {
-    isLogin: state => {
-      return state.isLogin;
+    isLogin: () => {
+      return localStorage.getItem(CONST.ADMIN_LOGIN_KEY);
     }
   },
   actions: {
-    loginRequest: async ({ commit }, member) => {
+    loginRequest: async (commit, member) => {
       try {
-        await customAxios().post("/admin-member", member);
-        commit("SET_LOGIN", true);
+        await customWrapAxios().post("/admin-member/login", member);
+        localStorage.setItem(CONST.ADMIN_LOGIN_KEY, true);
+        location.href = "/";
       } catch (e) {
-        console.log(e.message);
+        return e;
       }
+    },
+    logout: () => {
+      localStorage.removeItem(CONST.ADMIN_LOGIN_KEY);
+      location.href = "/";
     }
   }
 };

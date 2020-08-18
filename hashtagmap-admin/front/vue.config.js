@@ -9,5 +9,14 @@ module.exports = {
         "@": path.join(__dirname, "src/")
       }
     }
-  }
+  },
+  devServer: {
+    proxy: {
+      '/': {
+        target: "http://localhost:9000",
+        ws: true,
+        changeOrigin: true
+      },
+    }
+  },
 };

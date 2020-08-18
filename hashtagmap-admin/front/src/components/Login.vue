@@ -28,11 +28,14 @@
         >
       </v-form>
     </v-container>
+    <CustomSnackBar />
   </v-app>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
+import { convert } from "@/utils/responseConverter";
+import CustomSnackBar from "@/components/CustomSnackBar";
 
 export default {
   data() {
@@ -41,14 +44,19 @@ export default {
       password: ""
     };
   },
+  components: {
+    CustomSnackBar
+  },
   methods: {
     ...mapActions("member", ["loginRequest"]),
-    login() {
+    ...mapMutations("snackbar", ["SHOW_SNACKBAR"]),
+    async login() {
       const loginData = {
         nickName: this.nickName,
         password: this.password
       };
-      this.loginRequest(loginData);
+      const res = await this.loginRequest(loginData);
+      this.SHOW_SNACKBAR(convert.toSnackBarContent(res));
     }
   }
 };
@@ -66,16 +74,5 @@ export default {
   position: relative;
   left: 50%;
   transform: translate(-50%);
-}
-
-.login-form-nav {
-  border-top: #7f7f7f solid 1px;
-  padding-top: 4px;
-  color: #888888;
-  text-align: right;
-}
-
-.background-color-white {
-  background-color: white;
 }
 </style>

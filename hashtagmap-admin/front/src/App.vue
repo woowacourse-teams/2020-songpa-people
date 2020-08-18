@@ -40,6 +40,10 @@
     <v-app-bar app clipped-left height="40px">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>명소를 찾아서</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn v-if="isLogin" text @click="logout">
+        로그아웃
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -52,7 +56,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Login from "@/components/Login";
 
 export default {
@@ -64,6 +68,9 @@ export default {
     return {
       drawer: null
     };
+  },
+  methods: {
+    ...mapActions("member", ["logout"])
   },
   computed: { ...mapGetters("member", ["isLogin"]) }
 };

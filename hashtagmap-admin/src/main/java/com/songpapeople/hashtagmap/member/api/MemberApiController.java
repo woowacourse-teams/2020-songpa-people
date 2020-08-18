@@ -18,6 +18,7 @@ public class MemberApiController {
     }
 
     @PostMapping
+    @RequestMapping("/login")
     public CustomResponse<Void> adminLogin(@RequestBody LoginRequest loginRequest) {
         adminMemberService.validate(loginRequest);
         return CustomResponse.empty();
