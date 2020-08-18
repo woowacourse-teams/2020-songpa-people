@@ -5,8 +5,6 @@ import com.songpapeople.hashtagmap.place.domain.model.Place;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.Random;
-
 @Getter
 public class MarkerResponse {
     private final String placeName;

@@ -34,6 +34,14 @@
             <v-list-item-title>district manage</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item to="/tag-level">
+          <v-list-item-action>
+            <v-icon>mdi-air-purifier</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Tag Level</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 

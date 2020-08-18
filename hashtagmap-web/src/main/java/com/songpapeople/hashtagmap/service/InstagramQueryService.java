@@ -24,7 +24,7 @@ public class InstagramQueryService {
 
         List<MarkerResponse> markerResponses = new ArrayList<>();
         for (Instagram instagram : instagrams) {
-            Long tagLevelId = TagLevelFinder.findTagLevelIdByHashtagCount(tagLevels, instagram.getHashtagCount());
+            Long tagLevelId= TagLevelFinder.findTagLevelIdByHashtagCount(tagLevels, instagram.getHashtagCount());
             markerResponses.add(MarkerResponse.of(instagram, tagLevelId));
         }
         return markerResponses;
