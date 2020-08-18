@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home";
 import KakaoScheduler from "../views/KakaoScheduler";
 import InstagramScheduler from "../views/InstagramScheduler";
 import TagLevel from "../views/TagLevel";
