@@ -14,7 +14,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import PlaceCategoryFilter from "./PlaceCategoryFilter";
+import PlaceCategoryFilter from "@/components/place/PlaceCategoryFilter";
 
 export default {
   components: { PlaceCategoryFilter },
