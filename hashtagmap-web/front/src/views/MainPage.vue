@@ -1,52 +1,55 @@
 <template>
-  <v-app>
-    <v-main>
-      <swiper class="swiper" :options="swiperOption">
-        <swiper-slide class="content"> <MainPageButton /> </swiper-slide>
-        <swiper-slide class="content">Slide 2</swiper-slide>
-        <swiper-slide class="content">Slide 3</swiper-slide>
-        <swiper-slide class="content">Slide 4</swiper-slide>
-        <swiper-slide class="content">Slide 5</swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-      </swiper>
-    </v-main>
-  </v-app>
+  <v-content>
+    <div class="container">
+      <div class="profile">
+        <div class="profile-image">
+          <img src="../assets/mainpage/miso_circle.png" alt="" />
+        </div>
+
+        <div class="profile-user-settings">
+          <h1 class="profile-user-name">offical_miso</h1>
+          <router-link to="/map">
+            <button class="btn profile-follow-btn">start</button>
+          </router-link>
+        </div>
+        <div class="profile-stats">
+          <ul>
+            <li><span class="profile-stat-count">164</span> posts</li>
+            <li><span class="profile-stat-count">188</span> followers</li>
+            <li><span class="profile-stat-count">206</span> following</li>
+          </ul>
+        </div>
+
+        <div class="profile-bio">
+          <p>
+            <span class="profile-real-name">offical_miso</span>
+            <br />
+            당신이 몰랐던 그 곳, 미소
+            <br />
+            인스타그램 핫플레이스를 만나보세요.
+          </p>
+        </div>
+      </div>
+      <Story></Story>
+      <hr />
+    </div>
+    <Slider></Slider>
+  </v-content>
 </template>
 
 <script>
-import MainPageButton from "@/components/main-page/MainPageButton";
-import { Swiper, SwiperSlide } from "vue-awesome-swiper";
-import "swiper/swiper-bundle.css";
+import Story from "@/components/main-page/Story.vue";
+import Slider from "@/components/main-page/Slider.vue";
 
 export default {
-  name: "swiper-example-vertical",
-  title: "Vertical slider",
+  name: "App",
   components: {
-    Swiper,
-    SwiperSlide,
-    MainPageButton,
-  },
-  data() {
-    return {
-      swiperOption: {
-        direction: "vertical",
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-      },
-    };
+    Slider,
+    Story,
   },
 };
 </script>
 
 <style>
-.swiper {
-  width: 100%;
-  height: 100%;
-}
-.content {
-  width: 100%;
-  height: 100%;
-}
+@import "../assets/css/instagram.css";
 </style>
