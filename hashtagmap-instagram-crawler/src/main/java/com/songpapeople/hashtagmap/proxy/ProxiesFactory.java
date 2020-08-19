@@ -14,7 +14,8 @@ public class ProxiesFactory {
     private static final int PORT_INDEX = 2;
 
     public static Proxies create() {
-        String body = Crawler.crawl(FREE_PROXY_LIST_URL);
+        Crawler crawler = new Crawler();
+        String body = crawler.crawl(FREE_PROXY_LIST_URL);
         Pattern pattern = Pattern.compile(PROXY_REGEX);
         Matcher matcher = pattern.matcher(body);
         List<Proxy> proxies = new ArrayList<>();

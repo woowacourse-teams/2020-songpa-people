@@ -3,11 +3,13 @@ package com.songpapeople.hashtagmap.scheduler;
 import com.songpapeople.hashtagmap.MockDataFactory;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
+import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
+import com.songpapeople.hashtagmap.util.PlaceNameParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,11 +19,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,29 +47,56 @@ class InstagramSchedulerTest {
 
     @BeforeEach
     void setUp() {
-        instagramScheduler = new InstagramScheduler(instagramPostRepository
-                , placeRepository
-                , instagramRepository
-                , instagramScheduleService);
+        instagramScheduler = new InstagramScheduler(instagramPostRepository, placeRepository,
+                instagramRepository, instagramScheduleService);
     }
 
     @DisplayName("db에서 place를 가져와 instagramPosts를 만들어 저장하는 기능 테스트")
+    @Transactional
     @Test
     void update() {
-        Place place1 = Place.builder()
+        Place starbucks = Place.builder()
                 .placeName("스타벅스")
                 .build();
-        placeRepository.save(place1);
+        Place starbucksWithSpace = Place.builder()
+                .placeName("스타 벅스")
+                .build();
+        Place starbucksWithBranch = Place.builder()
+                .placeName("스타벅스 강남점")
+                .build();
+        placeRepository.saveAll(Arrays.asList(starbucks, starbucksWithSpace, starbucksWithBranch));
 
         PostDtos postDtos = MockDataFactory.createPostDtos();
-        CrawlingResult crawlingResult = new CrawlingResult(CrawlingDto.of(place1.getPlaceName(), String.valueOf(CrawlingResult.MIN_HASHTAG_COUNT), postDtos), place1);
+        CrawlingResult crawlingResultWithStarbucks = new CrawlingResult(CrawlingDto.of(
+                starbucks.getPlaceName(),
+                String.valueOf(CrawlingResult.MIN_HASHTAG_COUNT), postDtos),
+                starbucks);
+        CrawlingResult crawlingResultWithStarbucksWithSpace = new CrawlingResult(CrawlingDto.of(
+                PlaceNameParser.parsePlaceName(starbucksWithSpace.getPlaceName()),
+                String.valueOf(CrawlingResult.MIN_HASHTAG_COUNT), postDtos),
+                starbucksWithSpace);
+        CrawlingResult crawlingResultWithStarbucksWithBranch = new CrawlingResult(CrawlingDto.of(
+                PlaceNameParser.parsePlaceName(starbucksWithBranch.getPlaceName()),
+                String.valueOf(CrawlingResult.MIN_HASHTAG_COUNT), postDtos),
+                starbucksWithBranch);
 
-        when(instagramScheduleService.createCrawlingResult(any()))
-                .thenReturn(Optional.of(crawlingResult));
+        when(instagramScheduleService.createCrawlingResult(starbucks))
+                .thenReturn(Optional.of(crawlingResultWithStarbucks));
+        when(instagramScheduleService.createCrawlingResult(starbucksWithSpace))
+                .thenReturn(Optional.of(crawlingResultWithStarbucksWithSpace));
+        when(instagramScheduleService.createCrawlingResult(starbucksWithBranch))
+                .thenReturn(Optional.of(crawlingResultWithStarbucksWithBranch));
 
         instagramScheduler.update();
 
+        List<Instagram> instagrams = instagramRepository.findAll();
         List<InstagramPost> instagramPosts = instagramPostRepository.findAll();
-        assertThat(instagramPosts).hasSize(9);
+        assertAll(
+                () -> assertThat(instagrams).hasSize(3),
+                () -> assertThat(instagrams.get(0).getHashtagName()).isEqualTo("스타벅스"),
+                () -> assertThat(instagrams.get(1).getHashtagName()).isEqualTo("스타벅스"),
+                () -> assertThat(instagrams.get(2).getHashtagName()).isEqualTo("스타벅스강남"),
+                () -> assertThat(instagramPosts).hasSize(27)
+        );
     }
 }

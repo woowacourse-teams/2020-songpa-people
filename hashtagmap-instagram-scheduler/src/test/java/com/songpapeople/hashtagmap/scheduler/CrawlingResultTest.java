@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CrawlingResultTest {
-    private CrawlingDto crawlingDto;
     private Place place;
     private CrawlingResult crawlingResult;
 
     @BeforeEach
     void setUp() {
-        crawlingDto = CrawlingDto.of("스타벅스", String.valueOf(CrawlingResult.MIN_HASHTAG_COUNT), MockDataFactory.createPostDtos());
+        CrawlingDto crawlingDto = CrawlingDto.of("스타벅스", String.valueOf(CrawlingResult.MIN_HASHTAG_COUNT),
+                MockDataFactory.createPostDtos());
         place = Place.builder()
                 .placeName("스타벅스")
                 .build();
