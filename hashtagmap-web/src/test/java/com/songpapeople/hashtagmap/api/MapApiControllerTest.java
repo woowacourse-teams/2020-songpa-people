@@ -45,6 +45,7 @@ public class MapApiControllerTest extends MapApiDocumentation {
                                 .build())
                         .id(1L)
                         .hashtagCount(10000L)
+                        .hashtagName("스타벅스")
                         .build()
                 )
         );
@@ -65,6 +66,7 @@ public class MapApiControllerTest extends MapApiDocumentation {
                 .andExpect(jsonPath("$.data[0].longitude", Matchers.is("127")))
                 .andExpect(jsonPath("$.data[0].instagramId", Matchers.is(1)))
                 .andExpect(jsonPath("$.data[0].hashtagCount", Matchers.is(10000)))
+                .andExpect(jsonPath("$.data[0].hashtagName", Matchers.is("스타벅스")))
                 .andExpect(jsonPath("$.data[0].category", Matchers.is("카페")))
                 .andDo(getDocumentByFindAllMarkers());
     }
