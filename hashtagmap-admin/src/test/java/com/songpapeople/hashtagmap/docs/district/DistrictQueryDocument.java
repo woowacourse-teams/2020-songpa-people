@@ -1,5 +1,6 @@
 package com.songpapeople.hashtagmap.docs.district;
 
+import com.songpapeople.hashtagmap.docs.ApiDocument;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 
 import static com.songpapeople.hashtagmap.docs.ApiDocumentUtils.getDocumentRequest;
@@ -12,8 +13,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
-public class DistrictQueryDocument {
-    public static RestDocumentationResultHandler getAllDistrictDoc() {
+public class DistrictQueryDocument extends ApiDocument {
+    protected RestDocumentationResultHandler getAllDistrictDoc() {
         return document("district/getAllDistrict",
                 getDocumentRequest(),
                 getDocumentResponse(),
@@ -30,7 +31,7 @@ public class DistrictQueryDocument {
         );
     }
 
-    public static RestDocumentationResultHandler getAllDistrictNameDocs() {
+    protected RestDocumentationResultHandler getAllDistrictNameDocs() {
         return document("district/getAllDistrictName",
                 getDocumentRequest(),
                 getDocumentResponse(),
@@ -42,7 +43,7 @@ public class DistrictQueryDocument {
         );
     }
 
-    public static RestDocumentationResultHandler getAllZoneDocs() {
+    protected RestDocumentationResultHandler getAllZoneDocs() {
         return document("district/zone/getAllZone",
                 getDocumentRequest(),
                 getDocumentResponse(),

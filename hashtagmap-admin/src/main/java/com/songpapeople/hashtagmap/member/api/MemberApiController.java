@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.member.api;
 
-import com.songpapeople.hashtagmap.member.service.dto.LoginRequest;
 import com.songpapeople.hashtagmap.member.service.AdminMemberService;
+import com.songpapeople.hashtagmap.member.service.dto.LoginRequest;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,7 @@ public class MemberApiController {
     @PostMapping
     @RequestMapping("/login")
     public CustomResponse<Void> adminLogin(@RequestBody LoginRequest loginRequest) {
-        adminMemberService.validate(loginRequest);
+        adminMemberService.validateMember(loginRequest);
         return CustomResponse.empty();
     }
 }

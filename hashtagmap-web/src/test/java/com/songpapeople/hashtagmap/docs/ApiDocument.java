@@ -2,7 +2,6 @@ package com.songpapeople.hashtagmap.docs;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -15,7 +14,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 @ExtendWith(RestDocumentationExtension.class)
 @AutoConfigureMockMvc
 public class ApiDocument {
-    @Autowired
     protected MockMvc mockMvc;
 
     @BeforeEach

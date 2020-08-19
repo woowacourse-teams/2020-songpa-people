@@ -8,11 +8,9 @@ import com.songpapeople.hashtagmap.district.service.dto.DistrictUpdateDto;
 import com.songpapeople.hashtagmap.district.service.dto.ZoneDeleteDto;
 import com.songpapeople.hashtagmap.district.service.dto.ZoneSaveDto;
 import com.songpapeople.hashtagmap.district.service.dto.ZoneUpdateDto;
-import com.songpapeople.hashtagmap.docs.ApiDocument;
+import com.songpapeople.hashtagmap.docs.district.DistrictCommandDocument;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,11 +18,6 @@ import org.springframework.http.MediaType;
 
 import java.util.Arrays;
 
-import static com.songpapeople.hashtagmap.docs.district.DistrictCommandDocument.deleteZonesDocs;
-import static com.songpapeople.hashtagmap.docs.district.DistrictCommandDocument.emptyDocs;
-import static com.songpapeople.hashtagmap.docs.district.DistrictCommandDocument.saveDistrictDocs;
-import static com.songpapeople.hashtagmap.docs.district.DistrictCommandDocument.saveZoneDocs;
-import static com.songpapeople.hashtagmap.docs.district.DistrictCommandDocument.updateZoneDocs;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
@@ -36,8 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DistrictCommandController.class)
-@ExtendWith({MockitoExtension.class})
-public class DistrictCommandControllerTest extends ApiDocument {
+public class DistrictCommandControllerTest extends DistrictCommandDocument {
     private static final String BASE_URI = "/districts";
 
     @Autowired

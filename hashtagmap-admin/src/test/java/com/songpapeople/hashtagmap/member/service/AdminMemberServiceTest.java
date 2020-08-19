@@ -1,9 +1,9 @@
 package com.songpapeople.hashtagmap.member.service;
 
 import com.songpapeople.hashtagmap.exception.AdminException;
-import com.songpapeople.hashtagmap.member.service.dto.LoginRequest;
 import com.songpapeople.hashtagmap.member.model.AdminMember;
 import com.songpapeople.hashtagmap.member.repository.AdminMemberRepository;
+import com.songpapeople.hashtagmap.member.service.dto.LoginRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +32,7 @@ class AdminMemberServiceTest {
     void loginWhenNotFoundNickName() {
         LoginRequest loginRequest = new LoginRequest("bebop", "1234");
 
-        assertThatThrownBy(() -> adminMemberService.validate(loginRequest))
+        assertThatThrownBy(() -> adminMemberService.validateMember(loginRequest))
                 .isInstanceOf(AdminException.class)
                 .hasMessage(loginRequest.getNickName() + "는 존재하지 않습니다.");
     }
@@ -42,7 +42,7 @@ class AdminMemberServiceTest {
     void loginWhenWrongPassword() {
         LoginRequest loginRequest = new LoginRequest("hakseong", "0000");
 
-        assertThatThrownBy(() -> adminMemberService.validate(loginRequest))
+        assertThatThrownBy(() -> adminMemberService.validateMember(loginRequest))
                 .isInstanceOf(AdminException.class)
                 .hasMessage("비밀번호가 일치하지 않습니다.");
     }

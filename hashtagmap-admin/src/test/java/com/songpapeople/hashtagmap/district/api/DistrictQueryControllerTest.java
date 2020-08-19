@@ -3,11 +3,9 @@ package com.songpapeople.hashtagmap.district.api;
 import com.songpapeople.hashtagmap.district.service.DistrictQueryService;
 import com.songpapeople.hashtagmap.district.service.dto.DistrictDto;
 import com.songpapeople.hashtagmap.district.service.dto.ZoneDto;
-import com.songpapeople.hashtagmap.docs.ApiDocument;
+import com.songpapeople.hashtagmap.docs.district.DistrictQueryDocument;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -15,9 +13,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.songpapeople.hashtagmap.docs.district.DistrictQueryDocument.getAllDistrictDoc;
-import static com.songpapeople.hashtagmap.docs.district.DistrictQueryDocument.getAllDistrictNameDocs;
-import static com.songpapeople.hashtagmap.docs.district.DistrictQueryDocument.getAllZoneDocs;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,8 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DistrictQueryController.class)
-@ExtendWith({MockitoExtension.class})
-public class DistrictQueryControllerTest extends ApiDocument {
+public class DistrictQueryControllerTest extends DistrictQueryDocument {
     private static final String BASE_URI = "/districts";
 
     @MockBean

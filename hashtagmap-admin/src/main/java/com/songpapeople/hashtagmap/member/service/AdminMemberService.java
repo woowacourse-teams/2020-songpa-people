@@ -2,9 +2,9 @@ package com.songpapeople.hashtagmap.member.service;
 
 import com.songpapeople.hashtagmap.exception.AdminException;
 import com.songpapeople.hashtagmap.exception.AdminExceptionStatus;
-import com.songpapeople.hashtagmap.member.service.dto.LoginRequest;
 import com.songpapeople.hashtagmap.member.model.AdminMember;
 import com.songpapeople.hashtagmap.member.repository.AdminMemberRepository;
+import com.songpapeople.hashtagmap.member.service.dto.LoginRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +15,7 @@ public class AdminMemberService {
         this.adminMemberRepository = adminMemberRepository;
     }
 
-    public void validate(LoginRequest loginRequest) {
+    public void validateMember(LoginRequest loginRequest) {
         AdminMember member = adminMemberRepository.findByNickName(loginRequest.getNickName())
                 .orElseThrow(() -> new AdminException(AdminExceptionStatus.NOT_FOUNT_NICK_NAME,
                         loginRequest.getNickName() + "는 존재하지 않습니다."));
