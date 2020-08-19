@@ -32,7 +32,7 @@ class CrawlingResultTest {
 
         Instagram expected = Instagram.builder()
                 .hashtagName("스타벅스")
-                .hashtagCount(100L)
+                .hashtagCount(CrawlingResult.MIN_HASHTAG_COUNT)
                 .place(place)
                 .build();
 

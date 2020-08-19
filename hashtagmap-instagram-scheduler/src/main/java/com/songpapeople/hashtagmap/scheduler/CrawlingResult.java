@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class CrawlingResult {
-    public static final int MIN_HASHTAG_COUNT = 500;
+    public static final long MIN_HASHTAG_COUNT = 500;
 
     private CrawlingDto crawlingDto;
     private Place place;
