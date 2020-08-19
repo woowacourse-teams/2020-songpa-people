@@ -42,4 +42,8 @@ public class Place extends BaseEntity {
         this.placeName = placeName;
         this.placeUrl = placeUrl;
     }
+
+    public String getRoadAddressName() {
+        return location.getRoadAddressName();
+    }
 }

@@ -5,6 +5,7 @@ import InstagramScheduler from "../views/InstagramScheduler";
 import TagLevel from "../views/TagLevel";
 import Home from "../views/Home";
 import DistrictContainer from "../views/district/DistrictContainer";
+import BlackListManager from "@/views/BlackListManager";
 
 Vue.use(VueRouter);
 
@@ -30,9 +31,14 @@ const routes = [
     component: TagLevel
   },
   {
-    path: "/district-manage",
+    path: "/district-manager",
     name: "DistrictContainer",
     component: DistrictContainer
+  },
+  {
+    path: "/blacklist-manager",
+    name: "BlackListManager",
+    component: BlackListManager
   }
 ];
 

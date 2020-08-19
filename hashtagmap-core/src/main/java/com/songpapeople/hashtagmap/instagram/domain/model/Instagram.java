@@ -33,4 +33,12 @@ public class Instagram extends BaseEntity {
         this.hashtagName = hashtagName;
         this.hashtagCount = hashtagCount;
     }
+
+    public String getPlaceName() {
+        return place.getPlaceName();
+    }
+
+    public String getRoadAddressName() {
+        return place.getRoadAddressName();
+    }
 }

@@ -11,6 +11,7 @@ public class RouterController implements ErrorController {
             "/instagram-scheduler",
             "/district-manage",
             "/tag-level",
+            "/blacklist-manager",
             "/error"})
     public String index() {
         return "index";
