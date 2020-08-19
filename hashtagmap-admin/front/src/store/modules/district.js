@@ -6,6 +6,7 @@ export default {
     districts: [],
     editTargetDistrict: {}
   },
+
   getters: {
     getDistricts: state => {
       return state.districts;
@@ -14,6 +15,7 @@ export default {
       return state.editTargetDistrict.districtName;
     }
   },
+
   mutations: {
     ADD_DISTRICT: (state, district) => {
       state.districts.push(district);
@@ -28,6 +30,7 @@ export default {
       state.editTargetDistrict = { ...editTarget };
     }
   },
+
   actions: {
     setDistrict: async ({ dispatch }, districtName) => {
       try {

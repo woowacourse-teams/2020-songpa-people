@@ -1,65 +1,39 @@
 package com.songpapeople.hashtagmap.kakao.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.songpapeople.hashtagmap.docs.kakao.KakaoApiDocumentation;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleCommandService;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleQueryService;
 import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
 import com.songpapeople.hashtagmap.kakao.service.dto.PeriodHistoryDto;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.songpapeople.hashtagmap.docs.kakao.KakaoApiDocumentation.getDocumentByChangePeriod;
-import static com.songpapeople.hashtagmap.docs.kakao.KakaoApiDocumentation.getDocumentByGetStatus;
-import static com.songpapeople.hashtagmap.docs.kakao.KakaoApiDocumentation.getDocumentByShowPeriodHistory;
-import static com.songpapeople.hashtagmap.docs.kakao.KakaoApiDocumentation.getDocumentByToggle;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(RestDocumentationExtension.class)
 @WebMvcTest(controllers = KakaoSchedulerApiController.class)
-@AutoConfigureMockMvc
-public class KakaoApiControllerTest {
+public class KakaoApiControllerTest extends KakaoApiDocumentation {
     private static String SCHEDULER_NAME = "KAKAO";
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @MockBean
     private KakaoScheduleCommandService kakaoScheduleCommandService;
 
     @MockBean
     private KakaoScheduleQueryService kakaoScheduleQueryService;
-
-    @BeforeEach
-    private void setUp(WebApplicationContext webApplicationContext,
-                       RestDocumentationContextProvider restDocumentation) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
-                .build();
-    }
 
     @DisplayName("Kakao Scheduler를 키고 끄는 toggle")
     @Test

@@ -1,5 +1,6 @@
 package com.songpapeople.hashtagmap.docs.district;
 
+import com.songpapeople.hashtagmap.docs.ApiDocument;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 
 import static com.songpapeople.hashtagmap.docs.ApiDocumentUtils.getDocumentRequest;
@@ -10,8 +11,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
-public class DistrictCommandDocument {
-    public static RestDocumentationResultHandler saveDistrictDocs() {
+public class DistrictCommandDocument extends ApiDocument {
+    protected RestDocumentationResultHandler saveDistrictDocs() {
         return document("district/saveDistrict",
                 getDocumentRequest(),
                 getDocumentResponse(),
@@ -23,7 +24,7 @@ public class DistrictCommandDocument {
         );
     }
 
-    public static RestDocumentationResultHandler emptyDocs(String path) {
+    protected RestDocumentationResultHandler emptyDocs(String path) {
         return document(path,
                 getDocumentRequest(),
                 getDocumentResponse(),
@@ -35,7 +36,7 @@ public class DistrictCommandDocument {
         );
     }
 
-    public static RestDocumentationResultHandler saveZoneDocs() {
+    protected RestDocumentationResultHandler saveZoneDocs() {
         return document("district/zone/saveZone",
                 getDocumentRequest(),
                 getDocumentResponse(),
@@ -47,7 +48,7 @@ public class DistrictCommandDocument {
         );
     }
 
-    public static RestDocumentationResultHandler updateZoneDocs() {
+    protected RestDocumentationResultHandler updateZoneDocs() {
         return document("district/zone/updateZone",
                 getDocumentRequest(),
                 getDocumentResponse(),
@@ -59,7 +60,7 @@ public class DistrictCommandDocument {
         );
     }
 
-    public static RestDocumentationResultHandler deleteZonesDocs() {
+    protected RestDocumentationResultHandler deleteZonesDocs() {
         return document("district/zone/deleteZones",
                 getDocumentRequest(),
                 getDocumentResponse(),

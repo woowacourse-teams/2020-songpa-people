@@ -1,5 +1,6 @@
 export default {
   namespaced: true,
+
   state: {
     status: [
       {
@@ -14,6 +15,7 @@ export default {
       type: Array
     }
   },
+
   getters: {
     isActive: state => modalName => {
       const status = state.status.find(
@@ -25,6 +27,7 @@ export default {
       return status.active;
     }
   },
+
   mutations: {
     ACTIVATE_MODAL: (state, modalName) => {
       let status = state.status.find(status => status.modalName === modalName);

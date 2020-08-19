@@ -3,10 +3,12 @@ import districtApi from "@/request/api/district";
 
 export default {
   namespaced: true,
+
   state: {
     zones: [],
     districtNames: []
   },
+
   getters: {
     getZones: state => {
       return state.zones;
@@ -15,6 +17,7 @@ export default {
       return state.districtNames;
     }
   },
+
   mutations: {
     ADD_ZONE: (state, zone) => {
       state.zones.push(zone);
@@ -29,6 +32,7 @@ export default {
       state.districtNames = [];
     }
   },
+
   actions: {
     setZone: async ({ dispatch }, zoneInput) => {
       try {

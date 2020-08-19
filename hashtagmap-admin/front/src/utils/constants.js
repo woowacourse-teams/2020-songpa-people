@@ -63,3 +63,7 @@ export const SNACK_BAR_TEMPLATE = {
     };
   }
 };
+
+export const CONST = {
+  ADMIN_LOGIN_KEY: "hashtagmapAdminLogin"
+};

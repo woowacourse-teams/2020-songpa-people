@@ -14,7 +14,7 @@ const districtApi = {
   findAll() {
     return customWrapAxios().get("/districts");
   },
-  findAllDistrictName(){
+  findAllDistrictName() {
     return customWrapAxios().get("/districts/names");
   },
   updateDistrictName(editDistrict) {

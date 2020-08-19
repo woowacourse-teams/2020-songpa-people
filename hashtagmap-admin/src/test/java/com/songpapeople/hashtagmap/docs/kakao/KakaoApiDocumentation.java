@@ -1,5 +1,6 @@
 package com.songpapeople.hashtagmap.docs.kakao;
 
+import com.songpapeople.hashtagmap.docs.ApiDocument;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.payload.JsonFieldType;
 
@@ -12,8 +13,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 
-public class KakaoApiDocumentation {
-    public static RestDocumentationResultHandler getDocumentByToggle() {
+public class KakaoApiDocumentation extends ApiDocument {
+    protected RestDocumentationResultHandler getDocumentByToggle() {
         return document("kakao/scheduler/toggle",
                 getDocumentRequest(),
                 getDocumentResponse(),
@@ -24,7 +25,7 @@ public class KakaoApiDocumentation {
         );
     }
 
-    public static RestDocumentationResultHandler getDocumentByGetStatus() {
+    protected RestDocumentationResultHandler getDocumentByGetStatus() {
         return document("kakao/scheduler/status",
                 getDocumentRequest(),
                 getDocumentResponse(),
@@ -39,14 +40,14 @@ public class KakaoApiDocumentation {
                 ));
     }
 
-    public static RestDocumentationResultHandler getDocumentByChangePeriod() {
+    protected RestDocumentationResultHandler getDocumentByChangePeriod() {
         return document("kakao/scheduler/period/put",
                 getDocumentRequest(),
                 getDocumentResponse()
         );
     }
 
-    public static RestDocumentationResultHandler getDocumentByShowPeriodHistory() {
+    protected RestDocumentationResultHandler getDocumentByShowPeriodHistory() {
         return document("kakao/scheduler/period/get",
                 getDocumentRequest(),
                 getDocumentResponse(),

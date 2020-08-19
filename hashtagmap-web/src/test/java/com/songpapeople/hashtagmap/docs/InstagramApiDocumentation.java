@@ -1,6 +1,5 @@
-package com.songpapeople.hashtagmap.doc;
+package com.songpapeople.hashtagmap.docs;
 
-import com.songpapeople.hashtagmap.docs.ApiDocument;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.payload.JsonFieldType;
 
