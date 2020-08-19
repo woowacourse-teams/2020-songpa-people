@@ -7,11 +7,11 @@ export const textBalloonTemplate = place => {
 
   let $textBalloonTitle = document.createElement("div");
   $textBalloonTitle.className = "text-balloon-title";
-  $textBalloonTitle.textContent = "#" + place.placeName;
+  $textBalloonTitle.textContent = place.placeName;
 
   let $hashtagCount = document.createElement("div");
   $hashtagCount.className = "text-balloon-text";
-  $hashtagCount.textContent = place.hashtagCount;
+  $hashtagCount.textContent = "#" + place.hashtagCount;
 
   $textBalloonElement.appendChild($container);
   $container.appendChild($textBalloonTitle);
