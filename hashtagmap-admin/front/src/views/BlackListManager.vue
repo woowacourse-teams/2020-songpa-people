@@ -3,11 +3,19 @@
     <v-container>
       <v-row>
         <v-col>
-          <v-btn class="margin-1" outlined color="indigo" @click="setSubBlackList"
+          <v-btn
+            class="margin-1"
+            outlined
+            color="indigo"
+            @click="setSubBlackList"
             >blackList 갱신</v-btn
           >
-          <v-btn class="margin-1" outlined color="indigo" @click="openKakao">카카오맵 열기</v-btn>
-          <v-btn class="margin-1" outlined color="indigo" @click="openInstagram">인스타그램 열기</v-btn>
+          <v-btn class="margin-1" outlined color="indigo" @click="openKakao"
+            >카카오맵 열기</v-btn
+          >
+          <v-btn class="margin-1" outlined color="indigo" @click="openInstagram"
+            >인스타그램 열기</v-btn
+          >
           <v-data-table
             :headers="subBlackListHeaders"
             :items="getSubBlackList"
@@ -16,7 +24,38 @@
             dense
           ></v-data-table>
         </v-col>
-        <v-col> </v-col>
+        <v-col>
+          <h2>blackList 등록하기</h2>
+          <v-form>
+            <v-row>
+              <v-col md="4">
+                <v-select
+                  outlined
+                  dense
+                  v-model="inputBlackList.originName"
+                  :items="getSubBlackList.map(item => item.placeName)"
+                  label="이전 이름"
+                >
+                </v-select>
+              </v-col>
+              <v-col md="4">
+                <v-text-field
+                  outlined
+                  dense
+                  :rules="replaceNameRule"
+                  v-model="inputBlackList.replaceName"
+                  label="바꿀 이름"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col md="4">
+                <v-btn outlined color="indigo" @click="registerBlackList"
+                  >변경하기</v-btn
+                >
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-col>
       </v-row>
     </v-container>
   </v-app>
@@ -38,29 +77,39 @@ export default {
         sortDesc: true
       },
       kakaoSearchKey: "",
-      instagramSearchKey: ""
+      instagramSearchKey: "",
+      inputBlackList: {
+        originName: "",
+        replaceName: ""
+      },
+      replaceNameRule: [v => !!v || "바꿀 이름을 입력하세요"]
     };
   },
 
   methods: {
-    ...mapActions("blacklist", ["setSubBlackList"]),
+    ...mapActions("blackList", ["setSubBlackList", "addBlackList"]),
     openKakao() {
       window.open("https://map.kakao.com/", "_blank");
     },
     openInstagram() {
       window.open("https://www.instagram.com/", "_blank");
+    },
+    registerBlackList() {
+      if (confirm(`${this.inputBlackList.replaceName}으로 등록합니까?`)) {
+        this.addBlackList(this.inputBlackList);
+      }
     }
   },
 
   computed: {
-    ...mapGetters("blacklist", ["getSubBlackList"])
+    ...mapGetters("blackList", ["getSubBlackList"])
   }
 };
 </script>
 
 <style scoped>
-  .margin-1 {
-    margin: 3px 0 3px 3px;
-    padding: 3px 0 3px 3px;
-  }
+.margin-1 {
+  margin: 3px 0 3px 3px;
+  padding: 3px 0 3px 3px;
+}
 </style>

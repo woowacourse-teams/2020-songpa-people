@@ -7,7 +7,7 @@ import district from "@/store/modules/district";
 import zone from "@/store/modules/zone";
 import tagLevel from "@/store/modules/tagLevel";
 import modal from "./modules/modal";
-import blacklist from "@/store/modules/blacklist";
+import blackList from "@/store/modules/blackList";
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -19,6 +19,6 @@ export default new Vuex.Store({
     zone,
     tagLevel,
     modal,
-    blacklist
+    blackList
   }
 });

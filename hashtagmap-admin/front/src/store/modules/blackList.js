@@ -28,9 +28,11 @@ export default {
   actions: {
     async setSubBlackList({ commit }) {
       const res = await blackListApi.getSubBlackList();
-      let data = res.body.data;
-      console.log(data);
-      commit("SET_SUB_BLACKLIST", data);
+      commit("SET_SUB_BLACKLIST", res.body.data);
+    },
+    async addBlackList(commit, blackList) {
+      const res = await blackListApi.addBlackList(blackList);
+      console.log(res);
     }
   }
 };
