@@ -123,8 +123,10 @@ export default new Vuex.Store({
       const state = context.state;
       const getters = context.getters;
       state.mapOverlays.filter(mapOverlay => {
-        if (getters.getActiveTagLevels.includes(mapOverlay.place.tagLevel) &&
-            getters.getActiveCategories.includes(mapOverlay.place.category)) {
+        if (
+          getters.getActiveTagLevels.includes(mapOverlay.place.tagLevel) &&
+          getters.getActiveCategories.includes(mapOverlay.place.category)
+        ) {
           mapOverlay.marker.setMap(state.kakaoMap);
           mapOverlay.textBalloon.setMap(state.kakaoMap);
           mapOverlay.textBalloon.setZIndex(1);

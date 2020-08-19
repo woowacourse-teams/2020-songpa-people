@@ -49,6 +49,7 @@ export default {
       this.getPlaces.map(place => {
         const marker = this.createMaker(place);
         const textBalloon = this.createTextBalloon(place, marker);
+        this.onAddTextBalloonToMarker(marker, textBalloon);
         this.ADD_MAP_OVERLAYS({ place, marker, textBalloon });
       });
     },
@@ -74,10 +75,10 @@ export default {
         position: marker.getPosition(),
         yAnchor: 2,
       });
-      this.onAddModalAndTextBalloonClose(textBalloon, place, $content);
+      this.onAddModalOrCloseTextBalloon(textBalloon, place, $content);
       return textBalloon;
     },
-    onAddModalAndTextBalloonClose(textBalloon, place, $content) {
+    onAddModalOrCloseTextBalloon(textBalloon, place, $content) {
       $content.addEventListener(EVENT_TYPE.CLICK, event => {
         if (event.target.className === "close") {
           textBalloon.setMap(null);
@@ -86,6 +87,11 @@ export default {
         }
         event.preventDefault();
       });
+    },
+    onAddTextBalloonToMarker(marker, textBalloon) {
+      this.getKakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () =>
+        textBalloon.setMap(this.getKakaoMap),
+      );
     },
   },
 
