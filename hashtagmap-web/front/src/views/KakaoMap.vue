@@ -33,6 +33,7 @@ export default {
       "getActiveCategories",
     ]),
   },
+
   watch: {
     getActiveTagLevels() {
       this.activeOverlays();
@@ -75,10 +76,10 @@ export default {
         position: marker.getPosition(),
         yAnchor: 2,
       });
-      this.onAddModalOrCloseTextBalloon(textBalloon, place, $content);
+      this.onTextBalloonEvent(textBalloon, place, $content);
       return textBalloon;
     },
-    onAddModalOrCloseTextBalloon(textBalloon, place, $content) {
+    onTextBalloonEvent(textBalloon, place, $content) {
       $content.addEventListener(EVENT_TYPE.CLICK, event => {
         if (event.target.className === "close") {
           textBalloon.setMap(null);
@@ -106,6 +107,5 @@ export default {
   margin: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
 }
 </style>
