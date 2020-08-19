@@ -2,6 +2,8 @@ package com.songpapeople.hashtagmap.scheduler;
 
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
+import com.songpapeople.hashtagmap.exception.InstagramSchedulerException;
+import com.songpapeople.hashtagmap.exception.InstagramSchedulerExceptionStatus;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
@@ -12,7 +14,7 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class CrawlingResult {
-    private static final int MIN_HASHTAG_COUNT = 100;
+    public static final int MIN_HASHTAG_COUNT = 500;
 
     private CrawlingDto crawlingDto;
     private Place place;
@@ -23,11 +25,10 @@ public class CrawlingResult {
         this.place = place;
     }
 
-    public void validateHashtagCount(CrawlingDto crawlingDto) {
+    private void validateHashtagCount(CrawlingDto crawlingDto) {
         if (crawlingDto.getHashtagCount() < MIN_HASHTAG_COUNT) {
-            throw new IllegalArgumentException("해시태그개수가 100개 이하입니다.");
+            throw new InstagramSchedulerException(InstagramSchedulerExceptionStatus.NOT_ENOUGH_HASHTAG_COUNT);
         }
-        ;
     }
 
     public List<InstagramPost> toInstagramPosts(Long instagramId) {
