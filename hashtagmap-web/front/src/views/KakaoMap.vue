@@ -20,22 +20,31 @@ export default {
     this.SET_KAKAO_MAP(this.$loadMap());
     await this.setPlaces();
     this.setMapOverlays();
+    this.activeOverlays();
     this.$loadCurrentPosition();
   },
 
-  mounted() {
-    this.$store.watch(() => {
-      this.$store.getters.activeOverlays;
-    });
-  },
-
   computed: {
-    ...mapGetters(["getKakaoMap", "getKakaoMapApi", "getPlaces"]),
+    ...mapGetters([
+      "getKakaoMap",
+      "getKakaoMapApi",
+      "getPlaces",
+      "getActiveTagLevels",
+      "getActiveCategories",
+    ]),
+  },
+  watch: {
+    getActiveTagLevels() {
+      this.activeOverlays();
+    },
+    getActiveCategories() {
+      this.activeOverlays();
+    },
   },
 
   methods: {
     ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP", "ADD_MAP_OVERLAYS"]),
-    ...mapActions(["setDetailModal", "setPlaces"]),
+    ...mapActions(["setDetailModal", "setPlaces", "activeOverlays"]),
     setMapOverlays() {
       this.getPlaces.map(place => {
         const marker = this.createMaker(place);
@@ -60,17 +69,22 @@ export default {
     },
     createTextBalloon(place, marker) {
       const $content = textBalloonTemplate(place);
-      this.onAddModalToTextBalloon(place, $content);
-      return new this.getKakaoMapApi.CustomOverlay({
+      const textBalloon = new this.getKakaoMapApi.CustomOverlay({
         content: $content,
         position: marker.getPosition(),
         yAnchor: 2,
       });
+      this.onAddModalAndTextBalloonClose(textBalloon, place, $content);
+      return textBalloon;
     },
-    onAddModalToTextBalloon(place, $content) {
+    onAddModalAndTextBalloonClose(textBalloon, place, $content) {
       $content.addEventListener(EVENT_TYPE.CLICK, event => {
+        if (event.target.className === "close") {
+          textBalloon.setMap(null);
+        } else {
+          this.setDetailModal(place);
+        }
         event.preventDefault();
-        this.setDetailModal(place);
       });
     },
   },

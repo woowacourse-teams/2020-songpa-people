@@ -119,6 +119,21 @@ export default new Vuex.Store({
       const places = await axios.get("/markers");
       commit("SET_PLACES", places.data.data);
     },
+    activeOverlays(context) {
+      const state = context.state;
+      const getters = context.getters;
+      state.mapOverlays.filter(mapOverlay => {
+        if (getters.getActiveTagLevels.includes(mapOverlay.place.tagLevel) &&
+            getters.getActiveCategories.includes(mapOverlay.place.category)) {
+          mapOverlay.marker.setMap(state.kakaoMap);
+          mapOverlay.textBalloon.setMap(state.kakaoMap);
+          mapOverlay.textBalloon.setZIndex(1);
+        } else {
+          mapOverlay.marker.setMap(null);
+          mapOverlay.textBalloon.setMap(null);
+        }
+      });
+    },
   },
 
   getters: {
@@ -131,35 +146,27 @@ export default new Vuex.Store({
     getPlaces: state => {
       return state.places;
     },
-    getTagLevels: state => {
-      return state.tagLevels;
-    },
     getDetailModal: state => {
       return state.detailModal;
+    },
+    getTagLevels: state => {
+      return state.tagLevels;
     },
     getCategories: state => {
       return state.categories;
     },
-    activeOverlays: state => {
-      const activeCategory = state.categories
-        .filter(category => category.active)
-        .map(category => category.name);
-      const activeTagLevels = state.tagLevels
+    getActiveTagLevels: state => {
+      return state.tagLevels
         .filter(tagLevel => tagLevel.active)
         .map(tagLevel => tagLevel.level);
-      return state.mapOverlays.filter(mapOverlay => {
-        if (
-          activeTagLevels.includes(mapOverlay.place.tagLevel) &&
-          activeCategory.includes(mapOverlay.place.category)
-        ) {
-          mapOverlay.marker.setMap(state.kakaoMap);
-          mapOverlay.textBalloon.setMap(state.kakaoMap);
-          mapOverlay.textBalloon.setZIndex(1);
-        } else {
-          mapOverlay.marker.setMap(null);
-          mapOverlay.textBalloon.setMap(null);
-        }
-      });
+    },
+    getActiveCategories: state => {
+      return state.categories
+        .filter(category => category.active)
+        .map(category => category.name);
+    },
+    getMapOverlays: state => {
+      return state.mapOverlays;
     },
   },
 
