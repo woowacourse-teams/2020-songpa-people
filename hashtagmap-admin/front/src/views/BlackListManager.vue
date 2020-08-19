@@ -3,9 +3,11 @@
     <v-container>
       <v-row>
         <v-col>
-          <v-btn outlined color="indigo" @click="setSubBlackList"
+          <v-btn class="margin-1" outlined color="indigo" @click="setSubBlackList"
             >blackList 갱신</v-btn
           >
+          <v-btn class="margin-1" outlined color="indigo" @click="openKakao">카카오맵 열기</v-btn>
+          <v-btn class="margin-1" outlined color="indigo" @click="openInstagram">인스타그램 열기</v-btn>
           <v-data-table
             :headers="subBlackListHeaders"
             :items="getSubBlackList"
@@ -34,12 +36,20 @@ export default {
       tableOptions: {
         sortBy: "hashtagCount",
         sortDesc: true
-      }
+      },
+      kakaoSearchKey: "",
+      instagramSearchKey: ""
     };
   },
 
   methods: {
-    ...mapActions("blacklist", ["setSubBlackList"])
+    ...mapActions("blacklist", ["setSubBlackList"]),
+    openKakao() {
+      window.open("https://map.kakao.com/", "_blank");
+    },
+    openInstagram() {
+      window.open("https://www.instagram.com/", "_blank");
+    }
   },
 
   computed: {
@@ -48,4 +58,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .margin-1 {
+    margin: 3px 0 3px 3px;
+    padding: 3px 0 3px 3px;
+  }
+</style>
