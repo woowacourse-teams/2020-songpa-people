@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -59,7 +58,7 @@ class InstagramSchedulerTest {
         placeRepository.save(place1);
 
         PostDtos postDtos = MockDataFactory.createPostDtos();
-        CrawlingResult crawlingResult = new CrawlingResult(CrawlingDto.of(place1.getPlaceName(), "101", postDtos), place1);
+        CrawlingResult crawlingResult = new CrawlingResult(CrawlingDto.of(place1.getPlaceName(), String.valueOf(CrawlingResult.MIN_HASHTAG_COUNT), postDtos), place1);
 
         when(instagramScheduleService.createCrawlingResult(any()))
                 .thenReturn(Optional.of(crawlingResult));
@@ -67,11 +66,6 @@ class InstagramSchedulerTest {
         instagramScheduler.update();
 
         List<InstagramPost> instagramPosts = instagramPostRepository.findAll();
-        assertAll(
-                () -> assertThat(instagramPosts).hasSize(9),
-                () -> assertThat(instagramPosts.get(0).getInstagramId()).isEqualTo(1L),
-                () -> assertThat(instagramPosts.get(5).getInstagramId()).isEqualTo(1L)
-        );
-
+        assertThat(instagramPosts).hasSize(9);
     }
 }

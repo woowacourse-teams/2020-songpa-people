@@ -17,7 +17,7 @@ class CrawlingResultTest {
 
     @BeforeEach
     void setUp() {
-        crawlingDto = CrawlingDto.of("스타벅스", "100", MockDataFactory.createPostDtos());
+        crawlingDto = CrawlingDto.of("스타벅스", String.valueOf(CrawlingResult.MIN_HASHTAG_COUNT), MockDataFactory.createPostDtos());
         place = Place.builder()
                 .placeName("스타벅스")
                 .build();
