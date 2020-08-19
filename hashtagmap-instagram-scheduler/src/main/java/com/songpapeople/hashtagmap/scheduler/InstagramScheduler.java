@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class InstagramScheduler {
     private final InstagramPostRepository instagramPostRepository;
     private final PlaceRepository placeRepository;
