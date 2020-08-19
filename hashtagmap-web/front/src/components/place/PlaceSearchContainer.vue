@@ -27,10 +27,12 @@ export default {
     chevronUp: mdiChevronUp,
     active: false,
   }),
+
   components: {
     PlaceSearchInput,
     PlaceCategories,
   },
+
   methods: {
     toggleTagLevelDetail() {
       this.active = !this.active;
