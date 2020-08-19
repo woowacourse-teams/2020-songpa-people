@@ -14,9 +14,9 @@
     "path": "^0.12.7",
     "register-service-worker": "^1.7.1",
     "request": "^2.88.2",
-    "swiper": "^6.1.1",
     "vue": "^2.6.11",
     "vue-awesome-swiper": "^4.1.1",
+    "vue-carousel": "^0.18.0",
     "vue-router": "^3.2.0",
     "vuetify": "^2.2.11",
     "vuex": "^3.4.0"
