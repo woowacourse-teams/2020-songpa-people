@@ -7,6 +7,7 @@ export default {
       placeName: "",
       placeUrl: "",
       hashtagCount: "",
+      hashtagName: "",
       posts: [],
     },
   },
@@ -34,6 +35,7 @@ export default {
         placeName: place.placeName,
         placeUrl: place.placeUrl,
         hashtagCount: place.hashtagCount,
+        hashtagName: place.hashtagName,
         posts: posts.data.data,
       };
       commit("SET_DETAIL_MODAL", detailModal);
