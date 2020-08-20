@@ -32,9 +32,9 @@
                 <v-select
                   outlined
                   dense
-                  v-model="inputBlackList.originName"
-                  :items="getSubBlackList.map(item => item.placeName)"
-                  label="이전 이름"
+                  v-model="inputBlackList.kakaoId"
+                  :items="getSubBlackList.map(item => item.kakaoId)"
+                  label="바꿀 장소의 카카오 id"
                 >
                 </v-select>
               </v-col>
@@ -68,8 +68,9 @@ export default {
   data() {
     return {
       subBlackListHeaders: [
+        { text: "kakao Id", value: "kakaoId" },
         { text: "장소 이름", value: "placeName" },
-        { text: "해쉬태그 수", value: "hashtagCount" },
+        { text: "해시태그 수", value: "hashtagCount" },
         { text: "주소", value: "roadAddressName" }
       ],
       tableOptions: {
@@ -79,7 +80,7 @@ export default {
       kakaoSearchKey: "",
       instagramSearchKey: "",
       inputBlackList: {
-        originName: "",
+        kakaoId: "",
         replaceName: ""
       },
       replaceNameRule: [v => !!v || "바꿀 이름을 입력하세요"]
@@ -95,7 +96,7 @@ export default {
       window.open("https://www.instagram.com/", "_blank");
     },
     registerBlackList() {
-      if (confirm(`${this.inputBlackList.replaceName}으로 등록합니까?`)) {
+      if (confirm(`${this.inputBlackList.replaceName}(으)로 등록합니까?`)) {
         this.addBlackList(this.inputBlackList);
       }
     }

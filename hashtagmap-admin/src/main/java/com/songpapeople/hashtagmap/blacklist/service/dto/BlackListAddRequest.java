@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class BlackListAddRequest {
-    private String originName;
+    private String kakaoId;
     private String replaceName;
 
-    public BlackListAddRequest(String originName, String replaceName) {
-        this.originName = originName;
+    public BlackListAddRequest(String kakaoId, String replaceName) {
+        this.kakaoId = kakaoId;
         this.replaceName = replaceName;
     }
 }

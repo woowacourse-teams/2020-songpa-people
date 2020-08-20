@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class InstagramQueryService {
-    public static final int SUB_BLACK_LIST_SIZE = 10;
+    public static final int SUB_BLACK_LIST_SIZE = 20;
 
     private final InstagramRepository instagramRepository;
 

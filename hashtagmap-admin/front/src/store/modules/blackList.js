@@ -6,9 +6,10 @@ export default {
   state: {
     subBlackList: [
       {
-        placeName: "오아시스",
-        hashtagCount: "100000",
-        roadAddressName: "서울 강남구 광평로 246"
+        kakaoId: "",
+        placeName: "",
+        hashtagCount: "",
+        roadAddressName: ""
       }
     ]
   },
