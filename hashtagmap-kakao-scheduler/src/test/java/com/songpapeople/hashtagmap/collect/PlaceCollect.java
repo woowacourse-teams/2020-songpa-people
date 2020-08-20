@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.scheduler.domain;
+package com.songpapeople.hashtagmap.collect;
 
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Document;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
@@ -9,33 +9,66 @@ import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Zone;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.place.domain.repository.ZoneRepository;
+import com.songpapeople.hashtagmap.scheduler.domain.KakaoSchedulerTask;
 import com.songpapeople.hashtagmap.scheduler.domain.factory.PlaceFactory;
 import com.songpapeople.hashtagmap.scheduler.domain.factory.RectFactory;
-import org.springframework.stereotype.Component;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
-public class KakaoSchedulerTask {
-    private final ZoneRepository zoneRepository;
-    private final PlaceRepository placeRepository;
-    private final KakaoApiService kakaoApiService;
+import static org.assertj.core.api.Assertions.assertThat;
 
-    public KakaoSchedulerTask(ZoneRepository zoneRepository, PlaceRepository placeRepository,
-                              KakaoApiService kakaoApiService) {
-        this.zoneRepository = zoneRepository;
-        this.placeRepository = placeRepository;
-        this.kakaoApiService = kakaoApiService;
+@ActiveProfiles("collect")
+@SpringBootTest
+public class PlaceCollect {
+    @Autowired
+    private PlaceRepository placeRepository;
+
+    @Autowired
+    private KakaoApiService kakaoApiService;
+
+    @Autowired
+    private ZoneRepository zoneRepository;
+
+    @Autowired
+    private KakaoSchedulerTask kakaoSchedulerTask;
+
+    @Disabled
+    @Test
+    void zoneRepositoryInitTest() {
+        List<Zone> zones = zoneRepository.findAll();
+        assertThat(zones).hasSize(25);
     }
 
-    public void collectData() {
+    @Disabled
+    @Test
+    void findActiveZoneTest() {
+        List<Zone> activeZones = zoneRepository.findByActivated();
+        assertThat(activeZones).hasSize(1);
+    }
+
+    @Disabled
+    @Test
+    void collectPlace() {
+        kakaoSchedulerTask.collectData();
+    }
+
+    @Disabled
+    @Test
+    void customCollectPlace() {
         List<Zone> zones = zoneRepository.findByActivated();
         List<Rect> rects = RectFactory.from(zones);
+        List<Rect> otherRects = new ArrayList<>(rects.subList(19, 25));
 
-        for (Rect rect : rects) {
+        for (Rect rect : otherRects) {
             for (Category category : Category.values()) {
                 List<KakaoPlaceDto> kakaoPlaceDtos = findPlacesByRect(category, rect);
 

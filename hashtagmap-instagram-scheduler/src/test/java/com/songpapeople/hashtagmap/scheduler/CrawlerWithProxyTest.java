@@ -10,7 +10,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,8 +30,7 @@ class CrawlerWithProxyTest {
         crawlerWithProxy = new CrawlerWithProxy(proxySetter, instagramCrawler);
     }
 
-    // TODO: 2020/07/24 crawler클래스에서 검색결과는 없는 것 예외처리 테스트
-    @DisplayName("검색할 수 없는 Place 검색시 예외 처리 테스트")
+    @DisplayName("검색할 수 없는 Place 검색시 Optional.empty()반환")
     @Test
     void instagramCrawling() {
         Place place = Place.builder()
@@ -39,7 +40,6 @@ class CrawlerWithProxyTest {
         when(instagramCrawler.crawler(place.getPlaceName()))
                 .thenThrow(InstagramSchedulerException.class);
 
-        assertThatThrownBy(() -> crawlerWithProxy.crawlInstagram(place, 0))
-                .isInstanceOf(InstagramSchedulerException.class);
+        assertThat(crawlerWithProxy.crawlInstagram(place, 0)).isEqualTo(Optional.empty());
     }
 }
