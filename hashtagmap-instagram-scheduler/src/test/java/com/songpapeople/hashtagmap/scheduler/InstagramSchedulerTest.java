@@ -1,6 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler;
 
 import com.songpapeople.hashtagmap.MockDataFactory;
+import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
@@ -18,8 +19,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import javax.transaction.Transactional;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -31,9 +34,10 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class InstagramSchedulerTest {
+    @Autowired
     private InstagramScheduler instagramScheduler;
 
-    @Mock
+    @MockBean
     private InstagramScheduleService instagramScheduleService;
 
     @Autowired
@@ -45,14 +49,17 @@ class InstagramSchedulerTest {
     @Autowired
     private InstagramRepository instagramRepository;
 
+    @Autowired
+    private InstagramCrawler instagramCrawler;
+
     @BeforeEach
     void setUp() {
-        instagramScheduler = new InstagramScheduler(instagramPostRepository, placeRepository,
-                instagramRepository, instagramScheduleService);
+        instagramScheduleService = new InstagramScheduleService(instagramRepository,
+                instagramPostRepository, placeRepository, instagramCrawler);
+        instagramScheduler = new InstagramScheduler(instagramScheduleService);
     }
 
     @DisplayName("db에서 place를 가져와 instagramPosts를 만들어 저장하는 기능 테스트")
-    @Transactional
     @Test
     void update() {
         Place starbucks = Place.builder()

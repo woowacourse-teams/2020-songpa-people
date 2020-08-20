@@ -5,7 +5,6 @@ import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddRequest;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddResponse;
 import com.songpapeople.hashtagmap.blacklist.service.dto.SubBlackListDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
-import com.songpapeople.hashtagmap.instagram.service.InstagramCommandService;
 import com.songpapeople.hashtagmap.instagram.service.InstagramQueryService;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.InstagramScheduleService;
@@ -23,7 +22,6 @@ import java.util.List;
 @RequestMapping("/blacklist")
 public class BlackListApiController {
     private final InstagramQueryService instagramQueryService;
-    private final InstagramCommandService instagramCommandService;
     private final BlackListCommandService blackListCommandService;
     private final InstagramScheduleService instagramScheduleService;
 
@@ -36,13 +34,13 @@ public class BlackListApiController {
     @PostMapping
     public CustomResponse<BlackListAddResponse> addBlackList(@RequestBody BlackListAddRequest blackListRequest) {
         blackListCommandService.save(BlackListAddRequest.toBlackList(blackListRequest));
-        return CustomResponse.of(updateInstagram(blackListRequest));
+        Instagram instagramUpdated = updateInstagram(blackListRequest);
+        return CustomResponse.of(BlackListAddResponse.of(instagramUpdated));
     }
 
-    private BlackListAddResponse updateInstagram(@RequestBody BlackListAddRequest blackListRequest) {
+    private Instagram updateInstagram(@RequestBody BlackListAddRequest blackListRequest) {
         Instagram instagramToUpdate = instagramQueryService.findByPlaceId(blackListRequest.getPlaceId());
         String replaceName = blackListRequest.getReplaceName();
-        Long hashtagCount = instagramScheduleService.findHashtagCount(replaceName);
-        return instagramCommandService.updateByBlackList(instagramToUpdate, replaceName, hashtagCount);
+        return instagramScheduleService.updateBlackLists(replaceName, instagramToUpdate);
     }
 }

@@ -3,11 +3,9 @@ package com.songpapeople.hashtagmap.blacklist.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.songpapeople.hashtagmap.blacklist.service.BlackListCommandService;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddRequest;
-import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddResponse;
 import com.songpapeople.hashtagmap.blacklist.service.dto.SubBlackListDto;
 import com.songpapeople.hashtagmap.docs.blacklist.BlackListApiDocumentation;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
-import com.songpapeople.hashtagmap.instagram.service.InstagramCommandService;
 import com.songpapeople.hashtagmap.instagram.service.InstagramQueryService;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
@@ -35,14 +33,10 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
     private InstagramQueryService instagramQueryService;
 
     @MockBean
-    private InstagramCommandService instagramCommandService;
+    private InstagramScheduleService instagramScheduleService;
 
     @MockBean
     private BlackListCommandService blackListCommandService;
-
-    @MockBean
-    private InstagramScheduleService instagramScheduleService;
-
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -73,21 +67,19 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
     @DisplayName("블랙리스트 추가하고 instagram을 대체어로 업데이트 시키는 요청 테스트")
     @Test
     void addBlackList() throws Exception {
-        when(blackListCommandService.save(any())).thenReturn(null);
         when(instagramQueryService.findByPlaceId(any())).thenReturn(null);
-        when(instagramScheduleService.findHashtagCount(any())).thenReturn(null);
-        when(instagramCommandService.updateByBlackList(any(), any(), any())).thenReturn(
-                BlackListAddResponse.of(Instagram.builder()
-                        .id(1L)
-                        .place(Place.builder()
-                                .id(1L)
-                                .build())
+        Place place = Place.builder()
+                .id(1L)
+                .build();
+        when(instagramScheduleService.updateBlackLists(any(), any())).thenReturn(
+                Instagram.builder()
+                        .place(place)
                         .hashtagName("newName")
-                        .hashtagCount(12512L)
-                        .build())
+                        .hashtagCount(1000L)
+                        .build()
         );
 
-        BlackListAddRequest blackListAddRequest = new BlackListAddRequest(1L, "newName");
+        BlackListAddRequest blackListAddRequest = new BlackListAddRequest(place.getId(), "newName");
 
         mockMvc.perform(post("/blacklist")
                 .content(objectMapper.writeValueAsString(blackListAddRequest))
@@ -95,4 +87,6 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
                 .andExpect(status().isOk())
                 .andDo(getDocumentByPostBlackList());
     }
+
+
 }

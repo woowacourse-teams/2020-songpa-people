@@ -41,7 +41,7 @@ public class CrawlingResult {
     public Instagram createInstagram() {
         return Instagram.builder()
                 .place(place)
-                .hashtagName(crawlingDto.getPlaceName())
+                .hashtagName(crawlingDto.getHashtagName())
                 .hashtagCount(crawlingDto.getHashtagCount())
                 .build();
     }
