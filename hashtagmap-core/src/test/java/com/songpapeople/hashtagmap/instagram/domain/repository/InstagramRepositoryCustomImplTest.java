@@ -14,10 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -59,10 +57,7 @@ class InstagramRepositoryCustomImplTest {
     @Test
     void name() {
         // given
-        List<Long> hashtagCounts = LongStream.range(100, 110)
-                .boxed()
-                .collect(Collectors.toList());
-        Collections.shuffle(hashtagCounts);
+        List<Long> hashtagCounts = Arrays.asList(3L, 2L, 1L);
 
         List<Instagram> instagrams = new ArrayList<>();
         for (int i = 0; i < hashtagCounts.size(); i++) {
@@ -76,8 +71,7 @@ class InstagramRepositoryCustomImplTest {
         List<Long> actaul = instagramRepository.findAllHashtagCountByOrderAsc();
 
         // then
-        Collections.sort(hashtagCounts);
-        Assertions.assertEquals(actaul, hashtagCounts);
+        Assertions.assertEquals(actaul, Arrays.asList(1L, 2L, 3L));
     }
 
     @AfterEach

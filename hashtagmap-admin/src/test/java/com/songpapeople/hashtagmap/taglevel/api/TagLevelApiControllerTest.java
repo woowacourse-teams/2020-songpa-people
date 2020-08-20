@@ -24,7 +24,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// todo ascii 추가
 @WebMvcTest(TagLevelApiController.class)
 @ExtendWith(RestDocumentationExtension.class)
 @AutoConfigureMockMvc
