@@ -1,7 +1,9 @@
 package com.songpapeople.hashtagmap.blacklist.api;
 
+import com.songpapeople.hashtagmap.blacklist.service.BlackListCommandService;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddRequest;
 import com.songpapeople.hashtagmap.blacklist.service.dto.SubBlackListDto;
+import com.songpapeople.hashtagmap.instagram.service.InstagramCommandService;
 import com.songpapeople.hashtagmap.instagram.service.InstagramQueryService;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,8 @@ import java.util.List;
 @RequestMapping("/blacklist")
 public class BlackListApiController {
     private final InstagramQueryService instagramQueryService;
+    private final InstagramCommandService instagramCommandService;
+    private final BlackListCommandService blackListCommandService;
 
     @GetMapping
     @RequestMapping("/sub")
@@ -27,8 +31,8 @@ public class BlackListApiController {
 
     @PostMapping
     public CustomResponse<Void> addBlackList(@RequestBody BlackListAddRequest blackListRequest) {
-        System.out.println(blackListRequest.getKakaoId());
-        System.out.println(blackListRequest.getReplaceName());
+        blackListCommandService.save(BlackListAddRequest.toBlackList(blackListRequest));
+        instagramCommandService.updateByBlackList(blackListRequest);
         return CustomResponse.empty();
     }
 }
