@@ -3,20 +3,28 @@
     <v-btn @click="showTagLevel" class="ma-2" color="indigo" outlined>
       태그레벨 기록 보기
     </v-btn>
-    <v-data-table :headers="headers" :items="tagLevels" class="elevation-1" />
-    <v-btn @click="updateTagLevel" class="ma-2" color="indigo" outlined>
+    <v-data-table
+      :headers="headers"
+      :items="getTagLevels"
+      class="elevation-1"
+    />
+    <v-btn @click="update" class="ma-2" color="indigo" outlined>
       태그레벨 갱신하기
     </v-btn>
+    <CustomSnackbar />
   </v-container>
 </template>
 
 <script>
-import { SNACK_BAR_TEMPLATE } from "../utils/constants";
-import { mapMutations } from "vuex";
-import { tagLevelApi } from "@/request/api/tag-level.js";
+import { mapActions, mapGetters, mapMutations } from "vuex";
+import { convert } from "@/utils/responseConverter";
+import CustomSnackbar from "@/components/CustomSnackBar";
 
 export default {
   name: "TagLevel",
+  components: {
+    CustomSnackbar
+  },
   data() {
     return {
       headers: [
@@ -28,34 +36,26 @@ export default {
         },
         { text: "최소 hashtag 개수", value: "minHashtagCount" },
         { text: "최대 hashtag 개수", value: "maxHashtagCount" }
-      ],
-      tagLevels: [
-        {
-          tagLevel: "",
-          minHashtagCount: "",
-          maxHashtagCount: ""
-        }
       ]
     };
   },
+  computed: {
+    ...mapGetters("tagLevel", ["getTagLevels"])
+  },
   methods: {
     ...mapMutations("snackbar", ["SHOW_SNACKBAR"]),
+    ...mapActions("tagLevel", ["updateTagLevel", "fetchTagLevels"]),
+
     async showTagLevel() {
-      try {
-        const response = await tagLevelApi.show();
-        this.tagLevels = response.data.data;
-        this.SHOW_SNACKBAR(SNACK_BAR_TEMPLATE.SUCCESS);
-      } catch (e) {
-        this.SHOW_SNACKBAR(SNACK_BAR_TEMPLATE.ERROR(e));
-      }
+      const response = await this.fetchTagLevels();
+      const snackbarContent = convert.toSnackBarContent(response);
+      console.dir(snackbarContent);
+      this.SHOW_SNACKBAR(snackbarContent);
     },
-    async updateTagLevel() {
-      try {
-        await tagLevelApi.update();
-        this.SHOW_SNACKBAR(SNACK_BAR_TEMPLATE.SUCCESS);
-      } catch (e) {
-        this.SHOW_SNACKBAR(SNACK_BAR_TEMPLATE.ERROR(e));
-      }
+    async update() {
+      const response = await this.updateTagLevel();
+      const snackbarContent = convert.toSnackBarContent(response);
+      this.SHOW_SNACKBAR(snackbarContent);
     }
   }
 };

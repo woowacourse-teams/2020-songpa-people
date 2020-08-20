@@ -5,6 +5,7 @@ import snackbar from "@/store/modules/snackbar";
 import member from "@/store/modules/member";
 import district from "@/store/modules/district";
 import zone from "@/store/modules/zone";
+import tagLevel from "@/store/modules/tagLevel";
 import modal from "./modules/modal";
 
 Vue.use(Vuex);
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     kakao,
     district,
     zone,
-    modal
+    modal,
+    tagLevel
   }
 });
