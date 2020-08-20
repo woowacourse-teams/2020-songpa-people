@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.instagram.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
+import com.songpapeople.hashtagmap.place.domain.model.Place;
 
 import java.util.List;
 
@@ -21,6 +22,15 @@ public class InstagramRepositoryCustomImpl implements InstagramRepositoryCustom 
                 .innerJoin(instagram.place, place)
                 .fetchJoin()
                 .fetch();
+    }
+
+    @Override
+    public Instagram findByPlaceFetch(Place findPlace) {
+        return jpaQueryFactory.selectFrom(instagram)
+                .innerJoin(instagram.place, place)
+                .fetchJoin()
+                .where(instagram.place.eq(findPlace))
+                .fetchFirst();
     }
 
     @Override

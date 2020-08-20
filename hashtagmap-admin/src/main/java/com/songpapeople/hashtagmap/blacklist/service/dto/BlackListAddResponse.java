@@ -19,7 +19,7 @@ public class BlackListAddResponse {
 
     public static BlackListAddResponse of(Instagram instagram) {
         return new BlackListAddResponse(instagram.getPlaceId()
-                , instagram.getPlaceName()
+                , instagram.getHashtagName()
                 , instagram.getHashtagCount());
     }
 }

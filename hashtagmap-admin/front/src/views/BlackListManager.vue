@@ -63,6 +63,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { isOk } from "@/request";
 
 export default {
   data() {
@@ -96,9 +97,15 @@ export default {
       window.open("https://www.instagram.com/", "_blank");
     },
     registerBlackList() {
+      let res;
       if (confirm(`${this.inputBlackList.replaceName}(으)로 등록합니까?`)) {
-        this.addBlackList(this.inputBlackList);
+        res = this.addBlackList(this.inputBlackList);
       }
+      if (isOk(res)) {
+        console.log(res);
+        return;
+      }
+      alert(res);
     }
   },
 

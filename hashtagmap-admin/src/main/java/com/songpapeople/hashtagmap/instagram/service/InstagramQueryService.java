@@ -39,9 +39,6 @@ public class InstagramQueryService {
                 .orElseThrow(() -> new AdminException(
                         CommonExceptionStatus.NOT_PERSIST,
                         String.format("존재하지 않는 placeId(%d)입니다.", placeId)));
-        return instagramRepository.findByPlace(place)
-                .orElseThrow(() -> new AdminException(
-                        CommonExceptionStatus.NOT_PERSIST,
-                        String.format("존재하지 않는 instagram(placeId = %d입니다.", placeId)));
+        return instagramRepository.findByPlaceFetch(place);
     }
 }

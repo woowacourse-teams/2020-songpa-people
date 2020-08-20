@@ -6,8 +6,8 @@ import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +51,23 @@ class InstagramRepositoryCustomImplTest {
         List<Instagram> instagrams = instagramRepository.findAllFetch();
 
         assertThat(instagrams.size()).isEqualTo(1);
+    }
+
+    @DisplayName("place로 instagram 찾는 기능 테스트")
+    @Test
+    void findByPlace() {
+        Place place = Place.builder()
+                .placeName("place")
+                .build();
+        Instagram instagram = Instagram.builder()
+                .place(place)
+                .build();
+        placeRepository.save(place);
+        instagramRepository.save(instagram);
+
+        Instagram result = instagramRepository.findByPlaceFetch(place);
+
+        Assertions.assertThat(result.getId()).isEqualTo(instagram.getId());
     }
 
     @DisplayName("Hashtag 개수를 오름차순으로 정렬한다.")

@@ -3,12 +3,12 @@ package com.songpapeople.hashtagmap.blacklist.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.songpapeople.hashtagmap.blacklist.service.BlackListCommandService;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddRequest;
+import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddResponse;
 import com.songpapeople.hashtagmap.blacklist.service.dto.SubBlackListDto;
 import com.songpapeople.hashtagmap.docs.blacklist.BlackListApiDocumentation;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.service.InstagramCommandService;
 import com.songpapeople.hashtagmap.instagram.service.InstagramQueryService;
-import com.songpapeople.hashtagmap.place.domain.model.Category;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -77,20 +76,15 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
         when(blackListCommandService.save(any())).thenReturn(null);
         when(instagramQueryService.findByPlaceId(any())).thenReturn(null);
         when(instagramScheduleService.findHashtagCount(any())).thenReturn(null);
-        when(instagramCommandService.update(any(), any(), any())).thenReturn(
-                Instagram.builder()
+        when(instagramCommandService.updateByBlackList(any(), any(), any())).thenReturn(
+                BlackListAddResponse.of(Instagram.builder()
                         .id(1L)
                         .place(Place.builder()
                                 .id(1L)
-                                .placeName("place")
-                                .kakaoId("1")
-                                .category(Category.RESTAURANT)
-                                .placeUrl("placeUrl")
-                                .location(new Location(new Point("40","130"),"address"))
                                 .build())
                         .hashtagName("newName")
                         .hashtagCount(12512L)
-                        .build()
+                        .build())
         );
 
         BlackListAddRequest blackListAddRequest = new BlackListAddRequest(1L, "newName");

@@ -32,8 +32,7 @@ export default {
       commit("SET_SUB_BLACKLIST", res.body.data);
     },
     async addBlackList(commit, blackList) {
-      const res = await blackListApi.addBlackList(blackList);
-      console.log(res);
+      return await blackListApi.addBlackList(blackList);
     }
   }
 };

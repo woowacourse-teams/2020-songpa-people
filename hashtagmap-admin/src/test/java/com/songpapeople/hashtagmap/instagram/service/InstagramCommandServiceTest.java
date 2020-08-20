@@ -2,8 +2,6 @@ package com.songpapeople.hashtagmap.instagram.service;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
-import com.songpapeople.hashtagmap.place.domain.model.Place;
-import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ class InstagramCommandServiceTest {
                 .build();
         instagramRepository.save(origin);
 
-        instagramCommandService.update(origin, "newName",1000L);
+        instagramCommandService.updateByBlackList(origin, "newName",1000L);
 
         Instagram updatedInstagram = instagramRepository.findById(origin.getId()).get();
         assertAll(

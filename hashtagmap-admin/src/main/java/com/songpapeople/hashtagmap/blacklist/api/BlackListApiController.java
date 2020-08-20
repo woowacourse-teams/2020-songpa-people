@@ -36,16 +36,13 @@ public class BlackListApiController {
     @PostMapping
     public CustomResponse<BlackListAddResponse> addBlackList(@RequestBody BlackListAddRequest blackListRequest) {
         blackListCommandService.save(BlackListAddRequest.toBlackList(blackListRequest));
-        Instagram updated = updateInstagram(blackListRequest);
-        return CustomResponse.of(BlackListAddResponse.of(updated));
+        return CustomResponse.of(updateInstagram(blackListRequest));
     }
 
-    private Instagram updateInstagram(@RequestBody BlackListAddRequest blackListRequest) {
-        Long placeId = blackListRequest.getPlaceId();
+    private BlackListAddResponse updateInstagram(@RequestBody BlackListAddRequest blackListRequest) {
+        Instagram instagramToUpdate = instagramQueryService.findByPlaceId(blackListRequest.getPlaceId());
         String replaceName = blackListRequest.getReplaceName();
-
-        Instagram instagramToUpdate = instagramQueryService.findByPlaceId(placeId);
         Long hashtagCount = instagramScheduleService.findHashtagCount(replaceName);
-        return instagramCommandService.update(instagramToUpdate, replaceName, hashtagCount);
+        return instagramCommandService.updateByBlackList(instagramToUpdate, replaceName, hashtagCount);
     }
 }

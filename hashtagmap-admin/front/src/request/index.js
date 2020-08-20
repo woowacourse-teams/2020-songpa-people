@@ -48,4 +48,8 @@ function errorHandler(error) {
   return Promise.reject(data);
 }
 
+export function isOk(res) {
+  return [200, 201, 202].includes(res.status);
+}
+
 export default customAxios;

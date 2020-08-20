@@ -3,12 +3,16 @@ package com.songpapeople.hashtagmap.scheduler;
 import com.songpapeople.hashtagmap.crawler.Crawler;
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
+import com.songpapeople.hashtagmap.dto.PostDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
+import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.proxy.ProxiesFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InstagramScheduleService {
