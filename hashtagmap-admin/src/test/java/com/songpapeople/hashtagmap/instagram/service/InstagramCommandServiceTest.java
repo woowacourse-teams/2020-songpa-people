@@ -39,7 +39,7 @@ class InstagramCommandServiceTest {
         placeRepository.save(place);
         instagramRepository.save(origin);
 
-        BlackListAddRequest blackListAddRequest = new BlackListAddRequest("100","newName");
+        BlackListAddRequest blackListAddRequest = new BlackListAddRequest(place.getId(),"newName");
         instagramCommandService.updateByBlackList(blackListAddRequest);
 
         Instagram updatedInstagram = instagramRepository.findById(origin.getId()).get();

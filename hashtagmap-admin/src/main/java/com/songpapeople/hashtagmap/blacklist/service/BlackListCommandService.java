@@ -5,6 +5,8 @@ import com.songpapeople.hashtagmap.blacklist.domain.repsitory.BlackListRepositor
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class BlackListCommandService {
     private final BlackListRepository blackListRepository;
@@ -15,6 +17,8 @@ public class BlackListCommandService {
 
     @Transactional
     public BlackList save(BlackList blackList) {
-        return blackListRepository.save(blackList);
+        Optional<BlackList> blackListByPlaceId = blackListRepository.findByPlaceId(blackList.getPlaceId());
+        blackListByPlaceId.ifPresent(item -> item.setReplaceName(blackList.getReplaceName()));
+        return blackListRepository.save(blackListByPlaceId.orElseGet(() -> blackList));
     }
 }

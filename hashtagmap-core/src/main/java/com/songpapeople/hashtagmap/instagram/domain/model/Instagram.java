@@ -42,7 +42,7 @@ public class Instagram extends BaseEntity {
         return place.getRoadAddressName();
     }
 
-    public String getKakaoId() {
-        return place.getKakaoId();
+    public Long getPlaceId() {
+        return place.getId();
     }
 }

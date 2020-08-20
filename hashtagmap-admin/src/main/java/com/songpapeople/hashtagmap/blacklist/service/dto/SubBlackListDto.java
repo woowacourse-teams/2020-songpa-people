@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class SubBlackListDto {
-    private String kakaoId;
+    private Long placeId;
     private String placeName;
     private String roadAddressName;
     private Long HashtagCount;
 
-    private SubBlackListDto(String kakaoId, String placeName, String roadAddressName, Long hashtagCount) {
-        this.kakaoId = kakaoId;
+    private SubBlackListDto(Long placeId, String placeName, String roadAddressName, Long hashtagCount) {
+        this.placeId = placeId;
         this.placeName = placeName;
         this.roadAddressName = roadAddressName;
         HashtagCount = hashtagCount;
@@ -21,7 +21,7 @@ public class SubBlackListDto {
 
     public static SubBlackListDto of(Instagram instagram) {
         return new SubBlackListDto(
-                instagram.getKakaoId(),
+                instagram.getPlaceId(),
                 instagram.getPlaceName(),
                 instagram.getRoadAddressName(),
                 instagram.getHashtagCount()

@@ -22,6 +22,7 @@ public class BlackListApiDocumentation extends ApiDocument {
                         fieldWithPath("code").type(NULL).description("에러 코드"),
                         fieldWithPath("message").type(NULL).description("에러 메세지"),
                         fieldWithPath("data[]").type(ARRAY).description("블랙리스트 후보들"),
+                        fieldWithPath("data[0].placeId").type(STRING).description("블랙리스트 장소의 Place Id(kakaoId X)"),
                         fieldWithPath("data[0].placeName").type(STRING).description("블랙리스트 장소 이름"),
                         fieldWithPath("data[0].hashtagCount").type(NUMBER).description("블랙리스트의 해시태그수"),
                         fieldWithPath("data[0].roadAddressName").type(STRING).description("블랙리스트의 kakao place상의 주소")

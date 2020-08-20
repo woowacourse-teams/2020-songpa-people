@@ -7,15 +7,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class BlackListAddRequest {
-    private String kakaoId;
+    private Long placeId;
     private String replaceName;
 
-    public BlackListAddRequest(String kakaoId, String replaceName) {
-        this.kakaoId = kakaoId;
+    public BlackListAddRequest(Long placeId, String replaceName) {
+        this.placeId = placeId;
         this.replaceName = replaceName;
     }
 
     public static BlackList toBlackList(BlackListAddRequest blackListRequest) {
-        return new BlackList(blackListRequest.kakaoId, blackListRequest.replaceName);
+        return new BlackList(blackListRequest.placeId, blackListRequest.replaceName);
     }
 }

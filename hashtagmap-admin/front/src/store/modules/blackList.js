@@ -6,7 +6,7 @@ export default {
   state: {
     subBlackList: [
       {
-        kakaoId: "",
+        placeId: "",
         placeName: "",
         hashtagCount: "",
         roadAddressName: ""
