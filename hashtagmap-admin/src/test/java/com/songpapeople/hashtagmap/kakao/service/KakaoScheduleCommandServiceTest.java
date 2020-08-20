@@ -33,12 +33,13 @@ class KakaoScheduleCommandServiceTest {
     void stopSchedule() {
         //given
         scheduleRepository.save(new Schedule(KAKAO, "비밥", Flag.Y));
+        kakaoScheduler.start();
 
         //when
-        kakaoScheduleCommandService.toggleSchedule(KAKAO);
+        kakaoScheduleCommandService.stopSchedule(KAKAO);
 
         //then
-        Schedule schedule = scheduleRepository.findByName(KAKAO).get();
+        Schedule schedule = scheduleRepository.findByName(KAKAO).orElseThrow(RuntimeException::new);
         assertThat(schedule.isActive()).isFalse();
     }
 
@@ -49,7 +50,7 @@ class KakaoScheduleCommandServiceTest {
         scheduleRepository.save(new Schedule(KAKAO, "비밥", Flag.N));
 
         //then
-        assertThatThrownBy(() -> kakaoScheduleCommandService.toggleSchedule("LINE"))
+        assertThatThrownBy(() -> kakaoScheduleCommandService.stopSchedule("LINE"))
                 .isInstanceOf(AdminException.class)
                 .hasMessage("스케쥴러(LINE)가 존재하지 않습니다.");
     }
@@ -61,11 +62,12 @@ class KakaoScheduleCommandServiceTest {
         scheduleRepository.save(new Schedule(KAKAO, "비밥", Flag.N));
 
         //when
-        kakaoScheduleCommandService.toggleSchedule(KAKAO);
+        kakaoScheduleCommandService.startSchedule(KAKAO);
 
         //then
-        Schedule schedule = scheduleRepository.findByName(KAKAO).get();
+        Schedule schedule = scheduleRepository.findByName(KAKAO).orElseThrow(RuntimeException::new);
         assertThat(schedule.isActive()).isTrue();
+        kakaoScheduler.stop();
     }
 
     @DisplayName("카카오 스케줄러 주기 변경")
@@ -79,6 +81,5 @@ class KakaoScheduleCommandServiceTest {
     @AfterEach
     void tearDown() {
         scheduleRepository.deleteAll();
-        kakaoScheduler.stop();
     }
 }

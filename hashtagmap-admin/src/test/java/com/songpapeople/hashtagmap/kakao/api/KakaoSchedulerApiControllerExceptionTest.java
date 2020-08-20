@@ -58,16 +58,16 @@ class KakaoSchedulerApiControllerExceptionTest {
                 .build();
     }
 
-    @DisplayName("찾고자 하는 스케쥴러가 없는 경우 Exception")
+    @DisplayName("스케쥴러를 실행할 때 찾고자 하는 스케쥴러가 없는 경우 Exception")
     @Test
     void startCronNotFound() throws Exception {
-        doThrow(new AdminException(AdminExceptionStatus.NOT_FOUND_SCHEDULER, LOG)).when(kakaoScheduleCommandService).toggleSchedule(KAKAO);
+        doThrow(new AdminException(AdminExceptionStatus.NOT_FOUND_SCHEDULER, LOG)).when(kakaoScheduleCommandService).startSchedule(KAKAO);
 
         KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(KAKAO);
         String contents = objectMapper.writeValueAsString(kakaoScheduleToggleDto);
         //given
         MvcResult mvcResult = this.mockMvc.perform(
-                post(BASE_URI + "/toggle")
+                post(BASE_URI + "/start")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(contents)
         )
@@ -88,13 +88,13 @@ class KakaoSchedulerApiControllerExceptionTest {
     @DisplayName("스케쥴러가 이미 실행중일때 Exception")
     @Test
     void startCron() throws Exception {
-        doThrow(new KakaoSchedulerException(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING, LOG)).when(kakaoScheduleCommandService).toggleSchedule(KAKAO);
+        doThrow(new KakaoSchedulerException(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING, LOG)).when(kakaoScheduleCommandService).startSchedule(KAKAO);
 
         KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(KAKAO);
         String contents = objectMapper.writeValueAsString(kakaoScheduleToggleDto);
         //given
         MvcResult mvcResult = this.mockMvc.perform(
-                post(BASE_URI + "/toggle")
+                post(BASE_URI + "/start")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(contents)
         )
@@ -112,7 +112,7 @@ class KakaoSchedulerApiControllerExceptionTest {
         assertThat(customResponse.getMessage()).isEqualTo(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING.getMessage());
     }
 
-    @DisplayName("찾고자 하는 스케쥴러가 없는 경우 Exception")
+    @DisplayName("상태를 알고 싶은 스케쥴러가 없는 경우 Exception")
     @Test
     void getActiveStatusNotFound() throws Exception {
         doThrow(new AdminException(AdminExceptionStatus.NOT_FOUND_SCHEDULER, LOG)).when(kakaoScheduleQueryService).getKakaoScheduleActiveStatus(KAKAO);
@@ -136,14 +136,14 @@ class KakaoSchedulerApiControllerExceptionTest {
         assertThat(customResponse.getMessage()).isEqualTo(AdminExceptionStatus.NOT_FOUND_SCHEDULER.getMessage());
     }
 
-    @DisplayName("전달받은 dto의 값이 비어있는 경우 Exception")
+    @DisplayName("스케쥴러 실행을 위해 전달받은 dto의 값이 비어있는 경우 Exception")
     @Test
     void bindException() throws Exception {
         KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto("");
         String contents = objectMapper.writeValueAsString(kakaoScheduleToggleDto);
 
         MvcResult mvcResult = this.mockMvc.perform(
-                post(BASE_URI + "/toggle")
+                post(BASE_URI + "/start")
                         .content(contents)
                         .contentType(MediaType.APPLICATION_JSON)
         )

@@ -14,8 +14,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 
 public class KakaoApiDocumentation extends ApiDocument {
-    protected RestDocumentationResultHandler getDocumentByToggle() {
-        return document("kakao/scheduler/toggle",
+    protected RestDocumentationResultHandler getDocumentByToggle(String command) {
+        return document("kakao/scheduler/" + command,
                 getDocumentRequest(),
                 getDocumentResponse(),
                 requestFields(

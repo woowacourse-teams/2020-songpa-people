@@ -29,7 +29,8 @@ operation::instagram/scheduler/update[snippets='http-request,http-response']
 [[resources-kakao-scheduler-toggle]]
 === scheduler toggle (ON/OFF)
 
-operation::kakao/scheduler/toggle[snippets='http-request,request-fields,http-response']
+operation::kakao/scheduler/start[snippets='http-request,request-fields,http-response']
+operation::kakao/scheduler/stop[snippets='http-request,request-fields,http-response']
 
 [[resources-kakao-scheduler-status]]
 === scheduler 상태 조회
@@ -45,6 +46,7 @@ operation::kakao/scheduler/period/put[snippets='http-request,http-response']
 === scheduler 주기 조회
 
 operation::kakao/scheduler/period/get[snippets='http-request,http-response,response-fields']
+
 [[resources-district]]
 == District
 

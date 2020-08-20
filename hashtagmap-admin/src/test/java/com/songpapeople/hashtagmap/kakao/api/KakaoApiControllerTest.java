@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = KakaoSchedulerApiController.class)
 public class KakaoApiControllerTest extends KakaoApiDocumentation {
-    private static String SCHEDULER_NAME = "KAKAO";
+    private static final String SCHEDULER_NAME = "KAKAO";
 
     @MockBean
     private KakaoScheduleCommandService kakaoScheduleCommandService;
@@ -35,20 +35,36 @@ public class KakaoApiControllerTest extends KakaoApiDocumentation {
     @MockBean
     private KakaoScheduleQueryService kakaoScheduleQueryService;
 
-    @DisplayName("Kakao Scheduler를 키고 끄는 toggle")
+    @DisplayName("Kakao Scheduler를 실행한다.")
     @Test
-    void toggleTest() throws Exception {
-        doNothing().when(kakaoScheduleCommandService).toggleSchedule(anyString());
+    void startTest() throws Exception {
+        doNothing().when(kakaoScheduleCommandService).startSchedule(anyString());
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestDto = objectMapper.writeValueAsString(new KakaoScheduleToggleDto(SCHEDULER_NAME));
 
-        mockMvc.perform(post("/kakao/scheduler/toggle")
+        mockMvc.perform(post("/kakao/scheduler/start")
                 .content(requestDto)
                 .header("Content-Type", "application/json"))
                 .andExpect(status().isOk())
-                .andDo(getDocumentByToggle());
+                .andDo(getDocumentByToggle("start"));
     }
+
+    @DisplayName("Kakao Scheduler를 정지한다.")
+    @Test
+    void stopTest() throws Exception {
+        doNothing().when(kakaoScheduleCommandService).stopSchedule(anyString());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestDto = objectMapper.writeValueAsString(new KakaoScheduleToggleDto(SCHEDULER_NAME));
+
+        mockMvc.perform(post("/kakao/scheduler/stop")
+                .content(requestDto)
+                .header("Content-Type", "application/json"))
+                .andExpect(status().isOk())
+                .andDo(getDocumentByToggle("stop"));
+    }
+
 
     @DisplayName("Kakao Scheduler 상태 조회")
     @Test

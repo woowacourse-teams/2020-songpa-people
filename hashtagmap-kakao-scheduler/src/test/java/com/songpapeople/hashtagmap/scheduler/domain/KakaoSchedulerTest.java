@@ -1,5 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
+import com.songpapeople.hashtagmap.config.vo.Flag;
+import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,11 +53,13 @@ public class KakaoSchedulerTest {
         kakaoScheduler.start();
 
         preCountDownLatch.await();
+
+        kakaoScheduler.stop();
         kakaoScheduler.changePeriod(postExpression);
+        kakaoScheduler.start();
 
         postCountDownLatch.await();
         kakaoScheduler.end();
-
         //then
         CronTrigger cronTrigger = (CronTrigger) cronPeriod.getTrigger();
 
@@ -70,7 +74,7 @@ public class KakaoSchedulerTest {
 
     @DisplayName("스케쥴러가 이미 실행중이면 Exception 발생")
     @Test
-    void isRunningTest() {
+    void isRunningExceptionTest() {
         KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
         }, new CronPeriod("* * * * * ?"));
 
@@ -80,6 +84,83 @@ public class KakaoSchedulerTest {
                 .isInstanceOf(KakaoSchedulerException.class)
                 .hasMessage("스케쥴러가 이미 실행중입니다.");
 
+        kakaoScheduler.stop();
+        kakaoScheduler.end();
+    }
+
+    @DisplayName("스케쥴러가 이미 정지되었다면 Exception 발생")
+    @Test
+    void isNotRunningExceptionTest() {
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
+        }, new CronPeriod("* * * * * ?"));
+
+        assertThatThrownBy(kakaoScheduler::stop)
+                .isInstanceOf(KakaoSchedulerException.class)
+                .hasMessage("스케쥴러가 이미 정지되었습니다.");
+
+        kakaoScheduler.end();
+    }
+
+    @DisplayName("카카오 스케쥴러 실행하기")
+    @Test
+    void isRunning() {
+        //given
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
+        }, new CronPeriod("* * * * * ?"));
+
+        //when
+        kakaoScheduler.start();
+
+        //then
+        assertThat(kakaoScheduler.isActive()).isTrue();
+        kakaoScheduler.end();
+    }
+
+    @DisplayName("카카오 스케쥴러 멈추기")
+    @Test
+    void isNotRunningTest() {
+        //given
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
+        }, new CronPeriod("* * * * * ?"));
+
+        //when
+        kakaoScheduler.start();
+        kakaoScheduler.stop();
+
+        //then
+        assertThat(kakaoScheduler.isNotActive()).isTrue();
+        kakaoScheduler.end();
+    }
+
+    @DisplayName("카카오 스케쥴러는 실제로 멈춰있는데 DB에는 실행중이라고 되어있다면 멈춤상태로 변경하기")
+    @Test
+    public void syncSchedulerToStop() {
+        //given
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
+        }, new CronPeriod("* * * * * ?"));
+        Schedule schedule = new Schedule("KAKAO", "", Flag.Y);
+
+        //when
+        kakaoScheduler.syncSchedule(schedule);
+
+        //then
+        assertThat(schedule.isActive()).isFalse();
+    }
+
+    @DisplayName("카카오 스케쥴러는 실제로 실행중인데 DB에는 정지라고 되어있다면 시작상태로 변경하기")
+    @Test
+    public void syncSchedulerToStart() {
+        //given
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
+        }, new CronPeriod("* * * * * ?"));
+        Schedule schedule = new Schedule("KAKAO", "", Flag.N);
+        kakaoScheduler.start();
+
+        //when
+        kakaoScheduler.syncSchedule(schedule);
+
+        //then
+        assertThat(schedule.isActive()).isTrue();
         kakaoScheduler.stop();
     }
 }

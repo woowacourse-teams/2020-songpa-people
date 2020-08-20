@@ -26,10 +26,17 @@ public class KakaoSchedulerApiController {
     private final KakaoScheduleCommandService kakaoScheduleCommandService;
     private final KakaoScheduleQueryService kakaoScheduleQueryService;
 
-    @PostMapping("/toggle")
+    @PostMapping("/start")
     @ResponseStatus(HttpStatus.OK)
-    public CustomResponse<Void> toggleScheduler(@RequestBody @Valid final KakaoScheduleToggleDto kakaoScheduleToggleDto) {
-        kakaoScheduleCommandService.toggleSchedule(kakaoScheduleToggleDto.getName());
+    public CustomResponse<Void> startScheduler(@RequestBody @Valid final KakaoScheduleToggleDto kakaoScheduleToggleDto) {
+        kakaoScheduleCommandService.startSchedule(kakaoScheduleToggleDto.getName());
+        return CustomResponse.empty();
+    }
+
+    @PostMapping("/stop")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomResponse<Void> stopScheduler(@RequestBody @Valid final KakaoScheduleToggleDto kakaoScheduleToggleDto) {
+        kakaoScheduleCommandService.stopSchedule(kakaoScheduleToggleDto.getName());
         return CustomResponse.empty();
     }
 

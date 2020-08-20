@@ -8,7 +8,6 @@ import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
 import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
 import com.songpapeople.hashtagmap.kakao.service.dto.PeriodHistoryDto;
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
 import io.restassured.RestAssured;
 import io.restassured.mapper.TypeRef;
@@ -39,21 +38,18 @@ class KakaoScheduleIntegrationTest {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    @Autowired
-    private KakaoScheduler kakaoScheduler;
-
     protected static RequestSpecification given() {
         return RestAssured.given().log().all();
     }
 
     @BeforeEach
-    private void setUp() {
+    void setUp() {
         RestAssured.port = port;
     }
 
     @DisplayName("카카오 스케줄러 주기 변경")
     @Test
-    public void changePeriodTest() throws Exception {
+    public void changePeriodTest() {
         String validExpression = "0 0/5 * * * ?";
         CustomResponse<Void> response = changePeriod(validExpression, HttpStatus.OK);
 
@@ -64,7 +60,7 @@ class KakaoScheduleIntegrationTest {
 
     @DisplayName("(예외) 잘못된 주기(정규식)으로 주기 변경 실패")
     @Test
-    public void changePeriodExceptionTest() throws Exception {
+    public void changePeriodExceptionTest() {
         String invalidExpression = "* * * * * * /";
         CustomResponse<Void> response = changePeriod(invalidExpression, HttpStatus.BAD_REQUEST);
 
@@ -91,20 +87,20 @@ class KakaoScheduleIntegrationTest {
         assertThat(response.getMessage()).isNull();
     }
 
-    @DisplayName("KakaoScheduler 실행 상태 toggle 하기")
+    @DisplayName("KakaoScheduler 실행 하기")
     @Test
     void toggleSchedulerTest() {
         //given
         String scheduleName = "KAKAO";
         KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(scheduleName);
-        scheduleRepository.save(new Schedule(scheduleName, "", Flag.Y));
+        scheduleRepository.save(new Schedule(scheduleName, "", Flag.N));
 
         //when
-        CustomResponse<Void> response = toggleScheduler(kakaoScheduleToggleDto, HttpStatus.OK);
+        startScheduler(kakaoScheduleToggleDto, HttpStatus.OK);
 
         //then
         Schedule schedule = scheduleRepository.findByName(scheduleName).orElseThrow(RuntimeException::new);
-        assertThat(schedule.isActive()).isFalse();
+        assertThat(schedule.isActive()).isTrue();
     }
 
     @DisplayName("KakaoScheduler 실행 상태 조회하기")
@@ -112,22 +108,22 @@ class KakaoScheduleIntegrationTest {
     void getActiveStatus() {
         //given
         String scheduleName = "KAKAO";
-        scheduleRepository.save(new Schedule(scheduleName, "", Flag.Y));
+        scheduleRepository.save(new Schedule(scheduleName, "", Flag.N));
 
         //when
         CustomResponse<Boolean> response = getActiveStatus(scheduleName, HttpStatus.OK);
 
         //then
-        assertThat(response.getData()).isTrue();
+        assertThat(response.getData()).isFalse();
     }
 
-    public CustomResponse<Void> toggleScheduler(KakaoScheduleToggleDto kakaoScheduleToggleDto, HttpStatus expectStatus) {
+    public CustomResponse<Void> startScheduler(KakaoScheduleToggleDto kakaoScheduleToggleDto, HttpStatus expectStatus) {
         return given()
                 .body(kakaoScheduleToggleDto)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
-                .post("/kakao/scheduler/toggle")
+                .post("/kakao/scheduler/start")
                 .then()
                 .log().all()
                 .statusCode(expectStatus.value())
@@ -173,9 +169,8 @@ class KakaoScheduleIntegrationTest {
     }
 
     @AfterEach
-    private void tearDown() {
+    void tearDown() {
         periodHistoryRepository.deleteAll();
         scheduleRepository.deleteAll();
-        kakaoScheduler.stop();
     }
 }

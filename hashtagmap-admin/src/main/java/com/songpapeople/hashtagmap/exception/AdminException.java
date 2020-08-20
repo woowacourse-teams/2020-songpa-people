@@ -1,6 +1,10 @@
 package com.songpapeople.hashtagmap.exception;
 
 public class AdminException extends HashtagMapException {
+    public AdminException(final String errorMessage, final String errorCode) {
+        super(errorMessage, errorCode);
+    }
+
     public AdminException(AdminExceptionStatus adminExceptionStatus) {
         super(adminExceptionStatus.getMessage(), adminExceptionStatus.getCode());
     }

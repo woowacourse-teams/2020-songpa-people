@@ -40,4 +40,8 @@ public class Schedule extends BaseEntity {
     public boolean isActive() {
         return this.flag.isYes();
     }
+
+    public boolean isNotActive() {
+        return !this.isActive();
+    }
 }

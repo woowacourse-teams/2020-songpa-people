@@ -28,14 +28,14 @@ class KakaoScheduleQueryServiceTest {
     @Test
     void getKakaoScheduleActiveStatus() {
         //given
-        scheduleRepository.save(new Schedule(KAKAO, "비밥", Flag.Y));
+        scheduleRepository.save(new Schedule(KAKAO, "비밥", Flag.N));
         scheduleRepository.save(new Schedule(INSTAGRAM, "비밥", Flag.N));
 
         //when
         boolean kakaoScheduleActiveStatus = kakaoScheduleQueryService.getKakaoScheduleActiveStatus(KAKAO);
 
         //then
-        assertThat(kakaoScheduleActiveStatus).isTrue();
+        assertThat(kakaoScheduleActiveStatus).isFalse();
     }
 
     @DisplayName("입력한 스케쥴러의 이름에 맞는 스케쥴러가 없는 경우 Exception")
