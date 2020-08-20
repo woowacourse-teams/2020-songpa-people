@@ -88,6 +88,11 @@ operation::district/updateDistrict[snippets='http-request,request-body,http-resp
 
 operation::blacklist/sub[snippets='http-request,http-response,response-fields']
 
+[[resources-blacklist-getSubBlackList]]
+=== 블랙리스트 등록 요청
+
+operation::blacklist/postBlackList[snippets='http-request,http-response,response-fields']
+
 
 [[resources-tag-levels]]
 == TagLevel

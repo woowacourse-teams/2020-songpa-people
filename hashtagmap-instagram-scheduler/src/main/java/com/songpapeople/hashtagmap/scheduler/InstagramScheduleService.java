@@ -2,6 +2,8 @@ package com.songpapeople.hashtagmap.scheduler;
 
 import com.songpapeople.hashtagmap.crawler.Crawler;
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
+import com.songpapeople.hashtagmap.dto.CrawlingDto;
+import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.proxy.ProxiesFactory;
 import org.springframework.stereotype.Service;
@@ -19,5 +21,10 @@ public class InstagramScheduleService {
                 new ProxySetter(ProxiesFactory.create()), instagramCrawler);
 
         return crawlerWithProxy.crawlInstagram(place, START_TRY_COUNT);
+    }
+
+    public Long findHashtagCount(String replaceName) {
+        CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
+        return crawlingDto.getHashtagCount();
     }
 }

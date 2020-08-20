@@ -1,6 +1,5 @@
 package com.songpapeople.hashtagmap.instagram.service;
 
-import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddRequest;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
@@ -21,28 +20,22 @@ class InstagramCommandServiceTest {
     @Autowired
     private InstagramRepository instagramRepository;
 
-    @Autowired
-    private PlaceRepository placeRepository;
-
-    @DisplayName("블랙리스트 인스타그램을 대체어로 검색하여 update하는 기능 테스트")
+    @DisplayName("instagram update 테스트")
     @Test
     void updateByBlackList() {
-        Place place = Place.builder()
-                .placeName("place")
-                .kakaoId("100")
-                .build();
         Instagram origin = Instagram.builder()
                 .hashtagCount(100000L)
                 .hashtagName("origin")
-                .place(place)
                 .build();
-        placeRepository.save(place);
         instagramRepository.save(origin);
 
-        BlackListAddRequest blackListAddRequest = new BlackListAddRequest(place.getId(),"newName");
-        instagramCommandService.updateByBlackList(blackListAddRequest);
+        instagramCommandService.update(origin, "newName",1000L);
 
         Instagram updatedInstagram = instagramRepository.findById(origin.getId()).get();
-        assertThat(updatedInstagram.getHashtagName()).isEqualTo("newName");
+        assertAll(
+                ()->assertThat(updatedInstagram.getId()).isEqualTo(origin.getId()),
+                ()->assertThat(updatedInstagram.getHashtagName()).isEqualTo("newName"),
+                ()->assertThat(updatedInstagram.getHashtagCount()).isEqualTo(1000L)
+        );
     }
 }
