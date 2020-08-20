@@ -69,12 +69,8 @@ export default {
   methods: {
     ...mapMutations(["SET_DETAIL_MODAL_CLOSE"]),
     onClickPlaceName() {
-      let parsedPlaceName = this.getDetailModal.placeName.replace(/ /g, "");
-      if (parsedPlaceName.endsWith("점")) {
-        parsedPlaceName = parsedPlaceName.substr(0, parsedPlaceName.length - 1);
-      }
       return window.open(
-        `https://www.instagram.com/explore/tags/${parsedPlaceName}/?hl=ko`,
+        `https://www.instagram.com/explore/tags/${this.getDetailModal.hashtagName}/?hl=ko`,
       );
     },
     onClickModalDetail() {

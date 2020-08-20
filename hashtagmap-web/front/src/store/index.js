@@ -14,6 +14,7 @@ export default new Vuex.Store({
       placeName: "",
       placeUrl: "",
       hashtagCount: "",
+      hashtagName: "",
       posts: [],
     },
     places: [
@@ -109,6 +110,7 @@ export default new Vuex.Store({
         placeName: place.placeName,
         placeUrl: place.placeUrl,
         hashtagCount: place.hashtagCount,
+        hashtagName: place.hashtagName,
         posts: posts.data.data,
       };
       commit("SET_DETAIL_MODAL", detailModal);

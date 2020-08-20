@@ -14,6 +14,7 @@ public class MarkerResponse {
     private final String kakaoId;
     private final Long instagramId;
     private final Long hashtagCount;
+    private final String hashtagName;
     private final Integer tagLevel;
     private final String latitude;
     private final String longitude;
@@ -21,12 +22,13 @@ public class MarkerResponse {
 
     @Builder
     private MarkerResponse(String placeName, String placeUrl, String kakaoId, Long instagramId, Long hashtagCount,
-                           Integer tagLevel, String latitude, String longitude, String category) {
+                           String hashtagName, Integer tagLevel, String latitude, String longitude, String category) {
         this.placeName = placeName;
         this.placeUrl = placeUrl;
         this.kakaoId = kakaoId;
         this.instagramId = instagramId;
         this.hashtagCount = hashtagCount;
+        this.hashtagName = hashtagName;
         this.tagLevel = tagLevel;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -42,6 +44,7 @@ public class MarkerResponse {
                 .kakaoId(place.getKakaoId())
                 .instagramId(instagram.getId())
                 .hashtagCount(instagram.getHashtagCount())
+                .hashtagName(instagram.getHashtagName())
                 .tagLevel(new Random().nextInt(5) + 1)
                 .latitude(place.getLocation().getPoint().getLatitude())
                 .longitude(place.getLocation().getPoint().getLongitude())

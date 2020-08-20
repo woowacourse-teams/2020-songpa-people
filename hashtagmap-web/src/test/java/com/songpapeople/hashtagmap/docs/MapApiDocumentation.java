@@ -25,6 +25,8 @@ public class MapApiDocumentation extends ApiDocument {
                                 .description("The unique instagram id of the first data."),
                         fieldWithPath("data[0].hashtagCount").type(JsonFieldType.NUMBER)
                                 .description("The instagram hashtag count of the first data."),
+                        fieldWithPath("data[0].hashtagName").type(JsonFieldType.STRING)
+                                .description("The parsed place name that used to search Instagram."),
                         fieldWithPath("data[0].tagLevel").type(JsonFieldType.NUMBER)
                                 .description("The tag level of the first data."),
                         fieldWithPath("data[0].latitude").type(JsonFieldType.STRING)
