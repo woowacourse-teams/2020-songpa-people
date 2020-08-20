@@ -13,6 +13,7 @@
 <script>
 import { SNACK_BAR_TEMPLATE } from "../utils/constants";
 import { mapMutations } from "vuex";
+import { tagLevelApi } from "@/request/api/tag-level.js";
 
 export default {
   name: "TagLevel",
@@ -41,7 +42,7 @@ export default {
     ...mapMutations("snackbar", ["SHOW_SNACKBAR"]),
     async showTagLevel() {
       try {
-        const response = await this.axios.get("/tag-levels");
+        const response = await tagLevelApi.show();
         this.tagLevels = response.data.data;
         this.SHOW_SNACKBAR(SNACK_BAR_TEMPLATE.SUCCESS);
       } catch (e) {
@@ -50,7 +51,7 @@ export default {
     },
     async updateTagLevel() {
       try {
-        await this.axios.put("/tag-levels");
+        await tagLevelApi.update();
         this.SHOW_SNACKBAR(SNACK_BAR_TEMPLATE.SUCCESS);
       } catch (e) {
         this.SHOW_SNACKBAR(SNACK_BAR_TEMPLATE.ERROR(e));
