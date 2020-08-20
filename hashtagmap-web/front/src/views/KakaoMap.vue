@@ -21,7 +21,6 @@ export default {
     await this.setPlaces();
     this.setMapOverlays();
     this.showActiveOverlays();
-    this.$loadCurrentPosition();
   },
 
   computed: {
