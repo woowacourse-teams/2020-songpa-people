@@ -18,22 +18,33 @@ import java.util.List;
 @Profile("data")
 @Configuration
 @RequiredArgsConstructor
-public class ScheduleDataConfiguration implements ApplicationRunner {
+public class DefaultDataConfiguration implements ApplicationRunner {
 
+    private static final int TAG_LEVEL_SIZE = 5;
     private final ScheduleRepository scheduleRepository;
     private final TagLevelRepository tagLevelRepository;
 
     @Override
-    public void run(final ApplicationArguments args) throws Exception {
+    public void run(final ApplicationArguments args) {
+        initializeScheduler();
+        initializeTagLevel();
+    }
+
+    private void initializeScheduler() {
         Schedule schedule = scheduleRepository.findByName("KAKAO")
                 .orElseGet(() -> new Schedule("KAKAO", "auto", Flag.N));
         scheduleRepository.save(schedule);
+    }
 
+    private void initializeTagLevel() {
         List<TagLevel> tagLevels = tagLevelRepository.findAll();
-        if (tagLevels.isEmpty()) {
-            for (int i = 1; i <= 5; i++) {
+        if (tagLevels.size() != TAG_LEVEL_SIZE) {
+            tagLevelRepository.deleteAll();
+
+            for (int i = 0; i < TAG_LEVEL_SIZE; i++) {
                 tagLevels.add(new TagLevel());
             }
+
             tagLevelRepository.saveAll(tagLevels);
         }
     }

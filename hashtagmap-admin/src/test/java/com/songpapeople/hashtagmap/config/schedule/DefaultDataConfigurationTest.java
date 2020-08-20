@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
-class ScheduleDataConfigurationTest {
+class DefaultDataConfigurationTest {
 
     @Autowired
     private ScheduleRepository scheduleRepository;
@@ -31,7 +31,7 @@ class ScheduleDataConfigurationTest {
     @DisplayName("profile=data 환경 데이터 주입")
     @TestFactory
     Collection<DynamicTest> configTest() throws Exception {
-        ScheduleDataConfiguration configuration = new ScheduleDataConfiguration(scheduleRepository, tagLevelRepository);
+        DefaultDataConfiguration configuration = new DefaultDataConfiguration(scheduleRepository, tagLevelRepository);
         configuration.run(new DefaultApplicationArguments(""));
 
         return Arrays.asList(

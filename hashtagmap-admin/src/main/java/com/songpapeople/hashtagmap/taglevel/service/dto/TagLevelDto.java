@@ -7,9 +7,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class TagLevelDto {
-    Long tagLevel;
-    Long minHashtagCount;
-    Long maxHashtagCount;
+    private Long tagLevel;
+    private Long minHashtagCount;
+    private Long maxHashtagCount;
 
     public static TagLevelDto from(TagLevel tagLevel) {
         return new TagLevelDto(tagLevel.getId(), tagLevel.getMinHashtagCount(), tagLevel.getMaxHashtagCount());

@@ -6,9 +6,7 @@ import com.songpapeople.hashtagmap.taglevel.service.TagLevelQueryService;
 import com.songpapeople.hashtagmap.taglevel.service.dto.TagLevelDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,20 +32,6 @@ public class TagLevelApiController {
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<Void> update() {
         tagLevelCommandService.update();
-        return CustomResponse.empty();
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public CustomResponse<Void> create() {
-        tagLevelCommandService.create();
-        return CustomResponse.empty();
-    }
-
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public CustomResponse<Void> delete() {
-        tagLevelCommandService.delete();
         return CustomResponse.empty();
     }
 }

@@ -43,7 +43,7 @@ public class TagLevelFactory {
     private void validateHashtagCount(int hashtagCountSize, int tagLevelSize) {
         if (hashtagCountSize < tagLevelSize) {
             String detailErrorMessage = String.format("인스타그램 포스팅 개수(%s)가 태그레벨 개수(%s)보다 적어 갱신할 수 없습니다.", hashtagCountSize, tagLevelSize);
-            log.error("AdminException:" + detailErrorMessage);
+            log.info("AdminException:" + detailErrorMessage);
             throw new AdminException(AdminExceptionStatus.INVALID_TAG_LEVEL_UPDATE, detailErrorMessage);
         }
     }

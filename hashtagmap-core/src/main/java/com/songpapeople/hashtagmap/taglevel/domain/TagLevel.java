@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "TAG_LEVEL_ID"))
 public class TagLevel extends BaseEntity {
-    Long minHashtagCount;
-    Long maxHashtagCount;
-    // todo DB에 Table 생성
+    private Long minHashtagCount;
+    private Long maxHashtagCount;
 
     public TagLevel(Long id) {
         this.id = id;
@@ -36,7 +36,10 @@ public class TagLevel extends BaseEntity {
         this.maxHashtagCount = maxHashtagCount;
     }
 
-    public boolean contains(Long hashtagCount) {
+    public boolean isContains(Long hashtagCount) {
+        if (Objects.isNull(minHashtagCount) || Objects.isNull(maxHashtagCount)) {
+            return false;
+        }
         return hashtagCount >= minHashtagCount && hashtagCount <= maxHashtagCount;
     }
 }
