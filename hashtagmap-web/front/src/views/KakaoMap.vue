@@ -20,7 +20,7 @@ export default {
     this.SET_KAKAO_MAP(this.$loadMap());
     await this.setPlaces();
     this.setMapOverlays();
-    this.activeOverlays();
+    this.showActiveOverlays();
     this.$loadCurrentPosition();
   },
 
@@ -31,21 +31,22 @@ export default {
       "getPlaces",
       "getActiveTagLevels",
       "getActiveCategories",
+      "getMapOverlays",
     ]),
   },
 
   watch: {
     getActiveTagLevels() {
-      this.activeOverlays();
+      this.showActiveOverlays();
     },
     getActiveCategories() {
-      this.activeOverlays();
+      this.showActiveOverlays();
     },
   },
 
   methods: {
     ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP", "ADD_MAP_OVERLAYS"]),
-    ...mapActions(["setDetailModal", "setPlaces", "activeOverlays"]),
+    ...mapActions(["setDetailModal", "setPlaces"]),
     setMapOverlays() {
       this.getPlaces.map(place => {
         const marker = this.createMaker(place);
@@ -92,6 +93,28 @@ export default {
     onAddTextBalloonToMarker(marker, textBalloon) {
       this.getKakaoMapApi.event.addListener(marker, EVENT_TYPE.CLICK, () =>
         textBalloon.setMap(this.getKakaoMap),
+      );
+    },
+    showActiveOverlays() {
+      this.getMapOverlays.filter(mapOverlay => {
+        const tagLevelAndCategory = {
+          tagLevel: mapOverlay.place.tagLevel,
+          category: mapOverlay.place.category,
+        };
+        if (this.isActiveCategoryAndTagLevel(tagLevelAndCategory)) {
+          mapOverlay.marker.setMap(this.getKakaoMap);
+          mapOverlay.textBalloon.setMap(this.getKakaoMap);
+          mapOverlay.textBalloon.setZIndex(1);
+        } else {
+          mapOverlay.marker.setMap(null);
+          mapOverlay.textBalloon.setMap(null);
+        }
+      });
+    },
+    isActiveCategoryAndTagLevel(tagLevelAndCategory) {
+      return (
+        this.getActiveTagLevels.includes(tagLevelAndCategory.tagLevel) &&
+        this.getActiveCategories.includes(tagLevelAndCategory.category)
       );
     },
   },
