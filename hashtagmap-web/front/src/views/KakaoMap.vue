@@ -12,13 +12,12 @@
 <script>
 import CurrentLocationButton from "@/components/CurrentLocationButton";
 import TagLevelContainer from "@/components/tag-level/TagLevelContainer";
-import DetailModal from "@/components/DetailModal";
+import DetailModal from "@/components/detail-modal/DetailModal";
 
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import { EVENT_TYPE } from "@/utils/constants";
 import { textBalloonTemplate } from "@/utils/templates";
 import { getMarkerImage, SIZE } from "@/utils/markerImages";
-
 
 export default {
   name: "KakaoMap",

@@ -1,3 +1,15 @@
+/*
+
+All grid code is placed in a 'supports' rule (feature query) at the bottom of the CSS (Line 310).
+
+The 'supports' rule will only run if your browser supports CSS grid.
+
+Flexbox and floats are used as a fallback so that browsers which don't support grid will still recieve a similar layout.
+
+*/
+
+/* Base Styles */
+
 :root {
   font-size: 10px;
 }
@@ -71,8 +83,6 @@ img {
 
 .profile-image img {
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
 }
 
 .profile-user-settings,
@@ -92,8 +102,8 @@ img {
   font-weight: 300;
 }
 
-.profile-follow-btn {
-  font-size: 2rem;
+.profile-edit-btn {
+  font-size: 1.4rem;
   line-height: 1.8;
   border: 0.1rem solid #dbdbdb;
   border-radius: 0.3rem;
@@ -103,6 +113,11 @@ img {
   color: white;
   height: 40px;
   width: 100px;
+}
+
+.profile-settings-btn {
+  font-size: 2rem;
+  margin-left: 1rem;
 }
 
 .profile-stats {
@@ -130,9 +145,85 @@ img {
 
 .profile-real-name,
 .profile-stat-count,
-.profile-follow-btn {
+.profile-edit-btn {
   font-weight: 600;
 }
+
+/* Gallery Section */
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -1rem -1rem;
+  padding-bottom: 3rem;
+}
+
+.gallery-item {
+  position: relative;
+  flex: 1 0 22rem;
+  margin: 1rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+.gallery-item:hover .gallery-item-info,
+.gallery-item:focus .gallery-item-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.gallery-item-info {
+  display: none;
+}
+
+.gallery-item-info li {
+  display: inline-block;
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.gallery-item-likes {
+  margin-right: 2.2rem;
+}
+
+.gallery-item-type {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2.5rem;
+  text-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.1);
+}
+
+.fa-clone,
+.fa-comment {
+  transform: rotateY(180deg);
+}
+
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Loader */
+
+.loader {
+  width: 5rem;
+  height: 5rem;
+  border: 0.6rem solid #999;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  margin: 0 auto;
+  animation: loader 500ms linear infinite;
+}
+
+/* Media Query */
 
 @media screen and (max-width: 40rem) {
   .profile {
@@ -168,14 +259,14 @@ img {
     font-size: 2.2rem;
   }
 
-  .profile-follow-btn {
+  .profile-edit-btn {
     order: 1;
     padding: 0;
     text-align: center;
     margin-top: 1rem;
   }
 
-  .profile-follow-btn {
+  .profile-edit-btn {
     margin-left: 0;
   }
 
@@ -184,7 +275,7 @@ img {
     margin-top: 1.5rem;
   }
 
-  .profile-follow-btn,
+  .profile-edit-btn,
   .profile-bio,
   .profile-stats {
     flex-basis: 100%;
@@ -275,14 +366,14 @@ Remove or comment-out the code block below to see how the browser will fall-back
       grid-gap: 1rem;
     }
 
-    .profile-follow-btn,
+    .profile-edit-btn,
     .profile-stats,
     .profile-bio {
       grid-column: 1 / -1;
     }
 
     .profile-user-settings,
-    .profile-follow-btn,
+    .profile-edit-btn,
     .profile-settings-btn,
     .profile-bio,
     .profile-stats {
