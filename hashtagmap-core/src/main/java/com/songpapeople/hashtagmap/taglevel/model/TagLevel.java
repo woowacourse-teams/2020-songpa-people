@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.taglevel.domain;
+package com.songpapeople.hashtagmap.taglevel.model;
 
 import com.songpapeople.hashtagmap.config.entity.BaseEntity;
 import lombok.AccessLevel;

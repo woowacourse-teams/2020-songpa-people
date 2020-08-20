@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.taglevel.service;
 
-import com.songpapeople.hashtagmap.taglevel.domain.TagLevel;
+import com.songpapeople.hashtagmap.taglevel.model.TagLevel;
 import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
 import com.songpapeople.hashtagmap.taglevel.service.dto.TagLevelDto;
 import org.junit.jupiter.api.DisplayName;

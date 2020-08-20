@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.taglevel.domain;
+package com.songpapeople.hashtagmap.taglevel.model;
 
 import lombok.extern.slf4j.Slf4j;
 

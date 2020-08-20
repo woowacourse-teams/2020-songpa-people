@@ -2,7 +2,7 @@ package com.songpapeople.hashtagmap.taglevel.service;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
-import com.songpapeople.hashtagmap.taglevel.domain.TagLevel;
+import com.songpapeople.hashtagmap.taglevel.model.TagLevel;
 import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

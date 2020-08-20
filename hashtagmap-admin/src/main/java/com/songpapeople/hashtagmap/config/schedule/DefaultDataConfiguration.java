@@ -3,7 +3,7 @@ package com.songpapeople.hashtagmap.config.schedule;
 import com.songpapeople.hashtagmap.config.vo.Flag;
 import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
-import com.songpapeople.hashtagmap.taglevel.domain.TagLevel;
+import com.songpapeople.hashtagmap.taglevel.model.TagLevel;
 import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
 import lombok.Generated;
 import lombok.RequiredArgsConstructor;

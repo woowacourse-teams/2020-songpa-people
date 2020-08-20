@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.taglevel.domain;
+package com.songpapeople.hashtagmap.taglevel.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

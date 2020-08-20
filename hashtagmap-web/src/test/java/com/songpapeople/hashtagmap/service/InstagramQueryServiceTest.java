@@ -7,7 +7,7 @@ import com.songpapeople.hashtagmap.place.domain.model.Category;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
-import com.songpapeople.hashtagmap.taglevel.domain.TagLevel;
+import com.songpapeople.hashtagmap.taglevel.model.TagLevel;
 import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.taglevel.service.dto;
 
-import com.songpapeople.hashtagmap.taglevel.domain.TagLevel;
+import com.songpapeople.hashtagmap.taglevel.model.TagLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
