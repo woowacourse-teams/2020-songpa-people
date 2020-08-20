@@ -6,6 +6,16 @@
   min-width: 150px;
 }
 
+.close {
+  width: 18px;
+  height: 18px;
+  background-image: url("../close.png");
+  position: absolute;
+  top: -0.4rem;
+  right: 0.2rem;
+  opacity: 0.9;
+}
+
 .text-balloon-box::after {
   border-left: 11px solid transparent;
   border-top: 13px solid white;

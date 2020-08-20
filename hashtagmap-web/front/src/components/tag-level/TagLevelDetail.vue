@@ -29,6 +29,7 @@ export default {
   data: () => ({
     chevronDown: mdiChevronDown,
     chevronUp: mdiChevronUp,
+    toggle: false,
   }),
 
   methods: {

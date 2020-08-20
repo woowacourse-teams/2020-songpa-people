@@ -3,8 +3,6 @@ export const textBalloonTemplate = place => {
   $textBalloonElement.id = place.kakaoId;
   $textBalloonElement.className = "btn text-balloon-box";
 
-  let $container = document.createElement("div");
-
   let $textBalloonTitle = document.createElement("div");
   $textBalloonTitle.className = "text-balloon-title";
   $textBalloonTitle.textContent = place.placeName;
@@ -13,8 +11,11 @@ export const textBalloonTemplate = place => {
   $hashtagCount.className = "text-balloon-text";
   $hashtagCount.textContent = "#" + place.hashtagCount;
 
-  $textBalloonElement.appendChild($container);
-  $container.appendChild($textBalloonTitle);
-  $container.appendChild($hashtagCount);
+  let $close = document.createElement("div");
+  $close.className = "close";
+
+  $textBalloonElement.appendChild($close);
+  $textBalloonElement.appendChild($textBalloonTitle);
+  $textBalloonElement.appendChild($hashtagCount);
   return $textBalloonElement;
 };

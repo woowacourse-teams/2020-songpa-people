@@ -3,8 +3,7 @@
     <v-container class="container-design">
       <v-layout>
         <v-flex>
-          <PlaceSearchInput />
-          <PlaceCategories />
+          <PlaceSearchContainer />
           <TagLevelSelector />
           <TagLevelDetail />
         </v-flex>
@@ -14,15 +13,13 @@
 </template>
 
 <script>
-import PlaceSearchInput from "./PlaceSearchInput";
-import PlaceCategories from "./PlaceCategories";
+import PlaceSearchContainer from "@/components/place/PlaceSearchContainer";
 import TagLevelSelector from "./TagLevelSelector";
 import TagLevelDetail from "./TagLevelDetail";
 
 export default {
   components: {
-    PlaceSearchInput,
-    PlaceCategories,
+    PlaceSearchContainer,
     TagLevelSelector,
     TagLevelDetail,
   },
