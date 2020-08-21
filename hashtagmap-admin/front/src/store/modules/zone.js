@@ -63,6 +63,7 @@ export default {
         const response = await zoneApi.findAll();
         commit("CLEAR_ZONES");
         response.body.data.map(zone => commit("ADD_ZONE", zone));
+        return response;
       } catch (error) {
         return error;
       }

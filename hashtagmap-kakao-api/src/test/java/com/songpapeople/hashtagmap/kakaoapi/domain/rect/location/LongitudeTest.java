@@ -1,11 +1,14 @@
 package com.songpapeople.hashtagmap.kakaoapi.domain.rect.location;
 
+import com.songpapeople.hashtagmap.kakaoapi.exception.KakaoApiException;
+import com.songpapeople.hashtagmap.kakaoapi.exception.KakaoApiExceptionStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LongitudeTest {
     @DisplayName("정상 범위로 생성했을 때")
@@ -19,8 +22,8 @@ class LongitudeTest {
     @ParameterizedTest
     @ValueSource(doubles = {123.9, 132.001})
     public void invalidLongitudeConstructTest(double value) {
-        assertThatThrownBy(() -> new Longitude(value))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("경도 범위가 아닙니다.");
+        KakaoApiException exception = assertThrows(KakaoApiException.class,
+                () -> new Longitude(value));
+        assertEquals(exception.getErrorCode(), KakaoApiExceptionStatus.INVALID_LONGITUDE.getCode());
     }
 }

@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// Todo 순서 컨벤션 확인
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CustomResponse<T> {

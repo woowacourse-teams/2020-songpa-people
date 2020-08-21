@@ -7,11 +7,14 @@ import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -48,6 +51,27 @@ class InstagramRepositoryCustomImplTest {
         List<Instagram> instagrams = instagramRepository.findAllFetch();
 
         assertThat(instagrams.size()).isEqualTo(1);
+    }
+
+    @DisplayName("Hashtag 개수를 오름차순으로 정렬한다.")
+    @Test
+    void name() {
+        // given
+        List<Long> hashtagCounts = Arrays.asList(3L, 2L, 1L);
+
+        List<Instagram> instagrams = new ArrayList<>();
+        for (int i = 0; i < hashtagCounts.size(); i++) {
+            instagrams.add(Instagram.builder()
+                    .hashtagCount(hashtagCounts.get(i))
+                    .build());
+        }
+        instagramRepository.saveAll(instagrams);
+
+        // when
+        List<Long> actaul = instagramRepository.findAllHashtagCountByOrderAsc();
+
+        // then
+        Assertions.assertEquals(actaul, Arrays.asList(1L, 2L, 3L));
     }
 
     @AfterEach

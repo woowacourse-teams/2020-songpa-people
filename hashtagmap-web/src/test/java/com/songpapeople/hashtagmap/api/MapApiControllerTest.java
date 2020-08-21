@@ -35,7 +35,7 @@ public class MapApiControllerTest extends MapApiDocumentation {
     @BeforeEach
     void setUp() {
         this.markerResponses = Arrays.asList(
-                MarkerResponse.from(Instagram.builder()
+                MarkerResponse.of(Instagram.builder()
                         .place(Place.builder()
                                 .placeName("스타벅스")
                                 .placeUrl("http://starbuks.com")
@@ -46,7 +46,8 @@ public class MapApiControllerTest extends MapApiDocumentation {
                         .id(1L)
                         .hashtagCount(10000L)
                         .hashtagName("스타벅스")
-                        .build()
+                        .build(),
+                        1L
                 )
         );
     }

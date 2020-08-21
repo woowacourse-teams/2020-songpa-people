@@ -1,37 +1,17 @@
 <template>
   <v-app id="app">
     <v-navigation-drawer v-model="drawer" app clipped>
-      <v-list dense>
-        <v-list-item to="/">
+      <v-list>
+        <v-list-item
+          v-for="navigator in navigators"
+          :key="navigator.title"
+          :to="navigator.to"
+        >
           <v-list-item-action>
-            <v-icon>mdi-account-box</v-icon>
+            <v-icon> {{ navigator.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/kakao-scheduler">
-          <v-list-item-action>
-            <v-icon>mdi-chat</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>kakao scheduler</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/instagram-scheduler">
-          <v-list-item-action>
-            <v-icon>mdi-air-purifier</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>instagram scheduler</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/district-manage">
-          <v-list-item-action>
-            <v-icon>mdi-flag-variant</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>district manage</v-list-item-title>
+            <v-list-item-title> {{ navigator.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -65,10 +45,24 @@ export default {
   components: {
     Login
   },
-
   data: () => {
     return {
-      drawer: null
+      drawer: null,
+      navigators: [
+        { to: "/", title: "Home", icon: "mdi-account-box" },
+        { to: "/kakao-scheduler", title: "kakao scheduler", icon: "mdi-chat" },
+        {
+          to: "/instagram-scheduler",
+          title: "instagram scheduler",
+          icon: "mdi-air-purifier"
+        },
+        {
+          to: "/district-manage",
+          title: "district-manage",
+          icon: "mdi-flag-variant"
+        },
+        { to: "/tag-level", title: "Tag Level", icon: "mdi-air-purifier" }
+      ]
     };
   },
 

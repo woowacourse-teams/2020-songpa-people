@@ -1,5 +1,8 @@
 package com.songpapeople.hashtagmap.kakaoapi.domain.rect.location;
 
+import com.songpapeople.hashtagmap.kakaoapi.exception.KakaoApiException;
+import com.songpapeople.hashtagmap.kakaoapi.exception.KakaoApiExceptionStatus;
+
 import java.math.BigDecimal;
 
 // 위도, y
@@ -19,7 +22,8 @@ public class Latitude extends Coordinate {
         if (isBetween(latitude, MIN_LATITUDE, MAX_LATITUDE)) {
             return latitude;
         }
-        throw new IllegalArgumentException("위도 범위가 아닙니다.");
+        String detailMessage = String.format("잘못된 위도 범위(%s)입니다.", latitude);
+        throw new KakaoApiException(KakaoApiExceptionStatus.INVALID_LATITUDE, detailMessage);
     }
 
     @Override

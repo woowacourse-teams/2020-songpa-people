@@ -4,6 +4,7 @@ jar { enabled = true }
 apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 
 dependencies {
+    implementation project(path: ':hashtagmap-common', configuration: 'default')
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'com.querydsl:querydsl-jpa'
