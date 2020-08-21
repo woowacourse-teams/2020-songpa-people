@@ -23,6 +23,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,7 +64,7 @@ public class KakaoApiControllerTest extends KakaoApiDocumentation {
     void getStatusTest() throws Exception {
         when(kakaoScheduleQueryService.getKakaoScheduleActiveStatus()).thenReturn(true);
 
-        mockMvc.perform(get("/kakao/scheduler/status")
+        mockMvc.perform(get("/kakao/scheduler")
                 .param("name", SCHEDULER_NAME))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", Matchers.is(true)))
@@ -110,7 +111,7 @@ public class KakaoApiControllerTest extends KakaoApiDocumentation {
         KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(KAKAO);
         String content = new ObjectMapper().writeValueAsString(kakaoScheduleToggleDto);
 
-        mockMvc.perform(post("/kakao/scheduler/auto/toggle")
+        mockMvc.perform(patch("/kakao/scheduler/auto/toggle")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
         )
@@ -123,7 +124,7 @@ public class KakaoApiControllerTest extends KakaoApiDocumentation {
     void getKakaoAutoRunnable() throws Exception {
         when(kakaoScheduleQueryService.getKakaoScheduleAutoRunnable(anyString())).thenReturn(true);
 
-        mockMvc.perform(get("/kakao/scheduler/auto/status")
+        mockMvc.perform(get("/kakao/scheduler/auto")
                 .queryParam("name", KAKAO)
         )
                 .andExpect(status().isOk())

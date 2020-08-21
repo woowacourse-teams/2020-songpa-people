@@ -129,7 +129,7 @@ class KakaoScheduleIntegrationTest {
         return given()
                 .param("name", schedulerName)
                 .when()
-                .get("/kakao/scheduler/status")
+                .get("/kakao/scheduler")
                 .then()
                 .log().all()
                 .statusCode(expectStatus.value())

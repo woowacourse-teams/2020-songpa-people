@@ -1,4 +1,6 @@
 const path = require("path");
+const port = 3000;
+const proxyPort = 8080;
 
 module.exports = {
   outputDir: path.resolve("__dirname", "../../src/main/resources/static"),
@@ -11,12 +13,13 @@ module.exports = {
     }
   },
   devServer: {
+    port: port,
     proxy: {
-      '/': {
-        target: "http://localhost:9000",
+      "/": {
+        target: `http://localhost:${proxyPort}`,
         ws: true,
         changeOrigin: true
-      },
+      }
     }
-  },
+  }
 };

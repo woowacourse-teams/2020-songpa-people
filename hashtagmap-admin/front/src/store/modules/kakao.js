@@ -1,11 +1,15 @@
-import customAxios from "@/request";
-import { KAKAO, MESSAGE, SNACK_BAR_TYPE } from "@/utils/constants.js";
+import { KAKAO } from "@/utils/constants.js";
+import kakaoApi from "../../request/api/kakao";
 
 export default {
   namespaced: true,
 
   state: {
     kakaoScheduleActiveStatus: {
+      message: KAKAO.SCHEDULE.UNKNOWN_MESSAGE,
+      color: KAKAO.SCHEDULE.UNKNOWN_COLOR
+    },
+    kakaoSchedulerAutoRunnableStatus: {
       message: KAKAO.SCHEDULE.UNKNOWN_MESSAGE,
       color: KAKAO.SCHEDULE.UNKNOWN_COLOR
     },
@@ -22,6 +26,21 @@ export default {
     },
     getScheduleActiveStatus: state => {
       return state.kakaoScheduleActiveStatus;
+    },
+    getSchedulerAutoRunnableStatus: state => {
+      return state.kakaoSchedulerAutoRunnableStatus;
+    },
+    isScheduleRunning: state => {
+      return (
+        state.kakaoScheduleActiveStatus.message ===
+        KAKAO.SCHEDULE.ACTIVATE_MESSAGE
+      );
+    },
+    isScheduleAutoRunnable: state => {
+      return (
+        state.kakaoSchedulerAutoRunnableStatus.message ===
+        KAKAO.SCHEDULE.ACTIVATE_MESSAGE
+      );
     }
   },
 
@@ -29,6 +48,10 @@ export default {
     CHANGE_KAKAO_SCHEDULE_ACTIVE_STATUS: (state, { message, color }) => {
       state.kakaoScheduleActiveStatus.message = message;
       state.kakaoScheduleActiveStatus.color = color;
+    },
+    CHANGE_KAKAO_SCHEDULE_AUTO_RUNNABLE_STATUS: (state, { message, color }) => {
+      state.kakaoSchedulerAutoRunnableStatus.message = message;
+      state.kakaoSchedulerAutoRunnableStatus.color = color;
     },
     INPUT_EXPRESSION: (state, newExpression) => {
       state.expression = newExpression;
@@ -45,17 +68,20 @@ export default {
   },
 
   actions: {
-    toggleKakaoSchedule: async ({ dispatch }) => {
+    startKakaoScheduler: async ({ dispatch }) => {
       try {
-        const toggleDto = {
-          name: "KAKAO"
-        };
-
-        await customAxios().post("/kakao/scheduler/toggle", toggleDto, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
+        return await kakaoApi.startScheduler("KAKAO");
+      } catch (error) {
+        return error;
+      } finally {
+        await dispatch("fetchScheduleActiveStatus");
+      }
+    },
+    stopKakaoScheduler: async ({ dispatch }) => {
+      try {
+        return await kakaoApi.stopScheduler("KAKAO");
+      } catch (error) {
+        return error;
       } finally {
         await dispatch("fetchScheduleActiveStatus");
       }
@@ -67,12 +93,8 @@ export default {
       };
 
       try {
-        const response = await customAxios().get("/kakao/scheduler/status", {
-          params: {
-            name: KAKAO.SCHEDULE.NAME
-          }
-        });
-        const active = response.data.data;
+        const response = await kakaoApi.getSchedulerStatus();
+        const active = response.body.data;
         status.message = active
           ? KAKAO.SCHEDULE.ACTIVATE_MESSAGE
           : KAKAO.SCHEDULE.DEACTIVATE_MESSAGE;
@@ -83,60 +105,59 @@ export default {
         commit("CHANGE_KAKAO_SCHEDULE_ACTIVE_STATUS", status);
       }
     },
-    setPeriod: async ({ commit, state }) => {
-      const snackbarContents = {
-        type: SNACK_BAR_TYPE.SUCCESS,
-        message: MESSAGE.SUCCESS,
-        code: ""
-      };
-      const expression = state.expression;
-      if (!expression || expression.trim() === "") {
-        snackbarContents.type = SNACK_BAR_TYPE.INFO;
-        snackbarContents.message = MESSAGE.NO_INPUT;
-        return snackbarContents;
+    toggleKakaoSchedulerAutoRunnable: async ({ dispatch }) => {
+      try {
+        await kakaoApi.toggleSchedulerAutoRunnable(KAKAO.SCHEDULE.NAME);
+      } finally {
+        await dispatch("fetchScheduleAutoRunnable");
       }
+    },
+    fetchScheduleAutoRunnable: async ({ commit }) => {
+      const status = {
+        message: KAKAO.SCHEDULE.UNKNOWN_MESSAGE,
+        color: KAKAO.SCHEDULE.UNKNOWN_COLOR
+      };
 
       try {
-        await customAxios().put("/kakao/scheduler/period", expression, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-      } catch (error) {
-        snackbarContents.type = SNACK_BAR_TYPE.ERROR;
-        snackbarContents.message = error.response.data.message;
-        snackbarContents.code = error.response.data.code;
+        const response = await kakaoApi.getSchedulerAutoRunnableStatus(
+          KAKAO.SCHEDULE.NAME
+        );
+        const active = response.body.data;
+        status.message = active
+          ? KAKAO.SCHEDULE.ACTIVATE_MESSAGE
+          : KAKAO.SCHEDULE.DEACTIVATE_MESSAGE;
+        status.color = active
+          ? KAKAO.SCHEDULE.ACTIVATE_COLOR
+          : KAKAO.SCHEDULE.DEACTIVATE_COLOR;
+      } finally {
+        commit("CHANGE_KAKAO_SCHEDULE_AUTO_RUNNABLE_STATUS", status);
       }
-      commit("CLEAR_EXPRESSION");
-      return snackbarContents;
+    },
+    setPeriod: async ({ commit, state }) => {
+      const expression = state.expression;
+      try {
+        const response = await kakaoApi.changePeriodPeriod(expression);
+        commit("CLEAR_EXPRESSION");
+        return response;
+      } catch (error) {
+        return error;
+      }
     },
     findPeriodHistory: async ({ commit }) => {
-      const snackbarContents = {
-        type: SNACK_BAR_TYPE.INFO,
-        message: MESSAGE.NO_CONTENT,
-        code: ""
-      };
       try {
+        const response = await kakaoApi.getPeriodHistory();
         commit("CLEAR_PERIOD_HISTORY");
-        const response = await customAxios().get("/kakao/scheduler/period");
-        if (response.data.data.length === 0) {
-          return snackbarContents;
-        }
-        response.data.data.map(period =>
+        response.body.data.map(period =>
           commit("ADD_PERIOD_HISTORY", {
             changedDate: period.changedDate,
             expression: period.expression,
             member: period.member
           })
         );
-        snackbarContents.type = SNACK_BAR_TYPE.SUCCESS;
-        snackbarContents.message = MESSAGE.SUCCESS;
+        return response;
       } catch (error) {
-        snackbarContents.type = SNACK_BAR_TYPE.ERROR;
-        snackbarContents.message = error.response.data.message;
-        snackbarContents.code = error.response.data.code;
+        return error;
       }
-      return snackbarContents;
     }
   }
 };
