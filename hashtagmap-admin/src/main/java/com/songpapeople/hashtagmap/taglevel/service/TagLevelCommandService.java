@@ -2,7 +2,6 @@ package com.songpapeople.hashtagmap.taglevel.service;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.HashtagCounts;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
-import com.songpapeople.hashtagmap.taglevel.model.HashtagCountsDivider;
 import com.songpapeople.hashtagmap.taglevel.model.TagLevels;
 import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +20,6 @@ public class TagLevelCommandService {
     public void update() {
         TagLevels tagLevels = new TagLevels(tagLevelRepository.findAll());
         HashtagCounts hashtagCounts = new HashtagCounts(instagramRepository.findAllHashtagCountByOrderAsc());
-        HashtagCountsDivider hashtagCountsDivider = new HashtagCountsDivider(tagLevels, hashtagCounts);
-
-        for (int index = 0; index < tagLevels.getSize(); index++) {
-            Long minHashtagCount = hashtagCountsDivider.getMinHashtagCountByTagLevel(index);
-            Long maxHashtagCount = hashtagCountsDivider.getMaxHashtagCountByTagLevel(index);
-            tagLevels.update(index, minHashtagCount, maxHashtagCount);
-        }
+        tagLevels.update(hashtagCounts);
     }
 }

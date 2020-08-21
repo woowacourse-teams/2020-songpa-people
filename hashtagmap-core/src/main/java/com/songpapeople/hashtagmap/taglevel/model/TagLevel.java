@@ -1,6 +1,8 @@
 package com.songpapeople.hashtagmap.taglevel.model;
 
 import com.songpapeople.hashtagmap.config.entity.BaseEntity;
+import com.songpapeople.hashtagmap.exception.CoreException;
+import com.songpapeople.hashtagmap.exception.CoreExceptionStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,17 +25,24 @@ public class TagLevel extends BaseEntity {
     }
 
     public TagLevel(Long id, Long minHashtagCount, Long maxHashtagCount) {
+        validateHashtagCount(minHashtagCount, maxHashtagCount);
         this.id = id;
         this.minHashtagCount = minHashtagCount;
         this.maxHashtagCount = maxHashtagCount;
     }
 
-    public void updateMinHashtagCount(Long minHashtagCount) {
+    public void update(Long minHashtagCount, Long maxHashtagCount) {
+        validateHashtagCount(minHashtagCount, maxHashtagCount);
         this.minHashtagCount = minHashtagCount;
+        this.maxHashtagCount = maxHashtagCount;
     }
 
-    public void updateMaxHashtagCount(Long maxHashtagCount) {
-        this.maxHashtagCount = maxHashtagCount;
+    private void validateHashtagCount(Long minHashtagCount, Long maxHashtagCount) {
+        if (minHashtagCount > maxHashtagCount) {
+            String detailMessgae = String.format("최소 해시태그 개수(%s)는 최대 해시태그 개수(%s)보다 많을 수 없습니다.",
+                    minHashtagCount, maxHashtagCount);
+            throw new CoreException(CoreExceptionStatus.INVALID_TAG_LEVEL, detailMessgae);
+        }
     }
 
     public boolean isContains(Long hashtagCount) {

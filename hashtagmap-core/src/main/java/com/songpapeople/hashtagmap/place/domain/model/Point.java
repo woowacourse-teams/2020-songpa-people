@@ -1,5 +1,7 @@
 package com.songpapeople.hashtagmap.place.domain.model;
 
+import com.songpapeople.hashtagmap.exception.CoreException;
+import com.songpapeople.hashtagmap.exception.CoreExceptionStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Generated;
@@ -30,14 +32,24 @@ public class Point {
         validate(this.latitude, this.longitude);
     }
 
-    private void validate(final String latitude, final String longitude) {
+    private void validate(String latitude, String longitude) {
+        validateLatitude(latitude);
+        validateLongitude(longitude);
+    }
+
+    private void validateLatitude(String latitude) {
         BigDecimal convertedLatitude = BigDecimal.valueOf(Double.parseDouble(latitude));
-        BigDecimal convertedLongitude = BigDecimal.valueOf(Double.parseDouble(longitude));
         if (isNotBetween(MIN_LATITUDE, convertedLatitude, MAX_LATITUDE)) {
-            throw new IllegalArgumentException(String.format("잘못된 latitude 값 %s", convertedLatitude));
+            String detailMessage = String.format("잘못된 위도 범위(%s)입니다.", convertedLatitude);
+            throw new CoreException(CoreExceptionStatus.INVALID_LATITUDE, detailMessage);
         }
+    }
+
+    private void validateLongitude(String longitude) {
+        BigDecimal convertedLongitude = BigDecimal.valueOf(Double.parseDouble(longitude));
         if (isNotBetween(MIN_LONGITUDE, convertedLongitude, MAX_LONGITUDE)) {
-            throw new IllegalArgumentException(String.format("잘못된 longitude 값 %s", convertedLatitude));
+            String detailMessage = String.format("잘못된 경도 범위(%s)입니다.", convertedLongitude);
+            throw new CoreException(CoreExceptionStatus.INVALID_LONGITUDE, detailMessage);
         }
     }
 
