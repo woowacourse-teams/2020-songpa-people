@@ -42,7 +42,6 @@
                 <v-text-field
                   outlined
                   dense
-                  :rules="replaceNameRule"
                   v-model="addBlackListData.replaceName"
                   label="바꿀 이름"
                 >
@@ -90,6 +89,7 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 import CustomSnackBar from "@/components/CustomSnackBar";
 import { isOk } from "@/request";
 import { convert } from "@/utils/responseConverter";
+import { WEB_PAGE } from "@/utils/constants";
 
 export default {
   components: {
@@ -116,8 +116,7 @@ export default {
       deleteBlackListData: {
         placeId: ""
       },
-      addBlackListResult: "블랙리스크 등록 결과",
-      replaceNameRule: [v => !!v || "바꿀 이름을 입력하세요"]
+      addBlackListResult: "저장된 대체검새어 인스타 정보",
     };
   },
 
@@ -129,17 +128,16 @@ export default {
     ]),
     ...mapMutations("snackbar", ["SHOW_SNACKBAR"]),
     openKakao() {
-      window.open("https://map.kakao.com/", "_blank");
+      window.open(WEB_PAGE.KAKAO, "_blank");
     },
     openInstagram() {
-      window.open("https://www.instagram.com/", "_blank");
+      window.open(WEB_PAGE.INSTAGRAM, "_blank");
     },
     async registerBlackList() {
       if (confirm(`${this.addBlackListData.replaceName}(으)로 등록합니까?`)) {
         const res = await this.addBlackList(this.addBlackListData);
         if (isOk(res)) {
           this.addBlackListResult = res.body.data;
-          return;
         }
         const snackbarContents = convert.toSnackBarContent(res);
         this.SHOW_SNACKBAR(snackbarContents);

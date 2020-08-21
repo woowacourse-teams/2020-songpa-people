@@ -64,6 +64,11 @@ export const SNACK_BAR_TEMPLATE = {
   }
 };
 
+export const WEB_PAGE = {
+  KAKAO: "https://map.kakao.com/",
+  INSTAGRAM: "https://www.instagram.com/"
+};
+
 export const CONST = {
   ADMIN_LOGIN_KEY: "hashtagmapAdminLogin"
 };
