@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Component
 public class InstagramScheduler {
+    private final InstagramScheduleService instagramScheduleService;
+    private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostRepository;
     private final PlaceRepository placeRepository;
-    private final InstagramRepository instagramRepository;
-    private final InstagramScheduleService instagramScheduleService;
 
     public void update() {
         List<Place> places = placeRepository.findAll();

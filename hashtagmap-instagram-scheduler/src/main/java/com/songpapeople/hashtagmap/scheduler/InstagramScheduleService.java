@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 @Service
 public class InstagramScheduleService {
     private static final int START_TRY_COUNT = 0;
+
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostsRepository;
-    private final PlaceRepository placeRepository;
     private final InstagramCrawler instagramCrawler;
 
     public Optional<CrawlingResult> createCrawlingResult(Place place) {
@@ -67,16 +67,7 @@ public class InstagramScheduleService {
     }
 
     @Transactional
-    public void deleteAllInstagramPosts() {
-        instagramPostsRepository.deleteAll();
-    }
-
-    @Transactional
     public Instagram saveInstagram(Instagram instagram) {
         return instagramRepository.save(instagram);
-    }
-
-    public List<Place> findAllPlace() {
-        return placeRepository.findAll();
     }
 }

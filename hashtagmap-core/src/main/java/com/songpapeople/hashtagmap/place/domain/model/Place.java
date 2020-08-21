@@ -3,6 +3,7 @@ package com.songpapeople.hashtagmap.place.domain.model;
 import com.songpapeople.hashtagmap.config.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -45,5 +48,24 @@ public class Place extends BaseEntity {
 
     public String getRoadAddressName() {
         return location.getRoadAddressName();
+    }
+
+    @Generated
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Place place = (Place) o;
+        return Objects.equals(getKakaoId(), place.getKakaoId()) &&
+                getCategory() == place.getCategory() &&
+                Objects.equals(getLocation(), place.getLocation()) &&
+                Objects.equals(getPlaceName(), place.getPlaceName()) &&
+                Objects.equals(getPlaceUrl(), place.getPlaceUrl());
+    }
+
+    @Generated
+    @Override
+    public int hashCode() {
+        return Objects.hash(getKakaoId(), getCategory(), getLocation(), getPlaceName(), getPlaceUrl());
     }
 }
