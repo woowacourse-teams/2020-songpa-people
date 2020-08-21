@@ -92,3 +92,16 @@ configure(asciidoctorConfigure) {
         }
     }
 }
+
+def logbackSlack = [project(':hashtagmap-web'), project(':hashtagmap-admin')]
+configure(logbackSlack) {
+
+    ext {
+        set("logbackSlackAppenderVersion", "1.4.0")
+    }
+
+    dependencies {
+        implementation "com.github.maricn:logback-slack-appender:${logbackSlackAppenderVersion}"
+    }
+
+}
