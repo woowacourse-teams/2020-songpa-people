@@ -7,7 +7,6 @@ import com.songpapeople.hashtagmap.exception.AdminExceptionStatus;
 import com.songpapeople.hashtagmap.exception.CommonExceptionStatus;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleCommandService;
 import com.songpapeople.hashtagmap.kakao.service.KakaoScheduleQueryService;
-import com.songpapeople.hashtagmap.kakao.service.dto.KakaoScheduleToggleDto;
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
@@ -27,8 +26,9 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,7 +37,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class KakaoSchedulerApiControllerExceptionTest {
     private static final String BASE_URI = "/kakao/scheduler";
-    private static final String KAKAO = "KAKAO";
     private static final String LOG = "LOG";
 
     private MockMvc mockMvc;
@@ -61,16 +60,10 @@ class KakaoSchedulerApiControllerExceptionTest {
     @DisplayName("스케쥴러를 실행할 때 찾고자 하는 스케쥴러가 없는 경우 Exception")
     @Test
     void startCronNotFound() throws Exception {
-        doThrow(new AdminException(AdminExceptionStatus.NOT_FOUND_SCHEDULER, LOG)).when(kakaoScheduleCommandService).startSchedule(KAKAO);
+        doThrow(new AdminException(AdminExceptionStatus.NOT_FOUND_SCHEDULER, LOG)).when(kakaoScheduleCommandService).startSchedule();
 
-        KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(KAKAO);
-        String contents = objectMapper.writeValueAsString(kakaoScheduleToggleDto);
         //given
-        MvcResult mvcResult = this.mockMvc.perform(
-                post(BASE_URI + "/start")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(contents)
-        )
+        MvcResult mvcResult = this.mockMvc.perform(post(BASE_URI + "/start"))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
@@ -88,16 +81,10 @@ class KakaoSchedulerApiControllerExceptionTest {
     @DisplayName("스케쥴러가 이미 실행중일때 Exception")
     @Test
     void startCron() throws Exception {
-        doThrow(new KakaoSchedulerException(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING, LOG)).when(kakaoScheduleCommandService).startSchedule(KAKAO);
+        doThrow(new KakaoSchedulerException(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING, LOG)).when(kakaoScheduleCommandService).startSchedule();
 
-        KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(KAKAO);
-        String contents = objectMapper.writeValueAsString(kakaoScheduleToggleDto);
         //given
-        MvcResult mvcResult = this.mockMvc.perform(
-                post(BASE_URI + "/start")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(contents)
-        )
+        MvcResult mvcResult = this.mockMvc.perform(post(BASE_URI + "/start"))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
@@ -112,50 +99,26 @@ class KakaoSchedulerApiControllerExceptionTest {
         assertThat(customResponse.getMessage()).isEqualTo(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING.getMessage());
     }
 
-    @DisplayName("상태를 알고 싶은 스케쥴러가 없는 경우 Exception")
+    @DisplayName("request body가 exception 발생한 경우 exception 발생")
     @Test
-    void getActiveStatusNotFound() throws Exception {
-        doThrow(new AdminException(AdminExceptionStatus.NOT_FOUND_SCHEDULER, LOG)).when(kakaoScheduleQueryService).getKakaoScheduleActiveStatus(KAKAO);
-
+    void requestBodyValidException() throws Exception {
         //given
-        MvcResult mvcResult = this.mockMvc.perform(
-                get(BASE_URI + "/status")
-                        .queryParam("name", KAKAO)
-        )
+        doNothing().when(kakaoScheduleCommandService).toggleScheduleAutoRunnable(anyString());
+        String emptyBody = "{}";
+
+        //when
+        MvcResult mvcResult = mockMvc.perform(post(BASE_URI + "/auto/toggle")
+                .content(emptyBody)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        //when
         String contentAsString = mvcResult.getResponse().getContentAsString();
         CustomResponse<Void> customResponse = objectMapper.readValue(contentAsString, new TypeReference<CustomResponse<Void>>() {
         });
 
         //then
-        assertThat(customResponse.getCode()).isEqualTo(AdminExceptionStatus.NOT_FOUND_SCHEDULER.getCode());
-        assertThat(customResponse.getMessage()).isEqualTo(AdminExceptionStatus.NOT_FOUND_SCHEDULER.getMessage());
-    }
-
-    @DisplayName("스케쥴러 실행을 위해 전달받은 dto의 값이 비어있는 경우 Exception")
-    @Test
-    void bindException() throws Exception {
-        KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto("");
-        String contents = objectMapper.writeValueAsString(kakaoScheduleToggleDto);
-
-        MvcResult mvcResult = this.mockMvc.perform(
-                post(BASE_URI + "/start")
-                        .content(contents)
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andReturn();
-
-        String contentAsString = mvcResult.getResponse().getContentAsString();
-        CustomResponse<Void> customResponse = objectMapper.readValue(contentAsString, new TypeReference<CustomResponse<Void>>() {
-        });
-
         assertThat(customResponse.getCode()).isEqualTo(CommonExceptionStatus.WRONG_ARGUMENT.getCode());
-        assertThat(customResponse.getMessage()).isEqualTo(CommonExceptionStatus.WRONG_ARGUMENT.getMessage());
     }
 }

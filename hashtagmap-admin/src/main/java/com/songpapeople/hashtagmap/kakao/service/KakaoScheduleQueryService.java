@@ -20,13 +20,16 @@ public class KakaoScheduleQueryService {
     private final PeriodHistoryRepository historyRepository;
     private final KakaoScheduler kakaoScheduler;
 
-    public boolean getKakaoScheduleActiveStatus(String name) {
+    public boolean getKakaoScheduleActiveStatus() {
+        return kakaoScheduler.isActive();
+    }
+
+    public boolean getKakaoScheduleAutoRunnable(String name) {
         Schedule schedule = scheduleRepository.findByName(name)
                 .orElseThrow(() -> new AdminException(
                         AdminExceptionStatus.NOT_FOUND_SCHEDULER,
                         String.format("%s : 스케쥴러가 존재하지 않습니다.", name)
                 ));
-        kakaoScheduler.syncSchedule(schedule);
         return schedule.isActive();
     }
 

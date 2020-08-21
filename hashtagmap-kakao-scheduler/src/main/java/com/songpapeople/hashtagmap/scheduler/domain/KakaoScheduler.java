@@ -1,6 +1,5 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
-import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -73,17 +72,6 @@ public class KakaoScheduler {
         this.scheduledFuture.cancel(true);
         log.info("KakaoScheduler stopped at : " + LocalDateTime.now());
         return this.scheduledFuture.isCancelled();
-    }
-
-    public void syncSchedule(Schedule schedule) {
-        if (schedule.isActive() && this.isNotActive()) {
-            log.info("Force Sync Schedule to Stop");
-            schedule.toggle();
-        }
-        if (schedule.isNotActive() && this.isActive()) {
-            log.info("Force Sync Schedule to Start");
-            schedule.toggle();
-        }
     }
 
 }

@@ -14,14 +14,10 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 
 public class KakaoApiDocumentation extends ApiDocument {
-    protected RestDocumentationResultHandler getDocumentByToggle(String command) {
+    protected RestDocumentationResultHandler getDocumentByStartAndStop(String command) {
         return document("kakao/scheduler/" + command,
                 getDocumentRequest(),
-                getDocumentResponse(),
-                requestFields(
-                        fieldWithPath("name").type(JsonFieldType.STRING)
-                                .description("스케줄러의 이름")
-                )
+                getDocumentResponse()
         );
     }
 
@@ -56,6 +52,36 @@ public class KakaoApiDocumentation extends ApiDocument {
                         fieldWithPath("data[0].expression").type(JsonFieldType.STRING).description("변경된 주기 (cron)"),
                         fieldWithPath("data[0].member").type(JsonFieldType.STRING).description("수정한 사람"),
                         fieldWithPath("data[0].changedDate").type(JsonFieldType.STRING).description("수정한 날짜"),
+                        fieldWithPath("code").type(JsonFieldType.NULL).description("에러 코드"),
+                        fieldWithPath("message").type(JsonFieldType.NULL).description("에러 메세지")
+                )
+        );
+    }
+
+    protected RestDocumentationResultHandler getDocumentByChangeAutoRunnable() {
+        return document("kakao/scheduler/auto/toggle",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                requestFields(
+                        fieldWithPath("name").type(JsonFieldType.STRING).description("카카오 스케쥴 이름")
+                ),
+                responseFields(
+                        fieldWithPath("data").type(JsonFieldType.NULL).description("반환 값"),
+                        fieldWithPath("code").type(JsonFieldType.NULL).description("에러 코드"),
+                        fieldWithPath("message").type(JsonFieldType.NULL).description("에러 메세지")
+                )
+        );
+    }
+
+    protected RestDocumentationResultHandler getDocumentByGetAutoRunnable() {
+        return document("kakao/scheduler/auto/status",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                requestParameters(
+                        parameterWithName("name").description("카카오 스케쥴 이름")
+                ),
+                responseFields(
+                        fieldWithPath("data").type(JsonFieldType.BOOLEAN).description("자동실행 상태 값"),
                         fieldWithPath("code").type(JsonFieldType.NULL).description("에러 코드"),
                         fieldWithPath("message").type(JsonFieldType.NULL).description("에러 메세지")
                 )

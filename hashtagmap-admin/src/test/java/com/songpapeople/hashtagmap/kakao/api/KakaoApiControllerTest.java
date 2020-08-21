@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
@@ -28,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = KakaoSchedulerApiController.class)
 public class KakaoApiControllerTest extends KakaoApiDocumentation {
     private static final String SCHEDULER_NAME = "KAKAO";
+    private static final String KAKAO = "KAKAO";
 
     @MockBean
     private KakaoScheduleCommandService kakaoScheduleCommandService;
@@ -38,38 +40,28 @@ public class KakaoApiControllerTest extends KakaoApiDocumentation {
     @DisplayName("Kakao Scheduler를 실행한다.")
     @Test
     void startTest() throws Exception {
-        doNothing().when(kakaoScheduleCommandService).startSchedule(anyString());
+        doNothing().when(kakaoScheduleCommandService).startSchedule();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestDto = objectMapper.writeValueAsString(new KakaoScheduleToggleDto(SCHEDULER_NAME));
-
-        mockMvc.perform(post("/kakao/scheduler/start")
-                .content(requestDto)
-                .header("Content-Type", "application/json"))
+        mockMvc.perform(post("/kakao/scheduler/start"))
                 .andExpect(status().isOk())
-                .andDo(getDocumentByToggle("start"));
+                .andDo(getDocumentByStartAndStop("start"));
     }
 
     @DisplayName("Kakao Scheduler를 정지한다.")
     @Test
     void stopTest() throws Exception {
-        doNothing().when(kakaoScheduleCommandService).stopSchedule(anyString());
+        doNothing().when(kakaoScheduleCommandService).stopSchedule();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestDto = objectMapper.writeValueAsString(new KakaoScheduleToggleDto(SCHEDULER_NAME));
-
-        mockMvc.perform(post("/kakao/scheduler/stop")
-                .content(requestDto)
-                .header("Content-Type", "application/json"))
+        mockMvc.perform(post("/kakao/scheduler/stop"))
                 .andExpect(status().isOk())
-                .andDo(getDocumentByToggle("stop"));
+                .andDo(getDocumentByStartAndStop("stop"));
     }
 
 
     @DisplayName("Kakao Scheduler 상태 조회")
     @Test
     void getStatusTest() throws Exception {
-        when(kakaoScheduleQueryService.getKakaoScheduleActiveStatus(anyString())).thenReturn(true);
+        when(kakaoScheduleQueryService.getKakaoScheduleActiveStatus()).thenReturn(true);
 
         mockMvc.perform(get("/kakao/scheduler/status")
                 .param("name", SCHEDULER_NAME))
@@ -108,5 +100,33 @@ public class KakaoApiControllerTest extends KakaoApiDocumentation {
                 .andExpect(jsonPath("$.data[0].member", Matchers.instanceOf(String.class)))
                 .andExpect(jsonPath("$.data[0].changedDate", Matchers.instanceOf(String.class)))
                 .andDo(getDocumentByShowPeriodHistory());
+    }
+
+    @DisplayName("Kakao Scheduler 자동 실행 상태 변경")
+    @Test
+    void toggleAutoRunnable() throws Exception {
+        doNothing().when(kakaoScheduleCommandService).toggleScheduleAutoRunnable(KAKAO);
+
+        KakaoScheduleToggleDto kakaoScheduleToggleDto = new KakaoScheduleToggleDto(KAKAO);
+        String content = new ObjectMapper().writeValueAsString(kakaoScheduleToggleDto);
+
+        mockMvc.perform(post("/kakao/scheduler/auto/toggle")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content)
+        )
+                .andExpect(status().isOk())
+                .andDo(getDocumentByChangeAutoRunnable());
+    }
+
+    @DisplayName("Kakao Scheduler 자동 실행 상태 조회")
+    @Test
+    void getKakaoAutoRunnable() throws Exception {
+        when(kakaoScheduleQueryService.getKakaoScheduleAutoRunnable(anyString())).thenReturn(true);
+
+        mockMvc.perform(get("/kakao/scheduler/auto/status")
+                .queryParam("name", KAKAO)
+        )
+                .andExpect(status().isOk())
+                .andDo(getDocumentByGetAutoRunnable());
     }
 }

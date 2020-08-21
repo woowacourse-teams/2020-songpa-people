@@ -39,7 +39,7 @@ public class AdminExceptionControllerAdvice {
 
     @ExceptionHandler(InstagramSchedulerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public CustomResponse<Void> methodArgumentNotValidException(InstagramSchedulerException e) {
+    public CustomResponse<Void> handleInstagramSchedulerException(InstagramSchedulerException e) {
         log.info("InstagramScheduler Exception : {}", e.getMessage());
         return CustomResponse.error(e.getErrorCode(), e.getMessage());
     }

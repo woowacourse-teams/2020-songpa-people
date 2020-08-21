@@ -1,7 +1,5 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
-import com.songpapeople.hashtagmap.config.vo.Flag;
-import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -132,35 +130,4 @@ public class KakaoSchedulerTest {
         kakaoScheduler.end();
     }
 
-    @DisplayName("카카오 스케쥴러는 실제로 멈춰있는데 DB에는 실행중이라고 되어있다면 멈춤상태로 변경하기")
-    @Test
-    public void syncSchedulerToStop() {
-        //given
-        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
-        }, new CronPeriod("* * * * * ?"));
-        Schedule schedule = new Schedule("KAKAO", "", Flag.Y);
-
-        //when
-        kakaoScheduler.syncSchedule(schedule);
-
-        //then
-        assertThat(schedule.isActive()).isFalse();
-    }
-
-    @DisplayName("카카오 스케쥴러는 실제로 실행중인데 DB에는 정지라고 되어있다면 시작상태로 변경하기")
-    @Test
-    public void syncSchedulerToStart() {
-        //given
-        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
-        }, new CronPeriod("* * * * * ?"));
-        Schedule schedule = new Schedule("KAKAO", "", Flag.N);
-        kakaoScheduler.start();
-
-        //when
-        kakaoScheduler.syncSchedule(schedule);
-
-        //then
-        assertThat(schedule.isActive()).isTrue();
-        kakaoScheduler.stop();
-    }
 }

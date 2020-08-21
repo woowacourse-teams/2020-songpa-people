@@ -27,15 +27,25 @@ operation::instagram/scheduler/update[snippets='http-request,http-response']
 == Kakao
 
 [[resources-kakao-scheduler-toggle]]
-=== scheduler toggle (ON/OFF)
+=== scheduler - ON/OFF
 
-operation::kakao/scheduler/start[snippets='http-request,request-fields,http-response']
-operation::kakao/scheduler/stop[snippets='http-request,request-fields,http-response']
+operation::kakao/scheduler/start[snippets='http-request,http-response']
+operation::kakao/scheduler/stop[snippets='http-request,http-response']
 
 [[resources-kakao-scheduler-status]]
 === scheduler 상태 조회
 
 operation::kakao/scheduler/status[snippets='http-request,request-parameters,http-response,response-fields']
+
+[[resources-kakao-scheduler-auto-runnable-toggle]]
+=== scheduler 자동 실행 - ON/OFF
+
+operation::kakao/scheduler/auto/toggle[snippets='http-request,request-fields,http-response']
+
+[[resources-kakao-scheduler-auto-runnable-status]]
+=== scheduler 자동 실행 상태 조회
+
+operation::kakao/scheduler/auto/status[snippets='http-request,request-parameters,http-response']
 
 [[resources-kakao-scheduler-period-put]]
 === scheduler 주기 변경
