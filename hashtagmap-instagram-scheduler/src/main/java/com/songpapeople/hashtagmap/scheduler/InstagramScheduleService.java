@@ -3,6 +3,9 @@ package com.songpapeople.hashtagmap.scheduler;
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
+import com.songpapeople.hashtagmap.exception.CrawlerException;
+import com.songpapeople.hashtagmap.exception.InstagramSchedulerException;
+import com.songpapeople.hashtagmap.exception.InstagramSchedulerExceptionStatus;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
@@ -37,37 +40,23 @@ public class InstagramScheduleService {
     @Transactional
     public Instagram updateBlackLists(String replaceName, Instagram instagramToUpdate) {
         CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
-        Instagram instagram = updateBlackListInstagram(replaceName, instagramToUpdate, crawlingDto);
-        updateBlackListInstagramPost(instagramToUpdate, crawlingDto);
+        instagramToUpdate.setHashtagName(replaceName);
+        instagramToUpdate.setHashtagCount(crawlingDto.getHashtagCount());
+        Instagram instagram = instagramRepository.save(instagramToUpdate);
+        updateBlackListInstagramPost(instagram, crawlingDto);
         return instagram;
     }
 
-    public Instagram updateBlackListInstagram(String replaceName, Instagram instagramToUpdate, CrawlingDto crawlingDto) {
-        instagramToUpdate.setHashtagName(replaceName);
-        instagramToUpdate.setHashtagCount(crawlingDto.getHashtagCount());
-        return saveInstagram(instagramToUpdate);
-    }
-
-    public void updateBlackListInstagramPost(Instagram instagramToUpdate, CrawlingDto crawlingDto) {
-        instagramPostsRepository.deleteByInstagramId(instagramToUpdate.getId());
+    public void updateBlackListInstagramPost(Instagram instagram, CrawlingDto crawlingDto) {
+        instagramPostsRepository.deleteByInstagramId(instagram.getId());
         List<PostDto> postDtos = crawlingDto.getPostDtoList();
         List<InstagramPost> instagramPosts = postDtos.stream()
                 .map(postDto -> InstagramPost.builder()
-                        .instagramId(instagramToUpdate.getId())
+                        .instagramId(instagram.getId())
                         .postUrl(postDto.getPostUrl())
                         .imageUrl(postDto.getImageUrl())
                         .build())
                 .collect(Collectors.toList());
-        saveAllInstagramPosts(instagramPosts);
-    }
-
-    @Transactional
-    public void saveAllInstagramPosts(List<InstagramPost> instagramPosts) {
         instagramPostsRepository.saveAll(instagramPosts);
-    }
-
-    @Transactional
-    public Instagram saveInstagram(Instagram instagram) {
-        return instagramRepository.save(instagram);
     }
 }
