@@ -28,7 +28,7 @@
 
     <springProfile name="prod">
         <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-            <webhookUri>${slack-web-hook-uri.prod-admin}</webhookUri>
+            <webhookUri>${uri.prod-admin}</webhookUri>
             <channel>#prod-admin</channel>
             <layout class="ch.qos.logback.classic.PatternLayout">
                 <pattern>${LOG_PATTERN}</pattern>
