@@ -16,6 +16,14 @@ dependencies {
     testImplementation 'io.rest-assured:spring-mock-mvc:3.3.0'
 }
 
+task copyApiKey(type: Copy) {
+    description = "Copy slack web hook uri from hashtagmap-secret"
+    from '../hashtagmap-secret/slack/application-slack-web-hook.properties'
+    into 'src/main/resources/'
+}
+
+processResources.dependsOn 'copyApiKey'
+
 jacocoTestCoverageVerification {
     violationRules {
         rule {

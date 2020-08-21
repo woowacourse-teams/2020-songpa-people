@@ -145,3 +145,5 @@ gradle-app.setting
 /hashtagmap-core/src/main/resources/application-db.yml
 /hashtagmap-admin/src/main/resources/static/**
 /hashtagmap-web/src/main/resources/static/**
+/hashtagmap-web/src/main/resources/application-slack-web-hook.properties
+/hashtagmap-admin/src/main/resources/application-slack-web-hook.properties

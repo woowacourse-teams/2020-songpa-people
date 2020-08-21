@@ -50,7 +50,12 @@ task copyApiKey(type: Copy) {
     description = "Copy kakao map api key from hashtagmap-secret"
     from '../hashtagmap-secret/kakao/index.js'
     into 'front/src/secret/'
+    description = "Copy slack web hook uri from hashtagmap-secret"
+    from '../hashtagmap-secret/slack/application-slack-web-hook.properties'
+    into 'src/main/resources/'
 }
+
+processResources.dependsOn 'copyApiKey'
 
 task setUp(type: NpmTask, dependsOn: copyApiKey) {
     description = "Install Node.js Package"
