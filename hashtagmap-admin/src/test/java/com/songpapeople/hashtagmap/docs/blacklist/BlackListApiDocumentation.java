@@ -9,7 +9,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.NULL;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
-import static org.springframework.restdocs.payload.JsonFieldType.OBJECT;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -41,5 +40,11 @@ public class BlackListApiDocumentation extends ApiDocument {
                         fieldWithPath("data.replaceName").type(STRING).description("instagram의 업데이트된 replaceName"),
                         fieldWithPath("data.hashtagCount").type(NUMBER).description("instagram의 업데이트된 hashtagCount")
                 ));
+    }
+
+    protected RestDocumentationResultHandler getDocumentByDeleteInstagram() {
+        return document("blacklist/postBlackList",
+                getDocumentRequest(),
+                getDocumentResponse());
     }
 }

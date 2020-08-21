@@ -23,6 +23,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -88,5 +89,11 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
                 .andDo(getDocumentByPostBlackList());
     }
 
-
+    @DisplayName("대체어로 검색했을 때 인기없는 인스타그램을 삭제하는 요청")
+    @Test
+    void deleteInstagramAndPost() throws Exception {
+        mockMvc.perform(delete("/blacklist/instagram?placeId=1234"))
+                .andExpect(status().isOk())
+                .andDo(getDocumentByDeleteInstagram());
+    }
 }
