@@ -4,6 +4,8 @@
   box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.5);
   background-color: #FFFFFF !important;
   min-width: 150px;
+  padding: 6px 12px;
+  font-size: 14px;
 }
 
 .close {

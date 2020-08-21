@@ -1,7 +1,3 @@
-:root {
-  font-size: 10px;
-}
-
 *,
 *::before,
 *::after {
@@ -14,29 +10,30 @@ body {
   background-color: #fafafa;
   color: #262626;
   padding-bottom: 3rem;
+  font-size: 10px;
 }
 
 img {
   display: block;
 }
 
-.container {
-  max-width: 93.5rem;
+.instagram-container {
+  max-width: 935px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
-.btn {
+.profile-follow-btn {
   display: inline-block;
   font: inherit;
   background: none;
   border: none;
   color: inherit;
   padding: 0;
-  cursor: pointer;
+  cursofr: pointer;
 }
 
-.btn:focus {
+.profile-follow-btn:focus {
   outline: 0.5rem auto #4d90fe;
 }
 
@@ -88,17 +85,17 @@ img {
 
 .profile-user-name {
   display: inline-block;
-  font-size: 3.2rem;
+  font-size: 32px;
   font-weight: 300;
 }
 
 .profile-follow-btn {
-  font-size: 2rem;
+  font-size: 20px;
   line-height: 1.8;
   border: 0.1rem solid #dbdbdb;
   border-radius: 0.3rem;
-  padding: 0 2.4rem;
-  margin-left: 2rem;
+  padding: 0 24px;
+  margin-left: 20px;
   background-color: rgb(0, 149, 246);
   color: white;
   height: 40px;
@@ -111,7 +108,7 @@ img {
 
 .profile-stats li {
   display: inline-block;
-  font-size: 1.6rem;
+  font-size: 16px;
   line-height: 1.5;
   margin-right: 4rem;
   cursor: pointer;
@@ -122,7 +119,7 @@ img {
 }
 
 .profile-bio {
-  font-size: 1.6rem;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
   margin-top: 2.3rem;
@@ -187,7 +184,7 @@ img {
   }
 
   .profile-user-name {
-    font-size: 2.5rem;
+    font-size: 25px;
   }
 
   .profile-follow-btn {
@@ -199,7 +196,7 @@ img {
   }
 
   .profile-bio {
-    font-size: 1.4rem;
+    font-size: 14px;
     margin-top: 1.5rem;
   }
 
@@ -223,7 +220,7 @@ img {
   }
 
   .profile-stats li {
-    font-size: 1.4rem;
+    font-size: 14px;
     flex: 1;
     margin: 0;
   }
@@ -281,13 +278,12 @@ Remove or comment-out the code block below to see how the browser will fall-back
     }
 
     .profile-user-settings {
-      /*display: grid;*/
       grid-template-columns: auto 1fr;
       grid-gap: 1rem;
     }
 
     .profile-user-name {
-      font-size: 3rem;
+      font-size: 30px;
     }
 
     .profile-follow-btn {      width: 60vw;
