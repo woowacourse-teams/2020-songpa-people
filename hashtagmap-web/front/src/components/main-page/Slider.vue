@@ -1,20 +1,30 @@
 <template>
   <v-content>
     <carousel class="carousel" autoplay="true" perPage="1">
-      <slide class="caruosel-component">
-        <img class="img-content" src="../../assets/mainpage/content1.png" />
+      <slide class="carousel-component">
+        <div class="image-wrap">
+          <img class="img-content" src="../../assets/mainpage/content1.png" />
+        </div>
       </slide>
-      <slide class="caruosel-component">
+      <slide class="carousel-component">
+        <div class="image-wrap">
         <img class="img-content" src="../../assets/mainpage/content2.png" />
+        </div>
       </slide>
-      <slide class="caruosel-component">
+      <slide class="carousel-component">
+        <div class="image-wrap">
         <img class="img-content" src="../../assets/mainpage/content3.png" />
+        </div>
       </slide>
-      <slide class="caruosel-component">
+      <slide class="carousel-component">
+        <div class="image-wrap">
         <img class="img-content" src="../../assets/mainpage/content4.png" />
+        </div>
       </slide>
-      <slide class="caruosel-component">
+      <slide class="carousel-component">
+        <div class="image-wrap">
         <img class="img-content" src="../../assets/mainpage/content5.png" />
+        </div>
       </slide>
     </carousel>
   </v-content>
@@ -34,14 +44,23 @@ export default {
 <style>
 .carousel {
   align-items: center;
+  margin-top: 10px;
 }
-.caruosel-component {
+.carousel-component {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .img-content {
-  width: 400px;
-  height: 400px;
+  width: 600px;
+  height: 600px;
+}
+
+@media (max-width: 40rem) {
+  .img-content {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
 }
 </style>

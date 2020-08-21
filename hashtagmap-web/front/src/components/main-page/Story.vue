@@ -34,12 +34,11 @@
   display: flex;
 }
 .story {
-  margin: 10px;
-  padding: 20px;
+  margin-left: 20px;
 }
 .story-image {
-  width: 100px;
-  height: 100px;
+  width: 77px;
+  height: 77px;
   border-radius: 70%;
   overflow: hidden;
   border-style: solid;
@@ -53,5 +52,16 @@
 .story-name {
   text-align: center;
   margin: 10px;
+}
+
+@media screen and (max-width: 40rem) {
+  .story-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 70%;
+    overflow: hidden;
+    border-style: solid;
+    border-color: rgb(217, 217, 217);
+  }
 }
 </style>

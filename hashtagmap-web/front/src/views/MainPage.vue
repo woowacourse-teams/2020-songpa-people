@@ -9,7 +9,7 @@
         <div class="profile-user-settings">
           <h1 class="profile-user-name">offical_miso</h1>
           <router-link to="/map">
-            <button class="btn profile-edit-btn">start</button>
+            <button class="btn profile-follow-btn">start</button>
           </router-link>
         </div>
         <div class="profile-stats">
