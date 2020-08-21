@@ -11,7 +11,7 @@
     <property name="MAX_HISTORY" value="30"/>
     <property name="LOG_PATTERN"
               value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %green([%thread]) %highlight(%-5level) %C.%M:%line :%msg%n"/>
-    <property file="./hashtagmap-admin/src/main/resources/application-slack-web-hook.properties" />
+    <property file="./hashtagmap-web/src/main/resources/application-slack-web-hook.properties" />
 
     <springProfile name="!prod">
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
