@@ -34,7 +34,7 @@ public class BlackListApiController {
     @GetMapping
     @RequestMapping("/semi")
     public CustomResponse<List<SubBlackListDto>> getSubBlackList() {
-        return CustomResponse.of(instagramQueryService.findSubBlackListInstagram());
+        return CustomResponse.of(instagramQueryService.findSemiBlackListInstagram());
     }
 
     @PostMapping

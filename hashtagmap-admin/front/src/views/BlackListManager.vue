@@ -8,14 +8,14 @@
             outlined
             color="indigo"
             @click="setSubBlackList"
-            >blackList 갱신</v-btn
-          >
+            >blackList 갱신
+          </v-btn>
           <v-btn class="margin-1" outlined color="indigo" @click="openKakao"
-            >카카오맵 열기</v-btn
-          >
+            >카카오맵 열기
+          </v-btn>
           <v-btn class="margin-1" outlined color="indigo" @click="openInstagram"
-            >인스타그램 열기</v-btn
-          >
+            >인스타그램 열기
+          </v-btn>
           <v-data-table
             :headers="subBlackListHeaders"
             :items="getSubBlackList"
@@ -32,7 +32,7 @@
                 <v-select
                   outlined
                   dense
-                  v-model="inputBlackList.placeId"
+                  v-model="addBlackListData.placeId"
                   :items="getSubBlackList.map(item => item.placeId)"
                   label="바꿀 장소의 카카오 id"
                 >
@@ -43,29 +43,58 @@
                   outlined
                   dense
                   :rules="replaceNameRule"
-                  v-model="inputBlackList.replaceName"
+                  v-model="addBlackListData.replaceName"
                   label="바꿀 이름"
                 >
                 </v-text-field>
               </v-col>
               <v-col md="4">
                 <v-btn outlined color="indigo" @click="registerBlackList"
-                  >변경하기</v-btn
+                  >변경하기
+                </v-btn>
+              </v-col>
+            </v-row>
+            <v-alert type="info">
+              {{ addBlackListResult }}
+            </v-alert>
+          </v-form>
+          <h2>인스타그램 삭제하기</h2>
+          <v-form>
+            <v-row>
+              <v-col md="4">
+                <v-select
+                  outlined
+                  dense
+                  v-model="deleteBlackListData.placeId"
+                  :items="getSubBlackList.map(item => item.placeId)"
+                  label="삭제할 장소의 카카오 id"
                 >
+                </v-select>
+              </v-col>
+              <v-col md="4">
+                <v-btn outlined color="indigo" @click="deleteInstagram"
+                  >삭제하기
+                </v-btn>
               </v-col>
             </v-row>
           </v-form>
         </v-col>
       </v-row>
     </v-container>
+    <CustomSnackBar />
   </v-app>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import CustomSnackBar from "@/components/CustomSnackBar";
 import { isOk } from "@/request";
+import { convert } from "@/utils/responseConverter";
 
 export default {
+  components: {
+    CustomSnackBar
+  },
   data() {
     return {
       subBlackListHeaders: [
@@ -80,32 +109,53 @@ export default {
       },
       kakaoSearchKey: "",
       instagramSearchKey: "",
-      inputBlackList: {
+      addBlackListData: {
         placeId: "",
         replaceName: ""
       },
+      deleteBlackListData: {
+        placeId: ""
+      },
+      addBlackListResult: "블랙리스크 등록 결과",
       replaceNameRule: [v => !!v || "바꿀 이름을 입력하세요"]
     };
   },
 
   methods: {
-    ...mapActions("blackList", ["setSubBlackList", "addBlackList"]),
+    ...mapActions("blackList", [
+      "setSubBlackList",
+      "addBlackList",
+      "deleteBlackListInstagram"
+    ]),
+    ...mapMutations("snackbar", ["SHOW_SNACKBAR"]),
     openKakao() {
       window.open("https://map.kakao.com/", "_blank");
     },
     openInstagram() {
       window.open("https://www.instagram.com/", "_blank");
     },
-    registerBlackList() {
-      let res;
-      if (confirm(`${this.inputBlackList.replaceName}(으)로 등록합니까?`)) {
-        res = this.addBlackList(this.inputBlackList);
+    async registerBlackList() {
+      if (confirm(`${this.addBlackListData.replaceName}(으)로 등록합니까?`)) {
+        const res = await this.addBlackList(this.addBlackListData);
+        if (isOk(res)) {
+          this.addBlackListResult = res.body.data;
+          return;
+        }
+        const snackbarContents = convert.toSnackBarContent(res);
+        this.SHOW_SNACKBAR(snackbarContents);
       }
-      if (isOk(res)) {
-        console.log(res);
-        return;
+    },
+    async deleteInstagram() {
+      if (
+        confirm(`정말로 삭제하시겠습니까?(${this.deleteBlackListData.placeId})`)
+      ) {
+        const res = await this.deleteBlackListInstagram(
+          this.deleteBlackListData.placeId
+        );
+        const snackbarContents = convert.toSnackBarContent(res);
+        console.log(snackbarContents);
+        this.SHOW_SNACKBAR(snackbarContents);
       }
-      alert(res);
     }
   },
 

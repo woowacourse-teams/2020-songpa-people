@@ -51,7 +51,7 @@ class InstagramQueryServiceTest {
         placeRepository.save(place);
         instagramRepository.saveAll(instagrams);
 
-        List<SubBlackListDto> subBlackListInstagram = instagramQueryService.findSubBlackListInstagram();
+        List<SubBlackListDto> subBlackListInstagram = instagramQueryService.findSemiBlackListInstagram();
         List<Long> blackListHashtagCounts = subBlackListInstagram.stream()
                 .map(SubBlackListDto::getHashtagCount)
                 .collect(Collectors.toList());

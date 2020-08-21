@@ -58,7 +58,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
         List<SubBlackListDto> subBlackListDtos = new ArrayList<>();
         subBlackListDtos.add(SubBlackListDto.of(instagram));
 
-        when(instagramQueryService.findSubBlackListInstagram()).thenReturn(subBlackListDtos);
+        when(instagramQueryService.findSemiBlackListInstagram()).thenReturn(subBlackListDtos);
 
         mockMvc.perform(get("/blacklist/sub"))
                 .andExpect(status().isOk())

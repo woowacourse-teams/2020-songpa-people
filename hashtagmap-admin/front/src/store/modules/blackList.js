@@ -6,10 +6,10 @@ export default {
   state: {
     subBlackList: [
       {
-        placeId: "",
-        placeName: "",
-        hashtagCount: "",
-        roadAddressName: ""
+        placeId: "142",
+        placeName: "신이문",
+        hashtagCount: "2125",
+        roadAddressName: "한천로"
       }
     ]
   },
@@ -31,8 +31,19 @@ export default {
       const res = await blackListApi.getSubBlackList();
       commit("SET_SUB_BLACKLIST", res.body.data);
     },
-    async addBlackList(commit, blackList) {
-      return await blackListApi.addBlackList(blackList);
+    async addBlackList(context, blackList) {
+      try {
+        return await blackListApi.addBlackList(blackList);
+      } catch (e) {
+        return e;
+      }
+    },
+    async deleteBlackListInstagram(context, placeId) {
+      try {
+        return await blackListApi.deleteBlackListInstagram(placeId);
+      } catch (e) {
+        return e;
+      }
     }
   }
 };

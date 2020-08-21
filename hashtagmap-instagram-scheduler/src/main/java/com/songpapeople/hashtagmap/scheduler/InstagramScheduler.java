@@ -36,6 +36,7 @@ public class InstagramScheduler {
     @Transactional
     void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
         instagramPostRepository.deleteAll();
+        instagramRepository.deleteAll();
         for (CrawlingResult crawlingResult : crawlingResults) {
             Instagram instagram = instagramRepository.save(crawlingResult.createInstagram());
             List<InstagramPost> instagramPosts = crawlingResult.toInstagramPosts(instagram.getId());

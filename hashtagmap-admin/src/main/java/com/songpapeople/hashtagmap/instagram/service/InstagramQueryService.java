@@ -25,7 +25,7 @@ public class InstagramQueryService {
     private final PlaceRepository placeRepository;
 
     @Transactional
-    public List<SubBlackListDto> findSubBlackListInstagram() {
+    public List<SubBlackListDto> findSemiBlackListInstagram() {
         List<Instagram> instagrams = instagramRepository.findAll();
         return instagrams.stream()
                 .sorted(Comparator.comparingDouble(Instagram::getHashtagCount).reversed())
