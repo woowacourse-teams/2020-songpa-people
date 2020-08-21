@@ -1,5 +1,8 @@
 package com.songpapeople.hashtagmap.kakaoapi.domain.rect.location;
 
+import com.songpapeople.hashtagmap.kakaoapi.exception.KakaoApiException;
+import com.songpapeople.hashtagmap.kakaoapi.exception.KakaoApiExceptionStatus;
+
 import java.math.BigDecimal;
 
 // 경도, x
@@ -19,7 +22,8 @@ public class Longitude extends Coordinate {
         if (isBetween(longitude, MIN_LONGITUDE, MAX_LONGITUDE)) {
             return longitude;
         }
-        throw new IllegalArgumentException("경도 범위가 아닙니다.");
+        String detailMessage = String.format("잘못된 경도 범위(%s)입니다.", longitude);
+        throw new KakaoApiException(KakaoApiExceptionStatus.INVALID_LONGITUDE, detailMessage);
     }
 
     @Override

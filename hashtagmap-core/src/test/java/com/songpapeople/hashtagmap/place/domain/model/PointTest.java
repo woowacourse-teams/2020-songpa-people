@@ -17,7 +17,7 @@ class PointTest {
     public void validateLatitudeTest(String invalidLatitude) {
         CoreException exception = assertThrows(CoreException.class,
                 () -> new Point(invalidLatitude, "124"));
-        assertEquals(exception.getErrorCode(), CoreExceptionStatus.INVALID_LATITUDE);
+        assertEquals(exception.getErrorCode(), CoreExceptionStatus.INVALID_LATITUDE.getCode());
     }
 
     @DisplayName("경도 범위를 검증한다.")
@@ -26,6 +26,6 @@ class PointTest {
     public void validateLongitudeTest(String invalidLongitude) {
         CoreException exception = assertThrows(CoreException.class,
                 () -> new Point("34", invalidLongitude));
-        assertEquals(exception.getErrorCode(), CoreExceptionStatus.INVALID_LONGITUDE);
+        assertEquals(exception.getErrorCode(), CoreExceptionStatus.INVALID_LONGITUDE.getCode());
     }
 }

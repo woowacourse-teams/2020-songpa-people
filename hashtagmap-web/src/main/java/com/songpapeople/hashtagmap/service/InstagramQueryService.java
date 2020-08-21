@@ -3,8 +3,7 @@ package com.songpapeople.hashtagmap.service;
 import com.songpapeople.hashtagmap.dto.MarkerResponse;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
-import com.songpapeople.hashtagmap.taglevel.model.TagLevel;
-import com.songpapeople.hashtagmap.taglevel.model.TagLevelFinder;
+import com.songpapeople.hashtagmap.taglevel.model.TagLevels;
 import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,11 +19,11 @@ public class InstagramQueryService {
 
     public List<MarkerResponse> findAllMarkers() {
         List<Instagram> instagrams = instagramRepository.findAllFetch();
-        List<TagLevel> tagLevels = tagLevelRepository.findAll();
+        TagLevels tagLevels = new TagLevels(tagLevelRepository.findAll());
 
         List<MarkerResponse> markerResponses = new ArrayList<>();
         for (Instagram instagram : instagrams) {
-            Long tagLevelId = TagLevelFinder.findTagLevelIdByHashtagCount(tagLevels, instagram.getHashtagCount());
+            Long tagLevelId = tagLevels.findIdByHashtagCount(instagram.getHashtagCount());
             markerResponses.add(MarkerResponse.of(instagram, tagLevelId));
         }
         return markerResponses;
