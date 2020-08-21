@@ -26,7 +26,8 @@ public class CrawlerWithProxy {
         }
         try {
             proxySetter.setProxy();
-            return Optional.of(new CrawlingResult(instagramCrawler.crawler(place.getPlaceName()), place));
+            String hashtagName = place.getPlaceName();
+            return Optional.of(new CrawlingResult(instagramCrawler.crawler(hashtagName), place));
         } catch (CrawlerException e) {
             log.info("CrawlerException: {}", e.getMessage());
             return crawlInstagram(place, tryCount + 1);
