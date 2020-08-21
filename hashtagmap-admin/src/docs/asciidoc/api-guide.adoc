@@ -75,13 +75,3 @@ operation::district/updateDistrict[snippets='http-request,request-body,http-resp
 === 태그레벨 정보 조회
 
 operation::tag-levels/findAll[snippets='http-request,http-response,response-fields']
-
-[[resources-tag-levels-create]]
-=== 태그레벨 생성
-
-operation::tag-levels/create[snippets='http-request,http-response']
-
-[[resources-tag-levels-delete]]
-=== 태그레벨 삭제
-
-operation::tag-levels/delete[snippets='http-request,http-response']
