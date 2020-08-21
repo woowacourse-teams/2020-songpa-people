@@ -1,7 +1,7 @@
 export const textBalloonTemplate = place => {
   let $textBalloonElement = document.createElement("div");
   $textBalloonElement.id = place.kakaoId;
-  $textBalloonElement.className = "btn text-balloon-box";
+  $textBalloonElement.className = "text-balloon-box";
 
   let $textBalloonTitle = document.createElement("div");
   $textBalloonTitle.className = "text-balloon-title";

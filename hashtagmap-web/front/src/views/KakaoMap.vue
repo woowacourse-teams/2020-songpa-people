@@ -1,16 +1,23 @@
 <template>
-  <div>
-    <div id="kakao-map"></div>
-    <DetailModal />
-  </div>
+  <v-app>
+    <v-main>
+      <div id="kakao-map"></div>
+      <CurrentLocationButton id="current-location-button" />
+      <TagLevelContainer id="tag-level" />
+      <DetailModal />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
+import CurrentLocationButton from "@/components/CurrentLocationButton";
+import TagLevelContainer from "@/components/tag-level/TagLevelContainer";
+import DetailModal from "@/components/detail-modal/DetailModal";
+
 import { mapActions, mapMutations, mapGetters } from "vuex";
-import { EVENT_TYPE } from "../utils/constants";
-import { textBalloonTemplate } from "../utils/templates";
-import DetailModal from "../components/detail-modal/DetailModal";
-import { getMarkerImage, SIZE } from "../utils/markerImages";
+import { EVENT_TYPE } from "@/utils/constants";
+import { textBalloonTemplate } from "@/utils/templates";
+import { getMarkerImage, SIZE } from "@/utils/markerImages";
 
 export default {
   name: "KakaoMap",
@@ -120,11 +127,16 @@ export default {
 
   components: {
     DetailModal,
+    CurrentLocationButton,
+    TagLevelContainer,
   },
 };
 </script>
 
 <style scoped>
+@import "../assets/css/textBalloon.css";
+@import "../assets/css/app.css";
+
 #kakao-map {
   margin: 0;
   width: 100%;
