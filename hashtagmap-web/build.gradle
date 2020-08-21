@@ -58,7 +58,7 @@ task copySlackWebHook(type: Copy) {
     into 'src/main/resources/'
 }
 
-processResources.dependsOn 'copyKaKaoApiKey'
+processResources.dependsOn 'copyKakaoApiKey'
 processResources.dependsOn 'copySlackWebHook'
 
 task setUp(type: NpmTask) {
