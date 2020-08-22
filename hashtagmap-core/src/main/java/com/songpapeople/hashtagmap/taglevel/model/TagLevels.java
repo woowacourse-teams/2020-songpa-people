@@ -73,4 +73,8 @@ public class TagLevels {
     public TagLevel get(int index) {
         return tagLevels.get(index);
     }
+
+    public int getTagLevelsSize() {
+        return this.tagLevels.size();
+    }
 }
