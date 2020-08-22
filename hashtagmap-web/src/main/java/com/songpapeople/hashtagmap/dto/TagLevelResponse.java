@@ -10,10 +10,12 @@ import java.util.stream.IntStream;
 
 @Getter
 public class TagLevelResponse {
+    private final Long level;
     private final Long minHashtagCount;
     private final Long maxHashtagCount;
 
-    private TagLevelResponse(Long minHashtagCount, Long maxHashtagCount) {
+    private TagLevelResponse(Long level, Long minHashtagCount, Long maxHashtagCount) {
+        this.level = level;
         this.minHashtagCount = minHashtagCount;
         this.maxHashtagCount = maxHashtagCount;
     }
@@ -22,7 +24,8 @@ public class TagLevelResponse {
         return IntStream.range(0, tagLevels.getTagLevelsSize())
                 .mapToObj(index -> {
                     TagLevel tagLevel = tagLevels.get(index);
-                    return new TagLevelResponse(tagLevel.getMinHashtagCount(), tagLevel.getMaxHashtagCount());
+                    return new TagLevelResponse(tagLevel.getId(),
+                            tagLevel.getMinHashtagCount(), tagLevel.getMaxHashtagCount());
                 })
                 .collect(Collectors.toList());
     }

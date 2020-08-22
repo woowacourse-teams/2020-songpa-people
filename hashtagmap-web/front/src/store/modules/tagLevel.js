@@ -1,4 +1,6 @@
-import { TAG_LEVEL } from "../../utils/constants";
+import { TAG_LEVEL } from "@/utils/constants";
+import axios from "axios";
+import { convertHashtagCount } from "@/utils/hashtagCountConverter";
 
 export default {
   state: {
@@ -29,6 +31,13 @@ export default {
         active: true,
       },
     ],
+    tagLevelDetails: [
+      {
+        level: "",
+        minHashtagCount: "",
+        maxHashtagCount: "",
+      },
+    ],
   },
 
   getters: {
@@ -40,6 +49,11 @@ export default {
         .filter(tagLevel => tagLevel.active)
         .map(tagLevel => tagLevel.level);
     },
+    getTagLevelDetails: state => {
+      return state.tagLevelDetails.map(tagLevelDetail =>
+        convertHashtagCount(tagLevelDetail.minHashtagCount),
+      );
+    },
   },
 
   mutations: {
@@ -48,7 +62,15 @@ export default {
         t.level === tagLevel.level ? { ...t, active: !tagLevel.active } : t,
       );
     },
+    SET_TAG_LEVEL_DETAILS(state, tagLevelDetails) {
+      state.tagLevelDetails = tagLevelDetails;
+    },
   },
 
-  actions: {},
+  actions: {
+    async setTagLevelDetails({ commit }) {
+      const tagLevelDetails = await axios.get("/tag-levels");
+      commit("SET_TAG_LEVEL_DETAILS", tagLevelDetails.data.data);
+    },
+  },
 };

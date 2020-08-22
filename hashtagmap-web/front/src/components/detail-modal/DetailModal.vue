@@ -50,6 +50,7 @@
 import { mapMutations, mapGetters } from "vuex";
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 import InstagramPost from "./InstagramPost";
+import { convertHashtagCount } from "@/utils/hashtagCountConverter";
 
 export default {
   components: { InstagramPost },
@@ -62,7 +63,8 @@ export default {
   computed: {
     ...mapGetters(["getDetailModal"]),
     makeHashtagCount() {
-      return (this.getDetailModal.hashtagCount / 1000).toFixed(1);
+      return convertHashtagCount(this.getDetailModal.hashtagCount);
+      // return (this.getDetailModal.hashtagCount / 1000).toFixed(1);
     },
   },
 

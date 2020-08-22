@@ -10,10 +10,18 @@
       <v-expansion-panel-content>
         <div class="tag-level-detail">
           <ul class="progressbar">
-            <li class="level-one">25k</li>
-            <li class="level-two">20k</li>
-            <li class="level-three">15k</li>
-            <li class="level-four">10k</li>
+            <li class="level-one">
+              {{ this.getTagLevelDetails[4] }}k
+            </li>
+            <li class="level-two">
+              {{ this.getTagLevelDetails[3] }}k
+            </li>
+            <li class="level-three">
+              {{ this.getTagLevelDetails[2] }}k
+            </li>
+            <li class="level-four">
+              {{ this.getTagLevelDetails[1] }}k
+            </li>
             <li class="level-five"></li>
           </ul>
         </div>
@@ -24,8 +32,12 @@
 
 <script>
 import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
-
+import { mapActions, mapGetters } from "vuex";
 export default {
+  async created() {
+    await this.setTagLevelDetails();
+  },
+
   data: () => ({
     chevronDown: mdiChevronDown,
     chevronUp: mdiChevronUp,
@@ -33,12 +45,17 @@ export default {
   }),
 
   methods: {
+    ...mapActions(["setTagLevelDetails"]),
     toggleTagLevelDetail() {
       this.toggle = !this.toggle;
     },
     showIcon() {
       return !this.toggle ? this.chevronDown : this.chevronUp;
     },
+  },
+
+  computed: {
+    ...mapGetters(["getTagLevelDetails"]),
   },
 };
 </script>
@@ -68,6 +85,7 @@ export default {
   position: relative;
   text-align: center;
   z-index: 10;
+  font-size: 13px !important;
 }
 
 .progressbar li::after {
