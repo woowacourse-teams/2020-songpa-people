@@ -34,11 +34,11 @@ public class KakaoScheduler {
         log.info("KakaoScheduler started at : " + LocalDateTime.now());
     }
 
-    private boolean isActive() {
+    public boolean isActive() {
         return this.scheduledFuture != null && !this.scheduledFuture.isCancelled();
     }
 
-    private boolean isNotActive() {
+    public boolean isNotActive() {
         return !isActive();
     }
 
@@ -48,25 +48,26 @@ public class KakaoScheduler {
 
     @PreDestroy
     public void end() {
-        this.stop();
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(false);
+        }
         this.scheduler.shutdown();
         log.info("KakaoScheduler destroyed at : " + LocalDateTime.now());
     }
 
     public void changePeriod(String expression) {
         if (isActive()) {
-            this.stop();
+            log.info("Can't change period, KakaoScheduler is running");
+            throw new KakaoSchedulerException(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING);
         }
         this.cronPeriod.change(expression);
-        this.start();
         log.info("KakaoScheduler cron period changed at : " + LocalDateTime.now());
     }
 
-    // TODO: 31/07/2020 graceful shutdown 하도록 로직 추가
     public boolean stop() {
         if (isNotActive()) {
             log.info("KakaoScheduler already stopped");
-            return false;
+            throw new KakaoSchedulerException(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_STOPPED);
         }
         this.scheduledFuture.cancel(true);
         log.info("KakaoScheduler stopped at : " + LocalDateTime.now());

@@ -30,7 +30,7 @@ class TagLevelCommandServiceTest {
     private InstagramRepository instagramRepository;
 
     @BeforeEach
-    private void setUp() {
+    void setUp() {
         List<Instagram> instagrams = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             instagrams.add(Instagram.builder()
@@ -42,7 +42,7 @@ class TagLevelCommandServiceTest {
 
     @DisplayName("TagLevel 정보를 갱신한다.")
     @Test
-    public void updateTagLevelTest() {
+    void updateTagLevelTest() {
         // given
         List<TagLevel> tagLevels = Arrays.asList(new TagLevel(), new TagLevel());
         tagLevelRepository.saveAll(tagLevels);
@@ -61,7 +61,7 @@ class TagLevelCommandServiceTest {
     }
 
     @AfterEach
-    private void tearDown() {
+    void tearDown() {
         tagLevelRepository.deleteAll();
         instagramRepository.deleteAll();
     }

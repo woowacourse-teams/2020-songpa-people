@@ -3,6 +3,7 @@ package com.songpapeople.hashtagmap.taglevel.service;
 import com.songpapeople.hashtagmap.taglevel.model.TagLevel;
 import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
 import com.songpapeople.hashtagmap.taglevel.service.dto.TagLevelDto;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ class TagLevelQueryServiceTest {
 
     @DisplayName("TagLevel의 정보를 조회한다.")
     @Test
-    public void findAllTest() {
+    void findAllTest() {
         tagLevelRepository.saveAll(Arrays.asList(
                 new TagLevel(1L, 100L, 200L),
                 new TagLevel(2L, 201L, 300L)
@@ -31,5 +32,10 @@ class TagLevelQueryServiceTest {
 
         List<TagLevelDto> tagLevelDtos = tagLevelQueryService.findAll();
         assertThat(tagLevelDtos.size()).isEqualTo(2);
+    }
+
+    @AfterEach
+    void tearDown() {
+        tagLevelRepository.deleteAll();
     }
 }

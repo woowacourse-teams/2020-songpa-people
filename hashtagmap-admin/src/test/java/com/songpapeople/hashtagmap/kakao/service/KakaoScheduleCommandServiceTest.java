@@ -8,6 +8,8 @@ import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -32,40 +34,48 @@ class KakaoScheduleCommandServiceTest {
     @Test
     void stopSchedule() {
         //given
-        scheduleRepository.save(new Schedule(KAKAO, "비밥", Flag.Y));
+        kakaoScheduler.start();
 
         //when
-        kakaoScheduleCommandService.toggleSchedule(KAKAO);
+        kakaoScheduleCommandService.stopSchedule();
 
         //then
-        Schedule schedule = scheduleRepository.findByName(KAKAO).get();
-        assertThat(schedule.isActive()).isFalse();
-    }
-
-    @DisplayName("멈출 스케쥴러가 존재하지 않을경우 Exception 발생")
-    @Test
-    void stopScheduleFail() {
-        //given
-        scheduleRepository.save(new Schedule(KAKAO, "비밥", Flag.N));
-
-        //then
-        assertThatThrownBy(() -> kakaoScheduleCommandService.toggleSchedule("LINE"))
-                .isInstanceOf(AdminException.class)
-                .hasMessage("스케쥴러(LINE)가 존재하지 않습니다.");
+        assertThat(kakaoScheduler.isActive()).isFalse();
+        assertThat(kakaoScheduler.isNotActive()).isTrue();
     }
 
     @DisplayName("스케쥴러 시작하기 성공")
     @Test
     void startSchedule() {
-        //given
-        scheduleRepository.save(new Schedule(KAKAO, "비밥", Flag.N));
-
         //when
-        kakaoScheduleCommandService.toggleSchedule(KAKAO);
+        kakaoScheduleCommandService.startSchedule();
 
         //then
-        Schedule schedule = scheduleRepository.findByName(KAKAO).get();
-        assertThat(schedule.isActive()).isTrue();
+        assertThat(kakaoScheduler.isActive()).isTrue();
+        assertThat(kakaoScheduler.isNotActive()).isFalse();
+        kakaoScheduler.stop();
+    }
+
+    @DisplayName("스케쥴러 자동 실행 상태 변환")
+    @ParameterizedTest
+    @CsvSource(value = {"Y,false", "N,true"})
+    void toggleScheduleAutoRunnable(Flag beforeFlag, boolean expect) {
+        //given
+        scheduleRepository.save(new Schedule(KAKAO, "", beforeFlag));
+
+        //when
+        kakaoScheduleCommandService.toggleScheduleAutoRunnable(KAKAO);
+
+        //then
+        Schedule schedule = scheduleRepository.findByName(KAKAO).orElseThrow(RuntimeException::new);
+        assertThat(schedule.isActive()).isEqualTo(expect);
+    }
+
+    @Test
+    void toggleScheduleAutoRunnableNotFound() {
+        assertThatThrownBy(() -> kakaoScheduleCommandService.toggleScheduleAutoRunnable(KAKAO))
+                .isInstanceOf(AdminException.class)
+                .hasMessage("스케쥴러(%s)가 존재하지 않습니다.", KAKAO);
     }
 
     @DisplayName("카카오 스케줄러 주기 변경")
@@ -79,6 +89,5 @@ class KakaoScheduleCommandServiceTest {
     @AfterEach
     void tearDown() {
         scheduleRepository.deleteAll();
-        kakaoScheduler.stop();
     }
 }

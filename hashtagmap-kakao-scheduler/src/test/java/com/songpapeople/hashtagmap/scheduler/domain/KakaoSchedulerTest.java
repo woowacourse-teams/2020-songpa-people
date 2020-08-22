@@ -51,11 +51,13 @@ public class KakaoSchedulerTest {
         kakaoScheduler.start();
 
         preCountDownLatch.await();
+
+        kakaoScheduler.stop();
         kakaoScheduler.changePeriod(postExpression);
+        kakaoScheduler.start();
 
         postCountDownLatch.await();
         kakaoScheduler.end();
-
         //then
         CronTrigger cronTrigger = (CronTrigger) cronPeriod.getTrigger();
 
@@ -70,7 +72,7 @@ public class KakaoSchedulerTest {
 
     @DisplayName("스케쥴러가 이미 실행중이면 Exception 발생")
     @Test
-    void isRunningTest() {
+    void isRunningExceptionTest() {
         KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
         }, new CronPeriod("* * * * * ?"));
 
@@ -81,5 +83,51 @@ public class KakaoSchedulerTest {
                 .hasMessage("스케쥴러가 이미 실행중입니다.");
 
         kakaoScheduler.stop();
+        kakaoScheduler.end();
     }
+
+    @DisplayName("스케쥴러가 이미 정지되었다면 Exception 발생")
+    @Test
+    void isNotRunningExceptionTest() {
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
+        }, new CronPeriod("* * * * * ?"));
+
+        assertThatThrownBy(kakaoScheduler::stop)
+                .isInstanceOf(KakaoSchedulerException.class)
+                .hasMessage("스케쥴러가 이미 정지되었습니다.");
+
+        kakaoScheduler.end();
+    }
+
+    @DisplayName("카카오 스케쥴러 실행하기")
+    @Test
+    void isRunning() {
+        //given
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
+        }, new CronPeriod("* * * * * ?"));
+
+        //when
+        kakaoScheduler.start();
+
+        //then
+        assertThat(kakaoScheduler.isActive()).isTrue();
+        kakaoScheduler.end();
+    }
+
+    @DisplayName("카카오 스케쥴러 멈추기")
+    @Test
+    void isNotRunningTest() {
+        //given
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
+        }, new CronPeriod("* * * * * ?"));
+
+        //when
+        kakaoScheduler.start();
+        kakaoScheduler.stop();
+
+        //then
+        assertThat(kakaoScheduler.isNotActive()).isTrue();
+        kakaoScheduler.end();
+    }
+
 }

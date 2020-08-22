@@ -35,8 +35,7 @@ class KakaoScheduleAutoConfigurationTest {
         kakaoScheduleAutoConfiguration.configureKakaoSchedule();
 
         //then
-        boolean result = kakaoScheduler.stop();
-        assertThat(result).isFalse();
+        assertThat(kakaoScheduler.isNotActive()).isTrue();
     }
 
     @DisplayName("Kakao 스케쥴러가 실행되도록 설정")
@@ -56,6 +55,5 @@ class KakaoScheduleAutoConfigurationTest {
     @AfterEach
     void tearDown() {
         scheduleRepository.deleteAll();
-        kakaoScheduler.stop();
     }
 }

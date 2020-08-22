@@ -26,17 +26,37 @@ public class KakaoSchedulerApiController {
     private final KakaoScheduleCommandService kakaoScheduleCommandService;
     private final KakaoScheduleQueryService kakaoScheduleQueryService;
 
-    @PostMapping("/toggle")
+    @PostMapping("/start")
     @ResponseStatus(HttpStatus.OK)
-    public CustomResponse<Void> toggleScheduler(@RequestBody @Valid final KakaoScheduleToggleDto kakaoScheduleToggleDto) {
-        kakaoScheduleCommandService.toggleSchedule(kakaoScheduleToggleDto.getName());
+    public CustomResponse<Void> startScheduler() {
+        kakaoScheduleCommandService.startSchedule();
+        return CustomResponse.empty();
+    }
+
+    @PostMapping("/stop")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomResponse<Void> stopScheduler() {
+        kakaoScheduleCommandService.stopSchedule();
         return CustomResponse.empty();
     }
 
     @GetMapping("/status")
     @ResponseStatus(HttpStatus.OK)
-    public CustomResponse<Boolean> getActiveStatus(@RequestParam("name") String name) {
-        return CustomResponse.of(kakaoScheduleQueryService.getKakaoScheduleActiveStatus(name));
+    public CustomResponse<Boolean> getActiveStatus() {
+        return CustomResponse.of(kakaoScheduleQueryService.getKakaoScheduleActiveStatus());
+    }
+
+    @PostMapping("/auto/toggle")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomResponse<Void> toggleAutoRunnable(@RequestBody @Valid KakaoScheduleToggleDto kakaoScheduleToggleDto) {
+        kakaoScheduleCommandService.toggleScheduleAutoRunnable(kakaoScheduleToggleDto.getName());
+        return CustomResponse.empty();
+    }
+
+    @GetMapping("/auto/status")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomResponse<Boolean> getKakaoAutoRunnable(@RequestParam("name") String scheduleName) {
+        return CustomResponse.of(kakaoScheduleQueryService.getKakaoScheduleAutoRunnable(scheduleName));
     }
 
     @PutMapping("/period")

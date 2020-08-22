@@ -7,6 +7,7 @@ import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
 import com.songpapeople.hashtagmap.kakao.service.dto.PeriodHistoryDto;
+import com.songpapeople.hashtagmap.scheduler.domain.KakaoScheduler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,13 @@ import java.util.List;
 public class KakaoScheduleQueryService {
     private final ScheduleRepository scheduleRepository;
     private final PeriodHistoryRepository historyRepository;
+    private final KakaoScheduler kakaoScheduler;
 
-    public boolean getKakaoScheduleActiveStatus(String name) {
+    public boolean getKakaoScheduleActiveStatus() {
+        return kakaoScheduler.isActive();
+    }
+
+    public boolean getKakaoScheduleAutoRunnable(String name) {
         Schedule schedule = scheduleRepository.findByName(name)
                 .orElseThrow(() -> new AdminException(
                         AdminExceptionStatus.NOT_FOUND_SCHEDULER,

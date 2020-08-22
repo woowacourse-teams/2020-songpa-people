@@ -15,37 +15,41 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class KakaoScheduleQueryServiceTest {
-    private static final String KAKAO = "KAKAO";
-    private static final String INSTAGRAM = "INSTAGRAM";
 
+    private static final String KAKAO = "KAKAO";
     @Autowired
     private KakaoScheduleQueryService kakaoScheduleQueryService;
 
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    @DisplayName("입력한 스케쥴러의 이름으로 스케쥴러의 활성화 상태 조회하기")
+    @DisplayName("카카오 스케쥴러의 활성화 상태 조회하기")
     @Test
     void getKakaoScheduleActiveStatus() {
-        //given
-        scheduleRepository.save(new Schedule(KAKAO, "비밥", Flag.Y));
-        scheduleRepository.save(new Schedule(INSTAGRAM, "비밥", Flag.N));
-
         //when
-        boolean kakaoScheduleActiveStatus = kakaoScheduleQueryService.getKakaoScheduleActiveStatus(KAKAO);
+        boolean kakaoScheduleActiveStatus = kakaoScheduleQueryService.getKakaoScheduleActiveStatus();
 
         //then
-        assertThat(kakaoScheduleActiveStatus).isTrue();
+        assertThat(kakaoScheduleActiveStatus).isFalse();
     }
 
-    @DisplayName("입력한 스케쥴러의 이름에 맞는 스케쥴러가 없는 경우 Exception")
+    @DisplayName("카카오 스케쥴러의 자동실행 가능 상태를 조회한다.")
     @Test
-    void getKakaoScheduleActiveStatusException() {
+    void getKakaoScheduleAutoRunnable() {
         //given
-        scheduleRepository.save(new Schedule(INSTAGRAM, "비밥", Flag.N));
+        scheduleRepository.save(new Schedule(KAKAO, "", Flag.Y));
+
+        //when
+        boolean kakaoAutoRunnable = kakaoScheduleQueryService.getKakaoScheduleAutoRunnable(KAKAO);
 
         //then
-        assertThatThrownBy(() -> kakaoScheduleQueryService.getKakaoScheduleActiveStatus(KAKAO))
+        assertThat(kakaoAutoRunnable).isTrue();
+    }
+
+    @DisplayName("KAKAO 스케쥴러를 찾지 못한 경우")
+    @Test
+    void getKakaoScheduleAutoRunnableNotFound() {
+        assertThatThrownBy(() -> kakaoScheduleQueryService.getKakaoScheduleAutoRunnable(KAKAO))
                 .isInstanceOf(AdminException.class)
                 .hasMessage("%s : 스케쥴러가 존재하지 않습니다.", KAKAO);
     }
