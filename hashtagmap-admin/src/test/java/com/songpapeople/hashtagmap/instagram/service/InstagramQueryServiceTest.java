@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.instagram.service;
 
-import com.songpapeople.hashtagmap.blacklist.service.dto.SubBlackListDto;
+import com.songpapeople.hashtagmap.blacklist.service.dto.SemiBlackListDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
@@ -36,6 +36,7 @@ class InstagramQueryServiceTest {
     void findBlackListCandidate() {
         long startNumber = 1000;
         long subBlackListSize = InstagramQueryService.SUB_BLACK_LIST_SIZE;
+
         Place place = Place.builder()
                 .placeName("place")
                 .location(new Location(new Point("40", "130"), "address"))
@@ -51,9 +52,9 @@ class InstagramQueryServiceTest {
         placeRepository.save(place);
         instagramRepository.saveAll(instagrams);
 
-        List<SubBlackListDto> subBlackListInstagram = instagramQueryService.findSemiBlackListInstagram();
+        List<SemiBlackListDto> subBlackListInstagram = instagramQueryService.findSemiBlackListInstagram();
         List<Long> blackListHashtagCounts = subBlackListInstagram.stream()
-                .map(SubBlackListDto::getHashtagCount)
+                .map(SemiBlackListDto::getHashtagCount)
                 .collect(Collectors.toList());
 
         assertAll(

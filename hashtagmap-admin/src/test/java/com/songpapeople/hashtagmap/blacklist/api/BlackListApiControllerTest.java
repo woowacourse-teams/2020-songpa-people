@@ -1,12 +1,9 @@
 package com.songpapeople.hashtagmap.blacklist.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.songpapeople.hashtagmap.blacklist.domain.model.QBlackList;
-import com.songpapeople.hashtagmap.blacklist.domain.repsitory.BlackListRepository;
 import com.songpapeople.hashtagmap.blacklist.service.BlackListCommandService;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddRequest;
-import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddResponse;
-import com.songpapeople.hashtagmap.blacklist.service.dto.SubBlackListDto;
+import com.songpapeople.hashtagmap.blacklist.service.dto.SemiBlackListDto;
 import com.songpapeople.hashtagmap.docs.blacklist.BlackListApiDocumentation;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.service.InstagramCommandService;
@@ -15,17 +12,13 @@ import com.songpapeople.hashtagmap.instagrampost.service.InstagramPostCommandSer
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
-import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.InstagramScheduleService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-
-import javax.persistence.criteria.CriteriaBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +64,8 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
                 .hashtagCount(10000L)
                 .hashtagName(place.getPlaceName())
                 .build();
-        List<SubBlackListDto> semiBlackListDtos = new ArrayList<>();
-        semiBlackListDtos.add(SubBlackListDto.of(instagram));
+        List<SemiBlackListDto> semiBlackListDtos = new ArrayList<>();
+        semiBlackListDtos.add(SemiBlackListDto.of(instagram));
 
         when(instagramQueryService.findSemiBlackListInstagram()).thenReturn(semiBlackListDtos);
 

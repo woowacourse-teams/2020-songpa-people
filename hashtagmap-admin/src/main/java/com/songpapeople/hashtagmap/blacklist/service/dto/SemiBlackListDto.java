@@ -6,21 +6,21 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class SubBlackListDto {
+public class SemiBlackListDto {
     private Long placeId;
     private String placeName;
     private String roadAddressName;
     private Long HashtagCount;
 
-    private SubBlackListDto(Long placeId, String placeName, String roadAddressName, Long hashtagCount) {
+    private SemiBlackListDto(Long placeId, String placeName, String roadAddressName, Long hashtagCount) {
         this.placeId = placeId;
         this.placeName = placeName;
         this.roadAddressName = roadAddressName;
         HashtagCount = hashtagCount;
     }
 
-    public static SubBlackListDto of(Instagram instagram) {
-        return new SubBlackListDto(
+    public static SemiBlackListDto of(Instagram instagram) {
+        return new SemiBlackListDto(
                 instagram.getPlaceId(),
                 instagram.getPlaceName(),
                 instagram.getRoadAddressName(),

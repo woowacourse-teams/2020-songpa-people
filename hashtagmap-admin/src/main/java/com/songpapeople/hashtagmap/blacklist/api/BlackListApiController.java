@@ -3,7 +3,7 @@ package com.songpapeople.hashtagmap.blacklist.api;
 import com.songpapeople.hashtagmap.blacklist.service.BlackListCommandService;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddRequest;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddResponse;
-import com.songpapeople.hashtagmap.blacklist.service.dto.SubBlackListDto;
+import com.songpapeople.hashtagmap.blacklist.service.dto.SemiBlackListDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.service.InstagramCommandService;
 import com.songpapeople.hashtagmap.instagram.service.InstagramQueryService;
@@ -33,7 +33,7 @@ public class BlackListApiController {
 
     @GetMapping
     @RequestMapping("/semi")
-    public CustomResponse<List<SubBlackListDto>> getSubBlackList() {
+    public CustomResponse<List<SemiBlackListDto>> getSemiBlackList() {
         return CustomResponse.of(instagramQueryService.findSemiBlackListInstagram());
     }
 
