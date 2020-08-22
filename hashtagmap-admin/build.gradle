@@ -16,13 +16,6 @@ dependencies {
     testImplementation 'io.rest-assured:spring-mock-mvc:3.3.0'
 }
 
-task copySlackWebHook(type: Copy) {
-    description = "Copy slack web hook uri from hashtagmap-secret"
-    from '../hashtagmap-secret/slack/application-slack-web-hook.properties'
-    into 'src/main/resources/'
-}
-
-processResources.dependsOn 'copySlackWebHook'
 
 jacocoTestCoverageVerification {
     violationRules {
@@ -59,8 +52,13 @@ node {
     npmWorkDir = file("./front")
     nodeModulesDir = file("./front")
 }
+task copySlackWebHook(type: Copy) {
+    description = "Copy slack web hook uri from hashtagmap-secret"
+    from '../hashtagmap-secret/slack/application-slack-web-hook.yml'
+    into 'src/main/resources/'
+}
 
-task setUp(type: NpmTask) {
+task setUp(type: NpmTask, dependsOn: copySlackWebHook) {
     description = "Install Node.js Package"
     args = ['install']
 }
@@ -70,4 +68,5 @@ task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
     args = ['run', 'build']
 }
 
+processResources.dependsOn 'copySlackWebHook'
 processResources.dependsOn 'buildFrontEnd'

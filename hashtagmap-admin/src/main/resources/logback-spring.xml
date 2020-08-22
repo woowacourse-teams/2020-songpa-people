@@ -11,9 +11,10 @@
     <property name="MAX_HISTORY" value="30"/>
     <property name="LOG_PATTERN"
               value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %green([%thread]) %highlight(%-5level) %C.%M:%line :%msg%n"/>
-    <property file="./hashtagmap-admin/src/main/resources/application-slack-web-hook.properties" />
+    <property resource="application-slack-web-hook.yml" />
 
     <springProfile name="!prod">
+
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>${LOG_PATTERN}</pattern>
@@ -28,7 +29,7 @@
 
     <springProfile name="prod">
         <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-            <webhookUri>${uri.prod-admin}</webhookUri>
+            <webhookUri>${prod-admin}</webhookUri>
             <channel>#prod-admin</channel>
             <layout class="ch.qos.logback.classic.PatternLayout">
                 <pattern>${LOG_PATTERN}</pattern>

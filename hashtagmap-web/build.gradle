@@ -46,22 +46,19 @@ node {
     nodeModulesDir = file("./front")
 }
 
-task copyKakaoApiKey(type: Copy) {
+task copySlackWebHook(type: Copy) {
+    description = "Copy slack web hook uri from hashtagmap-secret"
+    from '../hashtagmap-secret/slack/application-slack-web-hook.yml'
+    into 'src/main/resources/'
+}
+
+task copyKakaoApiKey(type: Copy, dependsOn: copySlackWebHook) {
     description = "Copy kakao map api key from hashtagmap-secret"
     from '../hashtagmap-secret/kakao/index.js'
     into 'front/src/secret/'
 }
 
-task copySlackWebHook(type: Copy) {
-    description = "Copy slack web hook uri from hashtagmap-secret"
-    from '../hashtagmap-secret/slack/application-slack-web-hook.properties'
-    into 'src/main/resources/'
-}
-
-processResources.dependsOn 'copyKakaoApiKey'
-processResources.dependsOn 'copySlackWebHook'
-
-task setUp(type: NpmTask) {
+task setUp(type: NpmTask, dependsOn: copyKakaoApiKey) {
     description = "Install Node.js Package"
     args = ['install']
 }
@@ -70,4 +67,7 @@ task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
     description = "Build vue.js"
     args = ['run', 'build']
 }
+
+processResources.dependsOn 'copyKakaoApiKey'
+processResources.dependsOn 'copySlackWebHook'
 processResources.dependsOn 'buildFrontEnd'
