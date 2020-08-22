@@ -1,5 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler;
 
+import com.songpapeople.hashtagmap.blacklist.domain.model.BlackList;
+import com.songpapeople.hashtagmap.blacklist.domain.repsitory.BlackListRepository;
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
@@ -13,10 +15,12 @@ import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.convert.DataSizeUnit;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -44,9 +48,13 @@ class InstagramScheduleServiceTest {
     @Autowired
     private InstagramScheduleService instagramScheduleService;
 
+    @Autowired
+    private BlackListRepository blackListRepository;
+
     @MockBean
     private InstagramCrawler instagramCrawler;
 
+    @DisplayName("blackList등록하는 과정에서 Instagram과 post를 대체어로 검색한결과로 업데이트시키는 기능 테스트")
     @Test
     void updateBlackLists() {
         Place place = Place.builder()
@@ -68,7 +76,6 @@ class InstagramScheduleServiceTest {
 
         String replaceName = "replaceName";
         String newHashtagCount = "1000";
-
         PostDtos newPostDtos = createMockPostDtosByStartIndex(100);
         CrawlingDto crawlingDto = CrawlingDto.of(replaceName, newHashtagCount, newPostDtos);
         when(instagramCrawler.crawler(any())).thenReturn(crawlingDto);
@@ -79,7 +86,6 @@ class InstagramScheduleServiceTest {
         List<String> newPostImageUrls = instagramPostRepository.findAllByInstagramId(oldInstagram.getId()).stream()
                 .map(InstagramPost::getImageUrl)
                 .collect(Collectors.toList());
-
         assertAll(
                 () -> assertThat(newInstagram.getPlaceId()).isEqualTo(place.getId()),
                 () -> assertThat(newInstagram.getHashtagName()).isEqualTo(replaceName),
@@ -106,5 +112,34 @@ class InstagramScheduleServiceTest {
             postDtos.add(new PostDto(dummy, dummy));
         }
         return new PostDtos(postDtos);
+    }
+
+    @DisplayName("place가 blackList면 대체어를, 아니라면 place의 이름을 리턴하는 메서드 테스트 - 블랙리스트일때")
+    @Test
+    void findHashtagNameToCrawWhenBlackList() {
+        Place place = Place.builder()
+                .placeName("orginName")
+                .build();
+        placeRepository.save(place);
+
+        BlackList blackList = new BlackList(place.getId(),"replaceName");
+        blackListRepository.save(blackList);
+
+        String hashtagNameToCraw = instagramScheduleService.findHashtagNameToCraw(place);
+
+        assertThat(hashtagNameToCraw).isEqualTo(blackList.getReplaceName());
+    }
+
+    @DisplayName("place가 blackList면 대체어를, 아니라면 place의 이름을 리턴하는 메서드 테스트 - 블랙리스트가 아닐때")
+    @Test
+    void findHashtagNameToCrawWhenNotBlackList() {
+        Place place = Place.builder()
+                .placeName("orginName")
+                .build();
+        placeRepository.save(place);
+
+        String hashtagNameToCraw = instagramScheduleService.findHashtagNameToCraw(place);
+
+        assertThat(hashtagNameToCraw).isEqualTo(place.getPlaceName());
     }
 }

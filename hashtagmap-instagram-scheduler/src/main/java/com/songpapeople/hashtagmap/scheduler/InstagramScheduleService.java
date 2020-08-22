@@ -1,17 +1,15 @@
 package com.songpapeople.hashtagmap.scheduler;
 
+import com.songpapeople.hashtagmap.blacklist.domain.model.BlackList;
+import com.songpapeople.hashtagmap.blacklist.domain.repsitory.BlackListRepository;
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
-import com.songpapeople.hashtagmap.exception.CrawlerException;
-import com.songpapeople.hashtagmap.exception.InstagramSchedulerException;
-import com.songpapeople.hashtagmap.exception.InstagramSchedulerExceptionStatus;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
-import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.proxy.ProxiesFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,11 +26,12 @@ public class InstagramScheduleService {
 
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostsRepository;
+    private final BlackListRepository blackListRepository;
     private final InstagramCrawler instagramCrawler;
 
     public Optional<CrawlingResult> createCrawlingResult(Place place) {
         CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(
-                new ProxySetter(ProxiesFactory.create()), instagramCrawler);
+                new ProxySetter(ProxiesFactory.create()), instagramCrawler, this);
 
         return crawlerWithProxy.crawlInstagram(place, START_TRY_COUNT);
     }
@@ -58,5 +57,11 @@ public class InstagramScheduleService {
                         .build())
                 .collect(Collectors.toList());
         instagramPostsRepository.saveAll(instagramPosts);
+    }
+
+    public String findHashtagNameToCraw(Place place) {
+        return blackListRepository.findByPlaceId(place.getId())
+                .map(BlackList::getReplaceName)
+                .orElseGet(place::getPlaceName);
     }
 }

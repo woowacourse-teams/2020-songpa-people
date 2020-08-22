@@ -14,10 +14,14 @@ public class CrawlerWithProxy {
 
     private final ProxySetter proxySetter;
     private final InstagramCrawler instagramCrawler;
+    private final InstagramScheduleService instagramScheduleService;
 
-    public CrawlerWithProxy(ProxySetter proxySetter, InstagramCrawler instagramCrawler) {
+    public CrawlerWithProxy(ProxySetter proxySetter
+            , InstagramCrawler instagramCrawler
+            , InstagramScheduleService instagramScheduleService) {
         this.proxySetter = proxySetter;
         this.instagramCrawler = instagramCrawler;
+        this.instagramScheduleService = instagramScheduleService;
     }
 
     public Optional<CrawlingResult> crawlInstagram(Place place, int tryCount) {
@@ -26,8 +30,8 @@ public class CrawlerWithProxy {
         }
         try {
             proxySetter.setProxy();
-            String hashtagName = place.getPlaceName();
-            return Optional.of(new CrawlingResult(instagramCrawler.crawler(hashtagName), place));
+            String hashtagNameToCraw = instagramScheduleService.findHashtagNameToCraw(place);
+            return Optional.of(new CrawlingResult(instagramCrawler.crawler(hashtagNameToCraw), place));
         } catch (CrawlerException e) {
             log.info("CrawlerException: {}", e.getMessage());
             return crawlInstagram(place, tryCount + 1);
