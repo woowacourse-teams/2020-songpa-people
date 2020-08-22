@@ -33,9 +33,11 @@
 .story-container {
   display: flex;
 }
+
 .story {
   margin-left: 20px;
 }
+
 .story-image {
   width: 77px;
   height: 77px;
@@ -44,11 +46,13 @@
   border-style: solid;
   border-color: rgb(217, 217, 217);
 }
+
 .story-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .story-name {
   text-align: center;
   margin: 10px;

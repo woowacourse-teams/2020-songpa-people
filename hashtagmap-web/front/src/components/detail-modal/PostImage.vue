@@ -1,15 +1,10 @@
 <template>
-  <v-slide-item>
-    <v-card color="grey lighten-1" class="ma-5" height="300" width="300">
-      <v-img
-        height="100%"
-        width="100%"
-        :src="onLoadInstagramPostImage(post.imageUrl)"
-        @error="onImgError"
-        @click="onClickInstagramPostImage"
-      ></v-img>
-    </v-card>
-  </v-slide-item>
+  <v-img
+    class="img-content"
+    :src="onLoadInstagramPostImage(post.imageUrl)"
+    @error="onImgError"
+    @click="onClickInstagramPostImage"
+  />
 </template>
 
 <script>
@@ -41,8 +36,5 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-.theme--light.v-image:hover {
-  cursor: pointer !important;
-}
+<style>
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <carousel :autoplay="autoplay" :perPage="perPage" class="carousel">
       <slide class="carousel-component">
         <div class="image-wrap">
@@ -27,19 +27,17 @@
         </div>
       </slide>
     </carousel>
-  </v-content>
+  </v-main>
 </template>
 <script>
 import { Carousel, Slide } from "vue-carousel";
 
 export default {
   name: "Slider",
-
   components: {
     Carousel,
     Slide,
   },
-
   data() {
     return {
       autoplay: true,

@@ -1,106 +1,116 @@
 <template>
-  <v-row justify="center">
-    <v-dialog
-      :value="getDetailModal.isShow"
-      @input="SET_DETAIL_MODAL_CLOSE"
-      max-width="70%"
-    >
-      <v-card>
-        <div>
-          <p class="place-title">{{ getDetailModal.placeName }}</p>
-          <p class="hashtag-count">{{ makeHashtagCount }}k</p>
-          <p class="buttons">
-            <v-btn
-              x-large
-              class="instagram-page-button"
-              color="rgb(116,22,227)"
-              @click="onClickPlaceName"
-            >
-              {{ getDetailModal.placeName }}
-            </v-btn>
-            <v-btn
-              x-large
-              class="detail-info"
-              color="rgb(116,22,227)"
-              @click="onClickModalDetail"
-              >상세 정보
-            </v-btn>
-          </p>
-          <v-sheet class="mx-auto" max-width="100%">
-            <v-slide-group
-              class="pa-4"
-              :prev-icon="mdiLeft"
-              :next-icon="mdiRight"
-              show-arrows
-            >
-              <InstagramPost
-                v-for="post in getDetailModal.posts"
-                :key="post.id"
-                :post="post"
-              />
-            </v-slide-group>
-          </v-sheet>
+  <v-dialog
+          class="detail-modal"
+          :value="getDetailModal.isShow"
+          @input="SET_DETAIL_MODAL_CLOSE"
+          width="600px"
+  >
+    <v-card>
+      <div>
+        <div class="modal-profile-image">
+          <img alt="" src="@/assets/mainpage/miso_circle.png" />
         </div>
-      </v-card>
-    </v-dialog>
-  </v-row>
+
+        <v-row class="modal-info">
+          <v-col>
+            <v-row>
+              <p class="placeName">
+                {{ getDetailModal.placeName }}
+              </p>
+            </v-row>
+            <v-row>
+              <p class="hashtagCount">
+                {{ makeHashtagCount }}k 개의 게시글이 있는 가게입니다.
+              </p>
+            </v-row>
+            <v-row>
+              <v-btn @click="onClickPlaceName" class="instagram-page-button">
+                인스타그램
+              </v-btn>
+              <v-btn @click="onClickModalDetail" class="detail-info-button"
+              >상세 정보
+              </v-btn>
+            </v-row>
+          </v-col>
+        </v-row>
+        <Posts class="posts" :posts="getDetailModal.posts" />
+      </div>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
-  import {mapGetters, mapMutations} from "vuex";
-  import {mdiChevronLeft, mdiChevronRight} from "@mdi/js";
-  import InstagramPost from "./InstagramPost";
-  import {convertHashtagCount} from "@/utils/hashtagCountConverter";
+  import { mapGetters, mapMutations } from "vuex";
+  import Posts from "./Posts.vue";
 
   export default {
-    components: {InstagramPost},
-
-    data: () => ({
-      mdiLeft: mdiChevronLeft,
-      mdiRight: mdiChevronRight,
-    }),
+    components: {
+      Posts,
+    },
 
     computed: {
       ...mapGetters(["getDetailModal"]),
       makeHashtagCount() {
-      return convertHashtagCount(this.getDetailModal.hashtagCount);
+        return (this.getDetailModal.hashtagCount / 1000).toFixed(1);
+      },
     },
-  },
 
-  methods: {
-    ...mapMutations(["SET_DETAIL_MODAL_CLOSE"]),
-    onClickPlaceName() {
-      return window.open(
-        `https://www.instagram.com/explore/tags/${this.getDetailModal.hashtagName}/?hl=ko`,
-      );
+    methods: {
+      ...mapMutations(["SET_DETAIL_MODAL_CLOSE"]),
+      onClickPlaceName() {
+        return window.open(
+                `https://www.instagram.com/explore/tags/${this.getDetailModal.hashtagName}/?hl=ko`,
+        );
+      },
+      onClickModalDetail() {
+        return window.open(this.getDetailModal.placeUrl);
+      },
     },
-    onClickModalDetail() {
-      return window.open(this.getDetailModal.placeUrl);
-    },
-  },
-};
+  };
 </script>
 
-<style lang="stylus" scoped>
-.place-title {
-  font-size: 5vw;
-}
+<style>
+  .placeName {
+    font-size: 20px;
+  }
 
-.hashtag-count {
-  margin-top: -3vw;
-  font-size: 4vw;
-}
+  .hashtagCount {
+    font-size: 15px;
+  }
 
-.buttons {
-  margin-top: -1.5vw;
-}
+  .modal-profile-image {
+    float: left;
+    width: calc(33.333% - 1rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 3rem;
+    margin-top: 0.5rem;
+  }
 
-.instagram-page-button,
-.detail-info {
-  height: 3.5vw;
-  font-size: 2vw !important;
-  color: white !important;
-  margin-right: 0.7vw;
-  box-sizing: content-box;
-}
+  .modal-profile-image img {
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+  }
+
+  .detail-info-button,
+  .instagram-page-button {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    margin-right: 8px;
+  }
+
+  .modal-info {
+    margin-left: 3px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .detail-modal {
+      width: 100%;
+    }
+  }
 </style>
