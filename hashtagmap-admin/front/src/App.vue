@@ -10,34 +10,7 @@
           <v-list-item-action>
             <v-icon> {{ navigator.icon }}</v-icon>
           </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>kakao scheduler</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/instagram-scheduler">
-          <v-list-item-action>
-            <v-icon>mdi-air-purifier</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>instagram scheduler</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/district-manager">
-          <v-list-item-action>
-            <v-icon>mdi-flag-variant</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>district manager</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/blacklist-manager">
-          <v-list-item-action>
-            <v-icon>mdi-sunglasses</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>blackList manager</v-list-item-title>
-            <v-list-item-title> {{ navigator.title }}</v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-title> {{ navigator.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -86,7 +59,9 @@ export default {
           title: "district-manage",
           icon: "mdi-flag-variant"
         },
-        { to: "/tag-level", title: "Tag Level", icon: "mdi-air-purifier" }
+        { to: "/tag-level", title: "Tag Level", icon: "mdi-air-purifier" },
+        { to: "/blacklist-manager", title: "blackList manager", icon: "mdi-sunglasses" },
+
       ]
     };
   },
