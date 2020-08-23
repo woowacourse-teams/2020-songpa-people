@@ -7,9 +7,7 @@
     :loop="loop"
   >
     <slide v-for="post in posts" :key="post.id">
-      <div>
-        <PostImage :post="post"></PostImage>
-      </div>
+      <PostImage :post="post"></PostImage>
     </slide>
   </carousel>
 </template>
@@ -40,3 +38,8 @@ export default {
   methods: {},
 };
 </script>
+<style>
+.container {
+  padding: 0px;
+}
+</style>

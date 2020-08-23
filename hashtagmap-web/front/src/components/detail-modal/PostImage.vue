@@ -1,10 +1,12 @@
 <template>
-  <v-img
-    class="img-content"
-    :src="onLoadInstagramPostImage(post.imageUrl)"
-    @error="onImgError"
-    @click="onClickInstagramPostImage"
-  />
+  <v-container>
+    <img
+      :id="post.id"
+      class="img-content"
+      @error="onImgError"
+      @click="onClickInstagramPostImage"
+    />
+  </v-container>
 </template>
 
 <script>
@@ -15,19 +17,16 @@ export default {
       required: true,
     },
   },
-
+  mounted() {
+    document.getElementById(this.post.id).src = this.post.imageUrl;
+  },
   data: () => ({
-    isFailLoadImage: false,
+    image: this.post.imageUrl,
   }),
 
   methods: {
-    onLoadInstagramPostImage(imageUrl) {
-      return this.isFailLoadImage
-        ? require("../../assets/No-Image.png")
-        : imageUrl;
-    },
-    onImgError() {
-      this.isFailLoadImage = true;
+    onImgError(e) {
+      e.target.src = require("../../assets/No-Image.png");
     },
     onClickInstagramPostImage() {
       return window.open(this.post.postUrl);
@@ -37,4 +36,16 @@ export default {
 </script>
 
 <style>
+.img-content {
+  width: 600px;
+  height: auto;
+}
+
+@media screen and (max-width: 600px) {
+  .img-content {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+}
 </style>
