@@ -7,14 +7,14 @@ const kakaoApi = {
   stopScheduler() {
     return customWrapAxios().post("/kakao/scheduler/stop");
   },
-  toggleSchedulerAutoRunnable(scheduleName) {
-    const toggleDto = { name: scheduleName };
+  toggleSchedulerAutoRunnable(schedulerName) {
+    const toggleDto = { name: schedulerName };
     return customWrapAxios().patch("/kakao/scheduler/auto/toggle", toggleDto);
   },
-  getSchedulerAutoRunnableStatus(scheduleName) {
+  getSchedulerAutoRunnableStatus(schedulerName) {
     return customWrapAxios().get("/kakao/scheduler/auto", {
       params: {
-        name: scheduleName
+        name: schedulerName
       }
     });
   },

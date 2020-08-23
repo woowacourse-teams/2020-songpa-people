@@ -35,12 +35,6 @@ export default {
         state.kakaoScheduleActiveStatus.message ===
         KAKAO.SCHEDULE.ACTIVATE_MESSAGE
       );
-    },
-    isScheduleAutoRunnable: state => {
-      return (
-        state.kakaoSchedulerAutoRunnableStatus.message ===
-        KAKAO.SCHEDULE.ACTIVATE_MESSAGE
-      );
     }
   },
 
@@ -106,11 +100,8 @@ export default {
       }
     },
     toggleKakaoSchedulerAutoRunnable: async ({ dispatch }) => {
-      try {
-        await kakaoApi.toggleSchedulerAutoRunnable(KAKAO.SCHEDULE.NAME);
-      } finally {
-        await dispatch("fetchScheduleAutoRunnable");
-      }
+      await kakaoApi.toggleSchedulerAutoRunnable(KAKAO.SCHEDULE.NAME);
+      dispatch("fetchScheduleAutoRunnable");
     },
     fetchScheduleAutoRunnable: async ({ commit }) => {
       const status = {
