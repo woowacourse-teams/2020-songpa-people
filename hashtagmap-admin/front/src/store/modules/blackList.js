@@ -4,43 +4,45 @@ export default {
   namespaced: true,
 
   state: {
-    subBlackList: [
+    semiBlackList: [
       {
-        placeId: "142",
-        placeName: "신이문",
-        hashtagCount: "2125",
-        roadAddressName: "한천로"
+        placeId: "",
+        placeName: "",
+        hashtagCount: "",
+        roadAddressName: ""
       }
     ]
   },
 
   mutations: {
-    SET_SUB_BLACKLIST: (state, subBlackList) => {
-      state.subBlackList = subBlackList;
+    SET_SUB_BLACKLIST: (state, semiBlackList) => {
+      state.semiBlackList = semiBlackList;
     }
   },
 
   getters: {
-    getSubBlackList: state => {
-      return state.subBlackList;
+    getSemiBlackList: state => {
+      return state.semiBlackList;
     }
   },
 
   actions: {
-    async setSubBlackList({ commit }) {
+    async setSemiBlackList({ commit }) {
       const res = await blackListApi.getSubBlackList();
       commit("SET_SUB_BLACKLIST", res.body.data);
     },
-    async addBlackList(context, blackList) {
+    async updateInstagramAfterAddBlackList(context, blackList) {
       try {
-        return await blackListApi.addBlackList(blackList);
+        return await blackListApi.updateInstagramAfterAddBlackList(blackList);
       } catch (e) {
         return e;
       }
     },
-    async deleteBlackListInstagram(context, placeId) {
+    async deleteInstagramAfterAddBlackList(context, deleteBlackListData) {
       try {
-        return await blackListApi.deleteBlackListInstagram(placeId);
+        return await blackListApi.deleteInstagramAfterAddBlackList(
+          deleteBlackListData
+        );
       } catch (e) {
         return e;
       }

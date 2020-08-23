@@ -60,8 +60,11 @@ export default {
           icon: "mdi-flag-variant"
         },
         { to: "/tag-level", title: "Tag Level", icon: "mdi-air-purifier" },
-        { to: "/blacklist-manager", title: "blackList manager", icon: "mdi-sunglasses" },
-
+        {
+          to: "/blacklist-manager",
+          title: "blackList manager",
+          icon: "mdi-sunglasses"
+        }
       ]
     };
   },

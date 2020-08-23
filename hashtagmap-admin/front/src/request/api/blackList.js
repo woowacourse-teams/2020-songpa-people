@@ -4,19 +4,23 @@ const blackListApi = {
   getSubBlackList() {
     return customWrapAxios().get("/blacklist/semi");
   },
-  addBlackList(blackList) {
-    return customWrapAxios().post("/blacklist", blackList, {
+  updateInstagramAfterAddBlackList(blackList) {
+    return customWrapAxios().post("/blacklist/update-instagram", blackList, {
       headers: {
         "Content-Type": "application/json"
       }
     });
   },
-  deleteBlackListInstagram(placeId) {
-    return customWrapAxios().delete("/blacklist/instagram", {
-      params: {
-        placeId: placeId
+  deleteInstagramAfterAddBlackList(deleteBlackListData) {
+    return customWrapAxios().post(
+      "/blacklist/delete-instagram",
+      deleteBlackListData,
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-    });
+    );
   }
 };
 

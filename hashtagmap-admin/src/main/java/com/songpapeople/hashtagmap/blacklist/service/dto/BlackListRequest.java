@@ -6,16 +6,16 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class BlackListAddRequest {
+public class BlackListRequest {
     private Long placeId;
     private String replaceName;
 
-    public BlackListAddRequest(Long placeId, String replaceName) {
+    public BlackListRequest(Long placeId, String replaceName) {
         this.placeId = placeId;
         this.replaceName = replaceName;
     }
 
-    public static BlackList toBlackList(BlackListAddRequest blackListRequest) {
+    public static BlackList toBlackList(BlackListRequest blackListRequest) {
         return new BlackList(blackListRequest.placeId, blackListRequest.replaceName);
     }
 }

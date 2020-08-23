@@ -64,4 +64,10 @@ public class InstagramScheduleService {
                 .map(BlackList::getReplaceName)
                 .orElseGet(place::getPlaceName);
     }
+
+    public boolean isSkipPlace(Place place) {
+        return blackListRepository.findByPlaceId(place.getId())
+                .map(BlackList::getIsSkipPlace)
+                .orElseGet(()->false);
+    }
 }

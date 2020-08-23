@@ -18,7 +18,10 @@ public class BlackListCommandService {
     @Transactional
     public BlackList save(BlackList blackList) {
         Optional<BlackList> blackListByPlaceId = blackListRepository.findByPlaceId(blackList.getPlaceId());
-        blackListByPlaceId.ifPresent(item -> item.setReplaceName(blackList.getReplaceName()));
+        blackListByPlaceId.ifPresent(item -> {
+            item.setReplaceName(blackList.getReplaceName());
+            item.setSkipPlace(blackList.getIsSkipPlace());
+        });
         return blackListRepository.save(blackListByPlaceId.orElseGet(() -> blackList));
     }
 }

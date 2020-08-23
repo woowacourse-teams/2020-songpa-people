@@ -18,10 +18,17 @@ import javax.persistence.UniqueConstraint;
 public class BlackList extends BaseEntity {
     private Long placeId;
     private String replaceName;
+    @Column(columnDefinition = "bit default 0")
+    private Boolean isSkipPlace;
 
     public BlackList(Long placeId, String replaceName) {
         this.placeId = placeId;
         this.replaceName = replaceName;
+        this.isSkipPlace = false;
+    }
+
+    public void setSkipPlace(Boolean isSkipPlace) {
+        this.isSkipPlace = isSkipPlace;
     }
 
     public void setReplaceName(String replaceName) {

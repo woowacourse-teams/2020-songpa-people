@@ -1,5 +1,7 @@
 package com.songpapeople.hashtagmap.blacklist.acceptance;
 
+import com.songpapeople.hashtagmap.blacklist.domain.model.BlackList;
+import com.songpapeople.hashtagmap.blacklist.domain.repsitory.BlackListRepository;
 import com.songpapeople.hashtagmap.docs.ApiDocument;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
@@ -16,8 +18,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -39,12 +44,15 @@ public class BlackListAcceptanceTest extends ApiDocument {
     @Autowired
     private InstagramPostRepository instagramPostRepository;
 
+    @Autowired
+    private BlackListRepository blackListRepository;
+
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
     }
 
-    @DisplayName("대체검색어로 검색해도 인기없는 인스타그램을 삭제한다")
+    @DisplayName("인기없는 인스타그램을 블랙리스트 등록후 삭제한다")
     @Test
     void deleteInstagramAndPost() throws Exception {
         Place place = Place.builder()
@@ -53,22 +61,29 @@ public class BlackListAcceptanceTest extends ApiDocument {
                 .build();
         Instagram instagram = Instagram.builder()
                 .place(place)
-                .hashtagCount(10000L)
+                .hashtagCount(100L)
                 .hashtagName(place.getPlaceName())
                 .build();
         placeRepository.save(place);
         instagramRepository.save(instagram);
         instagramPostRepository.saveAll(createInstagramPosts(instagram));
 
-        RestAssured.given().log().all().
-                when().
-                delete("/blacklist/instagram?placeId=" + place.getId()).
-                then().
-                log().all();
+        Map<String, String> params = new HashMap<>();
+        params.put("placeId", String.valueOf(place.getId()));
+        params.put("replaceName", "");
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(params)
+                .when()
+                .post("/blacklist/delete-instagram")
+                .then()
+                .log().all();
 
+        BlackList blackList = blackListRepository.findByPlaceId(place.getId()).get();
         Optional<Instagram> instagramFindById = instagramRepository.findById(instagram.getId());
         List<InstagramPost> instagramPost = instagramPostRepository.findAllByInstagramId(instagram.getId());
         assertAll(
+                () -> assertThat(blackList.getIsSkipPlace()).isTrue(),
                 () -> assertThat(instagramFindById.isPresent()).isFalse(),
                 () -> assertThat(instagramPost).hasSize(0)
         );

@@ -25,7 +25,7 @@ public class CrawlerWithProxy {
     }
 
     public Optional<CrawlingResult> crawlInstagram(Place place, int tryCount) {
-        if (tryCount > MAX_TRY_COUNT) {
+        if (tryCount > MAX_TRY_COUNT || instagramScheduleService.isSkipPlace(place)) {
             return Optional.empty();
         }
         try {

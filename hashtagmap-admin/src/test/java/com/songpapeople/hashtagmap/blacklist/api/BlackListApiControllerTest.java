@@ -2,7 +2,7 @@ package com.songpapeople.hashtagmap.blacklist.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.songpapeople.hashtagmap.blacklist.service.BlackListCommandService;
-import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListAddRequest;
+import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListRequest;
 import com.songpapeople.hashtagmap.blacklist.service.dto.SemiBlackListDto;
 import com.songpapeople.hashtagmap.docs.blacklist.BlackListApiDocumentation;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
@@ -56,13 +56,13 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
     void getSubBlackList() throws Exception {
         Place place = Place.builder()
                 .id(1L)
-                .placeName("place")
+                .placeName("placeName")
                 .location(new Location(new Point("40", "130"), "address"))
                 .build();
         Instagram instagram = Instagram.builder()
                 .place(place)
+                .hashtagName("hashtagName")
                 .hashtagCount(10000L)
-                .hashtagName(place.getPlaceName())
                 .build();
         List<SemiBlackListDto> semiBlackListDtos = new ArrayList<>();
         semiBlackListDtos.add(SemiBlackListDto.of(instagram));
@@ -90,24 +90,28 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
                         .build()
         );
 
-        BlackListAddRequest blackListAddRequest = new BlackListAddRequest(place.getId(), "newName");
+        BlackListRequest blackListRequest = new BlackListRequest(place.getId(), "newName");
 
-        mockMvc.perform(post("/blacklist")
-                .content(objectMapper.writeValueAsString(blackListAddRequest))
+        mockMvc.perform(post("/blacklist/update-instagram")
+                .content(objectMapper.writeValueAsString(blackListRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(getDocumentByPostBlackList());
     }
 
     @DisplayName("대체어로 검색했을 때 인기없는 인스타그램을 삭제하는 요청")
     @Test
     void deleteInstagramAndPost() throws Exception {
+        when(blackListCommandService.save(any())).thenReturn(null);
         when(instagramQueryService.findByPlaceId(any())).thenReturn(Instagram.builder().build());
         doNothing().when(instagramPostCommandService).deleteByInstagramId(any());
         doNothing().when(instagramCommandService).delete(any());
 
-        mockMvc.perform(delete("/blacklist/instagram?placeId=1234"))
-                .andExpect(status().isOk())
+        BlackListRequest blackListRequest = new BlackListRequest(1L, "");
+        mockMvc.perform(post("/blacklist/delete-instagram")
+                .content(objectMapper.writeValueAsString(blackListRequest))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNoContent())
                 .andDo(getDocumentByDeleteInstagram());
     }
 }

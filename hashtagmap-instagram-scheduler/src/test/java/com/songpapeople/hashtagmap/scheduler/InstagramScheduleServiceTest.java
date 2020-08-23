@@ -142,4 +142,30 @@ class InstagramScheduleServiceTest {
 
         assertThat(hashtagNameToCraw).isEqualTo(place.getPlaceName());
     }
+
+    @DisplayName("크롤링을 스킵하는 place인지 리턴하는 메서드 테스트 - true")
+    @Test
+    void isSkipPlaceWhenTrue() {
+        Place skipPlace = Place.builder()
+                .placeName("skipPlace")
+                .build();
+        placeRepository.save(skipPlace);
+
+        BlackList blackList = new BlackList(skipPlace.getId(),"");
+        blackList.setSkipPlace(true);
+        blackListRepository.save(blackList);
+
+        assertThat(instagramScheduleService.isSkipPlace(skipPlace)).isTrue();
+    }
+
+    @DisplayName("크롤링을 스킵하는 place인지 리턴하는 메서드 테스트 - false")
+    @Test
+    void isSkipPlaceWhenFalse() {
+        Place nonSkipPlace = Place.builder()
+                .placeName("nonSkipPlace")
+                .build();
+        placeRepository.save(nonSkipPlace);
+
+        assertThat(instagramScheduleService.isSkipPlace(nonSkipPlace)).isFalse();
+    }
 }
