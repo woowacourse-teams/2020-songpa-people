@@ -29,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -107,7 +108,7 @@ class KakaoSchedulerApiControllerExceptionTest {
         String emptyBody = "{}";
 
         //when
-        MvcResult mvcResult = mockMvc.perform(post(BASE_URI + "/auto/toggle")
+        MvcResult mvcResult = mockMvc.perform(patch(BASE_URI + "/auto/toggle")
                 .content(emptyBody)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

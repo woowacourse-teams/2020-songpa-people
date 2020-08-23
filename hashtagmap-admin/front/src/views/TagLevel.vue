@@ -49,7 +49,6 @@ export default {
     async showTagLevel() {
       const response = await this.fetchTagLevels();
       const snackbarContent = convert.toSnackBarContent(response);
-      console.dir(snackbarContent);
       this.SHOW_SNACKBAR(snackbarContent);
     },
     async update() {

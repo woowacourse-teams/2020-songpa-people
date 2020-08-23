@@ -13,9 +13,6 @@ spring:
 ---
 spring:
   profiles: local
-  resources:
-    static-locations:
-      - file:./hashtagmap-admin/src/main/resources/static
   h2:
     console:
       enabled: true

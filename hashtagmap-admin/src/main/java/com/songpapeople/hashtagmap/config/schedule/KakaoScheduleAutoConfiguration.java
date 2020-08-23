@@ -1,6 +1,5 @@
 package com.songpapeople.hashtagmap.config.schedule;
 
-import com.songpapeople.hashtagmap.kakao.schedule.model.PeriodHistory;
 import com.songpapeople.hashtagmap.kakao.schedule.model.Schedule;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.PeriodHistoryRepository;
 import com.songpapeople.hashtagmap.kakao.schedule.repository.ScheduleRepository;
@@ -26,9 +25,9 @@ public class KakaoScheduleAutoConfiguration {
     public void configureKakaoSchedule() {
         log.info("AutoConfigure KakaoScheduler");
         Optional<Schedule> kakaoSchedule = scheduleRepository.findByName(KAKAO);
+        periodHistoryRepository.findTopByOrderByChangedDateDesc()
+                .ifPresent(periodHistory -> kakaoScheduler.changePeriod(periodHistory.getExpression()));
         if (kakaoSchedule.isPresent() && kakaoSchedule.get().isActive()) {
-            Optional<PeriodHistory> findPeriodHistory = periodHistoryRepository.findTopByOrderByChangedDateDesc();
-            findPeriodHistory.ifPresent(periodHistory -> kakaoScheduler.changePeriod(periodHistory.getExpression()));
             kakaoScheduler.start();
         }
     }

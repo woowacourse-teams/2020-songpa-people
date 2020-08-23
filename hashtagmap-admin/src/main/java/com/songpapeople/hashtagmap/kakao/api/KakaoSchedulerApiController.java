@@ -8,6 +8,7 @@ import com.songpapeople.hashtagmap.response.CustomResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,20 +41,20 @@ public class KakaoSchedulerApiController {
         return CustomResponse.empty();
     }
 
-    @GetMapping("/status")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<Boolean> getActiveStatus() {
         return CustomResponse.of(kakaoScheduleQueryService.getKakaoScheduleActiveStatus());
     }
 
-    @PostMapping("/auto/toggle")
+    @PatchMapping("/auto/toggle")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<Void> toggleAutoRunnable(@RequestBody @Valid KakaoScheduleToggleDto kakaoScheduleToggleDto) {
         kakaoScheduleCommandService.toggleScheduleAutoRunnable(kakaoScheduleToggleDto.getName());
         return CustomResponse.empty();
     }
 
-    @GetMapping("/auto/status")
+    @GetMapping("/auto")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<Boolean> getKakaoAutoRunnable(@RequestParam("name") String scheduleName) {
         return CustomResponse.of(kakaoScheduleQueryService.getKakaoScheduleAutoRunnable(scheduleName));
