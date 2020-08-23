@@ -37,7 +37,7 @@ public class InstagramScheduleService {
     }
 
     @Transactional
-    public Instagram updateBlackLists(String replaceName, Instagram instagramToUpdate) {
+    public Instagram updateBlackList(String replaceName, Instagram instagramToUpdate) {
         CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
         instagramToUpdate.setHashtagName(replaceName);
         instagramToUpdate.setHashtagCount(crawlingDto.getHashtagCount());

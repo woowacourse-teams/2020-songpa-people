@@ -13,7 +13,6 @@ import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.InstagramScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,7 +51,7 @@ public class BlackListApiController {
     private Instagram updateInstagramAndPost(@RequestBody BlackListRequest blackListRequest) {
         Instagram instagramToUpdate = instagramQueryService.findByPlaceId(blackListRequest.getPlaceId());
         String replaceName = blackListRequest.getReplaceName();
-        return instagramScheduleService.updateBlackLists(replaceName, instagramToUpdate);
+        return instagramScheduleService.updateBlackList(replaceName, instagramToUpdate);
     }
 
     @PostMapping

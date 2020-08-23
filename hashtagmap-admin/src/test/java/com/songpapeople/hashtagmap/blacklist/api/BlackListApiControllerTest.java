@@ -82,7 +82,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
         Place place = Place.builder()
                 .id(1L)
                 .build();
-        when(instagramScheduleService.updateBlackLists(any(), any())).thenReturn(
+        when(instagramScheduleService.updateBlackList(any(), any())).thenReturn(
                 Instagram.builder()
                         .place(place)
                         .hashtagName("newName")

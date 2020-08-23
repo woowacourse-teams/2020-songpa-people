@@ -79,7 +79,7 @@ class InstagramScheduleServiceTest {
         CrawlingDto crawlingDto = CrawlingDto.of(replaceName, newHashtagCount, newPostDtos);
         when(instagramCrawler.crawler(any())).thenReturn(crawlingDto);
 
-        instagramScheduleService.updateBlackLists(replaceName, oldInstagram);
+        instagramScheduleService.updateBlackList(replaceName, oldInstagram);
 
         Instagram newInstagram = instagramRepository.findById(oldInstagram.getId()).get();
         List<String> newPostImageUrls = instagramPostRepository.findAllByInstagramId(oldInstagram.getId()).stream()
