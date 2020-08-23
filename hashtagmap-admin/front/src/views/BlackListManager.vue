@@ -116,7 +116,7 @@ export default {
       deleteBlackListData: {
         placeId: ""
       },
-      addBlackListResult: "저장된 대체검새어 인스타 정보",
+      addBlackListResult: "저장된 대체 검색어 인스타 정보",
     };
   },
 
