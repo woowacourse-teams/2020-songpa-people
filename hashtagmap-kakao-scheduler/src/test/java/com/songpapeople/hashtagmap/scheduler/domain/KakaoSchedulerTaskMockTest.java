@@ -84,8 +84,8 @@ public class KakaoSchedulerTaskMockTest {
                                         .placeName("woowacourse")
                                         .placeUrl("http://woowacourse.com")
                                         .roadAddressName("서울시 송파구")
-                                        .latitude("127")
-                                        .longitude("33")
+                                        .latitude("33")
+                                        .longitude("127")
                                         .build(),
                                 Document.builder()
                                         .id("124")
@@ -93,8 +93,8 @@ public class KakaoSchedulerTaskMockTest {
                                         .placeName("mahogani")
                                         .placeUrl("http://mahogani.com")
                                         .roadAddressName("서울시 송파구")
-                                        .latitude("127.1")
-                                        .longitude("33.1")
+                                        .latitude("33.1")
+                                        .longitude("127.1")
                                         .build()
                         ))
         );

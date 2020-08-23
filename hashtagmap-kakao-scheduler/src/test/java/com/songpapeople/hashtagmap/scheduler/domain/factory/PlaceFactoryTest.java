@@ -19,11 +19,11 @@ public class PlaceFactoryTest {
                 .placeName("비엔나 커피")
                 .categoryGroupCode("CE7")
                 .roadAddressName("서울 강남구 테헤란로84길 17")
-                .latitude("127.05897078335246")
-                .longitude("37.506051888130386")
+                .latitude("37.506051888130386")
+                .longitude("127.05897078335246")
                 .placeUrl("http://place.map.kakao.com/16618597")
                 .build();
-        Location location = new Location(new Point(document.getLongitude(), document.getLatitude()), document.getRoadAddressName());
+        Location location = new Location(new Point(document.getLatitude(), document.getLongitude()), document.getRoadAddressName());
         Place expected = Place.builder()
                 .kakaoId(document.getId())
                 .placeName(document.getPlaceName())

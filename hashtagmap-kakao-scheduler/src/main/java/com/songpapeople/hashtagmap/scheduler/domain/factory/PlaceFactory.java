@@ -18,10 +18,7 @@ public class PlaceFactory {
     }
 
     public static Place from(Document document) {
-        /*
-            여기가 변경된 이유는 x, y 좌표를 반대로 넣고 있어서 오류가 발생했었습니다.
-         */
-        Location location = new Location(new Point(document.getLongitude(), document.getLatitude()),
+        Location location = new Location(new Point(document.getLatitude(), document.getLongitude()),
                 document.getRoadAddressName());
 
         return Place.builder()

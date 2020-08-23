@@ -23,7 +23,6 @@ public class InstagramScheduler {
     private final InstagramScheduleService instagramScheduleService;
 
     public void update() {
-        instagramPostRepository.deleteAll();
         List<Place> places = placeRepository.findAll();
         List<CrawlingResult> crawlingResults = places.stream()
                 .map(instagramScheduleService::createCrawlingResult)
@@ -36,6 +35,7 @@ public class InstagramScheduler {
 
     @Transactional
     void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
+        instagramPostRepository.deleteAll();
         for (CrawlingResult crawlingResult : crawlingResults) {
             Instagram instagram = instagramRepository.save(crawlingResult.createInstagram());
             List<InstagramPost> instagramPosts = crawlingResult.toInstagramPosts(instagram.getId());
