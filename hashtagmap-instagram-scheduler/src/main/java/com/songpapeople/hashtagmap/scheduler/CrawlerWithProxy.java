@@ -30,7 +30,7 @@ public class CrawlerWithProxy {
         }
         try {
             proxySetter.setProxy();
-            String hashtagNameToCraw = instagramScheduleService.findHashtagNameToCraw(place);
+            String hashtagNameToCraw = instagramScheduleService.findHashtagNameToCrawl(place);
             return Optional.of(new CrawlingResult(instagramCrawler.crawler(hashtagNameToCraw), place));
         } catch (CrawlerException e) {
             log.info("CrawlerException: {}", e.getMessage());

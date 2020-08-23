@@ -59,7 +59,7 @@ public class InstagramScheduleService {
         instagramPostsRepository.saveAll(instagramPosts);
     }
 
-    public String findHashtagNameToCraw(Place place) {
+    public String findHashtagNameToCrawl(Place place) {
         return blackListRepository.findByPlaceId(place.getId())
                 .map(BlackList::getReplaceName)
                 .orElseGet(place::getPlaceName);

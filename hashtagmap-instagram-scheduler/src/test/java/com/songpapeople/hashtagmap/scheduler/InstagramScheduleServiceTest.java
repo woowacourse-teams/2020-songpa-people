@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.convert.DataSizeUnit;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -125,7 +124,7 @@ class InstagramScheduleServiceTest {
         BlackList blackList = new BlackList(place.getId(),"replaceName");
         blackListRepository.save(blackList);
 
-        String hashtagNameToCraw = instagramScheduleService.findHashtagNameToCraw(place);
+        String hashtagNameToCraw = instagramScheduleService.findHashtagNameToCrawl(place);
 
         assertThat(hashtagNameToCraw).isEqualTo(blackList.getReplaceName());
     }
@@ -138,7 +137,7 @@ class InstagramScheduleServiceTest {
                 .build();
         placeRepository.save(place);
 
-        String hashtagNameToCraw = instagramScheduleService.findHashtagNameToCraw(place);
+        String hashtagNameToCraw = instagramScheduleService.findHashtagNameToCrawl(place);
 
         assertThat(hashtagNameToCraw).isEqualTo(place.getPlaceName());
     }
