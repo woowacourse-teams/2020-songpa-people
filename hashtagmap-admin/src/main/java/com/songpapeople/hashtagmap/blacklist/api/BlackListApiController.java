@@ -11,12 +11,14 @@ import com.songpapeople.hashtagmap.instagrampost.service.InstagramPostCommandSer
 import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.InstagramScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,11 +35,13 @@ public class BlackListApiController {
 
     @GetMapping
     @RequestMapping("/semi")
+    @ResponseStatus(HttpStatus.OK)
     public CustomResponse<List<SemiBlackListDto>> getSemiBlackList() {
         return CustomResponse.of(instagramQueryService.findSemiBlackListInstagram());
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CustomResponse<BlackListAddResponse> addBlackList(@RequestBody BlackListAddRequest blackListRequest) {
         blackListCommandService.save(BlackListAddRequest.toBlackList(blackListRequest));
         Instagram instagramUpdated = updateInstagramAndPost(blackListRequest);
@@ -52,6 +56,7 @@ public class BlackListApiController {
 
     @DeleteMapping
     @RequestMapping("/instagram")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public CustomResponse<Void> deleteInstagramAndPost(@RequestParam Long placeId) {
         Instagram instagramToDelete = instagramQueryService.findByPlaceId(placeId);
         instagramPostCommandService.deleteByInstagramId(instagramToDelete.getId());
