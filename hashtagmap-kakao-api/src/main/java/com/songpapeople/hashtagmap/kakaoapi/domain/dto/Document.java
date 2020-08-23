@@ -34,9 +34,9 @@ public class Document {
     private String phone;
     private String addressName;
     private String roadAddressName;
-    @JsonAlias("x")
-    private String latitude;
     @JsonAlias("y")
+    private String latitude;
+    @JsonAlias("x")
     private String longitude;
     private String placeUrl;
     private String distance;

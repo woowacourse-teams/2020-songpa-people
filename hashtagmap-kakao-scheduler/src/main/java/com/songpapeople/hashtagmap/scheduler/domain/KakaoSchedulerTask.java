@@ -14,7 +14,6 @@ import com.songpapeople.hashtagmap.scheduler.domain.factory.RectFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,27 +31,30 @@ public class KakaoSchedulerTask {
         this.kakaoApiService = kakaoApiService;
     }
 
-    @Transactional
     public void collectData() {
         List<Zone> zones = zoneRepository.findByActivated();
         List<Rect> rects = RectFactory.from(zones);
 
-        List<KakaoPlaceDto> kakaoPlaceDtos = new ArrayList<>();
         for (Rect rect : rects) {
             for (Category category : Category.values()) {
-                kakaoPlaceDtos.addAll(findPlacesByRect(category, rect));
+                List<KakaoPlaceDto> kakaoPlaceDtos = findPlacesByRect(category, rect);
+
+                Set<Document> documents = kakaoPlaceDtos.stream()
+                        .flatMap(kakaoPlaceDto -> kakaoPlaceDto.getDocuments().stream())
+                        .collect(Collectors.toSet());
+
+                List<Place> places = PlaceFactory.from(documents);
+                savePlaces(places);
             }
         }
-
-        Set<Document> documents = kakaoPlaceDtos.stream()
-                .flatMap(kakaoPlaceDto -> kakaoPlaceDto.getDocuments().stream())
-                .collect(Collectors.toSet());
-        List<Place> places = PlaceFactory.from(documents);
-
-        placeRepository.updateAndInsert(places);
     }
 
     private List<KakaoPlaceDto> findPlacesByRect(Category category, Rect rect) {
         return kakaoApiService.findPlaces(category.getCategoryGroupCode(), rect);
+    }
+
+    @Transactional
+    void savePlaces(List<Place> places) {
+        placeRepository.updateAndInsert(places);
     }
 }

@@ -4,15 +4,18 @@ import com.songpapeople.hashtagmap.place.domain.model.Place;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
     private static final String SQL = "INSERT INTO place " +
-            "(category, kakao_id, latitude, longitude, road_address_name, place_name, place_url) " +
-            "VALUES (:category, :kakao_id, :latitude, :longitude, :road_address_name, :place_name, :place_url) " +
+            "(created_date, modified_date, category, kakao_id, latitude, longitude, road_address_name, place_name, place_url) " +
+            "VALUES (:created_date, :modified_date, :category, :kakao_id, :latitude, :longitude, :road_address_name, :place_name, :place_url) " +
             "ON DUPLICATE KEY UPDATE " +
+            "created_date = VALUES(created_date), " +
+            "modified_date = VALUES(modified_date), " +
             "category = VALUES(category), " +
             "latitude = VALUES(latitude), " +
             "longitude = VALUES(longitude), " +
@@ -38,6 +41,8 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
         for (Place place : places) {
             batchValues.add(
                     new MapSqlParameterSource()
+                            .addValue("created_date", LocalDateTime.now())
+                            .addValue("modified_date", LocalDateTime.now())
                             .addValue("category", place.getCategory().toString())
                             .addValue("kakao_id", place.getKakaoId())
                             .addValue("latitude", place.getLocation().getPoint().getLatitude())

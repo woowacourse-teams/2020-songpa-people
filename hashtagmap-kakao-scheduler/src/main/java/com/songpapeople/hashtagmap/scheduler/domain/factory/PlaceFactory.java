@@ -18,7 +18,8 @@ public class PlaceFactory {
     }
 
     public static Place from(Document document) {
-        Location location = new Location(new Point(document.getLatitude(), document.getLongitude()), document.getRoadAddressName());
+        Location location = new Location(new Point(document.getLatitude(), document.getLongitude()),
+                document.getRoadAddressName());
 
         return Place.builder()
                 .kakaoId(document.getId())
