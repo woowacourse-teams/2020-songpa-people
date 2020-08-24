@@ -39,9 +39,9 @@ public class TagLevel extends BaseEntity {
 
     private void validateHashtagCount(Long minHashtagCount, Long maxHashtagCount) {
         if (minHashtagCount > maxHashtagCount) {
-            String detailMessgae = String.format("최소 해시태그 개수(%s)는 최대 해시태그 개수(%s)보다 많을 수 없습니다.",
+            String detailMessage = String.format("최소 해시태그 개수(%s)는 최대 해시태그 개수(%s)보다 많을 수 없습니다.",
                     minHashtagCount, maxHashtagCount);
-            throw new CoreException(CoreExceptionStatus.INVALID_TAG_LEVEL, detailMessgae);
+            throw new CoreException(CoreExceptionStatus.INVALID_TAG_LEVEL, detailMessage);
         }
     }
 

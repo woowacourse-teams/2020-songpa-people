@@ -47,22 +47,23 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
-import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
-import InstagramPost from "./InstagramPost";
+  import {mapGetters, mapMutations} from "vuex";
+  import {mdiChevronLeft, mdiChevronRight} from "@mdi/js";
+  import InstagramPost from "./InstagramPost";
+  import {convertHashtagCount} from "@/utils/hashtagCountConverter";
 
-export default {
-  components: { InstagramPost },
+  export default {
+    components: {InstagramPost},
 
-  data: () => ({
-    mdiLeft: mdiChevronLeft,
-    mdiRight: mdiChevronRight,
-  }),
+    data: () => ({
+      mdiLeft: mdiChevronLeft,
+      mdiRight: mdiChevronRight,
+    }),
 
-  computed: {
-    ...mapGetters(["getDetailModal"]),
-    makeHashtagCount() {
-      return (this.getDetailModal.hashtagCount / 1000).toFixed(1);
+    computed: {
+      ...mapGetters(["getDetailModal"]),
+      makeHashtagCount() {
+      return convertHashtagCount(this.getDetailModal.hashtagCount);
     },
   },
 

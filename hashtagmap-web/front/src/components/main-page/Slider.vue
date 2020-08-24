@@ -1,50 +1,52 @@
 <template>
   <v-content>
-    <carousel :autoplay=autoplay :perPage=perPage class="carousel">
+    <carousel :autoplay="autoplay" :perPage="perPage" class="carousel">
       <slide class="carousel-component">
         <div class="image-wrap">
-          <img class="img-content" src="../../assets/mainpage/content1.png"/>
+          <img class="img-content" src="../../assets/mainpage/content1.png" />
         </div>
       </slide>
       <slide class="carousel-component">
         <div class="image-wrap">
-          <img class="img-content" src="../../assets/mainpage/content2.png"/>
+          <img class="img-content" src="../../assets/mainpage/content2.png" />
         </div>
       </slide>
       <slide class="carousel-component">
         <div class="image-wrap">
-          <img class="img-content" src="../../assets/mainpage/content3.png"/>
+          <img class="img-content" src="../../assets/mainpage/content3.png" />
         </div>
       </slide>
       <slide class="carousel-component">
         <div class="image-wrap">
-          <img class="img-content" src="../../assets/mainpage/content4.png"/>
+          <img class="img-content" src="../../assets/mainpage/content4.png" />
         </div>
       </slide>
       <slide class="carousel-component">
         <div class="image-wrap">
-          <img class="img-content" src="../../assets/mainpage/content5.png"/>
+          <img class="img-content" src="../../assets/mainpage/content5.png" />
         </div>
       </slide>
     </carousel>
   </v-content>
 </template>
 <script>
-  import {Carousel, Slide} from "vue-carousel";
+import { Carousel, Slide } from "vue-carousel";
 
-  export default {
-    name: "Slider",
-    components: {
-      Carousel,
-      Slide,
-    },
-    data() {
-      return {
-        autoplay: true,
-        perPage: 1,
-      };
-    },
-  };
+export default {
+  name: "Slider",
+
+  components: {
+    Carousel,
+    Slide,
+  },
+
+  data() {
+    return {
+      autoplay: true,
+      perPage: 1,
+    };
+  },
+};
 </script>
 
 <style>

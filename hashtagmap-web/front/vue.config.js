@@ -5,18 +5,18 @@ module.exports = {
   transpileDependencies: ["vuetify"],
   devServer: {
     proxy: {
-      '/': {
+      "/": {
         target: "http://localhost:9000",
         ws: true,
-        changeOrigin: true
+        changeOrigin: true,
       },
-    }
+    },
   },
   configureWebpack: {
     resolve: {
       alias: {
-        "@": path.join(__dirname, "src/")
-      }
-    }
-  }
+        "@": path.join(__dirname, "src/"),
+      },
+    },
+  },
 };

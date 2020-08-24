@@ -3,7 +3,7 @@
     <div class="instagram-container">
       <div class="profile">
         <div class="profile-image">
-          <img src="../assets/mainpage/miso_circle.png" alt=""/>
+          <img src="../assets/mainpage/miso_circle.png" alt="" />
         </div>
 
         <div class="profile-user-settings">
@@ -38,16 +38,16 @@
 </template>
 
 <script>
-  import Story from "@/components/main-page/Story.vue";
-  import Slider from "@/components/main-page/Slider.vue";
+import Story from "@/components/main-page/Story.vue";
+import Slider from "@/components/main-page/Slider.vue";
 
-  export default {
-    name: "App",
-    components: {
-      Slider,
-      Story,
-    },
-  };
+export default {
+  name: "App",
+  components: {
+    Slider,
+    Story,
+  },
+};
 </script>
 
 <style>
