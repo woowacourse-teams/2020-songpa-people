@@ -43,7 +43,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @DisplayName("해시태그수가 많은 subBlackList 목록 요청")
+    @DisplayName("해시태그수가 많은 semiBlackList 목록 요청")
     @Test
     void getSubBlackList() throws Exception {
         Place place = Place.builder()
@@ -91,7 +91,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
                 .andDo(getDocumentByPostBlackList());
     }
 
-    @DisplayName("대체어로 검색했을 때 인기없는 인스타그램을 삭제하는 요청")
+    @DisplayName("잘못된 검색어로 검색된 가게 instagram,post을 삭제하는 요청")
     @Test
     void deleteInstagramAndPost() throws Exception {
         doNothing().when(blackListCommandService).deleteInstagramAfterAddBlackList(any());

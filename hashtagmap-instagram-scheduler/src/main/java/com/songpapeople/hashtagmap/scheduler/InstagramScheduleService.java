@@ -49,7 +49,7 @@ public class InstagramScheduleService {
         return instagram;
     }
 
-    public void saveOrUpdateBlackList(BlackList blackList) {
+    private void saveOrUpdateBlackList(BlackList blackList) {
         Optional<BlackList> blackListByPlaceId = blackListRepository.findByKakaoId(blackList.getKakaoId());
         blackListByPlaceId.ifPresent(item -> {
             item.setReplaceName(blackList.getReplaceName());
@@ -58,7 +58,7 @@ public class InstagramScheduleService {
         blackListRepository.save(blackListByPlaceId.orElseGet(() -> blackList));
     }
 
-    public void updateInstagramPostByBlackList(Long instagramId, CrawlingDto crawlingDto) {
+    private void updateInstagramPostByBlackList(Long instagramId, CrawlingDto crawlingDto) {
         instagramPostsRepository.deleteByInstagramId(instagramId);
         List<InstagramPost> instagramPosts = crawlingDto.getPostDtoList().stream()
                 .map(postDto -> InstagramPost.builder()

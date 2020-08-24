@@ -52,7 +52,7 @@ public class BlackListAcceptanceTest extends ApiDocument {
         RestAssured.port = port;
     }
 
-    @DisplayName("인기없는 인스타그램을 블랙리스트 등록후 삭제한다")
+    @DisplayName("잘못된 검색어로 검색된 가게를 블랙리스트 등록후 삭제한다")
     @Test
     void deleteInstagramAndPost() throws Exception {
         Place place = Place.builder()
