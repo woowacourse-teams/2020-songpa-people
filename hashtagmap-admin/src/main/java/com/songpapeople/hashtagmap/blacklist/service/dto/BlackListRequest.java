@@ -14,12 +14,12 @@ public class BlackListRequest {
     @NotNull
     private String replaceName;
 
+    public static BlackList toSkipBlackList(BlackListRequest blackListRequest) {
+        return new BlackList(blackListRequest.getKakaoId(), blackListRequest.getReplaceName(), true);
+    }
+
     public BlackListRequest(String kakaoId, String replaceName) {
         this.kakaoId = kakaoId;
         this.replaceName = replaceName;
-    }
-
-    public static BlackList toSkipBlackList(BlackListRequest blackListRequest) {
-        return new BlackList(blackListRequest.getKakaoId(), blackListRequest.getReplaceName(), true);
     }
 }

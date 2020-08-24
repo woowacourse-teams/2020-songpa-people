@@ -11,15 +11,15 @@ public class BlackListResponse {
     private String replaceName;
     private Long hashtagCount;
 
-    private BlackListResponse(String kakaoId, String replaceName, Long hashtagCount) {
-        this.kakaoId = kakaoId;
-        this.replaceName = replaceName;
-        this.hashtagCount = hashtagCount;
-    }
-
     public static BlackListResponse of(Instagram instagram) {
         return new BlackListResponse(instagram.getKakaoId()
                 , instagram.getHashtagName()
                 , instagram.getHashtagCount());
+    }
+
+    private BlackListResponse(String kakaoId, String replaceName, Long hashtagCount) {
+        this.kakaoId = kakaoId;
+        this.replaceName = replaceName;
+        this.hashtagCount = hashtagCount;
     }
 }
