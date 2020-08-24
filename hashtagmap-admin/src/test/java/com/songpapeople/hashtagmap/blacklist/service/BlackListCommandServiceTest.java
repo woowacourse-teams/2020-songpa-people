@@ -1,8 +1,13 @@
 package com.songpapeople.hashtagmap.blacklist.service;
 
-import com.songpapeople.hashtagmap.blacklist.domain.model.BlackList;
 import com.songpapeople.hashtagmap.blacklist.domain.repsitory.BlackListRepository;
-import org.junit.jupiter.api.AfterEach;
+import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListRequest;
+import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
+import com.songpapeople.hashtagmap.place.domain.model.Location;
+import com.songpapeople.hashtagmap.place.domain.model.Place;
+import com.songpapeople.hashtagmap.place.domain.model.Point;
+import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,39 +22,35 @@ class BlackListCommandServiceTest {
     private BlackListCommandService blackListCommandService;
 
     @Autowired
+    private PlaceRepository placeRepository;
+
+    @Autowired
+    private InstagramRepository instagramRepository;
+
+    @Autowired
     private BlackListRepository blackListRepository;
 
-    @DisplayName("blackList를 저장하는 기능 테스트 - 처음 저장")
+    @DisplayName("잘못된 검색어로 검색된 가게 삭제후 블랙리스트 등록 기능 테스트")
     @Test
-    void save() {
-        BlackList first = new BlackList(1L, "first");
+    void deleteInstagramAfterAddBlackList() {
+        Place place = Place.builder()
+                .placeName("place")
+                .location(new Location(new Point("40", "130"), "address"))
+                .build();
+        Instagram instagram = Instagram.builder()
+                .place(place)
+                .hashtagCount(100L)
+                .hashtagName(place.getPlaceName())
+                .build();
+        placeRepository.save(place);
+        instagramRepository.save(instagram);
 
-        blackListCommandService.save(first);
+        BlackListRequest blackListRequest = new BlackListRequest(place.getId(), "");
+        blackListCommandService.deleteInstagramAfterAddBlackList(blackListRequest);
 
-        BlackList result = blackListRepository.findByPlaceId(1L).get();
-        assertThat(result.getReplaceName()).isEqualTo(first.getReplaceName());
-    }
-
-    @DisplayName("blackList를 저장하는 기능 테스트 - 덮어쓰기")
-    @Test
-    void saveWhenUpdate() {
-        long placeId = 100L;
-        BlackList first = new BlackList(placeId, "first");
-        blackListRepository.save(first);
-
-        BlackList second = new BlackList(placeId, "second");
-        second.setSkipPlace(true);
-        blackListCommandService.save(second);
-
-        BlackList result = blackListRepository.findByPlaceId(placeId).get();
         assertAll(
-                () -> assertThat(result.getReplaceName()).isEqualTo(second.getReplaceName()),
-                () -> assertThat(result.getIsSkipPlace()).isEqualTo(second.getIsSkipPlace())
+                () -> assertThat(blackListRepository.findByPlaceId(place.getId()).isPresent()).isTrue(),
+                () -> assertThat(instagramRepository.findById(instagram.getId()).isPresent()).isFalse()
         );
-    }
-
-    @AfterEach
-    void tearDown() {
-        blackListRepository.deleteAll();
     }
 }

@@ -38,14 +38,26 @@ public class InstagramScheduleService {
     }
 
     @Transactional
-    public Instagram updateInstagramByBlackList(String replaceName, Long placeId) {
+    public Instagram updateInstagramByBlackList(Long placeId, String replaceName) {
+        saveOrUpdateBlackList(new BlackList(placeId, replaceName));
+
         Instagram instagram = findByPlaceId(placeId);
         CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
         instagram.setHashtagName(replaceName);
         instagram.setHashtagCount(crawlingDto.getHashtagCount());
         instagramRepository.save(instagram);
+
         updateInstagramPostByBlackList(instagram.getId(), crawlingDto);
         return instagram;
+    }
+
+    public void saveOrUpdateBlackList(BlackList blackList) {
+        Optional<BlackList> blackListByPlaceId = blackListRepository.findByPlaceId(blackList.getPlaceId());
+        blackListByPlaceId.ifPresent(item -> {
+            item.setReplaceName(blackList.getReplaceName());
+            item.setSkipPlace(blackList.getIsSkipPlace());
+        });
+        blackListRepository.save(blackListByPlaceId.orElseGet(() -> blackList));
     }
 
     public void updateInstagramPostByBlackList(Long instagramId, CrawlingDto crawlingDto) {

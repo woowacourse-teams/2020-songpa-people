@@ -75,7 +75,7 @@ public class BlackListAcceptanceTest extends ApiDocument {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(params)
                 .when()
-                .post("/blacklist/delete-instagram")
+                .delete("/blacklist/instagram")
                 .then()
                 .log().all();
 
