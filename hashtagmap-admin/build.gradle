@@ -16,7 +16,6 @@ dependencies {
     testImplementation 'io.rest-assured:spring-mock-mvc:3.3.0'
 }
 
-
 jacocoTestCoverageVerification {
     violationRules {
         rule {
@@ -52,6 +51,7 @@ node {
     npmWorkDir = file("./front")
     nodeModulesDir = file("./front")
 }
+
 task copySlackWebHook(type: Copy) {
     description = "Copy slack web hook uri from hashtagmap-secret"
     from '../hashtagmap-secret/slack/application-slack-web-hook.yml'

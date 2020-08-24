@@ -10,10 +10,11 @@
     <property name="LOG_BACKUP" value="../log/backup"/>
     <property name="MAX_HISTORY" value="30"/>
     <property name="LOG_PATTERN"
-              value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %green([%thread]) %highlight(%-5level) %C.%M:%line :%msg%n"/>
+              value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) [%C.%M:%line] - %msg%n"/>
     <property resource="application-slack-web-hook.yml" />
 
     <springProfile name="!prod">
+
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>${LOG_PATTERN}</pattern>
