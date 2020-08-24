@@ -42,7 +42,7 @@ public class BlackListApiController {
     @PostMapping
     @RequestMapping("/update-instagram")
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomResponse<BlackListResponse> addBlackList(@RequestBody BlackListRequest blackListRequest) {
+    public CustomResponse<BlackListResponse> updateInstagramAfterAddBlackList(@RequestBody BlackListRequest blackListRequest) {
         blackListCommandService.save(BlackListRequest.toBlackList(blackListRequest));
         Instagram instagramUpdated = updateInstagramAndPost(blackListRequest);
         return CustomResponse.of(BlackListResponse.of(instagramUpdated));
@@ -57,7 +57,7 @@ public class BlackListApiController {
     @PostMapping
     @RequestMapping("/delete-instagram")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public CustomResponse<Void> deleteInstagramAndPost(@RequestBody BlackListRequest blackListRequest) {
+    public CustomResponse<Void> deleteInstagramAfterAddBlackList(@RequestBody BlackListRequest blackListRequest) {
         BlackList blackList = BlackListRequest.toBlackList(blackListRequest);
         blackList.setSkipPlace(true);
         blackListCommandService.save(blackList);
