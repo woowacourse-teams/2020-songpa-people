@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration>
 
+<configuration>
     <timestamp key="BY_DATE" datePattern="yyyy-MM-dd"/>
     <property name="LOG_PARENT_PATH" value="../log"/>
     <property name="LOG_CHILD_INFO" value="info"/>
@@ -10,13 +10,14 @@
     <property name="LOG_BACKUP" value="../log/backup"/>
     <property name="MAX_HISTORY" value="30"/>
     <property name="LOG_PATTERN"
-              value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %green([%thread]) %highlight(%-5level) %C.%M :%msg%n"/>
+              value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) [%C.%M:%line] - %msg%n"/>
+    <property resource="application-slack-web-hook.yml" />
 
     <springProfile name="!prod">
+
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
-                <pattern>${LOG_PATTERN}
-                </pattern>
+                <pattern>${LOG_PATTERN}</pattern>
             </encoder>
         </appender>
 
@@ -27,6 +28,24 @@
     </springProfile>
 
     <springProfile name="prod">
+        <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
+            <webhookUri>${prod-web}</webhookUri>
+            <channel>#prod-web</channel>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${LOG_PATTERN}</pattern>
+            </layout>
+            <username>${HOSTNAME}</username>
+            <iconEmoji>:bright-cow:</iconEmoji>
+            <colorCoding>true</colorCoding>
+        </appender>
+
+        <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="SLACK"/>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+        </appender>
+
         <appender name="FILE-INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>${LOG_PARENT_PATH}/${LOG_CHILD_INFO}/info-${BY_DATE}.log</file>
             <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -79,6 +98,7 @@
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
             <appender-ref ref="FILE-ERROR"/>
+            <appender-ref ref="ASYNC_SLACK"/>
         </root>
 
     </springProfile>

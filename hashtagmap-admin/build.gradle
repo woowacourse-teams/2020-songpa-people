@@ -52,7 +52,13 @@ node {
     nodeModulesDir = file("./front")
 }
 
-task setUp(type: NpmTask) {
+task copySlackWebHook(type: Copy) {
+    description = "Copy slack web hook uri from hashtagmap-secret"
+    from '../hashtagmap-secret/slack/application-slack-web-hook.yml'
+    into 'src/main/resources/'
+}
+
+task setUp(type: NpmTask, dependsOn: copySlackWebHook) {
     description = "Install Node.js Package"
     args = ['install']
 }
@@ -62,4 +68,5 @@ task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
     args = ['run', 'build']
 }
 
+processResources.dependsOn 'copySlackWebHook'
 processResources.dependsOn 'buildFrontEnd'
