@@ -32,8 +32,8 @@
                 <v-select
                   outlined
                   dense
-                  v-model="blackListDataForUpdateInstagram.placeId"
-                  :items="getSemiBlackList.map(item => item.placeId)"
+                  :items="getSemiBlackList.map(item => item.kakaoId)"
+                  v-model="blackListDataForUpdateInstagram.kakaoId"
                   label="바꿀 장소의 카카오 id"
                 >
                 </v-select>
@@ -64,8 +64,8 @@
                 <v-select
                   outlined
                   dense
-                  v-model="blackListDataForDeleteInstagram.placeId"
-                  :items="getSemiBlackList.map(item => item.placeId)"
+                  :items="getSemiBlackList.map(item => item.kakaoId)"
+                  v-model="blackListDataForDeleteInstagram.kakaoId"
                   label="삭제할 장소의 카카오 id"
                 >
                 </v-select>
@@ -85,20 +85,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
-import CustomSnackBar from "@/components/CustomSnackBar";
-import { isOk } from "@/request";
-import { convert } from "@/utils/responseConverter";
-import { WEB_PAGE } from "@/utils/constants";
+  import {mapActions, mapGetters, mapMutations} from "vuex";
+  import CustomSnackBar from "@/components/CustomSnackBar";
+  import {isOk} from "@/request";
+  import {convert} from "@/utils/responseConverter";
+  import {WEB_PAGE} from "@/utils/constants";
 
-export default {
+  export default {
   components: {
     CustomSnackBar
   },
   data() {
     return {
       subBlackListHeaders: [
-        { text: "place Id", value: "placeId" },
+        { text: "kakao Id", value: "kakaoId" },
         { text: "장소 이름", value: "placeName" },
         { text: "해시태그 이름", value: "hashtagName" },
         { text: "해시태그 수", value: "hashtagCount" },
@@ -111,11 +111,11 @@ export default {
       kakaoSearchKey: "",
       instagramSearchKey: "",
       blackListDataForUpdateInstagram: {
-        placeId: "",
+        kakaoId: "",
         replaceName: ""
       },
       blackListDataForDeleteInstagram: {
-        placeId: "",
+        kakaoId: "",
         replaceName: ""
       },
       addBlackListResult: "대체된 인스타그램 정보"
@@ -149,7 +149,7 @@ export default {
     },
     async deleteInstagram() {
       if (
-        confirm(`정말로 삭제하시겠습니까?(${this.blackListDataForDeleteInstagram.placeId})`)
+        confirm(`정말로 삭제하시겠습니까?(${this.blackListDataForDeleteInstagram.kakaoId})`)
       ) {
         const res = await this.deleteInstagramAfterAddBlackList(
           this.blackListDataForDeleteInstagram

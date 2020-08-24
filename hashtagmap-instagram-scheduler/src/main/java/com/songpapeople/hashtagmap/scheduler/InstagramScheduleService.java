@@ -9,7 +9,6 @@ import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
-import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.proxy.ProxiesFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,6 @@ public class InstagramScheduleService {
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostsRepository;
     private final BlackListRepository blackListRepository;
-    private final PlaceRepository placeRepository;
     private final InstagramCrawler instagramCrawler;
 
     public Optional<CrawlingResult> createCrawlingResult(Place place) {
@@ -38,10 +36,10 @@ public class InstagramScheduleService {
     }
 
     @Transactional
-    public Instagram updateInstagramByBlackList(Long placeId, String replaceName) {
-        saveOrUpdateBlackList(new BlackList(placeId, replaceName));
+    public Instagram updateInstagramByBlackList(String kakaoId, String replaceName) {
+        saveOrUpdateBlackList(new BlackList(kakaoId, replaceName));
 
-        Instagram instagram = findByPlaceId(placeId);
+        Instagram instagram = instagramRepository.findByKakaoId(kakaoId);
         CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
         instagram.setHashtagName(replaceName);
         instagram.setHashtagCount(crawlingDto.getHashtagCount());
@@ -52,7 +50,7 @@ public class InstagramScheduleService {
     }
 
     public void saveOrUpdateBlackList(BlackList blackList) {
-        Optional<BlackList> blackListByPlaceId = blackListRepository.findByPlaceId(blackList.getPlaceId());
+        Optional<BlackList> blackListByPlaceId = blackListRepository.findByKakaoId(blackList.getKakaoId());
         blackListByPlaceId.ifPresent(item -> {
             item.setReplaceName(blackList.getReplaceName());
             item.setSkipPlace(blackList.getIsSkipPlace());
@@ -73,21 +71,14 @@ public class InstagramScheduleService {
     }
 
     public String findHashtagNameToCrawl(Place place) {
-        return blackListRepository.findByPlaceId(place.getId())
+        return blackListRepository.findByKakaoId(place.getKakaoId())
                 .map(BlackList::getReplaceName)
                 .orElseGet(place::getPlaceName);
     }
 
     public boolean isSkipPlace(Place place) {
-        return blackListRepository.findByPlaceId(place.getId())
+        return blackListRepository.findByKakaoId(place.getKakaoId())
                 .map(BlackList::getIsSkipPlace)
                 .orElseGet(() -> false);
-    }
-
-    public Instagram findByPlaceId(Long placeId) {
-        Place place = placeRepository.findById(placeId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("존재하지 않는 placeId(%d)입니다.", placeId)));
-        return instagramRepository.findByPlaceFetch(place);
     }
 }

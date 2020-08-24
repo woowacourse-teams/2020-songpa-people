@@ -7,18 +7,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class BlackListResponse {
-    private Long placeId;
+    private String kakaoId;
     private String replaceName;
     private Long hashtagCount;
 
-    private BlackListResponse(Long placeId, String replaceName, Long hashtagCount) {
-        this.placeId = placeId;
+    private BlackListResponse(String kakaoId, String replaceName, Long hashtagCount) {
+        this.kakaoId = kakaoId;
         this.replaceName = replaceName;
         this.hashtagCount = hashtagCount;
     }
 
     public static BlackListResponse of(Instagram instagram) {
-        return new BlackListResponse(instagram.getPlaceId()
+        return new BlackListResponse(instagram.getKakaoId()
                 , instagram.getHashtagName()
                 , instagram.getHashtagCount());
     }

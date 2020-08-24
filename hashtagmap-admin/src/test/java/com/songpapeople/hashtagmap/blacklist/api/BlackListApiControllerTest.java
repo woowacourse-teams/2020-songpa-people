@@ -50,6 +50,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
                 .id(1L)
                 .placeName("placeName")
                 .location(new Location(new Point("40", "130"), "address"))
+                .kakaoId("1")
                 .build();
         Instagram instagram = Instagram.builder()
                 .place(place)
@@ -71,6 +72,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
     void addBlackList() throws Exception {
         Place place = Place.builder()
                 .id(1L)
+                .kakaoId("1")
                 .build();
         when(instagramScheduleService.updateInstagramByBlackList(any(), any())).thenReturn(
                 Instagram.builder()
@@ -80,7 +82,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
                         .build()
         );
 
-        BlackListRequest blackListRequest = new BlackListRequest(place.getId(), "newName");
+        BlackListRequest blackListRequest = new BlackListRequest(place.getKakaoId(), "newName");
 
         mockMvc.perform(put("/blacklist/instagram")
                 .content(objectMapper.writeValueAsString(blackListRequest))
@@ -94,7 +96,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
     void deleteInstagramAndPost() throws Exception {
         doNothing().when(blackListCommandService).deleteInstagramAfterAddBlackList(any());
 
-        BlackListRequest blackListRequest = new BlackListRequest(1L, "");
+        BlackListRequest blackListRequest = new BlackListRequest("1", "");
         mockMvc.perform(delete("/blacklist/instagram")
                 .content(objectMapper.writeValueAsString(blackListRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))

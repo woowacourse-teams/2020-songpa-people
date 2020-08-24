@@ -8,7 +8,11 @@ import java.util.List;
 public interface InstagramRepositoryCustom {
     List<Instagram> findAllFetch();
 
+    Instagram findByIdFetch(Long id);
+
     Instagram findByPlaceFetch(Place place);
 
     List<Long> findAllHashtagCountByOrderAsc();
+
+    Instagram findByKakaoId(String kakaoId);
 }

@@ -25,6 +25,15 @@ public class InstagramRepositoryCustomImpl implements InstagramRepositoryCustom 
     }
 
     @Override
+    public Instagram findByIdFetch(Long id) {
+        return jpaQueryFactory.selectFrom(instagram)
+                .innerJoin(instagram.place, place)
+                .fetchJoin()
+                .where(instagram.id.eq(id))
+                .fetchFirst();
+    }
+
+    @Override
     public Instagram findByPlaceFetch(Place findPlace) {
         return jpaQueryFactory.selectFrom(instagram)
                 .innerJoin(instagram.place, place)
@@ -39,5 +48,14 @@ public class InstagramRepositoryCustomImpl implements InstagramRepositoryCustom 
                 .from(instagram)
                 .orderBy(instagram.hashtagCount.asc())
                 .fetch();
+    }
+
+    @Override
+    public Instagram findByKakaoId(String kakaoId) {
+        return jpaQueryFactory.selectFrom(instagram)
+                .innerJoin(instagram.place, place)
+                .fetchJoin()
+                .where(place.kakaoId.eq(kakaoId))
+                .fetchFirst();
     }
 }

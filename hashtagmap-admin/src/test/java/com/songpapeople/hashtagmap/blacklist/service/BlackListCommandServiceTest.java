@@ -36,6 +36,7 @@ class BlackListCommandServiceTest {
         Place place = Place.builder()
                 .placeName("place")
                 .location(new Location(new Point("40", "130"), "address"))
+                .kakaoId("351421")
                 .build();
         Instagram instagram = Instagram.builder()
                 .place(place)
@@ -45,11 +46,11 @@ class BlackListCommandServiceTest {
         placeRepository.save(place);
         instagramRepository.save(instagram);
 
-        BlackListRequest blackListRequest = new BlackListRequest(place.getId(), "");
+        BlackListRequest blackListRequest = new BlackListRequest(place.getKakaoId(), "");
         blackListCommandService.deleteInstagramAfterAddBlackList(blackListRequest);
 
         assertAll(
-                () -> assertThat(blackListRepository.findByPlaceId(place.getId()).isPresent()).isTrue(),
+                () -> assertThat(blackListRepository.findByKakaoId(place.getKakaoId()).isPresent()).isTrue(),
                 () -> assertThat(instagramRepository.findById(instagram.getId()).isPresent()).isFalse()
         );
     }

@@ -58,6 +58,7 @@ public class BlackListAcceptanceTest extends ApiDocument {
         Place place = Place.builder()
                 .placeName("place")
                 .location(new Location(new Point("40", "130"), "address"))
+                .kakaoId("15124")
                 .build();
         Instagram instagram = Instagram.builder()
                 .place(place)
@@ -69,7 +70,7 @@ public class BlackListAcceptanceTest extends ApiDocument {
         instagramPostRepository.saveAll(createInstagramPosts(instagram));
 
         Map<String, String> params = new HashMap<>();
-        params.put("placeId", String.valueOf(place.getId()));
+        params.put("kakaoId", place.getKakaoId());
         params.put("replaceName", "");
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -79,7 +80,7 @@ public class BlackListAcceptanceTest extends ApiDocument {
                 .then()
                 .log().all();
 
-        BlackList blackList = blackListRepository.findByPlaceId(place.getId()).get();
+        BlackList blackList = blackListRepository.findByKakaoId(place.getKakaoId()).get();
         Optional<Instagram> instagramFindById = instagramRepository.findById(instagram.getId());
         List<InstagramPost> instagramPost = instagramPostRepository.findAllByInstagramId(instagram.getId());
         assertAll(

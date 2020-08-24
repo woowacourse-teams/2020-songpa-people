@@ -22,7 +22,7 @@ public class BlackListApiDocumentation extends ApiDocument {
                         fieldWithPath("code").type(NULL).description("에러 코드"),
                         fieldWithPath("message").type(NULL).description("에러 메세지"),
                         fieldWithPath("data[]").type(ARRAY).description("블랙리스트 후보들"),
-                        fieldWithPath("data[0].placeId").type(NUMBER).description("블랙리스트의 Place Id(kakaoId X)"),
+                        fieldWithPath("data[0].kakaoId").type(STRING).description("블랙리스트의 kakaoId X"),
                         fieldWithPath("data[0].placeName").type(STRING).description("블랙리스트의 place Name"),
                         fieldWithPath("data[0].hashtagName").type(STRING).description("블랙리스트의 해시태그 이름"),
                         fieldWithPath("data[0].hashtagCount").type(NUMBER).description("블랙리스트의 해시태그수"),
@@ -37,7 +37,7 @@ public class BlackListApiDocumentation extends ApiDocument {
                 responseFields(
                         fieldWithPath("code").type(NULL).description("에러 코드"),
                         fieldWithPath("message").type(NULL).description("에러 메세지"),
-                        fieldWithPath("data.placeId").type(NUMBER).description("instagram의 placeId"),
+                        fieldWithPath("data.kakaoId").type(STRING).description("instagram이 가지고있는 place kakaoId"),
                         fieldWithPath("data.replaceName").type(STRING).description("instagram의 업데이트된 replaceName"),
                         fieldWithPath("data.hashtagCount").type(NUMBER).description("instagram의 업데이트된 hashtagCount")
                 ));

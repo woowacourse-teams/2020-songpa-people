@@ -16,10 +16,7 @@ const blackListApi = {
       headers: {
         "Content-Type": "application/json"
       },
-      data: {
-        placeId: deleteBlackListData.placeId,
-        replaceName: deleteBlackListData.replaceName
-      }
+      data: deleteBlackListData
     });
   }
 };

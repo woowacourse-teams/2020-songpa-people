@@ -6,7 +6,7 @@ export default {
   state: {
     semiBlackList: [
       {
-        placeId: "",
+        kakaoId: "",
         placeName: "",
         hashtagCount: "",
         roadAddressName: ""

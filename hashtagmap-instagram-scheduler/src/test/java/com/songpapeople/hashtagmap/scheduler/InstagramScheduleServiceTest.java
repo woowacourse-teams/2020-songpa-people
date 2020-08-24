@@ -79,14 +79,14 @@ class InstagramScheduleServiceTest {
         CrawlingDto crawlingDto = CrawlingDto.of(replaceName, newHashtagCount, newPostDtos);
         when(instagramCrawler.crawler(any())).thenReturn(crawlingDto);
 
-        instagramScheduleService.updateInstagramByBlackList(oldInstagram.getPlaceId(), replaceName);
+        instagramScheduleService.updateInstagramByBlackList(oldInstagram.getKakaoId(), replaceName);
 
-        Instagram newInstagram = instagramRepository.findById(oldInstagram.getId()).get();
+        Instagram newInstagram = instagramRepository.findByIdFetch(oldInstagram.getId());
         List<String> newPostImageUrls = instagramPostRepository.findAllByInstagramId(oldInstagram.getId()).stream()
                 .map(InstagramPost::getImageUrl)
                 .collect(Collectors.toList());
         assertAll(
-                () -> assertThat(newInstagram.getPlaceId()).isEqualTo(place.getId()),
+                () -> assertThat(newInstagram.getKakaoId()).isEqualTo(place.getKakaoId()),
                 () -> assertThat(newInstagram.getHashtagName()).isEqualTo(replaceName),
                 () -> assertThat(newInstagram.getHashtagCount()).isEqualTo(Long.parseLong(newHashtagCount)),
                 () -> assertThat(newPostImageUrls.contains("100")).isTrue(),
@@ -118,10 +118,11 @@ class InstagramScheduleServiceTest {
     void findHashtagNameToCrawWhenBlackList() {
         Place place = Place.builder()
                 .placeName("orginName")
+                .kakaoId("123214")
                 .build();
         placeRepository.save(place);
 
-        BlackList blackList = new BlackList(place.getId(),"replaceName");
+        BlackList blackList = new BlackList(place.getKakaoId(),"replaceName");
         blackListRepository.save(blackList);
 
         String hashtagNameToCraw = instagramScheduleService.findHashtagNameToCrawl(place);
@@ -134,6 +135,7 @@ class InstagramScheduleServiceTest {
     void findHashtagNameToCrawWhenNotBlackList() {
         Place place = Place.builder()
                 .placeName("orginName")
+                .kakaoId("123123")
                 .build();
         placeRepository.save(place);
 
@@ -147,10 +149,11 @@ class InstagramScheduleServiceTest {
     void isSkipPlaceWhenTrue() {
         Place skipPlace = Place.builder()
                 .placeName("skipPlace")
+                .kakaoId("12123")
                 .build();
         placeRepository.save(skipPlace);
 
-        BlackList blackList = new BlackList(skipPlace.getId(),"");
+        BlackList blackList = new BlackList(skipPlace.getKakaoId(),"");
         blackList.setSkipPlace(true);
         blackListRepository.save(blackList);
 
@@ -162,6 +165,7 @@ class InstagramScheduleServiceTest {
     void isSkipPlaceWhenFalse() {
         Place nonSkipPlace = Place.builder()
                 .placeName("nonSkipPlace")
+                .kakaoId("122134")
                 .build();
         placeRepository.save(nonSkipPlace);
 

@@ -42,8 +42,8 @@ public class Instagram extends BaseEntity {
         return place.getRoadAddressName();
     }
 
-    public Long getPlaceId() {
-        return place.getId();
+    public String getKakaoId() {
+        return this.place.getKakaoId();
     }
 
     public void setHashtagName(String hashtagName) {

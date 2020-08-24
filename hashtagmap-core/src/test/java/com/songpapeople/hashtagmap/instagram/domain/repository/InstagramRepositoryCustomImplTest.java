@@ -91,6 +91,21 @@ class InstagramRepositoryCustomImplTest {
         Assertions.assertEquals(actaul, Arrays.asList(1L, 2L, 3L));
     }
 
+    @DisplayName("kakaoId로 인스타그램을 가져오는 메서드 테스트")
+    @Test
+    void findByKakaoId() {
+        String kakaoId = "999";
+        Place place = Place.builder()
+                .kakaoId(kakaoId).build();
+        placeRepository.save(place);
+
+        Instagram instagram = Instagram.builder()
+                .place(place).build();
+        instagramRepository.save(instagram);
+
+        assertThat(instagramRepository.findByKakaoId(kakaoId).getId()).isEqualTo(instagram.getId());
+    }
+
     @AfterEach
     void tearDown() {
         instagramRepository.deleteAll();

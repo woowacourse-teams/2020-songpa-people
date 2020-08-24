@@ -10,16 +10,16 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class BlackListRequest {
     @NotNull
-    private Long placeId;
+    private String kakaoId;
     @NotNull
     private String replaceName;
 
-    public BlackListRequest(Long placeId, String replaceName) {
-        this.placeId = placeId;
+    public BlackListRequest(String kakaoId, String replaceName) {
+        this.kakaoId = kakaoId;
         this.replaceName = replaceName;
     }
 
     public static BlackList toSkipBlackList(BlackListRequest blackListRequest) {
-        return new BlackList(blackListRequest.getPlaceId(), blackListRequest.getReplaceName(), true);
+        return new BlackList(blackListRequest.getKakaoId(), blackListRequest.getReplaceName(), true);
     }
 }

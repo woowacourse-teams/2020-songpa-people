@@ -37,11 +37,11 @@ public class BlackListApiController {
 
     @PutMapping("/instagram")
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomResponse<BlackListResponse> updateInstagramAfterAddBlackList(@RequestBody @Valid BlackListRequest blackListReq) {
-        Long placeId = blackListReq.getPlaceId();
-        String replaceName = blackListReq.getReplaceName();
+    public CustomResponse<BlackListResponse> updateInstagramAfterAddBlackList(@RequestBody @Valid BlackListRequest blackListRequest) {
+        String kakaoId = blackListRequest.getKakaoId();
+        String replaceName = blackListRequest.getReplaceName();
         BlackListResponse blackListResponse =
-                BlackListResponse.of(instagramScheduleService.updateInstagramByBlackList(placeId, replaceName));
+                BlackListResponse.of(instagramScheduleService.updateInstagramByBlackList(kakaoId, replaceName));
         return CustomResponse.of(blackListResponse);
     }
 
