@@ -18,4 +18,8 @@ public class BlackListRequest {
     public static BlackList toBlackList(BlackListRequest blackListRequest) {
         return new BlackList(blackListRequest.placeId, blackListRequest.replaceName);
     }
+
+    public static BlackList toSkipBlackList(BlackListRequest blackListRequest) {
+        return new BlackList(blackListRequest.getPlaceId(), blackListRequest.getReplaceName(), true);
+    }
 }

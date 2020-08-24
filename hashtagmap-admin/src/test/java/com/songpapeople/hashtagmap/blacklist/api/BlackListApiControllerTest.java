@@ -26,7 +26,6 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -78,11 +77,10 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
     @Test
     void addBlackList() throws Exception {
         when(blackListCommandService.save(any())).thenReturn(null);
-        when(instagramQueryService.findByPlaceId(any())).thenReturn(null);
         Place place = Place.builder()
                 .id(1L)
                 .build();
-        when(instagramScheduleService.updateBlackList(any(), any())).thenReturn(
+        when(instagramScheduleService.updateInstagramByBlackList(any(), any())).thenReturn(
                 Instagram.builder()
                         .place(place)
                         .hashtagName("newName")
@@ -103,7 +101,6 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
     @Test
     void deleteInstagramAndPost() throws Exception {
         when(blackListCommandService.save(any())).thenReturn(null);
-        when(instagramQueryService.findByPlaceId(any())).thenReturn(Instagram.builder().build());
         doNothing().when(instagramPostCommandService).deleteByInstagramId(any());
         doNothing().when(instagramCommandService).delete(any());
 

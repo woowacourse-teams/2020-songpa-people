@@ -27,6 +27,12 @@ public class BlackList extends BaseEntity {
         this.isSkipPlace = false;
     }
 
+    public BlackList(Long placeId, String replaceName, Boolean isSkipPlace) {
+        this.placeId = placeId;
+        this.replaceName = replaceName;
+        this.isSkipPlace = isSkipPlace;
+    }
+
     public void setSkipPlace(Boolean isSkipPlace) {
         this.isSkipPlace = isSkipPlace;
     }

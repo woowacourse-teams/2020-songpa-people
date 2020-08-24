@@ -45,10 +45,10 @@ class InstagramScheduleServiceTest {
     private PlaceRepository placeRepository;
 
     @Autowired
-    private InstagramScheduleService instagramScheduleService;
+    private BlackListRepository blackListRepository;
 
     @Autowired
-    private BlackListRepository blackListRepository;
+    private InstagramScheduleService instagramScheduleService;
 
     @MockBean
     private InstagramCrawler instagramCrawler;
@@ -79,7 +79,7 @@ class InstagramScheduleServiceTest {
         CrawlingDto crawlingDto = CrawlingDto.of(replaceName, newHashtagCount, newPostDtos);
         when(instagramCrawler.crawler(any())).thenReturn(crawlingDto);
 
-        instagramScheduleService.updateBlackList(replaceName, oldInstagram);
+        instagramScheduleService.updateInstagramByBlackList(replaceName, oldInstagram.getPlaceId());
 
         Instagram newInstagram = instagramRepository.findById(oldInstagram.getId()).get();
         List<String> newPostImageUrls = instagramPostRepository.findAllByInstagramId(oldInstagram.getId()).stream()
