@@ -3,9 +3,7 @@ package com.songpapeople.hashtagmap.crawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
 import com.songpapeople.hashtagmap.util.PlaceNameParser;
-import org.springframework.stereotype.Component;
 
-@Component
 public class InstagramCrawler {
     private static final String INSTAGRAM_URL_FORMAT = "https://www.instagram.com/explore/tags/%s/?hl=ko";
 

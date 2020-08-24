@@ -9,7 +9,6 @@ import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -23,9 +22,8 @@ public class InstagramQueryService {
     private final InstagramRepository instagramRepository;
     private final PlaceRepository placeRepository;
 
-    @Transactional
     public List<SemiBlackListDto> findSemiBlackListInstagram() {
-        List<Instagram> instagrams = instagramRepository.findAll();
+        List<Instagram> instagrams = instagramRepository.findAllFetch();
         return instagrams.stream()
                 .sorted(Comparator.comparingDouble(Instagram::getHashtagCount).reversed())
                 .limit(SUB_BLACK_LIST_SIZE)
