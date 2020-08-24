@@ -30,7 +30,7 @@ export default {
   actions: {
     updateTagLevel: async ({ dispatch }) => {
       try {
-        const response = await tagLevelApi.findAll();
+        const response = await tagLevelApi.update();
         dispatch("fetchTagLevels");
         return response;
       } catch (error) {

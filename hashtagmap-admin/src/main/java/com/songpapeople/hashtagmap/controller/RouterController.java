@@ -10,6 +10,7 @@ public class RouterController implements ErrorController {
             "/kakao-scheduler",
             "/instagram-scheduler",
             "/district-manage",
+            "/tag-level",
             "/error"})
     public String index() {
         return "index";
