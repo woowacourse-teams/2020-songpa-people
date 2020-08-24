@@ -38,7 +38,7 @@ public class TagLevelQueryServiceTest {
                 new TagLevel(4L, 116L, 120L),
                 new TagLevel(5L, 121L, 125L)
         );
-        when(tagLevelRepository.findAll()).thenReturn(tagLevels);
+        when(tagLevelRepository.findFiveByModifiedDateOrderById()).thenReturn(tagLevels);
 
         List<TagLevelResponse> tagLevelResponses = tagLevelQueryService.findTagLevels();
 

@@ -4,9 +4,8 @@ import com.songpapeople.hashtagmap.taglevel.model.TagLevel;
 import com.songpapeople.hashtagmap.taglevel.model.TagLevels;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Getter
 public class TagLevelResponse {
@@ -21,12 +20,16 @@ public class TagLevelResponse {
     }
 
     public static List<TagLevelResponse> of(TagLevels tagLevels) {
-        return IntStream.range(0, tagLevels.getTagLevelsSize())
-                .mapToObj(index -> {
-                    TagLevel tagLevel = tagLevels.get(index);
-                    return new TagLevelResponse(tagLevel.getId(),
-                            tagLevel.getMinHashtagCount(), tagLevel.getMaxHashtagCount());
-                })
-                .collect(Collectors.toList());
+        List<TagLevelResponse> tagLevelResponses = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            TagLevel tagLevel = tagLevels.get(i);
+            TagLevelResponse tagLevelResponse = TagLevelResponse.of(tagLevel);
+            tagLevelResponses.add(tagLevelResponse);
+        }
+        return tagLevelResponses;
+    }
+
+    private static TagLevelResponse of(TagLevel tagLevel) {
+        return new TagLevelResponse(tagLevel.getId(), tagLevel.getMinHashtagCount(), tagLevel.getMaxHashtagCount());
     }
 }

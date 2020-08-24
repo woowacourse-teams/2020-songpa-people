@@ -12,7 +12,7 @@ class TagLevelTest {
 
     @DisplayName("해시태그 최소/최대 개수를 검증한다.")
     @Test
-    public void validateHashtgaCountTest() {
+    public void validateHashtagCountTest() {
         CoreException exception = assertThrows(CoreException.class,
                 () -> new TagLevel(0L, 10L, 1L));
         assertEquals(exception.getErrorCode(), CoreExceptionStatus.INVALID_TAG_LEVEL.getCode());

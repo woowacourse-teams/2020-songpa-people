@@ -14,7 +14,7 @@ public class TagLevelQueryService {
     private final TagLevelRepository tagLevelRepository;
 
     public List<TagLevelResponse> findTagLevels() {
-        TagLevels tagLevels = new TagLevels(tagLevelRepository.findAll());
+        TagLevels tagLevels = new TagLevels(tagLevelRepository.findFiveByModifiedDateOrderById());
         return TagLevelResponse.of(tagLevels);
     }
 }
