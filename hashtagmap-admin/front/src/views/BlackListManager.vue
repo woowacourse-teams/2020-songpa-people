@@ -26,27 +26,25 @@
         </v-col>
         <v-col>
           <UpdateInstagramAfterAddBlackListForm class="height-250px" />
-          <DeleteInstagramAfterAddBlackListForm class="height-250px"/>
+          <DeleteInstagramAfterAddBlackListForm class="height-250px" />
         </v-col>
       </v-row>
     </v-container>
-    <CustomSnackBar />
   </v-app>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { WEB_PAGE } from "@/utils/constants";
 import UpdateInstagramAfterAddBlackListForm from "@/components/blacklist/UpdateInstagramAfterAddBlackListForm";
 import DeleteInstagramAfterAddBlackListForm from "@/components/blacklist/DeleteInstagramAfterAddBlackListForm";
-import CustomSnackBar from "@/components/CustomSnackBar";
 
 export default {
   components: {
     UpdateInstagramAfterAddBlackListForm,
-    DeleteInstagramAfterAddBlackListForm,
-    CustomSnackBar
+    DeleteInstagramAfterAddBlackListForm
   },
+
   data() {
     return {
       subBlackListHeaders: [
@@ -65,7 +63,6 @@ export default {
 
   methods: {
     ...mapActions("blackList", ["setSemiBlackList"]),
-    ...mapMutations("snackbar", ["SHOW_SNACKBAR"]),
     openKakao() {
       window.open(WEB_PAGE.KAKAO, "_blank");
     },
