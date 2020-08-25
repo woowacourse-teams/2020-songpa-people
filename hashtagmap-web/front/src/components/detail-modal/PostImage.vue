@@ -3,8 +3,10 @@
     <img
       :id="post.id"
       class="img-content"
+      :src="post.imageUrl"
       @error="onImgError"
       @click="onClickInstagramPostImage"
+      alt=""
     />
   </v-container>
 </template>
@@ -42,7 +44,7 @@ export default {
 @media screen and (max-width: 600px) {
   .img-content {
     position: relative;
-    width: 100%;
+    width: 100vw;
     height: auto;
   }
 }

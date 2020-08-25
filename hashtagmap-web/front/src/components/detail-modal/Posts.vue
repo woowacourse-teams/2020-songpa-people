@@ -1,6 +1,8 @@
 <template>
   <v-main>
     <carousel
+      v-images-loaded="imageLoaded"
+      ref="carousel"
       :perPage="perPage"
       :navigation-enabled="navigationEnabled"
       :paginationPadding="paginationPadding"
@@ -24,6 +26,11 @@ export default {
     Carousel,
     PostImage,
   },
+
+  mounted() {
+    setTimeout(this.$refs.carousel.computeCarouselWidth, 300);
+  },
+
   data: () => ({
     autoplay: true,
     navigationEnabled: true,
@@ -32,12 +39,14 @@ export default {
     paginationSize: 8,
     loop: true,
   }),
+
   props: {
     posts: {
       type: Array,
       required: true,
     },
   },
+
   methods: {},
 };
 </script>
