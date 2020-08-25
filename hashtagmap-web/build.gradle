@@ -46,13 +46,7 @@ node {
     nodeModulesDir = file("./front")
 }
 
-task copySlackWebHook(type: Copy) {
-    description = "Copy slack web hook uri from hashtagmap-secret"
-    from '../hashtagmap-secret/slack/application-slack-web-hook.yml'
-    into 'src/main/resources/'
-}
-
-task copyKakaoApiKey(type: Copy, dependsOn: copySlackWebHook) {
+task copyKakaoApiKey(type: Copy) {
     description = "Copy kakao map api key from hashtagmap-secret"
     from '../hashtagmap-secret/kakao/index.js'
     into 'front/src/secret/'
@@ -69,5 +63,4 @@ task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
 }
 
 processResources.dependsOn 'copyKakaoApiKey'
-processResources.dependsOn 'copySlackWebHook'
 processResources.dependsOn 'buildFrontEnd'
