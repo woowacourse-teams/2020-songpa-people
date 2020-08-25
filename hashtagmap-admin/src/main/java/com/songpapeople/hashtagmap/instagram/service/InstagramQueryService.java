@@ -6,7 +6,6 @@ import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramReposito
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,10 +17,8 @@ public class InstagramQueryService {
     private final InstagramRepository instagramRepository;
 
     public List<SemiBlackListDto> findSemiBlackListInstagram() {
-        List<Instagram> instagrams = instagramRepository.findAllFetch();
+        List<Instagram> instagrams = instagramRepository.findAllOrderByHashtagCountAndLimitBy(SUB_BLACK_LIST_SIZE);
         return instagrams.stream()
-                .sorted(Comparator.comparingDouble(Instagram::getHashtagCount).reversed())
-                .limit(SUB_BLACK_LIST_SIZE)
                 .map(SemiBlackListDto::of)
                 .collect(Collectors.toList());
     }

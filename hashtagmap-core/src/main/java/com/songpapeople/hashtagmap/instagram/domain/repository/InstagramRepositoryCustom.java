@@ -15,4 +15,6 @@ public interface InstagramRepositoryCustom {
     List<Long> findAllHashtagCountByOrderAsc();
 
     Instagram findByKakaoId(String kakaoId);
+
+    List<Instagram> findAllOrderByHashtagCountAndLimitBy(int limit);
 }

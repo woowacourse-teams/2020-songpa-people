@@ -58,4 +58,15 @@ public class InstagramRepositoryCustomImpl implements InstagramRepositoryCustom 
                 .where(place.kakaoId.eq(kakaoId))
                 .fetchFirst();
     }
+
+    @Override
+    public List<Instagram> findAllOrderByHashtagCountAndLimitBy(int limit) {
+        return jpaQueryFactory.selectFrom(instagram)
+                .innerJoin(instagram.place, place)
+                .fetchJoin()
+                .orderBy(instagram.hashtagCount.desc())
+                .limit(limit)
+                .fetch();
+
+    }
 }
