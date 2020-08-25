@@ -10,9 +10,7 @@
           <v-list-item-action>
             <v-icon> {{ navigator.icon }}</v-icon>
           </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title> {{ navigator.title }}</v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-title> {{ navigator.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -61,7 +59,12 @@ export default {
           title: "district-manage",
           icon: "mdi-flag-variant"
         },
-        { to: "/tag-level", title: "Tag Level", icon: "mdi-air-purifier" }
+        { to: "/tag-level", title: "Tag Level", icon: "mdi-air-purifier" },
+        {
+          to: "/blacklist-manager",
+          title: "blackList manager",
+          icon: "mdi-sunglasses"
+        }
       ]
     };
   },

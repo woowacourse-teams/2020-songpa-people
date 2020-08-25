@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class InstagramRepositoryCustomImplTest {
@@ -53,6 +53,23 @@ class InstagramRepositoryCustomImplTest {
         assertThat(instagrams.size()).isEqualTo(1);
     }
 
+    @DisplayName("place로 instagram 찾는 기능 테스트")
+    @Test
+    void findByPlace() {
+        Place place = Place.builder()
+                .placeName("place")
+                .build();
+        Instagram instagram = Instagram.builder()
+                .place(place)
+                .build();
+        placeRepository.save(place);
+        instagramRepository.save(instagram);
+
+        Instagram result = instagramRepository.findByPlaceFetch(place);
+
+        assertThat(result.getId()).isEqualTo(instagram.getId());
+    }
+
     @DisplayName("Hashtag 개수를 오름차순으로 정렬한다.")
     @Test
     void name() {
@@ -72,6 +89,21 @@ class InstagramRepositoryCustomImplTest {
 
         // then
         Assertions.assertEquals(actaul, Arrays.asList(1L, 2L, 3L));
+    }
+
+    @DisplayName("kakaoId로 인스타그램을 가져오는 메서드 테스트")
+    @Test
+    void findByKakaoId() {
+        String kakaoId = "999";
+        Place place = Place.builder()
+                .kakaoId(kakaoId).build();
+        placeRepository.save(place);
+
+        Instagram instagram = Instagram.builder()
+                .place(place).build();
+        instagramRepository.save(instagram);
+
+        assertThat(instagramRepository.findByKakaoIdFetch(kakaoId).getId()).isEqualTo(instagram.getId());
     }
 
     @AfterEach

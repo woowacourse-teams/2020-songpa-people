@@ -13,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,6 +42,6 @@ class CrawlerWithProxyTest {
         when(instagramCrawler.crawler(place.getPlaceName()))
                 .thenThrow(InstagramSchedulerException.class);
 
-        assertThat(crawlerWithProxy.crawlInstagram(place, 0)).isEqualTo(Optional.empty());
+        assertThat(crawlerWithProxy.crawlInstagram(place, place.getPlaceName(), 0)).isEqualTo(Optional.empty());
     }
 }

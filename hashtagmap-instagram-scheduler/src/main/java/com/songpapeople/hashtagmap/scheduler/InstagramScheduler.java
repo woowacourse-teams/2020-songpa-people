@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Component
 public class InstagramScheduler {
+    private final InstagramScheduleService instagramScheduleService;
+    private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostRepository;
     private final PlaceRepository placeRepository;
-    private final InstagramRepository instagramRepository;
-    private final InstagramScheduleService instagramScheduleService;
 
     public void update() {
         List<Place> places = placeRepository.findAll();
@@ -36,6 +36,7 @@ public class InstagramScheduler {
     @Transactional
     void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
         instagramPostRepository.deleteAll();
+        instagramRepository.deleteAll();
         for (CrawlingResult crawlingResult : crawlingResults) {
             Instagram instagram = instagramRepository.save(crawlingResult.createInstagram());
             List<InstagramPost> instagramPosts = crawlingResult.toInstagramPosts(instagram.getId());

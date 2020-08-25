@@ -7,22 +7,22 @@ import com.songpapeople.hashtagmap.util.PlaceNameParser;
 public class InstagramCrawler {
     private static final String INSTAGRAM_URL_FORMAT = "https://www.instagram.com/explore/tags/%s/?hl=ko";
 
-    private Crawler crawler;
+    private final Crawler crawler;
 
     public InstagramCrawler(Crawler crawler) {
         this.crawler = crawler;
     }
 
-    private CrawlingDto createCrawlingDto(String placeName, String body) {
+    private CrawlingDto createCrawlingDto(String hashtagName, String body) {
         InstaCrawlingResult instaCrawlingResult = new InstaCrawlingResult(body);
         String hashTagCount = instaCrawlingResult.findHashTagCount();
         PostDtos postDtos = instaCrawlingResult.findPostDtos();
-        return CrawlingDto.of(placeName, hashTagCount, postDtos);
+        return CrawlingDto.of(hashtagName, hashTagCount, postDtos);
     }
 
-    public CrawlingDto crawler(String placeName) {
-        String parsedPlaceName = PlaceNameParser.parsePlaceName(placeName);
-        String body = crawler.crawl(String.format(INSTAGRAM_URL_FORMAT, parsedPlaceName));
-        return createCrawlingDto(parsedPlaceName, body);
+    public CrawlingDto crawler(String crawlingName) {
+        String parsedHashtagName = PlaceNameParser.parsePlaceName(crawlingName);
+        String body = crawler.crawl(String.format(INSTAGRAM_URL_FORMAT, parsedHashtagName));
+        return createCrawlingDto(parsedHashtagName, body);
     }
 }

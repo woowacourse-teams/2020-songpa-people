@@ -1,6 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler;
 
 import com.songpapeople.hashtagmap.MockDataFactory;
+import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
@@ -10,22 +11,29 @@ import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.Ins
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.util.PlaceNameParser;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import javax.transaction.Transactional;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,12 +55,13 @@ class InstagramSchedulerTest {
 
     @BeforeEach
     void setUp() {
-        instagramScheduler = new InstagramScheduler(instagramPostRepository, placeRepository,
-                instagramRepository, instagramScheduleService);
+        instagramScheduler = new InstagramScheduler(instagramScheduleService
+                , instagramRepository
+                , instagramPostRepository
+                , placeRepository);
     }
 
     @DisplayName("db에서 place를 가져와 instagramPosts를 만들어 저장하는 기능 테스트")
-    @Transactional
     @Test
     void update() {
         Place starbucks = Place.builder()
@@ -80,11 +89,11 @@ class InstagramSchedulerTest {
                 String.valueOf(CrawlingResult.MIN_HASHTAG_COUNT), postDtos),
                 starbucksWithBranch);
 
-        when(instagramScheduleService.createCrawlingResult(starbucks))
+        Mockito.when(instagramScheduleService.createCrawlingResult(starbucks))
                 .thenReturn(Optional.of(crawlingResultWithStarbucks));
-        when(instagramScheduleService.createCrawlingResult(starbucksWithSpace))
+        Mockito.when(instagramScheduleService.createCrawlingResult(starbucksWithSpace))
                 .thenReturn(Optional.of(crawlingResultWithStarbucksWithSpace));
-        when(instagramScheduleService.createCrawlingResult(starbucksWithBranch))
+        Mockito.when(instagramScheduleService.createCrawlingResult(starbucksWithBranch))
                 .thenReturn(Optional.of(crawlingResultWithStarbucksWithBranch));
 
         instagramScheduler.update();
@@ -98,5 +107,12 @@ class InstagramSchedulerTest {
                 () -> assertThat(instagrams.get(2).getHashtagName()).isEqualTo("스타벅스강남"),
                 () -> assertThat(instagramPosts).hasSize(27)
         );
+    }
+
+    @AfterEach
+    void tearDown() {
+        instagramPostRepository.deleteAll();
+        instagramRepository.deleteAll();
+        placeRepository.deleteAll();
     }
 }

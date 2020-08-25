@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface InstagramPostRepository extends JpaRepository<InstagramPost, Long> {
     List<InstagramPost> findAllByInstagramId(Long InstagramId);
+
+    void deleteByInstagramId(Long instagramId);
 }

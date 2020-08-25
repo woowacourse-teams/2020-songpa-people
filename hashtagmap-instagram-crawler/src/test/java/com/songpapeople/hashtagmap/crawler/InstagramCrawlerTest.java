@@ -28,7 +28,7 @@ class InstagramCrawlerTest {
         CrawlingDto crawlingDto = instagramCrawler.crawler(placeName);
 
         assertAll(
-                () -> assertThat(crawlingDto.getPlaceName()).isEqualTo(parsedPlaceName),
+                () -> assertThat(crawlingDto.getHashtagName()).isEqualTo(parsedPlaceName),
                 () -> assertThat(crawlingDto.getHashtagCount()).isNotNull(),
                 () -> assertThat(crawlingDto.getPostDtos().size()).isEqualTo(9)
         );

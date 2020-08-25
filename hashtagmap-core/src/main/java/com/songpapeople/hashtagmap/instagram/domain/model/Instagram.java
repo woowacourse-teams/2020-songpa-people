@@ -33,4 +33,21 @@ public class Instagram extends BaseEntity {
         this.hashtagName = hashtagName;
         this.hashtagCount = hashtagCount;
     }
+
+    public String getPlaceName() {
+        return place.getPlaceName();
+    }
+
+    public String getRoadAddressName() {
+        return place.getRoadAddressName();
+    }
+
+    public String getKakaoId() {
+        return this.place.getKakaoId();
+    }
+
+    public void updateInstagram(String hashtagName, Long hashtagCount) {
+        this.hashtagName = hashtagName;
+        this.hashtagCount = hashtagCount;
+    }
 }
