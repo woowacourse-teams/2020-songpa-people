@@ -31,7 +31,7 @@ const routes = [
     component: TagLevel
   },
   {
-    path: "/district-manager",
+    path: "/district-manage",
     name: "DistrictContainer",
     component: DistrictContainer
   },
