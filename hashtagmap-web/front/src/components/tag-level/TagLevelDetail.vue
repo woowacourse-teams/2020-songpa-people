@@ -3,9 +3,9 @@
     <v-expansion-panel>
       <v-expansion-panel-header @click="toggleTagLevelDetail">
         태그 레벨 정보
-        <div>
+        <v-btn text>
           <v-icon color="darkgrey">{{ showIcon() }}</v-icon>
-        </div>
+        </v-btn>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <div class="tag-level-detail">

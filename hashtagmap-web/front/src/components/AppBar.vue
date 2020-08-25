@@ -9,7 +9,11 @@
 
     <v-spacer></v-spacer>
 
-    <v-menu transition="scroll-y-transition">
+    <v-menu
+      offset-y="true"
+      transition="scroll-y-transition"
+      :close-on-content-click="false"
+    >
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="secondary" class="ma-2" v-bind="attrs" v-on="on" icon>
           <v-icon>{{ icon }}</v-icon>
@@ -39,19 +43,13 @@ export default {
     };
   },
 
-  methods: {
-    toggleTagLevelContainer() {
-      this.isHiddenTagLevelContainer
-        ? (this.isHiddenTagLevelContainer = false)
-        : (this.isHiddenTagLevelContainer = true);
-    },
-  },
+  methods: {},
 };
 </script>
 
 <style scoped>
 .tlc {
-  width: 300px;
-  height: 200px;
+  width: 250px;
+  height: 112px;
 }
 </style>
