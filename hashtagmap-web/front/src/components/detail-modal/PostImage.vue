@@ -17,12 +17,10 @@ export default {
       required: true,
     },
   },
+
   mounted() {
     document.getElementById(this.post.id).src = this.post.imageUrl;
   },
-  data: () => ({
-    image: this.post.imageUrl,
-  }),
 
   methods: {
     onImgError(e) {
