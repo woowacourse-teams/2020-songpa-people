@@ -3,7 +3,6 @@
     <v-container class="container-design">
       <v-layout>
         <v-flex>
-          <PlaceSearchContainer />
           <TagLevelSelector />
           <TagLevelDetail />
         </v-flex>
@@ -13,13 +12,11 @@
 </template>
 
 <script>
-import PlaceSearchContainer from "@/components/place/PlaceSearchContainer";
 import TagLevelSelector from "./TagLevelSelector";
 import TagLevelDetail from "./TagLevelDetail";
 
 export default {
   components: {
-    PlaceSearchContainer,
     TagLevelSelector,
     TagLevelDetail,
   },
@@ -31,8 +28,7 @@ export default {
   #tag-level {
     z-index: 10;
     position: fixed;
-    top: 10px;
-    left: 30px;
+    top: 0px;
   }
 }
 
