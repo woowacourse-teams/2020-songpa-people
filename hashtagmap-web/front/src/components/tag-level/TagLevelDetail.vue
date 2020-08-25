@@ -1,25 +1,26 @@
 <template>
-  <v-expansion-panels flat>
-    <v-expansion-panel>
-      <v-expansion-panel-header @click="toggleTagLevelDetail">
-        태그 레벨 정보
-        <v-btn text>
-          <v-icon color="darkgrey">{{ showIcon() }}</v-icon>
-        </v-btn>
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <div class="tag-level-detail">
-          <ul class="progressbar">
-            <li class="level-one">{{ this.getTagLevelDetails[4] }}k</li>
-            <li class="level-two">{{ this.getTagLevelDetails[3] }}k</li>
-            <li class="level-three">{{ this.getTagLevelDetails[2] }}k</li>
-            <li class="level-four">{{ this.getTagLevelDetails[1] }}k</li>
-            <li class="level-five"></li>
-          </ul>
-        </div>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
+  <div>
+    <v-list>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-subtitle>태그 레벨 정보</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-content>
+          <div class="tag-level-detail">
+            <ul class="progressbar">
+              <li class="level-one">{{ this.getTagLevelDetails[4] }}k</li>
+              <li class="level-two">{{ this.getTagLevelDetails[3] }}k</li>
+              <li class="level-three">{{ this.getTagLevelDetails[2] }}k</li>
+              <li class="level-four">{{ this.getTagLevelDetails[1] }}k</li>
+              <li class="level-five"></li>
+            </ul>
+          </div>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </div>
 </template>
 
 <script>

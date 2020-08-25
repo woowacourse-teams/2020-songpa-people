@@ -1,12 +1,8 @@
 <template>
   <div id="tag-level">
     <v-container class="container-design">
-      <v-layout>
-        <v-flex>
-          <TagLevelSelector />
-          <TagLevelDetail />
-        </v-flex>
-      </v-layout>
+      <TagLevelSelector />
+      <TagLevelDetail />
     </v-container>
   </div>
 </template>
