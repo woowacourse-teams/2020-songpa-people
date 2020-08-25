@@ -14,9 +14,9 @@ public class BlackListCommandService {
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostRepository;
 
-    public BlackListCommandService(BlackListRepository blackListRepository
-            , InstagramRepository instagramRepository
-            , InstagramPostRepository instagramPostRepository) {
+    public BlackListCommandService(BlackListRepository blackListRepository,
+                                   InstagramRepository instagramRepository,
+                                   InstagramPostRepository instagramPostRepository) {
         this.blackListRepository = blackListRepository;
         this.instagramRepository = instagramRepository;
         this.instagramPostRepository = instagramPostRepository;
@@ -25,7 +25,7 @@ public class BlackListCommandService {
     @Transactional
     public void deleteInstagramAfterAddBlackList(BlackListRequest blackListRequest) {
         blackListRepository.save(BlackListRequest.toSkipBlackList(blackListRequest));
-        Instagram instagramToDelete = instagramRepository.findByKakaoId(blackListRequest.getKakaoId());
+        Instagram instagramToDelete = instagramRepository.findByKakaoIdFetch(blackListRequest.getKakaoId());
         instagramPostRepository.deleteByInstagramId(instagramToDelete.getId());
         instagramRepository.delete(instagramToDelete);
     }

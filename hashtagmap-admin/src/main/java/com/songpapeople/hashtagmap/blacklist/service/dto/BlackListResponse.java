@@ -12,9 +12,9 @@ public class BlackListResponse {
     private Long hashtagCount;
 
     public static BlackListResponse of(Instagram instagram) {
-        return new BlackListResponse(instagram.getKakaoId()
-                , instagram.getHashtagName()
-                , instagram.getHashtagCount());
+        return new BlackListResponse(instagram.getKakaoId(),
+                instagram.getHashtagName(),
+                instagram.getHashtagCount());
     }
 
     private BlackListResponse(String kakaoId, String replaceName, Long hashtagCount) {

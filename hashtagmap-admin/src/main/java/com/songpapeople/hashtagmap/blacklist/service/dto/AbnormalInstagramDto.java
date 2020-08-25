@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class SemiBlackListDto {
+public class AbnormalInstagramDto {
     private String kakaoId;
     private String placeName;
     private String hashtagName;
     private String roadAddressName;
     private Long hashtagCount;
 
-    private SemiBlackListDto(String kakaoId, String placeName, String hashtagName, String roadAddressName, Long hashtagCount) {
+    private AbnormalInstagramDto(String kakaoId, String placeName, String hashtagName, String roadAddressName, Long hashtagCount) {
         this.kakaoId = kakaoId;
         this.placeName = placeName;
         this.hashtagName = hashtagName;
@@ -21,8 +21,8 @@ public class SemiBlackListDto {
         this.hashtagCount = hashtagCount;
     }
 
-    public static SemiBlackListDto of(Instagram instagram) {
-        return new SemiBlackListDto(
+    public static AbnormalInstagramDto of(Instagram instagram) {
+        return new AbnormalInstagramDto(
                 instagram.getKakaoId(),
                 instagram.getPlaceName(),
                 instagram.getHashtagName(),

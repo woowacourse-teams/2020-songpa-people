@@ -13,11 +13,12 @@ import javax.persistence.UniqueConstraint;
 @Getter
 @NoArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "BLACK_LIST_ID"))
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "kakaoId"))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "kakaoId", name = "UK_KAKAO_BLACK_LIST"))
 @Entity
 public class BlackList extends BaseEntity {
     private String kakaoId;
     private String replaceName;
+
     @Column(columnDefinition = "bit default 0")
     private Boolean isSkipPlace;
 
@@ -33,11 +34,8 @@ public class BlackList extends BaseEntity {
         this.isSkipPlace = isSkipPlace;
     }
 
-    public void setSkipPlace(Boolean isSkipPlace) {
-        this.isSkipPlace = isSkipPlace;
-    }
-
-    public void setReplaceName(String replaceName) {
-        this.replaceName = replaceName;
+    public void updateBlackList(BlackList blackList) {
+        this.replaceName = blackList.replaceName;
+        this.isSkipPlace = blackList.isSkipPlace;
     }
 }

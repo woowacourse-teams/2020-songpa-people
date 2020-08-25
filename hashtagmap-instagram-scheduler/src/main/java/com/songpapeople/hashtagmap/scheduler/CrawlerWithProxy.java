@@ -16,9 +16,9 @@ public class CrawlerWithProxy {
     private final InstagramCrawler instagramCrawler;
     private final InstagramScheduleService instagramScheduleService;
 
-    public CrawlerWithProxy(ProxySetter proxySetter
-            , InstagramCrawler instagramCrawler
-            , InstagramScheduleService instagramScheduleService) {
+    public CrawlerWithProxy(ProxySetter proxySetter,
+                            InstagramCrawler instagramCrawler,
+                            InstagramScheduleService instagramScheduleService) {
         this.proxySetter = proxySetter;
         this.instagramCrawler = instagramCrawler;
         this.instagramScheduleService = instagramScheduleService;

@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 public class BlackListRequest {
     @NotNull
     private String kakaoId;
+    
     @NotNull
     private String replaceName;
 

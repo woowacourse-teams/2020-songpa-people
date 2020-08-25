@@ -3,7 +3,7 @@ package com.songpapeople.hashtagmap.blacklist.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.songpapeople.hashtagmap.blacklist.service.BlackListCommandService;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListRequest;
-import com.songpapeople.hashtagmap.blacklist.service.dto.SemiBlackListDto;
+import com.songpapeople.hashtagmap.blacklist.service.dto.AbnormalInstagramDto;
 import com.songpapeople.hashtagmap.docs.blacklist.BlackListApiDocumentation;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.service.InstagramQueryService;
@@ -57,12 +57,12 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
                 .hashtagName("hashtagName")
                 .hashtagCount(10000L)
                 .build();
-        List<SemiBlackListDto> semiBlackListDtos = new ArrayList<>();
-        semiBlackListDtos.add(SemiBlackListDto.of(instagram));
+        List<AbnormalInstagramDto> abnormalInstagramDtos = new ArrayList<>();
+        abnormalInstagramDtos.add(AbnormalInstagramDto.of(instagram));
 
-        when(instagramQueryService.findSemiBlackListInstagram()).thenReturn(semiBlackListDtos);
+        when(instagramQueryService.findSemiBlackListInstagram()).thenReturn(abnormalInstagramDtos);
 
-        mockMvc.perform(get("/blacklist/semi"))
+        mockMvc.perform(get("/blacklist/abnormal-instagram"))
                 .andExpect(status().isOk())
                 .andDo(getDocumentByGetSubBlackList());
     }

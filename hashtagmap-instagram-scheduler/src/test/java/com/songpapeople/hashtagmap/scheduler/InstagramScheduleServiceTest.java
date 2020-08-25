@@ -153,8 +153,7 @@ class InstagramScheduleServiceTest {
                 .build();
         placeRepository.save(skipPlace);
 
-        BlackList blackList = new BlackList(skipPlace.getKakaoId(),"");
-        blackList.setSkipPlace(true);
+        BlackList blackList = new BlackList(skipPlace.getKakaoId(),"",true);
         blackListRepository.save(blackList);
 
         assertThat(instagramScheduleService.isSkipPlace(skipPlace)).isTrue();

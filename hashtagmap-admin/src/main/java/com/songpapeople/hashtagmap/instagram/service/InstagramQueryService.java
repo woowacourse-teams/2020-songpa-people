@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.instagram.service;
 
-import com.songpapeople.hashtagmap.blacklist.service.dto.SemiBlackListDto;
+import com.songpapeople.hashtagmap.blacklist.service.dto.AbnormalInstagramDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +16,10 @@ public class InstagramQueryService {
 
     private final InstagramRepository instagramRepository;
 
-    public List<SemiBlackListDto> findSemiBlackListInstagram() {
+    public List<AbnormalInstagramDto> findSemiBlackListInstagram() {
         List<Instagram> instagrams = instagramRepository.findAllOrderByHashtagCountAndLimitBy(SUB_BLACK_LIST_SIZE);
         return instagrams.stream()
-                .map(SemiBlackListDto::of)
+                .map(AbnormalInstagramDto::of)
                 .collect(Collectors.toList());
     }
 }

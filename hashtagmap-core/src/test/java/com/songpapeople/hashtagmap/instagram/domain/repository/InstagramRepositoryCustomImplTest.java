@@ -103,7 +103,7 @@ class InstagramRepositoryCustomImplTest {
                 .place(place).build();
         instagramRepository.save(instagram);
 
-        assertThat(instagramRepository.findByKakaoId(kakaoId).getId()).isEqualTo(instagram.getId());
+        assertThat(instagramRepository.findByKakaoIdFetch(kakaoId).getId()).isEqualTo(instagram.getId());
     }
 
     @AfterEach

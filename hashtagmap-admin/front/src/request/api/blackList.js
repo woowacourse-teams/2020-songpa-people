@@ -2,7 +2,7 @@ import {customWrapAxios} from "@/request";
 
 const blackListApi = {
   getSubBlackList() {
-    return customWrapAxios().get("/blacklist/semi");
+    return customWrapAxios().get("/blacklist/abnormal-instagram");
   },
   updateInstagramAfterAddBlackList(blackList) {
     return customWrapAxios().put("/blacklist/instagram", blackList, {

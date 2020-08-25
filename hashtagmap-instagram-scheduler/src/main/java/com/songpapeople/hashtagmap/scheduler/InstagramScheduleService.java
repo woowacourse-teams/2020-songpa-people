@@ -39,26 +39,22 @@ public class InstagramScheduleService {
     public Instagram updateInstagramByBlackList(String kakaoId, String replaceName) {
         saveOrUpdateBlackList(new BlackList(kakaoId, replaceName));
 
-        Instagram instagram = instagramRepository.findByKakaoId(kakaoId);
+        Instagram instagram = instagramRepository.findByKakaoIdFetch(kakaoId);
         CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
-        instagram.setHashtagName(replaceName);
-        instagram.setHashtagCount(crawlingDto.getHashtagCount());
+        instagram.updateInstagram(replaceName,crawlingDto.getHashtagCount());
         instagramRepository.save(instagram);
 
-        updateInstagramPostByBlackList(instagram.getId(), crawlingDto);
+        updateInstagramPost(instagram.getId(), crawlingDto);
         return instagram;
     }
 
-    private void saveOrUpdateBlackList(BlackList blackList) {
-        Optional<BlackList> blackListByPlaceId = blackListRepository.findByKakaoId(blackList.getKakaoId());
-        blackListByPlaceId.ifPresent(item -> {
-            item.setReplaceName(blackList.getReplaceName());
-            item.setSkipPlace(blackList.getIsSkipPlace());
-        });
-        blackListRepository.save(blackListByPlaceId.orElseGet(() -> blackList));
+    private void saveOrUpdateBlackList(BlackList blackListToSave) {
+        Optional<BlackList> blackListByPlaceId = blackListRepository.findByKakaoId(blackListToSave.getKakaoId());
+        blackListByPlaceId.ifPresent(blackList -> blackList.updateBlackList(blackListToSave));
+        blackListRepository.save(blackListByPlaceId.orElseGet(() -> blackListToSave));
     }
 
-    private void updateInstagramPostByBlackList(Long instagramId, CrawlingDto crawlingDto) {
+    private void updateInstagramPost(Long instagramId, CrawlingDto crawlingDto) {
         instagramPostsRepository.deleteByInstagramId(instagramId);
         List<InstagramPost> instagramPosts = crawlingDto.getPostDtoList().stream()
                 .map(postDto -> InstagramPost.builder()
