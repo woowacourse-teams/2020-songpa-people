@@ -25,8 +25,11 @@ export default {
   async created() {
     this.SET_KAKAO_MAP_API(await this.$initKakaoMapApi());
     this.SET_KAKAO_MAP(this.$loadMap());
+    this.SET_BOUNDS_EVENT();
+    this.SET_CLUSTERER(this.$loadClusterer());
     await this.setPlaces();
     this.setMapOverlays();
+    this.CHANGE_BOUNDED_OVERLAYS(this.getKakaoMap.getBounds());
     this.showActiveOverlays();
   },
 
@@ -38,6 +41,9 @@ export default {
       "getActiveTagLevels",
       "getActiveCategories",
       "getMapOverlays",
+      "getClusterer",
+      "getBounds",
+      "getBoundedMapOverLays",
     ]),
   },
 
@@ -48,10 +54,23 @@ export default {
     getActiveCategories() {
       this.showActiveOverlays();
     },
+    getBounds() {
+      this.CHANGE_BOUNDED_OVERLAYS(this.getBounds);
+      this.showActiveOverlays();
+    },
   },
 
   methods: {
-    ...mapMutations(["SET_KAKAO_MAP_API", "SET_KAKAO_MAP", "ADD_MAP_OVERLAYS"]),
+    ...mapMutations([
+      "SET_KAKAO_MAP_API",
+      "SET_KAKAO_MAP",
+      "ADD_MAP_OVERLAYS",
+      "SET_CLUSTERER",
+      "ADD_CLUSTER",
+      "CLEAR_CLUSTERER",
+      "CHANGE_BOUNDED_OVERLAYS",
+      "SET_BOUNDS_EVENT",
+    ]),
     ...mapActions(["setDetailModal", "setPlaces"]),
     setMapOverlays() {
       this.getPlaces.map(place => {
@@ -102,18 +121,15 @@ export default {
       );
     },
     showActiveOverlays() {
-      this.getMapOverlays.filter(mapOverlay => {
+      this.CLEAR_CLUSTERER();
+      this.getBoundedMapOverLays.filter(mapOverlay => {
         const tagLevelAndCategory = {
           tagLevel: mapOverlay.place.tagLevel,
           category: mapOverlay.place.category,
         };
         if (this.isActiveCategoryAndTagLevel(tagLevelAndCategory)) {
-          mapOverlay.marker.setMap(this.getKakaoMap);
-          mapOverlay.textBalloon.setMap(this.getKakaoMap);
-          mapOverlay.textBalloon.setZIndex(1);
-        } else {
-          mapOverlay.marker.setMap(null);
-          mapOverlay.textBalloon.setMap(null);
+          this.ADD_CLUSTER(mapOverlay.marker);
+          this.ADD_CLUSTER(mapOverlay.textBalloon);
         }
       });
     },

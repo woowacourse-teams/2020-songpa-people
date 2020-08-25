@@ -1,5 +1,6 @@
 export const KAKAO_MAP = {
   API_SRC_ADDRESS: "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=",
+  API_EXTENSION_LIBRARY: "&libraries=clusterer",
   JAMSIL_STATION_8_EXIT: {
     latitude: 37.513898,
     longitude: 127.101463,
@@ -9,6 +10,8 @@ export const KAKAO_MAP = {
 
 export const EVENT_TYPE = {
   CLICK: "click",
+  DRAG_END: "dragend",
+  ZOOM_CHANGED: "zoom_changed",
 };
 
 export const TAG_LEVEL = {
