@@ -29,10 +29,13 @@ public class InstagramScheduleService {
     private final InstagramCrawler instagramCrawler;
 
     public Optional<CrawlingResult> createCrawlingResult(Place place) {
+        if (isSkipPlace(place)) {
+            return Optional.empty();
+        }
         CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(
-                new ProxySetter(ProxiesFactory.create()), instagramCrawler, this);
-
-        return crawlerWithProxy.crawlInstagram(place, START_TRY_COUNT);
+                new ProxySetter(ProxiesFactory.create()), instagramCrawler);
+        String hashtagNameToCrawl = findHashtagNameToCrawl(place);
+        return crawlerWithProxy.crawlInstagram(place, hashtagNameToCrawl, START_TRY_COUNT);
     }
 
     @Transactional
@@ -41,9 +44,8 @@ public class InstagramScheduleService {
 
         Instagram instagram = instagramRepository.findByKakaoIdFetch(kakaoId);
         CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
-        instagram.updateInstagram(replaceName,crawlingDto.getHashtagCount());
+        instagram.updateInstagram(replaceName, crawlingDto.getHashtagCount());
         instagramRepository.save(instagram);
-
         updateInstagramPost(instagram.getId(), crawlingDto);
         return instagram;
     }
@@ -66,13 +68,13 @@ public class InstagramScheduleService {
         instagramPostsRepository.saveAll(instagramPosts);
     }
 
-    public String findHashtagNameToCrawl(Place place) {
+    private String findHashtagNameToCrawl(Place place) {
         return blackListRepository.findByKakaoId(place.getKakaoId())
                 .map(BlackList::getReplaceName)
                 .orElseGet(place::getPlaceName);
     }
 
-    public boolean isSkipPlace(Place place) {
+    private boolean isSkipPlace(Place place) {
         return blackListRepository.findByKakaoId(place.getKakaoId())
                 .map(BlackList::getIsSkipPlace)
                 .orElseGet(() -> false);
