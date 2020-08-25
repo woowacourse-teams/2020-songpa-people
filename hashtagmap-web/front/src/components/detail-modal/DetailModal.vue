@@ -33,8 +33,8 @@
                         </v-row>
                     </v-col>
                 </v-row>
-                <Posts class="posts" :posts="getDetailModal.posts" />
             </div>
+            <Posts class="posts" :posts="getDetailModal.posts" />
         </v-card>
     </v-dialog>
 </template>
@@ -111,6 +111,25 @@
     @media screen and (max-width: 600px) {
         .detail-modal {
             width: 100%;
+        }
+
+        .modal-profile-image {
+            margin-left: 2em;
+        }
+
+        .modal-profile-image img {
+            max-width: 25vw;
+            height: auto;
+        }
+
+        .hashtagCount {
+            font-size: 1.5em;
+            margin-right: 1em;
+        }
+
+        .detail-info-button,
+        .instagram-page-button {
+            width: 45%;
         }
     }
 </style>

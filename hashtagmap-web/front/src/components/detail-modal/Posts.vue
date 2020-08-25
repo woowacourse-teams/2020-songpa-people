@@ -1,15 +1,17 @@
 <template>
-  <carousel
-    :autoplay="autoplay"
-    :perPage="perPage"
-    :paginationPadding="paginationPadding"
-    :paginationSize="paginationSize"
-    :loop="loop"
-  >
-    <slide v-for="post in posts" :key="post.id">
-      <PostImage :post="post"></PostImage>
-    </slide>
-  </carousel>
+  <v-main>
+    <carousel
+      :perPage="perPage"
+      :navigation-enabled="navigationEnabled"
+      :paginationPadding="paginationPadding"
+      :paginationSize="paginationSize"
+      :loop="loop"
+    >
+      <slide v-for="post in posts" :key="post.id">
+        <PostImage :post="post"></PostImage>
+      </slide>
+    </carousel>
+  </v-main>
 </template>
 
 <script>
@@ -24,6 +26,7 @@ export default {
   },
   data: () => ({
     autoplay: true,
+    navigationEnabled: true,
     perPage: 1,
     paginationPadding: 5,
     paginationSize: 8,
@@ -38,8 +41,14 @@ export default {
   methods: {},
 };
 </script>
+<style>
+.VueCarousel-navigation-button {
+  position: relative !important;
+  top: 2em !important;
+}
+</style>
 <style scoped>
 .container {
-  padding: 0px;
+  padding: 0;
 }
 </style>
