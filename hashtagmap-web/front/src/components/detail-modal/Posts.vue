@@ -1,44 +1,21 @@
 <template>
-  <v-main>
-    <carousel
-      ref="carousel"
-      :perPage="perPage"
-      :navigation-enabled="navigationEnabled"
-      :paginationPadding="paginationPadding"
-      :paginationSize="paginationSize"
-      :loop="loop"
-    >
-      <slide v-for="post in posts" :key="post.id">
-        <PostImage :post="post"></PostImage>
-      </slide>
-    </carousel>
-  </v-main>
+  <v-carousel cycle hide-delimiter-background>
+    <v-carousel-item v-for="post in posts" :key="post.id">
+      <v-row class="fill-height" align="center" justify="center">
+        <img
+          class="img-content"
+          :src="post.imageUrl"
+          @error="onImgError"
+          @click="onClickInstagramPostImage(post)"
+          alt=""
+        />
+      </v-row>
+    </v-carousel-item>
+  </v-carousel>
 </template>
 
 <script>
-import { Carousel, Slide } from "vue-carousel";
-import PostImage from "./PostImage";
-
 export default {
-  components: {
-    Slide,
-    Carousel,
-    PostImage,
-  },
-
-  mounted() {
-    setTimeout(this.$refs.carousel.computeCarouselWidth, 300);
-  },
-
-  data: () => ({
-    autoplay: true,
-    navigationEnabled: true,
-    perPage: 1,
-    paginationPadding: 5,
-    paginationSize: 8,
-    loop: true,
-  }),
-
   props: {
     posts: {
       type: Array,
@@ -46,17 +23,30 @@ export default {
     },
   },
 
-  methods: {},
+  methods: {
+    onImgError(e) {
+      e.target.src = require("../../assets/No-Image.png");
+    },
+    onClickInstagramPostImage(post) {
+      return window.open(post.postUrl);
+    },
+  },
 };
 </script>
-<style>
-.VueCarousel-navigation-button {
-  position: relative !important;
-  top: 2em !important;
-}
-</style>
+
 <style scoped>
-.container {
-  padding: 0;
+.img-content {
+  width: 600px;
+  height: 600px;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 600px) {
+  .img-content {
+    position: relative;
+    width: 100vw;
+    height: 100vw;
+    overflow: hidden;
+  }
 }
 </style>
