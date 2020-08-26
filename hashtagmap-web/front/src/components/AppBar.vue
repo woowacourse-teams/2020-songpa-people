@@ -47,9 +47,17 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
 .tag-level-container {
   width: 250px;
   height: 185px;
+}
+
+.v-menu__content {
+  transform: translateY(0px) !important;
+}
+
+.v-btn:not(.v-btn--text):not(.v-btn--outlined):focus:before {
+  opacity: 0 !important;
 }
 </style>
