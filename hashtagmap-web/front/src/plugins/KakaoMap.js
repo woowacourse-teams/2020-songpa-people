@@ -18,7 +18,10 @@ import "notyf/notyf.min.css";
 export default {
   install(Vue) {
     const script = document.createElement("script");
-    script.src = KAKAO_MAP.API_SRC_ADDRESS + KAKAO_WEB_KEY;
+    script.src =
+      KAKAO_MAP.API_SRC_ADDRESS +
+      KAKAO_WEB_KEY +
+      KAKAO_MAP.API_EXTENSION_LIBRARY;
     document.head.appendChild(script);
     const notyf = new Notyf();
 
@@ -42,10 +45,24 @@ export default {
       return this.map;
     };
 
+    Vue.prototype.$loadClusterer = () => {
+      this.clusterer = new kakao.maps.MarkerClusterer({
+        map: this.map,
+        averageCenter: true,
+        minLevel: 6,
+        texts: getTexts,
+      });
+      return this.clusterer;
+    };
+
+    const getTexts = count => {
+      return count / 2;
+    };
+
     const createOptions = nowPosition => {
       return {
         center: createKakaoMapsLatLng(nowPosition),
-        level: 5,
+        level: 4,
       };
     };
 
