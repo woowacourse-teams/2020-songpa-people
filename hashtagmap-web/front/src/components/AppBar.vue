@@ -19,7 +19,7 @@
           <v-icon>{{ menuBarIcon }}</v-icon>
         </v-btn>
       </template>
-      <div class="tlc">
+      <div class="tag-level-container">
         <TagLevelContainer />
       </div>
     </v-menu>
@@ -48,8 +48,8 @@ export default {
 </script>
 
 <style scoped>
-.tlc {
+.tag-level-container {
   width: 250px;
-  height: 209px;
+  height: 200px;
 }
 </style>

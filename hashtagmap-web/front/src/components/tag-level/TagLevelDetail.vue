@@ -4,8 +4,8 @@
       <v-list-item dense class="tag-level-detail-title">
         구간별 해시태그 개수
       </v-list-item>
-      <v-list-item>
-        <v-list-item-content>
+      <v-list-item dense class="tag-levels">
+        <v-list-item-content class="border">
           <div class="tag-level-detail">
             <ul class="progressbar">
               <li class="level-one">{{ this.getTagLevelDetails[4] }}k</li>
@@ -52,11 +52,17 @@ export default {
 </script>
 
 <style lang="stylus">
-  .tag-level-detail-title {
-    margin: 0 1px 0 0;
-    padding-left: 1px;
-    font-size: medium;
-  }
+.tag-level-detail-title {
+  margin: 0 1px 0 0;
+  padding-left: 1px !important;
+  font-size: medium;
+}
+
+.tag-levels {
+  padding-left: 10px !important;
+  padding-right: 0 !important;
+}
+
 .v-expansion-panel-header {
   padding: 0 !important;
 }
@@ -95,7 +101,7 @@ export default {
 }
 
 .progressbar li:first-child::after {
-  border: 4px solid rgb(65,12,162);
+  border: 6px solid rgb(65,12,162);
   background-color: rgb(65,12,162);
 }
 
@@ -104,7 +110,7 @@ export default {
 }
 
 .progressbar li.level-one + li:after {
-  border: 4px solid rgb(116,22,227);
+  border: 6px solid rgb(116,22,227);
   background-color: rgb(116,22,227);
 }
 
@@ -113,7 +119,7 @@ export default {
 }
 
 .progressbar li.level-two + li:after {
-  border: 4px solid rgb(158,76,237);
+  border: 6px solid rgb(158,76,237);
   background-color: rgb(158,76,237);
 }
 
@@ -122,7 +128,7 @@ export default {
 }
 
 .progressbar li.level-three + li:after {
-  border: 4px solid rgb(185,112,243);
+  border: 6px solid rgb(185,112,243);
   background-color: rgb(185,112,243);
 }
 
@@ -131,17 +137,7 @@ export default {
 }
 
 .progressbar li.level-four + li:after {
-  border: 4px solid rgb(216,160,250);
+  border: 6px solid rgb(216,160,250);
   background-color: rgb(216,160,250);
-}
-
-.progressbar li.level-five::before {
-  background-color: rgb(216,160,250) !important;
-  content: "";
-  position: absolute;
-  top: -15px;
-  border: 4px solid rgb(216,160,250);
-  width: 5px;
-  height: 6px;
 }
 </style>
