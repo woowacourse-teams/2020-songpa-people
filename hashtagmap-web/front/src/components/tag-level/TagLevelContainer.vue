@@ -1,6 +1,7 @@
 <template>
   <div id="tag-level">
     <v-container class="container-design">
+      <PlaceCategories />
       <TagLevelSelector />
       <TagLevelDetail />
     </v-container>
@@ -10,9 +11,11 @@
 <script>
 import TagLevelSelector from "./TagLevelSelector";
 import TagLevelDetail from "./TagLevelDetail";
+import PlaceCategories from "../place/PlaceCategories";
 
 export default {
   components: {
+    PlaceCategories,
     TagLevelSelector,
     TagLevelDetail,
   },
