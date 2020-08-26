@@ -16,7 +16,7 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="secondary" class="ma-2" v-bind="attrs" v-on="on" icon>
-          <v-img :src="menuBarIcon" width="2rem"></v-img>
+          <v-icon>{{ menuBarIcon }}</v-icon>
         </v-btn>
       </template>
       <div class="tlc">
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { mdiMenu } from "@mdi/js";
 import TagLevelContainer from "@/components/tag-level/TagLevelContainer";
 
 export default {
@@ -37,7 +38,7 @@ export default {
   data() {
     return {
       logo: require("../../public/img/icons/themiso-icon-192x192.png"),
-      menuBarIcon: require("../../public/img/icons/menu-bar-icon.png"),
+      menuBarIcon: mdiMenu,
       isHiddenTagLevelContainer: true,
     };
   },

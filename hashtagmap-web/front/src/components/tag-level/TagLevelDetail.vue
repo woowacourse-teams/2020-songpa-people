@@ -2,7 +2,7 @@
   <div>
     <v-list>
       <v-list-item dense class="tag-level-detail-title">
-        태그 레벨 정보
+        구간별 해시태그 개수
       </v-list-item>
       <v-list-item>
         <v-list-item-content>
