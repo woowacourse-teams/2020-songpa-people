@@ -78,7 +78,7 @@ export default {
   position: relative;
   text-align: center;
   z-index: 10;
-  font-size: 15px !important;
+  font-size: 14px !important;
 }
 
 .progressbar li::after {
