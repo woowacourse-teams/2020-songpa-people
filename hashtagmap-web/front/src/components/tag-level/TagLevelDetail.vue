@@ -78,7 +78,7 @@ export default {
   position: relative;
   text-align: center;
   z-index: 10;
-  font-size: 13px !important;
+  font-size: 15px !important;
 }
 
 .progressbar li::after {
@@ -92,7 +92,7 @@ export default {
 }
 
 .progressbar li:first-child::after {
-  border: 3px solid rgb(65,12,162);
+  border: 4px solid rgb(65,12,162);
   background-color: rgb(65,12,162);
 }
 
@@ -101,7 +101,7 @@ export default {
 }
 
 .progressbar li.level-one + li:after {
-  border: 3px solid rgb(116,22,227);
+  border: 4px solid rgb(116,22,227);
   background-color: rgb(116,22,227);
 }
 
@@ -110,7 +110,7 @@ export default {
 }
 
 .progressbar li.level-two + li:after {
-  border: 3px solid rgb(158,76,237);
+  border: 4px solid rgb(158,76,237);
   background-color: rgb(158,76,237);
 }
 
@@ -119,7 +119,7 @@ export default {
 }
 
 .progressbar li.level-three + li:after {
-  border: 3px solid rgb(185,112,243);
+  border: 4px solid rgb(185,112,243);
   background-color: rgb(185,112,243);
 }
 
@@ -128,7 +128,7 @@ export default {
 }
 
 .progressbar li.level-four + li:after {
-  border: 3px solid rgb(216,160,250);
+  border: 4px solid rgb(216,160,250);
   background-color: rgb(216,160,250);
 }
 
@@ -137,7 +137,7 @@ export default {
   content: "";
   position: absolute;
   top: -15px;
-  border: 1px solid rgb(216,160,250);
+  border: 4px solid rgb(216,160,250);
   width: 5px;
   height: 6px;
 }
