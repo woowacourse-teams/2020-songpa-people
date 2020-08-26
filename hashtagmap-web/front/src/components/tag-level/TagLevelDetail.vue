@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-list>
-      <v-list-item class="tag-level-detail-title">
+      <v-list-item dense class="tag-level-detail-title">
         태그 레벨 정보
       </v-list-item>
       <v-list-item>
@@ -70,7 +70,7 @@ export default {
 }
 
 .tag-level-detail {
-  width: 100%;
+  width: 100px
 }
 
 .progressbar li {

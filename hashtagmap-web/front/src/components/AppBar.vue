@@ -49,6 +49,6 @@ export default {
 <style scoped>
 .tlc {
   width: 250px;
-  height: 217px;
+  height: 209px;
 }
 </style>
