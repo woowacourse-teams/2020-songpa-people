@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <div class="story-container">
       <div class="story">
         <router-link to="/map">
@@ -26,7 +26,7 @@
         <div class="story-name">송리단길</div>
       </div>
     </div>
-  </v-content>
+  </v-main>
 </template>
 <script></script>
 <style scoped>

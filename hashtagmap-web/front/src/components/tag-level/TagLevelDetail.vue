@@ -10,18 +10,10 @@
       <v-expansion-panel-content>
         <div class="tag-level-detail">
           <ul class="progressbar">
-            <li class="level-one">
-              {{ this.getTagLevelDetails[4] }}k
-            </li>
-            <li class="level-two">
-              {{ this.getTagLevelDetails[3] }}k
-            </li>
-            <li class="level-three">
-              {{ this.getTagLevelDetails[2] }}k
-            </li>
-            <li class="level-four">
-              {{ this.getTagLevelDetails[1] }}k
-            </li>
+            <li class="level-one">{{ this.getTagLevelDetails[4] }}k</li>
+            <li class="level-two">{{ this.getTagLevelDetails[3] }}k</li>
+            <li class="level-three">{{ this.getTagLevelDetails[2] }}k</li>
+            <li class="level-four">{{ this.getTagLevelDetails[1] }}k</li>
             <li class="level-five"></li>
           </ul>
         </div>

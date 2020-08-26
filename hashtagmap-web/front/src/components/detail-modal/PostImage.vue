@@ -20,10 +20,6 @@ export default {
     },
   },
 
-  mounted() {
-    document.getElementById(this.post.id).src = this.post.imageUrl;
-  },
-
   methods: {
     onImgError(e) {
       e.target.src = require("../../assets/No-Image.png");
