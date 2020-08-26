@@ -159,16 +159,4 @@ export default {
   width: 100%;
   height: 100%;
 }
-
-/*@media all and (min-width: 760px) {*/
-/*  .app-bar {*/
-/*    display: none;*/
-/*  }*/
-/*}*/
-
-/*@media all and (max-width: 760px) {*/
-/*  .tag-level-container {*/
-/*    display: none;*/
-/*  }*/
-/*}*/
 </style>
