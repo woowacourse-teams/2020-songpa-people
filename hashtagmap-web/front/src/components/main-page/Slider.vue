@@ -29,6 +29,7 @@
     </carousel>
   </v-main>
 </template>
+
 <script>
 import { Carousel, Slide } from "vue-carousel";
 
@@ -52,11 +53,13 @@ export default {
   align-items: center;
   margin-top: 10px;
 }
+
 .carousel-component {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .img-content {
   width: 600px;
   height: 600px;
@@ -67,6 +70,14 @@ export default {
     position: relative;
     width: 100%;
     height: auto;
+  }
+
+  .carousel :nth-child(2) :nth-child(1) {
+    margin-top: 0 !important;
+  }
+
+  .carousel :nth-child(2) :nth-child(1) >>> button {
+    margin-top: 0 !important;
   }
 }
 </style>
