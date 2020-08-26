@@ -50,6 +50,6 @@ export default {
 <style scoped>
 .tag-level-container {
   width: 250px;
-  height: 200px;
+  height: 185px;
 }
 </style>

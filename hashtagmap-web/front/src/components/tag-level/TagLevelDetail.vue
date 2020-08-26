@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-list>
-      <v-list-item dense class="tag-level-detail-title">
+      <v-list-item-subtitle dense class="tag-level-detail-title">
         구간별 해시태그 개수
-      </v-list-item>
+      </v-list-item-subtitle>
       <v-list-item dense class="tag-levels">
         <v-list-item-content class="border">
           <div class="tag-level-detail">
@@ -55,11 +55,11 @@ export default {
 .tag-level-detail-title {
   margin: 0 1px 0 0;
   padding-left: 1px !important;
-  font-size: medium;
+  font-size: medium !important;
 }
 
 .tag-levels {
-  padding-left: 10px !important;
+  padding-left: 12px !important;
   padding-right: 0 !important;
 }
 
