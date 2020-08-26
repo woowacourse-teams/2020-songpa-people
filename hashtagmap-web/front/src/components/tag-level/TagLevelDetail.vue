@@ -1,10 +1,8 @@
 <template>
   <div>
     <v-list>
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-subtitle>태그 레벨 정보</v-list-item-subtitle>
-        </v-list-item-content>
+      <v-list-item class="tag-level-detail-title">
+        태그 레벨 정보
       </v-list-item>
       <v-list-item>
         <v-list-item-content>
@@ -54,6 +52,11 @@ export default {
 </script>
 
 <style lang="stylus">
+  .tag-level-detail-title {
+    margin: 0 1px 0 0;
+    padding-left: 1px;
+    font-size: medium;
+  }
 .v-expansion-panel-header {
   padding: 0 !important;
 }
