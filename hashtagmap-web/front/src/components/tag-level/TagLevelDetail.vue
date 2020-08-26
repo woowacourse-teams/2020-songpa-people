@@ -1,25 +1,24 @@
 <template>
-  <v-expansion-panels flat>
-    <v-expansion-panel>
-      <v-expansion-panel-header @click="toggleTagLevelDetail">
-        태그 레벨 정보
-        <div>
-          <v-icon color="darkgrey">{{ showIcon() }}</v-icon>
-        </div>
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <div class="tag-level-detail">
-          <ul class="progressbar">
-            <li class="level-one">{{ this.getTagLevelDetails[4] }}k</li>
-            <li class="level-two">{{ this.getTagLevelDetails[3] }}k</li>
-            <li class="level-three">{{ this.getTagLevelDetails[2] }}k</li>
-            <li class="level-four">{{ this.getTagLevelDetails[1] }}k</li>
-            <li class="level-five"></li>
-          </ul>
-        </div>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
+  <div>
+    <v-list>
+      <v-list-item-subtitle dense class="tag-level-detail-title">
+        구간별 해시태그 개수
+      </v-list-item-subtitle>
+      <v-list-item dense class="tag-levels">
+        <v-list-item-content class="border">
+          <div class="tag-level-detail">
+            <ul class="progressbar">
+              <li class="level-one">{{ this.getTagLevelDetails[4] }}k</li>
+              <li class="level-two">{{ this.getTagLevelDetails[3] }}k</li>
+              <li class="level-three">{{ this.getTagLevelDetails[2] }}k</li>
+              <li class="level-four">{{ this.getTagLevelDetails[1] }}k</li>
+              <li class="level-five"></li>
+            </ul>
+          </div>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </div>
 </template>
 
 <script>
@@ -53,6 +52,17 @@ export default {
 </script>
 
 <style lang="stylus">
+.tag-level-detail-title {
+  margin: 0 1px 0 0;
+  padding-left: 1px !important;
+  font-size: medium !important;
+}
+
+.tag-levels {
+  padding-left: 12px !important;
+  padding-right: 0 !important;
+}
+
 .v-expansion-panel-header {
   padding: 0 !important;
 }
@@ -66,7 +76,7 @@ export default {
 }
 
 .tag-level-detail {
-  width: 100%;
+  width: 100px
 }
 
 .progressbar li {
@@ -77,7 +87,7 @@ export default {
   position: relative;
   text-align: center;
   z-index: 10;
-  font-size: 13px !important;
+  font-size: 14px !important;
 }
 
 .progressbar li::after {
@@ -91,7 +101,7 @@ export default {
 }
 
 .progressbar li:first-child::after {
-  border: 3px solid rgb(65,12,162);
+  border: 6px solid rgb(65,12,162);
   background-color: rgb(65,12,162);
 }
 
@@ -100,7 +110,7 @@ export default {
 }
 
 .progressbar li.level-one + li:after {
-  border: 3px solid rgb(116,22,227);
+  border: 6px solid rgb(116,22,227);
   background-color: rgb(116,22,227);
 }
 
@@ -109,7 +119,7 @@ export default {
 }
 
 .progressbar li.level-two + li:after {
-  border: 3px solid rgb(158,76,237);
+  border: 6px solid rgb(158,76,237);
   background-color: rgb(158,76,237);
 }
 
@@ -118,7 +128,7 @@ export default {
 }
 
 .progressbar li.level-three + li:after {
-  border: 3px solid rgb(185,112,243);
+  border: 6px solid rgb(185,112,243);
   background-color: rgb(185,112,243);
 }
 
@@ -127,17 +137,7 @@ export default {
 }
 
 .progressbar li.level-four + li:after {
-  border: 3px solid rgb(216,160,250);
+  border: 6px solid rgb(216,160,250);
   background-color: rgb(216,160,250);
-}
-
-.progressbar li.level-five::before {
-  background-color: rgb(216,160,250) !important;
-  content: "";
-  position: absolute;
-  top: -15px;
-  border: 1px solid rgb(216,160,250);
-  width: 5px;
-  height: 6px;
 }
 </style>

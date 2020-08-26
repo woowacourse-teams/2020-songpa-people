@@ -2,8 +2,8 @@
   <v-app>
     <v-main>
       <div id="kakao-map"></div>
+      <AppBar />
       <CurrentLocationButton id="current-location-button" />
-      <TagLevelContainer id="tag-level" />
       <DetailModal />
     </v-main>
   </v-app>
@@ -11,8 +11,8 @@
 
 <script>
 import CurrentLocationButton from "@/components/CurrentLocationButton";
-import TagLevelContainer from "@/components/tag-level/TagLevelContainer";
 import DetailModal from "@/components/detail-modal/DetailModal";
+import AppBar from "../components/AppBar";
 
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import { EVENT_TYPE } from "@/utils/constants";
@@ -95,6 +95,7 @@ export default {
         image: markerImage,
       });
     },
+
     createTextBalloon(place, marker) {
       const $content = textBalloonTemplate(place);
       const textBalloon = new this.getKakaoMapApi.CustomOverlay({
@@ -144,7 +145,7 @@ export default {
   components: {
     DetailModal,
     CurrentLocationButton,
-    TagLevelContainer,
+    AppBar,
   },
 };
 </script>
