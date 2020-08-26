@@ -29,7 +29,7 @@
   </v-content>
 </template>
 <script></script>
-<style>
+<style scoped>
 .story-container {
   display: flex;
 }

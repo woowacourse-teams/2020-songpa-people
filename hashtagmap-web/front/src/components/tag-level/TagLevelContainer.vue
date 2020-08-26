@@ -26,7 +26,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @media all and (min-width: 768px) {
   #tag-level {
     z-index: 10;

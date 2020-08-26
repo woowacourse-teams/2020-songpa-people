@@ -1,7 +1,6 @@
 <template>
   <v-main>
     <carousel
-      v-images-loaded="imageLoaded"
       ref="carousel"
       :perPage="perPage"
       :navigation-enabled="navigationEnabled"

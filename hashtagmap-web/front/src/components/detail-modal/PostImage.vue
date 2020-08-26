@@ -35,7 +35,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .img-content {
   width: 600px;
   height: auto;
