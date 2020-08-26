@@ -49,7 +49,7 @@ export default {
       this.clusterer = new kakao.maps.MarkerClusterer({
         map: this.map,
         averageCenter: true,
-        minLevel: 5,
+        minLevel: 6,
         texts: getTexts,
       });
       return this.clusterer;
