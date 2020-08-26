@@ -25,7 +25,7 @@ export default {
 
   methods: {
     onImgError(e) {
-      e.target.src = require("../../assets/No-Image.png");
+      e.target.src = require("@/assets/No-Image.png");
     },
     onClickInstagramPostImage(post) {
       return window.open(post.postUrl);
