@@ -135,7 +135,6 @@ img {
   transform: rotateY(180deg);
 }
 
-
 /* Loader */
 
 .loader {
@@ -151,10 +150,15 @@ img {
 /* Media Query */
 
 @media screen and (max-width: 40rem) {
+  .profile-stats,
+  .story-container {
+    display: none !important;
+  }
+
   .profile {
     display: flex;
-    padding-top: 4rem;
-    padding-bottom: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0rem;
     display: inline-block;
   }
 
@@ -164,8 +168,7 @@ img {
 
   .profile-image,
   .profile-user-settings,
-  .profile-bio,
-  .profile-stats {
+  .profile-bio {
     float: none;
     width: auto;
   }
@@ -182,10 +185,6 @@ img {
     margin-top: 1rem;
   }
 
-  .profile-user-name {
-    font-size: 25px;
-  }
-
   .profile-follow-btn {
     order: 1;
     padding: 0;
@@ -200,28 +199,8 @@ img {
   }
 
   .profile-follow-btn,
-  .profile-bio,
-  .profile-stats {
+  .profile-bio {
     flex-basis: 100%;
-  }
-
-  .profile-stats {
-    order: 1;
-    margin-top: 1.5rem;
-  }
-
-  .profile-stats ul {
-    display: flex;
-    text-align: center;
-    padding: 1.2rem 0;
-    border-top: 0.1rem solid #dadada;
-    border-bottom: 0.1rem solid #dadada;
-  }
-
-  .profile-stats li {
-    font-size: 14px;
-    flex: 1;
-    margin: 0;
   }
 
   .profile-stat-count {
@@ -282,10 +261,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
     }
 
     .profile-user-name {
-      font-size: 30px;
-    }
-
-    .profile-follow-btn {      width: 60vw;
+      font-size: 25px;
     }
 
     .profile-follow-btn,
@@ -294,7 +270,6 @@ Remove or comment-out the code block below to see how the browser will fall-back
       grid-column: 1 / -1;
     }
 
-    .profile-user-settings,
     .profile-follow-btn,
     .profile-settings-btn,
     .profile-bio,
