@@ -1,3 +1,4 @@
+import kakaoSearch from "@/request/kakao.js";
 import { KAKAO_WEB_KEY } from "@/secret";
 import navigatorUtils from "@/libs/navigator/navigator.js";
 import dotImgSrc from "@/assets/dot.png";
@@ -24,6 +25,7 @@ export default {
       KAKAO_MAP.API_EXTENSION_LIBRARY;
     document.head.appendChild(script);
     const notyf = new Notyf();
+    var userMarker = null;
 
     /* global kakao */
     const loadApi = new Promise(resolve => {
@@ -69,18 +71,28 @@ export default {
     Vue.prototype.$loadCurrentPosition = () => {
       const currentGeolocation = navigatorUtils.getCurrentPosition();
 
-      currentGeolocation
-        .then(position => {
-          const currentPosition = navigatorUtils.extractGeolocationPosition(
-            position,
-          );
-          setPositionCenter.call(this, currentPosition);
-          displayUserMarker.call(this, currentPosition);
-          notyf.success("사용자 위치를 불러왔습니다.");
-        })
-        .catch(() => {
-          notyf.error("현재 위치를 불러오지 못했습니다.");
-        });
+      currentGeolocation.then(position => {
+        const currentPosition = navigatorUtils.extractGeolocationPosition(
+          position,
+        );
+        setPositionCenter.call(this, currentPosition);
+        displayUserMarker.call(this, currentPosition);
+        notyf.success("사용자 위치를 불러왔습니다.");
+        return;
+      });
+      notyf.error("현재 위치를 불러오지 못했습니다.");
+    };
+
+    Vue.prototype.$searchKeywordAndLoadPosition = async keyword => {
+      kakaoSearch.getKeywordSearch(keyword).then(res => {
+        const currentPosition = navigatorUtils.convertToLatLon(
+          res.data.documents[0].x,
+          res.data.documents[0].y,
+        );
+        setPositionCenter.call(this, currentPosition);
+        return;
+      });
+      notyf.error("검색에 실패했습니다.");
     };
 
     const setPositionCenter = position => {
@@ -93,19 +105,20 @@ export default {
     };
 
     const displayUserMarker = position => {
-      setPositionCenter.call(this, position);
-
+      if (userMarker != null) {
+        userMarker.setMap(null);
+      }
       const imageSize = new kakao.maps.Size(
         KAKAO_MAP.USER_MAKER_SIZE,
         KAKAO_MAP.USER_MAKER_SIZE,
       );
       const markerImage = new kakao.maps.MarkerImage(dotImgSrc, imageSize);
-      const marker = new kakao.maps.Marker({
+      userMarker = new kakao.maps.Marker({
         position: createKakaoMapsLatLng(position),
         image: markerImage,
       });
 
-      marker.setMap(this.map);
+      userMarker.setMap(this.map);
     };
   },
 };

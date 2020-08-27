@@ -14,6 +14,12 @@ const navigatorUtils = {
       latitude: position.coords.latitude,
     };
   },
+  convertToLatLon(x, y) {
+    return {
+      longitude: x,
+      latitude: y,
+    };
+  },
 };
 
 export default navigatorUtils;

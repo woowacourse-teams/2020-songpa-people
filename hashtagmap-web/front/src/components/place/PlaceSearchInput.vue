@@ -1,12 +1,16 @@
 <template>
   <v-text-field
-    class="ma-0 pa-0"
+    v-on:keyup.enter="search"
+    v-model="input"
+    class="ma-1 pa-0"
     dense
     filled
     placeholder="지역을 입력하세요."
     solo
   >
-    <v-icon color="darkgray" slot="append">{{ magnify }}</v-icon>
+    <v-icon color="darkgray" slot="append" @click="search">{{
+      magnify
+    }}</v-icon>
   </v-text-field>
 </template>
 
@@ -16,7 +20,14 @@ import { mdiMagnify } from "@mdi/js";
 export default {
   data: () => ({
     magnify: mdiMagnify,
+    input: "",
   }),
+  methods: {
+    search() {
+      this.$searchKeywordAndLoadPosition(this.input);
+      this.input = "";
+    },
+  },
 };
 </script>
 

@@ -27,7 +27,7 @@ export default {
       state.kakaoMap = kakaoMap;
     },
     SET_BOUNDS_EVENT(state) {
-      [EVENT_TYPE.DRAG_END, EVENT_TYPE.ZOOM_CHANGED].forEach(eventType => {
+      [EVENT_TYPE.DRAG_END, EVENT_TYPE.ZOOM_CHANGED, EVENT_TYPE.CENTER_CHANGED].forEach(eventType => {
         state.kakaoMapApi.event.addListener(state.kakaoMap, eventType, () => {
           state.mapBounds = state.kakaoMap.getBounds();
         });

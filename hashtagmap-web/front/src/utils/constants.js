@@ -12,6 +12,7 @@ export const EVENT_TYPE = {
   CLICK: "click",
   DRAG_END: "dragend",
   ZOOM_CHANGED: "zoom_changed",
+  CENTER_CHANGED: "center_changed"
 };
 
 export const TAG_LEVEL = {
