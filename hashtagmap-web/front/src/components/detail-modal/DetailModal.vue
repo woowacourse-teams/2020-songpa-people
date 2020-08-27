@@ -5,6 +5,7 @@
     @input="clickOut"
     width="600px"
     :fullscreen="$vuetify.breakpoint.xsOnly"
+    scrollable="false"
   >
     <v-card>
       <div>
@@ -38,6 +39,7 @@
         </v-row>
       </div>
       <Posts class="posts" :posts="getDetailModal.posts" />
+      <v-container></v-container>
     </v-card>
   </v-dialog>
 </template>
