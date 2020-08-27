@@ -1,11 +1,12 @@
 <template>
-  <v-chip label color="#a9a9a9" @click.stop="onClickCategory">
+  <v-chip label :color="rgb" @click.stop="onClickCategory">
     {{ category.name }}
   </v-chip>
 </template>
 
 <script>
 import { mapMutations } from "vuex";
+import { TAG_LEVEL } from "@/utils/constants";
 
 export default {
   props: {
@@ -14,6 +15,10 @@ export default {
       required: true,
     },
   },
+
+  data: () => ({
+    rgb: TAG_LEVEL.LEVEL_TWO.RGB,
+  }),
 
   methods: {
     ...mapMutations(["SET_CATEGORY"]),
