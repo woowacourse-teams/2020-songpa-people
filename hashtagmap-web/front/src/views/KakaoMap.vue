@@ -91,7 +91,7 @@ export default {
     setMapOverlays() {
       this.getPlaces.map(place => {
         const marker = this.$createMaker(place);
-        this.ADD_MAP_OVERLAYS({ place, marker });
+        this.ADD_MAP_OVERLAYS({ isOpen: true, place, marker });
       });
     },
   },

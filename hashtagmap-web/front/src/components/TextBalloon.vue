@@ -22,6 +22,10 @@ export default {
 
   props: {
     overlay: {
+      isOpen: {
+        type: Boolean,
+        require: true,
+      },
       place: {
         type: Object,
         require: true,
@@ -49,7 +53,10 @@ export default {
     this.$kakaoApi().event.addListener(
       this.overlay.marker,
       EVENT_TYPE.CLICK,
-      () => this.ADD_CLUSTER(this.textBalloonOverlay),
+      () => {
+        this.ADD_CLUSTER(this.textBalloonOverlay);
+        this.OPEN_TEXT_BALLOON(this.overlay.place.kakaoId);
+      },
     );
   },
 
@@ -67,7 +74,12 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["ADD_CLUSTER", "REMOVE_CLUSTER"]),
+    ...mapMutations([
+      "ADD_CLUSTER",
+      "REMOVE_CLUSTER",
+      "CLOSE_TEXT_BALLOON",
+      "OPEN_TEXT_BALLOON",
+    ]),
     ...mapActions(["setDetailModal"]),
     showActiveOverlay() {
       const tagLevelAndCategory = {
@@ -76,7 +88,9 @@ export default {
       };
       if (this.isActiveCategoryAndTagLevel(tagLevelAndCategory)) {
         this.showPinMarker();
-        this.showTextBalloonOverlay();
+        if (this.overlay.isOpen) {
+          this.showTextBalloonOverlay();
+        }
       }
     },
     showTextBalloonOverlay() {
@@ -86,6 +100,7 @@ export default {
       this.ADD_CLUSTER(this.overlay.marker);
     },
     closeTextBalloonOverLay() {
+      this.CLOSE_TEXT_BALLOON(this.overlay.place.kakaoId);
       this.REMOVE_CLUSTER(this.textBalloonOverlay);
     },
     isActiveCategoryAndTagLevel(tagLevelAndCategory) {
