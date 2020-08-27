@@ -43,7 +43,7 @@ export default {
 }
 
 .theme--light.v-chip {
-  border-color: black !important;
+  border-color: rgb(185,112,243) !important;
 }
 
 .v-chip {
@@ -51,6 +51,6 @@ export default {
 }
 
 .v-chip:not(.v-chip--outlined).primary {
-  color: black !important;
+  color: rgb(185,112,243) !important;
 }
 </style>
