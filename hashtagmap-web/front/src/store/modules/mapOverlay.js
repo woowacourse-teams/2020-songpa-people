@@ -1,6 +1,6 @@
 export default {
   state: {
-    mapOverlays: [], // { textBalloon, marker, place }
+    mapOverlays: [], // { isOpen, marker, place }
     boundedOverLays: [],
     clusterer: {},
   },
@@ -49,6 +49,20 @@ export default {
           markerLongitude <= rightTopLongitude
         ) {
           state.boundedOverLays.push(overLay);
+        }
+      });
+    },
+    CLOSE_TEXT_BALLOON(state, kakaoId) {
+      state.mapOverlays.forEach(overlay => {
+        if (overlay.place.kakaoId === kakaoId) {
+          overlay.isOpen = false;
+        }
+      });
+    },
+    OPEN_TEXT_BALLOON(state, kakaoId) {
+      state.mapOverlays.forEach(overlay => {
+        if (overlay.place.kakaoId === kakaoId) {
+          overlay.isOpen = true;
         }
       });
     },
