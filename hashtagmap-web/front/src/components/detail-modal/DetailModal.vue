@@ -38,6 +38,7 @@
         </v-row>
       </div>
       <Posts class="posts" :posts="getDetailModal.posts" />
+      <v-container></v-container>
     </v-card>
   </v-dialog>
 </template>
@@ -73,6 +74,10 @@ export default {
 </script>
 
 <style scoped>
+.padding {
+  width: 100%;
+  height: 10px;
+}
 .placeName {
   font-size: 20px;
 }
@@ -114,6 +119,7 @@ export default {
 .close-btn {
   display: none !important;
 }
+
 @media screen and (max-width: 600px) {
   .close-btn {
     display: inline !important;

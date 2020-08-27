@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <div class="instagram-container">
       <div class="profile">
         <div class="profile-image">
@@ -34,7 +34,7 @@
       <hr />
     </div>
     <Slider></Slider>
-  </v-content>
+  </v-main>
 </template>
 
 <script>

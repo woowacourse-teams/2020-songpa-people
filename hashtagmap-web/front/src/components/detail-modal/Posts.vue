@@ -36,8 +36,9 @@ export default {
 
 <style scoped>
 .img-content {
-  width: 600px;
-  height: 600px;
+  width: 550px;
+  height: 550
+  px;
   overflow: hidden;
 }
 
