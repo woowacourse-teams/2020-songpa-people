@@ -3,7 +3,7 @@
     <v-main>
       <div id="kakao-map">
         <template v-if="isMapLoad">
-          <TagPin
+          <TextBalloon
             v-for="overlay in boundedOverLays"
             :key="overlay.place.kakaoId + '-' + new Date().getTime()"
             :overlay="overlay"
@@ -24,7 +24,7 @@ import DetailModal from "@/components/detail-modal/DetailModal";
 import AppBar from "../components/AppBar";
 
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import TagPin from "@/components/TagPin";
+import TextBalloon from "@/components/TextBalloon";
 
 export default {
   name: "KakaoMap",
@@ -43,8 +43,8 @@ export default {
     this.SET_CLUSTERER(this.$loadClusterer());
     if (this.getPlaces.length === 0) {
       await this.setPlaces();
+      this.setMapOverlays();
     }
-    this.setMapOverlays();
     this.CHANGE_BOUNDED_OVERLAYS(this.getKakaoMap.getBounds());
     this.boundedOverLays = this.getBoundedMapOverLays;
     this.isMapLoad = true;
@@ -97,7 +97,7 @@ export default {
   },
 
   components: {
-    TagPin,
+    TextBalloon,
     DetailModal,
     CurrentLocationButton,
     AppBar,

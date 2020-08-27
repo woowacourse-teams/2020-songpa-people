@@ -18,7 +18,7 @@ import { mapGetters, mapMutations, mapActions } from "vuex";
 import { EVENT_TYPE } from "@/utils/constants";
 
 export default {
-  name: "TagPin",
+  name: "TextBalloon",
 
   props: {
     overlay: {
