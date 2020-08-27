@@ -38,7 +38,7 @@
         </v-row>
       </div>
       <Posts class="posts" :posts="getDetailModal.posts" />
-      <v-container></v-container>
+<!--      <v-container class="margin-bottom"></v-container>-->
     </v-card>
   </v-dialog>
 </template>
@@ -74,10 +74,9 @@ export default {
 </script>
 
 <style scoped>
-.padding {
-  width: 100%;
-  height: 10px;
-}
+  .posts {
+    margin-bottom: -9px;
+  }
 .placeName {
   font-size: 20px;
 }

@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import "@mdi/font/css/materialdesignicons.css";
 export default {
   props: {
     posts: {
@@ -37,8 +38,7 @@ export default {
 <style scoped>
 .img-content {
   width: 550px;
-  height: 550
-  px;
+  height: 550px;
   overflow: hidden;
 }
 
