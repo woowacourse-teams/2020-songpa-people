@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-app-bar absolute dense>
     <router-link to="/">
       <v-btn text>
@@ -10,8 +10,10 @@
     <v-spacer></v-spacer>
 
     <v-menu
+      v-model="isShowTagLevelContainer"
       :offset-y="true"
       transition="scroll-y-transition"
+      :close-on-click="false"
       :close-on-content-click="false"
     >
       <template v-slot:activator="{ on, attrs }">
@@ -39,7 +41,7 @@ export default {
     return {
       logo: require("../../public/img/icons/themiso-icon-192x192.png"),
       menuBarIcon: mdiMenu,
-      isHiddenTagLevelContainer: true,
+      isShowTagLevelContainer: true,
     };
   },
 
