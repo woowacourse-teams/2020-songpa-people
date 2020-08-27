@@ -10,7 +10,7 @@
     <v-spacer></v-spacer>
 
     <v-menu
-      offset-y="true"
+      :offset-y="true"
       transition="scroll-y-transition"
       :close-on-content-click="false"
     >

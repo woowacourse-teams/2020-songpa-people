@@ -104,4 +104,11 @@ configure(logbackSlack) {
         implementation "com.github.maricn:logback-slack-appender:${logbackSlackAppenderVersion}"
     }
 
+    task copySlackWebHook(type: Copy) {
+        description = "Copy slack web hook uri from hashtagmap-secret"
+        from '../hashtagmap-secret/slack/application-slack-web-hook.yml'
+        into 'src/main/resources/'
+    }
+
+    processResources.dependsOn 'copySlackWebHook'
 }
