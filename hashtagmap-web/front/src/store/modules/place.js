@@ -3,16 +3,16 @@ import axios from "axios";
 export default {
   state: {
     places: [
-      {
-        hashtagCount: "",
-        instagramId: "",
-        kakaoId: "",
-        latitude: "",
-        longitude: "",
-        placeName: "",
-        tagLevel: "",
-        category: "",
-      },
+      // {
+      //   hashtagCount: "",
+      //   instagramId: "",
+      //   kakaoId: "",
+      //   latitude: "",
+      //   longitude: "",
+      //   placeName: "",
+      //   tagLevel: "",
+      //   category: "",
+      // },
     ],
   },
 

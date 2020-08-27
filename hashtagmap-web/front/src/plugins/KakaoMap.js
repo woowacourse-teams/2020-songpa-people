@@ -5,6 +5,7 @@ import dotImgSrc from "@/assets/dot.png";
 import { KAKAO_MAP } from "@/utils/constants.js";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
+import { getMarkerImage, SIZE } from "@/utils/markerImages";
 
 /**
  * main.js 에 Vue.use(KaKaoMap) 을 해야 한다.
@@ -34,7 +35,12 @@ export default {
 
     Vue.prototype.$initKakaoMapApi = async () => {
       await loadApi;
+      this.$kakaoApi = kakao.maps;
       return kakao.maps;
+    };
+
+    Vue.prototype.$kakaoApi = () => {
+      return this.$kakaoApi;
     };
 
     Vue.prototype.$loadMap = nowPosition => {
@@ -66,6 +72,27 @@ export default {
         center: createKakaoMapsLatLng(nowPosition),
         level: 4,
       };
+    };
+
+    Vue.prototype.$makeTextBalloonOverlay = (textBalloonContent, marker) => {
+      return new kakao.maps.CustomOverlay({
+        content: textBalloonContent,
+        position: marker.getPosition(),
+        yAnchor: 2,
+      });
+    };
+
+    Vue.prototype.$createMaker = place => {
+      const imageSize = new kakao.maps.Size(SIZE.width, SIZE.height);
+      const markerImage = new kakao.maps.MarkerImage(
+        getMarkerImage(place.tagLevel),
+        imageSize,
+      );
+      return new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(place.latitude, place.longitude),
+        title: place.placeName,
+        image: markerImage,
+      });
     };
 
     Vue.prototype.$loadCurrentPosition = () => {

@@ -9,6 +9,11 @@ const routes = [
     path: "/",
     name: "KakaoMap",
     component: KakaoMap,
+    children: [
+      {
+        path: "detail",
+      },
+    ],
   },
 ];
 

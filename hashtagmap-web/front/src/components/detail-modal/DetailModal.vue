@@ -2,7 +2,7 @@
   <v-dialog
     class="detail-modal"
     :value="getDetailModal.isShow"
-    @input="SET_DETAIL_MODAL_CLOSE"
+    @input="clickOut"
     width="600px"
     :fullscreen="$vuetify.breakpoint.xsOnly"
   >
@@ -38,7 +38,6 @@
         </v-row>
       </div>
       <Posts class="posts" :posts="getDetailModal.posts" />
-<!--      <v-container class="margin-bottom"></v-container>-->
     </v-card>
   </v-dialog>
 </template>
@@ -50,6 +49,18 @@ import Posts from "./Posts.vue";
 export default {
   components: {
     Posts,
+  },
+
+  created() {
+    const unregisterRouterGuard = this.$router.beforeEach((to, from, next) => {
+      this.back();
+
+      next();
+    });
+
+    this.$once("hook:destroyed", () => {
+      unregisterRouterGuard();
+    });
   },
 
   computed: {
@@ -69,14 +80,21 @@ export default {
     onClickModalDetail() {
       return window.open(this.getDetailModal.placeUrl);
     },
+    back() {
+      this.SET_DETAIL_MODAL_CLOSE();
+    },
+    clickOut() {
+      this.$router.go(-1);
+      this.SET_DETAIL_MODAL_CLOSE();
+    },
   },
 };
 </script>
 
 <style scoped>
-  .posts {
-    margin-bottom: -9px;
-  }
+.posts {
+  margin-bottom: -9px;
+}
 .placeName {
   font-size: 20px;
 }

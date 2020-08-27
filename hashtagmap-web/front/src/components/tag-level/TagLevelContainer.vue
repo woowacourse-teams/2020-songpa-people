@@ -2,7 +2,7 @@
   <div id="tag-level">
     <v-container class="container-design">
       <PlaceCategories />
-      <PlaceSearchInput/>
+      <PlaceSearchInput />
       <TagLevelSelector />
       <TagLevelDetail />
     </v-container>

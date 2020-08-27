@@ -27,6 +27,9 @@ export default {
     ADD_CLUSTER(state, marker) {
       state.clusterer.addMarker(marker);
     },
+    REMOVE_CLUSTER(state, marker) {
+      state.clusterer.removeMarker(marker);
+    },
     CLEAR_CLUSTERER(state) {
       state.clusterer.clear();
     },
@@ -35,16 +38,18 @@ export default {
       const rightTopLongitude = bounds.getNorthEast().getLng();
       const bottomLeftLatitude = bounds.getSouthWest().getLat();
       const bottomLeftLongitude = bounds.getSouthWest().getLng();
-
-      state.boundedOverLays = state.mapOverlays.filter(overLay => {
+      state.boundedOverLays = [];
+      state.mapOverlays.forEach(overLay => {
         const markerLatitude = overLay.marker.getPosition().getLat();
         const markerLongitude = overLay.marker.getPosition().getLng();
-        return (
+        if (
           bottomLeftLatitude <= markerLatitude &&
           markerLatitude <= rightTopLatitude &&
           bottomLeftLongitude <= markerLongitude &&
           markerLongitude <= rightTopLongitude
-        );
+        ) {
+          state.boundedOverLays.push(overLay);
+        }
       });
     },
   },

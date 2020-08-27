@@ -5,7 +5,7 @@ const kakaoSearch = {
   getKeywordSearch(keyword) {
     return axios.get("https://dapi.kakao.com/v2/local/search/keyword.json", {
       headers: {
-        Authorization: "KakaoAK " + KAKAO_REST_KEY
+        Authorization: "KakaoAK " + KAKAO_REST_KEY,
       },
       params: {
         query: keyword,
