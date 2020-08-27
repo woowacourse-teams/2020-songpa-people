@@ -98,28 +98,33 @@ export default {
     Vue.prototype.$loadCurrentPosition = () => {
       const currentGeolocation = navigatorUtils.getCurrentPosition();
 
-      currentGeolocation.then(position => {
-        const currentPosition = navigatorUtils.extractGeolocationPosition(
-          position,
-        );
-        setPositionCenter.call(this, currentPosition);
-        displayUserMarker.call(this, currentPosition);
-        notyf.success("사용자 위치를 불러왔습니다.");
-        return;
-      });
-      notyf.error("현재 위치를 불러오지 못했습니다.");
+      currentGeolocation
+        .then(position => {
+          const currentPosition = navigatorUtils.extractGeolocationPosition(
+            position,
+          );
+          setPositionCenter.call(this, currentPosition);
+          displayUserMarker.call(this, currentPosition);
+          notyf.success("사용자 위치를 불러왔습니다.");
+        })
+        .catch(() => {
+          notyf.error("현재 위치를 불러오지 못했습니다.");
+        });
     };
 
     Vue.prototype.$searchKeywordAndLoadPosition = async keyword => {
-      kakaoSearch.getKeywordSearch(keyword).then(res => {
-        const currentPosition = navigatorUtils.convertToLatLon(
-          res.data.documents[0].x,
-          res.data.documents[0].y,
-        );
-        setPositionCenter.call(this, currentPosition);
-        return;
-      });
-      notyf.error("검색에 실패했습니다.");
+      kakaoSearch
+        .getKeywordSearch(keyword)
+        .then(res => {
+          const currentPosition = navigatorUtils.convertToLatLon(
+            res.data.documents[0].x,
+            res.data.documents[0].y,
+          );
+          setPositionCenter.call(this, currentPosition);
+        })
+        .catch(() => {
+          notyf.error("검색에 실패했습니다.");
+        });
     };
 
     const setPositionCenter = position => {

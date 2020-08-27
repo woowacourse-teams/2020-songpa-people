@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-    v-on:keyup.enter="search"
+    v-on:keypress.enter="search"
     v-model="input"
     class="ma-1 pa-0"
     dense
