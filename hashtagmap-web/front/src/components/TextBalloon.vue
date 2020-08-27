@@ -95,7 +95,7 @@ export default {
       );
     },
     showDetailModal() {
-      this.$router.push("/map/detail");
+      this.$router.push("/detail");
       this.setDetailModal(this.overlay.place);
     },
   },
