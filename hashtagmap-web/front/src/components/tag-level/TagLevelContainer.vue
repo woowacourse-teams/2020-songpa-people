@@ -2,6 +2,7 @@
   <div id="tag-level">
     <v-container class="container-design">
       <PlaceCategories />
+      <PlaceSearchInput/>
       <TagLevelSelector />
       <TagLevelDetail />
     </v-container>
@@ -9,13 +10,15 @@
 </template>
 
 <script>
-import TagLevelSelector from "./TagLevelSelector";
-import TagLevelDetail from "./TagLevelDetail";
-import PlaceCategories from "../place/PlaceCategories";
+import TagLevelSelector from "@/components/tag-level/TagLevelSelector";
+import TagLevelDetail from "@/components/tag-level//TagLevelDetail";
+import PlaceCategories from "@/components/place/PlaceCategories";
+import PlaceSearchInput from "@/components/place/PlaceSearchInput";
 
 export default {
   components: {
     PlaceCategories,
+    PlaceSearchInput,
     TagLevelSelector,
     TagLevelDetail,
   },
