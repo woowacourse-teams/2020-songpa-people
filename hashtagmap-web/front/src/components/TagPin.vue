@@ -2,7 +2,7 @@
   <div ref="textBalloon" :id="overlay.place.kakaoId" class="text-balloon-box">
     <div class="close" @click.prevent="closeTextBalloonOverLay"></div>
     <div class="text-balloon-title" @click.prevent="showDetailModal">
-      <router-link to="/map/detail">
+      <router-link to="/map/detail" class="modal-router">
         {{ overlay.place.placeName }}
       </router-link>
     </div>
@@ -98,4 +98,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.modal-router {
+  text-decoration: none;
+  color: #2c3e50;
+}
+</style>
