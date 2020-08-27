@@ -56,7 +56,7 @@ export default {
     const unregisterRouterGuard = this.$router.beforeEach((to, from, next) => {
       this.back();
 
-      next(false);
+      next();
     });
 
     this.$once("hook:destroyed", () => {

@@ -1,18 +1,16 @@
 <template>
-  <router-link to="/detail" class="modal-router" tag="div">
-    <div
-      ref="textBalloon"
-      :id="overlay.place.kakaoId"
-      class="text-balloon-box"
-      @click="showDetailModal"
-    >
-      <div class="close" @click.stop="closeTextBalloonOverLay"></div>
-      <div class="text-balloon-title">
-        {{ overlay.place.placeName }}
-      </div>
-      <div class="text-balloon-text">#{{ overlay.place.hashtagCount }}</div>
+  <div
+    ref="textBalloon"
+    :id="overlay.place.kakaoId"
+    class="text-balloon-box"
+    @click="showDetailModal"
+  >
+    <div class="close" @click.stop="closeTextBalloonOverLay"></div>
+    <div class="text-balloon-title">
+      {{ overlay.place.placeName }}
     </div>
-  </router-link>
+    <div class="text-balloon-text">#{{ overlay.place.hashtagCount }}</div>
+  </div>
 </template>
 
 <script>
@@ -97,6 +95,7 @@ export default {
       );
     },
     showDetailModal() {
+      this.$router.push("/map/detail");
       this.setDetailModal(this.overlay.place);
     },
   },
