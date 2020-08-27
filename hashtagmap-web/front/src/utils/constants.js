@@ -42,3 +42,5 @@ export const CATEGORY = {
   CAFE: "카페",
   RESTAURANT: "음식점",
 };
+
+export const VISIT_KEY = "hashtagmapvisitkey";

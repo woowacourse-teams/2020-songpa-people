@@ -8,9 +8,9 @@
 
         <div class="profile-user-settings">
           <h1 class="profile-user-name">offical_miso</h1>
-          <router-link to="/map">
+          <span @click="onStartButton">
             <button class="btn profile-follow-btn">start</button>
-          </router-link>
+          </span>
         </div>
         <div class="profile-stats">
           <ul>
@@ -40,9 +40,21 @@
 <script>
 import Story from "@/components/main-page/Story.vue";
 import Slider from "@/components/main-page/Slider.vue";
+import { VISIT_KEY } from "../utils/constants";
 
 export default {
   name: "App",
+
+  created() {
+    localStorage.setItem(VISIT_KEY, VISIT_KEY);
+  },
+
+  methods: {
+    onStartButton() {
+      location.href = "/";
+    },
+  },
+
   components: {
     Slider,
     Story,
