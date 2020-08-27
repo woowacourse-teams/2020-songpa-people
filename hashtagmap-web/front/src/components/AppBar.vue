@@ -50,7 +50,7 @@ export default {
 <style lang="stylus" scoped>
 .tag-level-container {
   width: 250px;
-  height: 185px;
+  height: 246px;
 }
 
 .v-menu__content {
