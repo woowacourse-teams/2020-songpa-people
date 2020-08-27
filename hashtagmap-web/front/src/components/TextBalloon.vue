@@ -9,7 +9,7 @@
     <div class="text-balloon-title">
       {{ overlay.place.placeName }}
     </div>
-    <div class="text-balloon-text">#{{ overlay.place.hashtagCount }}</div>
+    <div class="text-balloon-text">❤️ {{ overlay.place.hashtagCount }}</div>
   </div>
 </template>
 
@@ -94,6 +94,7 @@ export default {
       }
     },
     showTextBalloonOverlay() {
+      this.textBalloonOverlay.setZIndex(10);
       this.ADD_CLUSTER(this.textBalloonOverlay);
     },
     showPinMarker() {

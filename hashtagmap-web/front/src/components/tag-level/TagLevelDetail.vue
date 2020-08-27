@@ -53,6 +53,9 @@ export default {
 
 <style lang="stylus">
 .tag-level-detail-title {
+  font-family: Nexon-gothic;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   margin: 0 1px 0 0;
   padding-left: 1px !important;
   font-size: medium !important;
@@ -80,6 +83,9 @@ export default {
 }
 
 .progressbar li {
+  font-family: Nexon-gothic;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   list-style-type: none;
   float: left;
   height: 10px;

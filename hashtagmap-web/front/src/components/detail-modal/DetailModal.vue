@@ -102,6 +102,9 @@ export default {
 }
 
 .hashtagCount {
+  font-family: Nexon-gothic;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-size: 15px;
 }
 

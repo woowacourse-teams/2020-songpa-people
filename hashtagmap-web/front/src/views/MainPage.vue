@@ -7,7 +7,7 @@
         </div>
 
         <div class="profile-user-settings">
-          <h1 class="profile-user-name">offical_miso</h1>
+          <h1 class="profile-user-name">official_miso</h1>
           <span @click="onStartButton">
             <button class="btn profile-follow-btn">start</button>
           </span>
@@ -22,7 +22,7 @@
 
         <div class="profile-bio">
           <p>
-            <span class="profile-real-name">offical_miso</span>
+            <span class="profile-real-name">official_miso</span>
             <br />
             당신이 몰랐던 그 곳, 미소
             <br />
