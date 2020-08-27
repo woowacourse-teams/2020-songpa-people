@@ -1,10 +1,19 @@
 @font-face {
-  font-family: Jua;
-  src: url("../Jua.woff") format("woff");
+  font-family: Nexon-gothic-bold;
+  src: url("../NEXON-Gothic-Bold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Nexon-gothic;
+  src: url("../NEXON-Gothic.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 #app {
-  font-family: Jua, sans-serif;
+  font-family: Nexon-gothic-bold, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
