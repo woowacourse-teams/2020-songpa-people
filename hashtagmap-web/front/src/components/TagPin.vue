@@ -1,13 +1,18 @@
 <template>
-  <div ref="textBalloon" :id="overlay.place.kakaoId" class="text-balloon-box">
-    <div class="close" @click.prevent="closeTextBalloonOverLay"></div>
-    <div class="text-balloon-title" @click.prevent="showDetailModal">
-      <router-link to="/map/detail" class="modal-router">
+  <router-link to="/detail" class="modal-router" tag="div">
+    <div
+      ref="textBalloon"
+      :id="overlay.place.kakaoId"
+      class="text-balloon-box"
+      @click="showDetailModal"
+    >
+      <div class="close" @click.stop="closeTextBalloonOverLay"></div>
+      <div class="text-balloon-title">
         {{ overlay.place.placeName }}
-      </router-link>
+      </div>
+      <div class="text-balloon-text">#{{ overlay.place.hashtagCount }}</div>
     </div>
-    <div class="text-balloon-text">#{{ overlay.place.hashtagCount }}</div>
-  </div>
+  </router-link>
 </template>
 
 <script>

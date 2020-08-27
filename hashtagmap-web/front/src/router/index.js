@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import KakaoMap from "@/views/KakaoMap.vue";
-import DetailModal from "@/components/detail-modal/DetailModal";
 
 Vue.use(VueRouter);
 
@@ -10,7 +9,7 @@ const routes = [
     path: "/",
     name: "KakaoMap",
     component: KakaoMap,
-    children: [{ path: "detail", name: "DetailModal", component: DetailModal }],
+    children: [{ path: "detail" }],
   },
 ];
 
