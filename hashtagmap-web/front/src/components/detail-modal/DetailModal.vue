@@ -52,6 +52,18 @@ export default {
     Posts,
   },
 
+  created() {
+    const unregisterRouterGuard = this.$router.beforeEach((to, from, next) => {
+      this.back();
+
+      next(false);
+    });
+
+    this.$once("hook:destroyed", () => {
+      unregisterRouterGuard();
+    });
+  },
+
   computed: {
     ...mapGetters(["getDetailModal"]),
     makeHashtagCount() {
@@ -68,6 +80,9 @@ export default {
     },
     onClickModalDetail() {
       return window.open(this.getDetailModal.placeUrl);
+    },
+    back() {
+      this.SET_DETAIL_MODAL_CLOSE();
     },
   },
 };
