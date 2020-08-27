@@ -44,9 +44,6 @@ export default {
     };
 
     Vue.prototype.$loadMap = nowPosition => {
-      if (this.map) {
-        return this.map;
-      }
       const options = createOptions(nowPosition);
       const container = document.getElementById("kakao-map");
 

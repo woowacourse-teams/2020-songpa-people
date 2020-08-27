@@ -2,7 +2,7 @@
   <v-dialog
     class="detail-modal"
     :value="getDetailModal.isShow"
-    @input="SET_DETAIL_MODAL_CLOSE"
+    @input="clickOut"
     width="600px"
     :fullscreen="$vuetify.breakpoint.xsOnly"
   >
@@ -82,6 +82,10 @@ export default {
       return window.open(this.getDetailModal.placeUrl);
     },
     back() {
+      this.SET_DETAIL_MODAL_CLOSE();
+    },
+    clickOut() {
+      this.$router.go(-1);
       this.SET_DETAIL_MODAL_CLOSE();
     },
   },

@@ -23,7 +23,7 @@ import CurrentLocationButton from "@/components/CurrentLocationButton";
 import DetailModal from "@/components/detail-modal/DetailModal";
 import AppBar from "../components/AppBar";
 
-import { mapActions, mapMutations, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import TagPin from "@/components/TagPin";
 
 export default {
@@ -41,7 +41,9 @@ export default {
     this.SET_KAKAO_MAP(this.$loadMap());
     this.SET_BOUNDS_EVENT();
     this.SET_CLUSTERER(this.$loadClusterer());
-    await this.setPlaces();
+    if (this.getPlaces.length === 0) {
+      await this.setPlaces();
+    }
     this.setMapOverlays();
     this.CHANGE_BOUNDED_OVERLAYS(this.getKakaoMap.getBounds());
     this.boundedOverLays = this.getBoundedMapOverLays;
