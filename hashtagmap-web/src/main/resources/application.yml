@@ -2,9 +2,9 @@ spring:
   mvc:
     view:
       suffix: .html
-#  profiles:
-#    include: >
-#      db
+  profiles:
+    include: >
+      db
 server:
   port: 9000
 ---
