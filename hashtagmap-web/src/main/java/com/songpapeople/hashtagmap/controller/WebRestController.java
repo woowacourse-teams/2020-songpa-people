@@ -13,8 +13,9 @@ public class WebRestController {
     private Environment environment;
 
     @GetMapping("/profile")
-    public String getProfile () {
+    public String getProfile() {
         return Arrays.stream(environment.getActiveProfiles())
+                .filter(profile -> !profile.equals("db"))
                 .findFirst()
                 .orElse("");
     }

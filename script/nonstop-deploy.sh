@@ -15,14 +15,6 @@ echo "BACKUP_DIR = $BACKUP_DIR"
 echo "> Build 파일 이동"
 mv $DEPLOY_DIR/zip/*.jar $DEPLOY_DIR/
 
-BASE_PATH=~/app
-BUILD_PATH=$(ls $BASE_PATH/springboot-webservice/build/libs/*.jar)
-JAR_NAME=$(basename $BUILD_PATH)
-echo "> build 파일명: $JAR_NAME"
-
-echo "> build 파일 복사"
-DEPLOY_PATH=$BASE_PATH/jar/
-cp $BUILD_PATH $DEPLOY_PATH
 
 echo "> 현재 구동중인 Set 확인"
 CURRENT_PROFILE=$(curl -s http://localhost/profile)
