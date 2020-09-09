@@ -2,7 +2,7 @@ set -e
 
 BASE=`pwd`
 WEB_JAR=./hashtagmap-web/build/libs/*.jar
-WEB_DEPLOY_SCRIPT=./script/deploy.sh
+WEB_DEPLOY_SCRIPT=./script/nonstop-deploy.sh
 WEB_BASE=./script/hashtagmap-web
 WEB_TARGET=./script/hashtagmap-web/items
 
