@@ -15,7 +15,7 @@ public class WebRestController {
     @GetMapping("/profile")
     public String getProfile() {
         return Arrays.stream(environment.getActiveProfiles())
-                .filter(profile -> !profile.equals("db"))
+                .filter(profile -> profile.contains("set"))
                 .findFirst()
                 .orElse("");
     }
