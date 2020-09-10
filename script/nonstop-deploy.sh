@@ -2,13 +2,9 @@
 
 set -e
 
-pwd
-
 BUILD_PATH=$(ls ~/app/*.jar)
 JAR_NAME=$(basename $BUILD_PATH)
 echo "> build 파일명: $JAR_NAME"
-
-pwd
 
 echo "> 현재 구동중인 Set 확인"
 CURRENT_PROFILE=$(curl -s http://localhost/profile)
@@ -47,52 +43,51 @@ else
   sleep 20
 fi
 
-pwd
-#echo "> $IDLE_PROFILE 배포"
-#nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,prod $JAR_NAME &
-#
-#
-#echo "> $IDLE_PROFILE 10초 후 Health check 시작"
-#echo "> curl -s http://localhost:$IDLE_PORT/actuator/health "
-#sleep 10
-#
-#for retry_count in {1..10}
-#do
-#  response=$(curl -s http://localhost:$IDLE_PORT/actuator/health)
-#  up_count=$(echo $response | grep 'UP' | wc -l)
-#
-#  if [ $up_count -ge 1 ]
-#  then # $up_count >= 1 ("미소" 문자열이 있는지 검증)
-#      echo "> Health check 성공"
-#      break
-#  else
-#      echo "> Health check의 응답을 알 수 없거나 혹은 status가 UP이 아닙니다."
-#      echo "> Health check: ${response}"
-#  fi
-#
-#  if [ $retry_count -eq 10 ]
-#  then
-#    echo "> Health check 실패. "
-#    echo "> Nginx에 연결하지 않고 배포를 종료합니다."
-#    exit 1
-#  fi
-#
-#  echo "> Health check 연결 실패. 재시도..."
-#  sleep 10
-#done
-#
-#
-#echo "> 스위칭"
-#echo "> 현재 구동중인 Port 확인"
-#echo "> 현재 배포중인 profile : $CURRENT_PROFILE"
-#
-#echo "> 전환할 Port: $IDLE_PORT"
-#echo "> Port 전환"
-#echo "set \$service_url 127.0.0.1:${IDLE_PORT};" |sudo tee /etc/nginx/conf.d/service-url.inc
-#
-#sleep 3
-#
-#echo "> Nginx restart"
-#sudo service nginx restart
-#
-#exit 0;
+cd ~/app
+echo "> $IDLE_PROFILE 배포"
+nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,prod $JAR_NAME &
+
+
+echo "> $IDLE_PROFILE 10초 후 Health check 시작"
+echo "> curl -s http://localhost:$IDLE_PORT/actuator/health "
+sleep 10
+
+for retry_count in {1..10}
+do
+  response=$(curl -s http://localhost:$IDLE_PORT/actuator/health)
+  up_count=$(echo $response | grep 'UP' | wc -l)
+
+  if [ $up_count -ge 1 ]
+  then # $up_count >= 1 ("미소" 문자열이 있는지 검증)
+      echo "> Health check 성공"
+      break
+  else
+      echo "> Health check의 응답을 알 수 없거나 혹은 status가 UP이 아닙니다."
+      echo "> Health check: ${response}"
+  fi
+
+  if [ $retry_count -eq 10 ]
+  then
+    echo "> Health check 실패. "
+    echo "> Nginx에 연결하지 않고 배포를 종료합니다."
+    exit 1
+  fi
+
+  echo "> Health check 연결 실패. 재시도..."
+  sleep 10
+done
+
+echo "> 스위칭"
+echo "> 현재 구동중인 Port 확인"
+echo "> 현재 배포중인 profile : $CURRENT_PROFILE"
+
+echo "> 전환할 Port: $IDLE_PORT"
+echo "> Port 전환"
+echo "set \$service_url 127.0.0.1:${IDLE_PORT};" |sudo tee /etc/nginx/conf.d/service-url.inc
+
+sleep 3
+
+echo "> Nginx restart"
+sudo service nginx restart
+
+exit 0;
