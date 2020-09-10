@@ -44,7 +44,7 @@ else
 fi
 
 echo "> $IDLE_PROFILE 배포"
-nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,dev $BUILD_PATH &
+nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE $BUILD_PATH &
 
 echo "> $IDLE_PROFILE 10초 후 Health check 시작"
 echo "> curl -s http://localhost:$IDLE_PORT/health "
@@ -78,21 +78,7 @@ done
 # switch.sh
 echo "> 스위칭"
 echo "> 현재 구동중인 Port 확인"
-CURRENT_PROFILE=$(curl -s http://localhost/profile)
-
-sleep 1
-# 쉬고 있는 set 찾기: set1이 사용중이면 set2가 쉬고 있고, 반대면 set1이 쉬고 있음
-if [ $CURRENT_PROFILE == "set1" ]
-then
-  IDLE_PORT=8082
-elif [ $CURRENT_PROFILE == "set2" ]
-then
-  IDLE_PORT=8081
-else
-  echo "> 일치하는 Profile이 없습니다. Profile: $CURRENT_PROFILE"
-  echo "> 8081을 할당합니다."
-  IDLE_PORT=8081
-fi
+echo "> 현재 배포중인 profile : $CURRENT_PROFILE"
 
 echo "> 전환할 Port: $IDLE_PORT"
 echo "> Port 전환"
@@ -107,4 +93,4 @@ sudo service nginx reload
 echo "> jar파일을 back_dir 로 이동"
 sudo mv ~/app/nonstop/*.jar ~/backup-app/
 
-exit 0
+return 0
