@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 DEPLOY_USER=ubuntu
 echo "DEPLOY USER = $DEPLOY_USER"
@@ -13,7 +12,9 @@ mkdir -p $BACKUP_DIR
 echo "BACKUP_DIR = $BACKUP_DIR"
 
 echo "> Build 파일 이동"
-mv $DEPLOY_DIR/zip/*.jar $DEPLOY_DIR/
+sudo mv $DEPLOY_DIR/zip/*.jar $DEPLOY_DIR/
+
+cd $DEPLOY_DIR
 
 BASE_PATH=~/
 BUILD_PATH=$(ls $BASE_PATH/app/*.jar)
@@ -40,11 +41,13 @@ else
   IDLE_PORT=8081
 fi
 
+echo "> IDLE_PORT 확인 : $IDLE_PORT"
+
 echo "> application.jar 교체"
 IDLE_APPLICATION=$IDLE_PROFILE-hashtagmap-web.jar
 IDLE_APPLICATION_PATH=$DEPLOY_PATH$IDLE_APPLICATION
 
-ln -Tfs $DEPLOY_PATH$JAR_NAME $IDLE_APPLICATION_PATH
+sudo ln -Tfs $DEPLOY_PATH$JAR_NAME $IDLE_APPLICATION_PATH
 
 echo "> $IDLE_PROFILE 에서 구동중인 애플리케이션 pid 확인"
 IDLE_PID=$(pgrep -f $IDLE_APPLICATION)
@@ -60,6 +63,12 @@ fi
 
 echo "> $IDLE_PROFILE 배포"
 nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,dev $IDLE_APPLICATION_PATH &
+
+echo "> $IDLE_APPLICATION_PATH 파일 삭제"
+rm $IDLE_APPLICATION_PATH
+
+echo "> $JAR_NAME 을 $BACKUP_DIR 으로 이동"
+sudo mv $JAR_NAME $BACKUP_DIR
 
 #echo "> $IDLE_PROFILE 10초 후 Health check 시작"
 #echo "> curl -s http://localhost:$IDLE_PORT/health "
