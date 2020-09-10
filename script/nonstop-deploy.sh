@@ -1,21 +1,5 @@
 #!/bin/bash
 
-#DEPLOY_USER=ubuntu
-#echo "DEPLOY USER = $DEPLOY_USER"
-#
-#DEPLOY_DIR='/home/'$DEPLOY_USER'/app'
-#mkdir -p $DEPLOY_DIR
-#echo "DEPLOY_DIR = $DEPLOY_DIR"
-#
-#BACKUP_DIR='/home/'$DEPLOY_USER'/backup-app'
-#mkdir -p $BACKUP_DIR
-#echo "BACKUP_DIR = $BACKUP_DIR"
-#
-#echo "> Build 파일 이동"
-#sudo mv $DEPLOY_DIR/zip/*.jar $DEPLOY_DIR/
-#
-#cd $DEPLOY_DIR
-
 BASE_PATH=~/
 BUILD_PATH=$(ls $BASE_PATH/app/nonstop/*.jar)
 JAR_NAME=$(basename $BUILD_PATH)
@@ -40,17 +24,12 @@ else
   IDLE_PROFILE=set1
   IDLE_PORT=8081
 fi
-
 echo "> IDLE_PORT 확인 : $IDLE_PORT"
 
-echo "> application.jar 교체"
-IDLE_APPLICATION=$IDLE_PROFILE-hashtagmap-web.jar
-IDLE_APPLICATION_PATH=$DEPLOY_PATH$IDLE_APPLICATION
-
-sudo ln -Tfs $DEPLOY_PATH$JAR_NAME $IDLE_APPLICATION_PATH
-
 echo "> $IDLE_PROFILE 에서 구동중인 애플리케이션 pid 확인"
-IDLE_PID=$(pgrep -f $IDLE_APPLICATION)
+IDLE_PID=$(ps -ef | grep java | grep $IDLE_PROFILE | awk '{print $2}')
+echo "> pid : $IDLE_PID"
+
 
 if [ -z $IDLE_PID ]
 then
@@ -61,40 +40,68 @@ else
   sleep 5
 fi
 
-echo "> $IDLE_PROFILE 배포"
-nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,dev $IDLE_APPLICATION_PATH &
 
-#echo "> $IDLE_APPLICATION_PATH 파일 삭제"
-#rm $IDLE_APPLICATION_PATH
-#
+echo "> $IDLE_PROFILE 배포"
+nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,dev $BUILD_PATH &
+
+echo "> $IDLE_PROFILE 10초 후 Health check 시작"
+echo "> curl -s http://localhost:$IDLE_PORT/health "
+sleep 10
+
+for retry_count in {1..10}
+do
+  response=$(curl -s http://localhost:$IDLE_PORT/health)
+  up_count=$(echo $response | grep 'UP' | wc -l)
+
+  if [ $up_count -ge 1 ]
+  then # $up_count >= 1 ("UP" 문자열이 있는지 검증)
+      echo "> Health check 성공"
+      break
+  else
+      echo "> Health check의 응답을 알 수 없거나 혹은 status가 UP이 아닙니다."
+      echo "> Health check: ${response}"
+  fi
+
+  if [ $retry_count -eq 10 ]
+  then
+    echo "> Health check 실패. "
+    echo "> Nginx에 연결하지 않고 배포를 종료합니다."
+    exit 1
+  fi
+
+  echo "> Health check 연결 실패. 재시도..."
+  sleep 10
+done
+
+# switch.sh
+echo "> 스위칭"
+echo "> 현재 구동중인 Port 확인"
+CURRENT_PROFILE=$(curl -s http://localhost/profile)
+
+# 쉬고 있는 set 찾기: set1이 사용중이면 set2가 쉬고 있고, 반대면 set1이 쉬고 있음
+if [ $CURRENT_PROFILE == set1 ]
+then
+  IDLE_PORT=8082
+elif [ $CURRENT_PROFILE == set2 ]
+then
+  IDLE_PORT=8081
+else
+  echo "> 일치하는 Profile이 없습니다. Profile: $CURRENT_PROFILE"
+  echo "> 8081을 할당합니다."
+  IDLE_PORT=8081
+fi
+
+echo "> 전환할 Port: $IDLE_PORT"
+echo "> Port 전환"
+echo "set \$service_url http://127.0.0.1:${IDLE_PORT};" |sudo tee /etc/nginx/conf.d/service-url.inc
+
+PROXY_PORT=$(curl -s http://localhost/profile)
+echo "> Nginx Current Proxy Port: $PROXY_PORT"
+
+echo "> Nginx Reload"
+sudo service nginx reload
+
+pwd
+
 #echo "> $JAR_NAME 을 $BACKUP_DIR 으로 이동"
 #sudo mv $JAR_NAME $BACKUP_DIR
-
-#echo "> $IDLE_PROFILE 10초 후 Health check 시작"
-#echo "> curl -s http://localhost:$IDLE_PORT/health "
-#sleep 10
-
-#for retry_count in {1..10}
-#do
-#  response=$(curl -s http://localhost:$IDLE_PORT/health)
-#  up_count=$(echo $response | grep 'UP' | wc -l)
-#
-#  if [ $up_count -ge 1 ]
-#  then # $up_count >= 1 ("UP" 문자열이 있는지 검증)
-#      echo "> Health check 성공"
-#      break
-#  else
-#      echo "> Health check의 응답을 알 수 없거나 혹은 status가 UP이 아닙니다."
-#      echo "> Health check: ${response}"
-#  fi
-#
-#  if [ $retry_count -eq 10 ]
-#  then
-#    echo "> Health check 실패. "
-#    echo "> Nginx에 연결하지 않고 배포를 종료합니다."
-#    exit 1
-#  fi
-#
-#  echo "> Health check 연결 실패. 재시도..."
-#  sleep 10
-#done

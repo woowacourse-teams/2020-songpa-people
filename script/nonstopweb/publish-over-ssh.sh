@@ -27,5 +27,5 @@ sudo mv $NONE_STOP_DIR/hashtagmap-web.tar $ZIP_DIR/
 echo "tar moved to $ZIP_DIR"
 
 echo "> run nonstop-deploy.sh"
-sudo chmod +x $ZIP_DIR/nonstop-deploy.sh
-sudo sh $ZIP_DIR/nonstop-deploy.sh
+sudo chmod +x $NONE_STOP_DIR/nonstop-deploy.sh
+sudo sh $NONE_STOP_DIR/nonstop-deploy.sh
