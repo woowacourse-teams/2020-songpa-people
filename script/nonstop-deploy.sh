@@ -1,23 +1,23 @@
 #!/bin/bash
 
-DEPLOY_USER=ubuntu
-echo "DEPLOY USER = $DEPLOY_USER"
-
-DEPLOY_DIR='/home/'$DEPLOY_USER'/app'
-mkdir -p $DEPLOY_DIR
-echo "DEPLOY_DIR = $DEPLOY_DIR"
-
-BACKUP_DIR='/home/'$DEPLOY_USER'/backup-app'
-mkdir -p $BACKUP_DIR
-echo "BACKUP_DIR = $BACKUP_DIR"
-
-echo "> Build 파일 이동"
-sudo mv $DEPLOY_DIR/zip/*.jar $DEPLOY_DIR/
-
-cd $DEPLOY_DIR
+#DEPLOY_USER=ubuntu
+#echo "DEPLOY USER = $DEPLOY_USER"
+#
+#DEPLOY_DIR='/home/'$DEPLOY_USER'/app'
+#mkdir -p $DEPLOY_DIR
+#echo "DEPLOY_DIR = $DEPLOY_DIR"
+#
+#BACKUP_DIR='/home/'$DEPLOY_USER'/backup-app'
+#mkdir -p $BACKUP_DIR
+#echo "BACKUP_DIR = $BACKUP_DIR"
+#
+#echo "> Build 파일 이동"
+#sudo mv $DEPLOY_DIR/zip/*.jar $DEPLOY_DIR/
+#
+#cd $DEPLOY_DIR
 
 BASE_PATH=~/
-BUILD_PATH=$(ls $BASE_PATH/app/*.jar)
+BUILD_PATH=$(ls $BASE_PATH/app/nonstop/*.jar)
 JAR_NAME=$(basename $BUILD_PATH)
 echo "> build 파일명: $JAR_NAME"
 
@@ -64,11 +64,11 @@ fi
 echo "> $IDLE_PROFILE 배포"
 nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,dev $IDLE_APPLICATION_PATH &
 
-echo "> $IDLE_APPLICATION_PATH 파일 삭제"
-rm $IDLE_APPLICATION_PATH
-
-echo "> $JAR_NAME 을 $BACKUP_DIR 으로 이동"
-sudo mv $JAR_NAME $BACKUP_DIR
+#echo "> $IDLE_APPLICATION_PATH 파일 삭제"
+#rm $IDLE_APPLICATION_PATH
+#
+#echo "> $JAR_NAME 을 $BACKUP_DIR 으로 이동"
+#sudo mv $JAR_NAME $BACKUP_DIR
 
 #echo "> $IDLE_PROFILE 10초 후 Health check 시작"
 #echo "> curl -s http://localhost:$IDLE_PORT/health "

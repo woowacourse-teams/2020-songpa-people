@@ -5,13 +5,14 @@ WEB_JAR=./hashtagmap-web/build/libs/*.jar
 WEB_DEPLOY_SCRIPT=./script/nonstop-deploy.sh
 WEB_BASE=./script/hashtagmap-web
 WEB_TARGET=./script/hashtagmap-web/items
+ITEM_NAME=nonstop_test
 
-echo "> workspace clear! exclude 'web'"
+echo "> workspace clear! exclude $ITEM_NAME"
 cd /var/lib/jenkins/workspace
-sudo rm -rf `ls /var/lib/jenkins/workspace | grep -v web`
+sudo rm -rf `ls /var/lib/jenkins/workspace | grep -v $ITEM_NAME`
 
 echo "> move to web workspace"
-cd web
+cd $ITEM_NAME
 
 echo "> WEB DIR 생성"
 mkdir -p $WEB_BASE
@@ -29,7 +30,7 @@ tar -cvf hashtagmap-web.tar *
 
 echo "> 압축 이후 .jar, deploy.sh 삭제"
 rm *.jar
-rm deploy.sh
+rm nonstop-deploy.sh
 
 echo "> tar 파일 이동"
 mv hashtagmap-web.tar $BASE/$WEB_BASE/
