@@ -16,7 +16,9 @@ NONE_STOP_DIR='/home/'$DEPLOY_USER'/app/nonstop'
 sudo mkdir -p $NONE_STOP_DIR
 echo "NONE_STOP_DIR = $NONE_STOP_DIR"
 
-if [-f ~/app/nonstop/*.jar]
+
+JAR_COUNT=$(ls -al $NONE_STOP_DIR | grep jar | wc -l)
+if [ "$JAR_COUNT" -eq 1 ]
 then
   sudo mv ~/app/nonstop/*.jar ~/backup-app/
   echo "> 이전 버전 jar파일 백업"
