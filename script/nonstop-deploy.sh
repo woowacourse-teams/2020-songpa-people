@@ -45,8 +45,7 @@ fi
 
 cd ~/app
 echo "> $IDLE_PROFILE 배포"
-nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,prod $JAR_NAME &
-
+nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,prod $JAR_NAME 1> /dev/null 2>&1 &
 
 echo "> $IDLE_PROFILE 10초 후 Health check 시작"
 echo "> curl -s http://localhost:$IDLE_PORT/actuator/health "
