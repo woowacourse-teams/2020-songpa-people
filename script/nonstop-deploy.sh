@@ -70,7 +70,8 @@ sleep 10
 for retry_count in {1..10}
 do
   response=$(curl -s http://localhost:$IDLE_PORT/actuator/health)
-  up_count=$(echo $response | grep '미소' | wc -l)
+  echo "> $response"
+  up_count=$(echo $response | grep 'UP' | wc -l)
 
   if [ $up_count -ge 1 ]
   then # $up_count >= 1 ("미소" 문자열이 있는지 검증)
