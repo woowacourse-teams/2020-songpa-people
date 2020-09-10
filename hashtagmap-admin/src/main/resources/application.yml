@@ -1,6 +1,5 @@
 spring:
   profiles:
-    active: local
     include: >
       kakao,
       kakao-security,
