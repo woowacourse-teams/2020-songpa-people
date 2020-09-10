@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: local
+    include: >
+      db
+  jpa:
+    open-in-view: false
+---
+spring:
+  profiles: local
+  h2:
+    console:
+      enabled: true

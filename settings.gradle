@@ -8,4 +8,5 @@ include 'hashtagmap-kakao-scheduler'
 include 'hashtagmap-instagram-scheduler'
 include 'hashtagmap-common'
 include 'hashtagmap-event'
+include 'hashtagmap-batch'
 
