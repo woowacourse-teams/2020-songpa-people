@@ -43,7 +43,9 @@ else
   sleep 20
 fi
 
-#cd ~/app/nonstop
+
+cd ~/app
+sudo mv ~/app/nonstop/$JAR_NAME ./
 #echo "> $IDLE_PROFILE 배포"
 #nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,prod $JAR_NAME &
 #
