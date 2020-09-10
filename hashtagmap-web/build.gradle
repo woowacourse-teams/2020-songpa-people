@@ -9,6 +9,7 @@ dependencies {
     implementation project(':hashtagmap-common')
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
 }
 
