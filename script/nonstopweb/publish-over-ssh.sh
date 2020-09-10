@@ -16,6 +16,8 @@ NONE_STOP_DIR='/home/'$DEPLOY_USER'/app/nonstop'
 sudo mkdir -p $NONE_STOP_DIR
 echo "NONE_STOP_DIR = $NONE_STOP_DIR"
 
+sudo mv ~/app/nonstop/*.jar ~/backup-app/
+echo "> 이전 버전 jar파일 백업"
 
 sudo mv '/home/'$DEPLOY_USER'/hashtagmap-web.tar' $NONE_STOP_DIR/
 echo "tar moved to $NONE_STOP_DIR"
