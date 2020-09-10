@@ -2,9 +2,13 @@
 
 set -e
 
-BUILD_PATH=$(ls ~/app/nonstop/*.jar)
+pwd
+
+BUILD_PATH=$(ls ~/app/*.jar)
 JAR_NAME=$(basename $BUILD_PATH)
 echo "> build 파일명: $JAR_NAME"
+
+pwd
 
 echo "> 현재 구동중인 Set 확인"
 CURRENT_PROFILE=$(curl -s http://localhost/profile)
@@ -43,9 +47,7 @@ else
   sleep 20
 fi
 
-
-cd ~/app
-sudo mv ~/app/nonstop/$JAR_NAME ./
+pwd
 #echo "> $IDLE_PROFILE 배포"
 #nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE,prod $JAR_NAME &
 #
