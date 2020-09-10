@@ -101,7 +101,6 @@ echo "> Nginx Current Proxy Port: $PROXY_PORT"
 echo "> Nginx Reload"
 sudo service nginx reload
 
-pwd
-
-#echo "> $JAR_NAME 을 $BACKUP_DIR 으로 이동"
-#sudo mv $JAR_NAME $BACKUP_DIR
+echo "> jar파일을 back_dir 로 이동"
+sudo mv ~/app/nonstop/*.jar ~/backup-app/
+exit 0
