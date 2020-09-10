@@ -70,7 +70,6 @@ sleep 10
 for retry_count in {1..10}
 do
   response=$(curl -s http://localhost:$IDLE_PORT/actuator/health)
-  echo "> $response"
   up_count=$(echo $response | grep 'UP' | wc -l)
 
   if [ $up_count -ge 1 ]
@@ -93,7 +92,6 @@ do
   sleep 10
 done
 
- switch.sh
 echo "> 스위칭"
 echo "> 현재 구동중인 Port 확인"
 echo "> 현재 배포중인 profile : $CURRENT_PROFILE"
@@ -102,12 +100,12 @@ echo "> 전환할 Port: $IDLE_PORT"
 echo "> Port 전환"
 echo "set \$service_url http://127.0.0.1:${IDLE_PORT};" |sudo tee /etc/nginx/conf.d/service-url.inc
 
-sleep 1
+sleep 3
 
 echo "> Nginx restart"
 sudo service nginx restart
 
-sleep 2
+sleep 3
 
 PROXY_PORT=$(curl -s http://localhost/profile)
 echo "> Nginx Current Proxy Port: $PROXY_PORT"
