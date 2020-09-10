@@ -93,4 +93,4 @@ sudo service nginx reload
 echo "> jar파일을 back_dir 로 이동"
 sudo mv ~/app/nonstop/*.jar ~/backup-app/
 
-return 0
+exit 0
