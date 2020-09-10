@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 BASE_PATH=~/
 BUILD_PATH=$(ls $BASE_PATH/app/nonstop/*.jar)
 JAR_NAME=$(basename $BUILD_PATH)
@@ -11,11 +13,11 @@ echo "> $CURRENT_PROFILE"
 
 sleep 1
 # 쉬고 있는 set 찾기: set1이 사용중이면 set2가 쉬고 있고, 반대면 set1이 쉬고 있음
-if [ $CURRENT_PROFILE == set1 ]
+if [ $CURRENT_PROFILE == "set1" ]
 then
   IDLE_PROFILE=set2
   IDLE_PORT=8082
-elif [ $CURRENT_PROFILE == set2 ]
+elif [ $CURRENT_PROFILE == "set2" ]
 then
   IDLE_PROFILE=set1
   IDLE_PORT=8081
@@ -80,10 +82,10 @@ CURRENT_PROFILE=$(curl -s http://localhost/profile)
 
 sleep 1
 # 쉬고 있는 set 찾기: set1이 사용중이면 set2가 쉬고 있고, 반대면 set1이 쉬고 있음
-if [ $CURRENT_PROFILE == set1 ]
+if [ $CURRENT_PROFILE == "set1" ]
 then
   IDLE_PORT=8082
-elif [ $CURRENT_PROFILE == set2 ]
+elif [ $CURRENT_PROFILE == "set2" ]
 then
   IDLE_PORT=8081
 else
