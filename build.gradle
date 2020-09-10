@@ -13,6 +13,7 @@ buildscript {
         classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2"
     }
 }
+
 subprojects {
 
     group = 'com.songpapeople'
@@ -47,6 +48,20 @@ subprojects {
             xml.enabled false
             csv.enabled true
         }
+
+        def Qdomains = []
+        for(qPattern in "**/QA" .. "**/QZ"){
+            Qdomains.add(qPattern+"*")
+        }
+
+        afterEvaluate {
+
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it,
+                        exclude: [] + Qdomains)
+            }))
+        }
+
         finalizedBy 'jacocoTestCoverageVerification'
     }
 

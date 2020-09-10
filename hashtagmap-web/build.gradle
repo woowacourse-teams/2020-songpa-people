@@ -14,6 +14,11 @@ dependencies {
 }
 
 jacocoTestCoverageVerification {
+    def Qdomains = []
+    for (qPattern in "*.QA".."*.QZ") {
+        Qdomains.add(qPattern + "*")
+    }
+
     violationRules {
         rule {
             enabled = true
@@ -24,7 +29,8 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.70
             }
-            excludes = []
+
+            excludes = [] + Qdomains
         }
 
         rule {
@@ -34,9 +40,10 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'INSTRUCTION'
                 value = 'COVEREDRATIO'
-                minimum = 0.30
+                minimum = 0.70
             }
-            excludes = []
+
+            excludes = [] + Qdomains
         }
     }
 }

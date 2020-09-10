@@ -9,6 +9,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
 }
 jacocoTestCoverageVerification {
+    def Qdomains = []
+    for (qPattern in "*.QA".."*.QZ") {
+        Qdomains.add(qPattern + "*")
+    }
+
     violationRules {
         rule {
             enabled = true
@@ -19,7 +24,14 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.60
             }
-            excludes = []
+
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.45
+            }
+
+            excludes = [] + Qdomains
         }
     }
 }
