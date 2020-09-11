@@ -79,8 +79,8 @@
       <DefaultModal
         modalName="districtEdit"
         title="구역 수정"
-        :ok-event="editDistrict"
-        ok-event-text="수정하기"
+        :ok-eventHistory="editDistrict"
+        ok-eventHistory-text="수정하기"
         :is-valid="isValidForEdit"
       >
         <v-row>

@@ -25,7 +25,12 @@
         <v-col md="4">
           <v-dialog v-model="updateDialog" persistent max-width="300px">
             <template v-slot:activator="{ on }">
-              <v-btn color="indigo" outlined v-on="on" :disabled="buttonDisabled">
+              <v-btn
+                color="indigo"
+                outlined
+                v-on="on"
+                :disabled="buttonDisabled"
+              >
                 변경하기
               </v-btn>
             </template>
@@ -101,5 +106,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

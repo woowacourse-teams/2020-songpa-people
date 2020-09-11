@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import { EVENT_TYPE } from "@/utils/constants";
 
 export default {
@@ -50,7 +50,7 @@ export default {
       this.overlay.marker,
     );
     this.showActiveOverlay();
-    this.$kakaoApi().event.addListener(
+    this.$kakaoApi().eventHistory.addListener(
       this.overlay.marker,
       EVENT_TYPE.CLICK,
       () => {

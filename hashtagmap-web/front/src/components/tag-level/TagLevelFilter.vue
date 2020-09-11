@@ -29,15 +29,15 @@ export default {
 
   methods: {
     ...mapMutations(["SET_TAG_LEVEL"]),
-    showIcon(event) {
+    showIcon(eventHistory) {
       this.SET_TAG_LEVEL(this.tagLevel);
       const markerStyle =
-        event.currentTarget.childNodes[0].firstChild.style.cssText;
+        eventHistory.currentTarget.childNodes[0].firstChild.style.cssText;
       if (markerStyle === "visibility: visible;") {
-        event.currentTarget.childNodes[0].firstChild.style.cssText =
+        eventHistory.currentTarget.childNodes[0].firstChild.style.cssText =
           "visibility: hidden;";
       } else {
-        event.currentTarget.childNodes[0].firstChild.style.cssText =
+        eventHistory.currentTarget.childNodes[0].firstChild.style.cssText =
           "visibility: visible;";
       }
     },

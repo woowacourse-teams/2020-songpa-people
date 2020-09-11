@@ -1,4 +1,4 @@
-import {customWrapAxios} from "@/request";
+import { customWrapAxios } from "@/request";
 
 const blackListApi = {
   getSubBlackList() {
