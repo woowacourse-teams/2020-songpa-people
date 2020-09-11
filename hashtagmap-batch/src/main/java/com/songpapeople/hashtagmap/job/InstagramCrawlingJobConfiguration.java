@@ -8,7 +8,6 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +26,7 @@ public class InstagramCrawlingJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
     private final InstagramBatchProcessor instagramBatchProcessor;
+    private final InstagramBatchWriter instagramBatchWriter;
 
     @Bean
     public Job crawlingJob() {
@@ -41,7 +41,7 @@ public class InstagramCrawlingJobConfiguration {
                 .<Place, Optional<CrawlingResult>>chunk(chunkSize)
                 .reader(placeReader())
                 .processor(instagramBatchProcessor)
-                .writer(placeWriter())
+                .writer(instagramBatchWriter)
                 .build();
     }
 
@@ -53,15 +53,5 @@ public class InstagramCrawlingJobConfiguration {
                 .pageSize(chunkSize)
                 .queryString("SELECT p FROM Place p order by place_id")
                 .build();
-    }
-
-    @Bean
-    public ItemWriter<Optional<CrawlingResult>> placeWriter() {
-        // Todo 갱신, 추가 (Instagram, InstagramPost)
-        return crawlingResults -> {
-            for (Optional<CrawlingResult> crawlingResult : crawlingResults) {
-                log.info("Current CrawlingResult={}", crawlingResult.get());
-            }
-        };
     }
 }

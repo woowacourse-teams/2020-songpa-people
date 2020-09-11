@@ -53,4 +53,8 @@ public class CrawlingResult {
                 .imageUrl(postDto.getImageUrl())
                 .build();
     }
+
+    public Place getPlace() {
+        return place;
+    }
 }
