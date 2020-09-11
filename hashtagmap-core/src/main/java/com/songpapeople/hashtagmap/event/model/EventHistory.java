@@ -16,9 +16,9 @@ import java.util.function.Consumer;
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class Event extends BaseEntity {
+public abstract class EventHistory extends BaseEntity {
     @Enumerated(EnumType.STRING)
     protected EventStatus eventStatus;
 
-    public abstract void doEvent(Consumer<Event> eventConsumer);
+    public abstract void doEvent(Consumer<EventHistory> eventConsumer);
 }

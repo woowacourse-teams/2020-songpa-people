@@ -1,9 +1,9 @@
 package com.songpapeople.hashtagmap.event.service;
 
-import com.songpapeople.hashtagmap.event.model.Event;
+import com.songpapeople.hashtagmap.event.model.EventHistory;
 
 public interface EventService {
-    void provide(Event event);
+    void provide(EventHistory eventHistory);
 
-    void collect(Event event);
+    void collect(EventHistory eventHistory);
 }

@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorColumn(name = "KAKAO")
 @AttributeOverride(name = "id", column = @Column(name = "EVENT_ID"))
-public class KakaoEvent extends Event {
+public class KakaoEventHistory extends EventHistory {
     @Enumerated(EnumType.STRING)
     private Category category;
 
@@ -29,13 +29,13 @@ public class KakaoEvent extends Event {
     @JoinColumn(name = "ZONE_ID", foreignKey = @ForeignKey(name = "FK_KAKAO_EVENT_ZONE"))
     private Zone zone;
 
-    public KakaoEvent(final Category category, final Zone zone) {
+    public KakaoEventHistory(final Category category, final Zone zone) {
         this.category = category;
         this.zone = zone;
     }
 
     @Override
-    public void doEvent(Consumer<Event> eventConsumer) {
+    public void doEvent(Consumer<EventHistory> eventConsumer) {
         eventConsumer.accept(this);
     }
 

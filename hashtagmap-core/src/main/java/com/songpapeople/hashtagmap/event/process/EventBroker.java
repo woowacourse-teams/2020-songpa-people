@@ -1,11 +1,11 @@
 package com.songpapeople.hashtagmap.event.process;
 
-import com.songpapeople.hashtagmap.event.model.Event;
+import com.songpapeople.hashtagmap.event.model.EventHistory;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class EventBroker<E extends Event> {
+public class EventBroker<E extends EventHistory> {
     private final BlockingQueue<E> eventQueue = new LinkedBlockingQueue<>();
 
     public boolean isEmpty() {
