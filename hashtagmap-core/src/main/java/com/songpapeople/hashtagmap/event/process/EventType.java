@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.event.process;
 
-import com.songpapeople.hashtagmap.event.model.EventHistory;
-import com.songpapeople.hashtagmap.event.model.KakaoEventHistory;
+import com.songpapeople.hashtagmap.event.message.Event;
+import com.songpapeople.hashtagmap.event.message.KakaoEvent;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -10,27 +10,27 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum EventType {
-    KAKAO(KakaoEventHistory.class, 1, 1, 1);
+    KAKAO(KakaoEvent.class, 1, 1, 1);
 
-    private final Class<? extends EventHistory> type;
+    private final Class<? extends Event> type;
     private final int corePoolSize;
     private final int maxPoolSize;
     private final int queueCapacity;
 
-    EventType(final Class<? extends EventHistory> type, final int corePoolSize, final int maxPoolSize, final int queueCapacity) {
+    EventType(final Class<? extends Event> type, final int corePoolSize, final int maxPoolSize, final int queueCapacity) {
         this.type = type;
         this.corePoolSize = corePoolSize;
         this.maxPoolSize = maxPoolSize;
         this.queueCapacity = queueCapacity;
     }
 
-    public static List<Class<? extends EventHistory>> getTypes() {
+    public static List<Class<? extends Event>> getTypes() {
         return Arrays.stream(values())
                 .map(eventType -> eventType.type)
                 .collect(Collectors.toList());
     }
 
-    public static EventType findBy(final Class<? extends EventHistory> eventClass) {
+    public static EventType findBy(final Class<? extends Event> eventClass) {
         return Arrays.stream(values())
                 .filter(eventType -> eventType.type == eventClass)
                 .findFirst()
