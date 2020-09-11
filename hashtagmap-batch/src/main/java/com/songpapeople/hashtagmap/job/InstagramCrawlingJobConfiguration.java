@@ -1,6 +1,7 @@
 package com.songpapeople.hashtagmap.job;
 
 import com.songpapeople.hashtagmap.place.domain.model.Place;
+import com.songpapeople.hashtagmap.scheduler.CrawlingResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class InstagramCrawlingJobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
+    private final InstagramBatchProcessor instagramBatchProcessor;
 
     @Bean
     public Job crawlingJob() {
@@ -35,8 +38,9 @@ public class InstagramCrawlingJobConfiguration {
     @Bean
     public Step crawlingStep() {
         return stepBuilderFactory.get("crawlingStep")
-                .<Place, Place>chunk(chunkSize)
+                .<Place, Optional<CrawlingResult>>chunk(chunkSize)
                 .reader(placeReader())
+                .processor(instagramBatchProcessor)
                 .writer(placeWriter())
                 .build();
     }
@@ -52,11 +56,11 @@ public class InstagramCrawlingJobConfiguration {
     }
 
     @Bean
-    public ItemWriter<Place> placeWriter() {
+    public ItemWriter<Optional<CrawlingResult>> placeWriter() {
         // Todo 갱신, 추가 (Instagram, InstagramPost)
-        return places -> {
-            for (Place place : places) {
-                log.info("Current Place={}", place);
+        return crawlingResults -> {
+            for (Optional<CrawlingResult> crawlingResult : crawlingResults) {
+                log.info("Current CrawlingResult={}", crawlingResult.get());
             }
         };
     }
