@@ -6,22 +6,30 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import java.util.function.Consumer;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DiscriminatorColumn(name = "KAKAO")
-@AttributeOverride(name = "id", column = @Column(name = "EVENT_ID"))
+@Entity
+@DiscriminatorValue("KAKAO")
 public class KakaoEventHistory extends EventHistory {
+    public KakaoEventHistory(final Category category, final Zone zone, final EventStatus eventStatus) {
+        super(eventStatus);
+        this.category = category;
+        this.zone = zone;
+    }
+
+    public static KakaoEventHistory ready(final Category category, final Zone zone) {
+        return new KakaoEventHistory(category, zone, EventStatus.READY);
+    }
+
     @Enumerated(EnumType.STRING)
     private Category category;
 
@@ -29,17 +37,11 @@ public class KakaoEventHistory extends EventHistory {
     @JoinColumn(name = "ZONE_ID", foreignKey = @ForeignKey(name = "FK_KAKAO_EVENT_ZONE"))
     private Zone zone;
 
-    public KakaoEventHistory(final Category category, final Zone zone) {
-        this.category = category;
-        this.zone = zone;
+    public void fail() {
+        this.eventStatus = EventStatus.FAIL;
     }
 
-    @Override
-    public void doEvent(Consumer<EventHistory> eventConsumer) {
-        eventConsumer.accept(this);
-    }
-
-    public String getCategoryGroupCode() {
-        return this.category.getCategoryGroupCode();
+    public void success() {
+        this.eventStatus = EventStatus.SUCCESS;
     }
 }

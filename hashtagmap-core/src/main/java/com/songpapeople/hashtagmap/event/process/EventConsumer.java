@@ -12,7 +12,7 @@ public class EventConsumer {
     private final EventBrokerGroup eventBrokerGroup;
     private final Map<Class<? extends Event>, EventThreadPoolExecutor> threadPoolExecutors = new HashMap<>();
 
-    private boolean running = true;
+    private boolean runnable = true;
 
     public EventConsumer(final EventBrokerGroup eventBrokerGroup) {
         this.eventBrokerGroup = eventBrokerGroup;
@@ -25,7 +25,7 @@ public class EventConsumer {
     }
 
     private void consume(Class<? extends Event> eventType) {
-        while (running) {
+        while (runnable) {
             Optional<? extends Event> maybeEvent = eventBrokerGroup.poll(eventType);
             if (!maybeEvent.isPresent()) {
                 continue;

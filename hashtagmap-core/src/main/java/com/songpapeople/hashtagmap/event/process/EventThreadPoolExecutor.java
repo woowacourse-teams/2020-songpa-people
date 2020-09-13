@@ -16,7 +16,7 @@ public class EventThreadPoolExecutor {
         threadPoolTaskExecutor.setThreadNamePrefix("thread_" + eventType.getTypeName());
         threadPoolTaskExecutor.setCorePoolSize(eventType.getCorePoolSize()); //수행 풀
         threadPoolTaskExecutor.setMaxPoolSize(eventType.getMaxPoolSize()); // 큐에 추가되면 맥스까지 늘어남
-        threadPoolTaskExecutor.setQueueCapacity(eventType.getQueueCapacity()); // 대기할 수 있는 작업 수
+//        threadPoolTaskExecutor.setQueueCapacity(eventType.getQueueCapacity()); // 대기할 수 있는 작업 수
         threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
         threadPoolTaskExecutor.initialize();
     }

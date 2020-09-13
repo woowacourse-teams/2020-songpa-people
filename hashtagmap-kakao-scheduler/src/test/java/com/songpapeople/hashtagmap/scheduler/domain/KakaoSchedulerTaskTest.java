@@ -1,5 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
+import com.songpapeople.hashtagmap.event.model.KakaoEventHistory;
+import com.songpapeople.hashtagmap.event.repository.EventHistoryRepository;
 import com.songpapeople.hashtagmap.place.domain.model.District;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
@@ -33,6 +35,9 @@ public class KakaoSchedulerTaskTest {
     @Autowired
     private PlaceRepository placeRepository;
 
+    @Autowired
+    private EventHistoryRepository<KakaoEventHistory> eventHistoryRepository;
+
     @BeforeEach
     private void setUp() {
         District district = new District("서울시 송파구");
@@ -57,10 +62,22 @@ public class KakaoSchedulerTaskTest {
         assertThat(result).hasSizeGreaterThan(1);
     }
 
+    @Disabled
+    @DisplayName("Task Test - 실제 Kakao Api 호출")
+    @Test
+    void sourceEvent() {
+        kakaoSchedulerTask.sourceEvent();
+
+        //then
+        List<KakaoEventHistory> all = eventHistoryRepository.findAll();
+        assertThat(all).isNotEmpty();
+    }
+
     @AfterEach
     private void tearDown() {
         placeRepository.deleteAll();
         zoneRepository.deleteAll();
         districtRepository.deleteAll();
+
     }
 }

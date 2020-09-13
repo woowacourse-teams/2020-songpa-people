@@ -3,9 +3,15 @@ package com.songpapeople.hashtagmap.scheduler.domain;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Document;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.service.KakaoApiService;
-import com.songpapeople.hashtagmap.place.domain.model.*;
+import com.songpapeople.hashtagmap.place.domain.model.Category;
+import com.songpapeople.hashtagmap.place.domain.model.District;
+import com.songpapeople.hashtagmap.place.domain.model.Location;
+import com.songpapeople.hashtagmap.place.domain.model.Place;
+import com.songpapeople.hashtagmap.place.domain.model.Point;
+import com.songpapeople.hashtagmap.place.domain.model.Zone;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.place.domain.repository.ZoneRepository;
+import com.songpapeople.hashtagmap.scheduler.domain.event.service.KakaoEventService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +43,9 @@ public class KakaoSchedulerTaskMockTest {
     @Autowired
     private PlaceRepository placeRepository;
 
+    @Autowired
+    private KakaoEventService eventService;
+
     private KakaoSchedulerTask kakaoSchedulerTask;
 
     @BeforeEach
@@ -59,7 +68,7 @@ public class KakaoSchedulerTaskMockTest {
         );
         placeRepository.saveAll(places);
 
-        kakaoSchedulerTask = new KakaoSchedulerTask(zoneRepository, placeRepository, kakaoApiService);
+        kakaoSchedulerTask = new KakaoSchedulerTask(zoneRepository, placeRepository, kakaoApiService, eventService);
     }
 
     @DisplayName("변경된 가게 데이터 저장 시 해당 가게 정보 업데이트")

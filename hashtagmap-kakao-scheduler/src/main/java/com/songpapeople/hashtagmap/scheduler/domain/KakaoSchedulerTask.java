@@ -1,5 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
+import com.songpapeople.hashtagmap.event.message.KakaoEvent;
+import com.songpapeople.hashtagmap.event.service.EventService;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Document;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
@@ -9,6 +11,7 @@ import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Zone;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.place.domain.repository.ZoneRepository;
+import com.songpapeople.hashtagmap.scheduler.domain.event.service.KakaoEventService;
 import com.songpapeople.hashtagmap.scheduler.domain.factory.PlaceFactory;
 import com.songpapeople.hashtagmap.scheduler.domain.factory.RectFactory;
 import org.springframework.stereotype.Component;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,12 +27,14 @@ public class KakaoSchedulerTask {
     private final ZoneRepository zoneRepository;
     private final PlaceRepository placeRepository;
     private final KakaoApiService kakaoApiService;
+    private final EventService<KakaoEvent> eventService;
 
     public KakaoSchedulerTask(ZoneRepository zoneRepository, PlaceRepository placeRepository,
-                              KakaoApiService kakaoApiService) {
+                              KakaoApiService kakaoApiService, KakaoEventService kakaoEventService) {
         this.zoneRepository = zoneRepository;
         this.placeRepository = placeRepository;
         this.kakaoApiService = kakaoApiService;
+        this.eventService = kakaoEventService;
     }
 
     public void collectData() {
@@ -45,6 +51,16 @@ public class KakaoSchedulerTask {
 
                 List<Place> places = PlaceFactory.from(documents);
                 savePlaces(places);
+            }
+        }
+    }
+
+    public void sourceEvent() {
+        List<Zone> zones = zoneRepository.findByActivated();
+
+        for (Zone zone : zones) {
+            for (Category category : Category.values()) {
+                eventService.provide(new KakaoEvent(eventService::collect, category, zone, new CountDownLatch(1)));
             }
         }
     }

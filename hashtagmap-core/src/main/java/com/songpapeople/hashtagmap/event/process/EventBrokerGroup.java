@@ -1,14 +1,14 @@
 package com.songpapeople.hashtagmap.event.process;
 
 import com.songpapeople.hashtagmap.event.message.Event;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-@Component
+@Slf4j
 public class EventBrokerGroup {
     private final Map<Class<? extends Event>, EventBroker<? extends Event>> brokers = new HashMap<>();
 
@@ -32,5 +32,10 @@ public class EventBrokerGroup {
 
     public Set<Class<? extends Event>> keySet() {
         return this.brokers.keySet();
+    }
+
+    @SuppressWarnings("unchecked")
+    public <E extends Event> EventBroker<E> find(Class<E> eventClass) {
+        return (EventBroker<E>) brokers.get(eventClass);
     }
 }
