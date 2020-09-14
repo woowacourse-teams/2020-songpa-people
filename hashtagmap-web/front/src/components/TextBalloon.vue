@@ -50,7 +50,7 @@ export default {
       this.overlay.marker,
     );
     this.showActiveOverlay();
-    this.$kakaoApi().eventHistory.addListener(
+    this.$kakaoApi().event.addListener(
       this.overlay.marker,
       EVENT_TYPE.CLICK,
       () => {

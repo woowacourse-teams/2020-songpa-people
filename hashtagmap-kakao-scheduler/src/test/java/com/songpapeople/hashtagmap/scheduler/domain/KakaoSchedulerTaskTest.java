@@ -3,7 +3,6 @@ package com.songpapeople.hashtagmap.scheduler.domain;
 import com.songpapeople.hashtagmap.event.model.KakaoEventHistory;
 import com.songpapeople.hashtagmap.event.repository.EventHistoryRepository;
 import com.songpapeople.hashtagmap.place.domain.model.District;
-import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
 import com.songpapeople.hashtagmap.place.domain.model.Zone;
 import com.songpapeople.hashtagmap.place.domain.repository.DistrictRepository;
@@ -21,6 +20,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Disabled
 @SpringBootTest
 public class KakaoSchedulerTaskTest {
     @Autowired
@@ -52,17 +52,6 @@ public class KakaoSchedulerTaskTest {
         zoneRepository.save(zone);
     }
 
-    @Disabled
-    @DisplayName("Task Test - 실제 Kakao Api 호출")
-    @Test
-    void collectDataTest() {
-        kakaoSchedulerTask.collectData();
-
-        List<Place> result = placeRepository.findAll();
-        assertThat(result).hasSizeGreaterThan(1);
-    }
-
-    @Disabled
     @DisplayName("Task Test - 실제 Kakao Api 호출")
     @Test
     void sourceEvent() {

@@ -26,13 +26,13 @@ public enum EventType {
 
     public static List<Class<? extends Event>> getTypes() {
         return Arrays.stream(values())
-                .map(eventType -> eventType.type)
+                .map(EventType::getType)
                 .collect(Collectors.toList());
     }
 
     public static EventType findBy(final Class<? extends Event> eventClass) {
         return Arrays.stream(values())
-                .filter(eventType -> eventType.type == eventClass)
+                .filter(eventType -> eventType.getType() == eventClass)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("처리할 수 없는 이벤트 타입 : " + eventClass.getSimpleName()));
     }

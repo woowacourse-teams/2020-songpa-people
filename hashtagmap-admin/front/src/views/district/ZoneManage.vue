@@ -114,8 +114,8 @@
     <DefaultModal
       modalName="zoneEdit"
       title="좌표 수정"
-      :ok-eventHistory="editZone"
-      ok-eventHistory-text="수정하기"
+      :ok-event="editZone"
+      ok-event-text="수정하기"
       :is-valid="isValidForEdit"
     >
       <v-form v-model="isValidForEdit">

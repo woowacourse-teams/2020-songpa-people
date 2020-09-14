@@ -27,4 +27,12 @@ public abstract class EventHistory extends BaseEntity {
     public EventHistory(final EventStatus eventStatus) {
         this.eventStatus = eventStatus;
     }
+
+    public void fail() {
+        this.eventStatus = EventStatus.FAIL;
+    }
+
+    public void success() {
+        this.eventStatus = EventStatus.SUCCESS;
+    }
 }

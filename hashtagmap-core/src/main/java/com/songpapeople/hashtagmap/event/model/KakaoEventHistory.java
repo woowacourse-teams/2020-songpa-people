@@ -36,12 +36,4 @@ public class KakaoEventHistory extends EventHistory {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ZONE_ID", foreignKey = @ForeignKey(name = "FK_KAKAO_EVENT_ZONE"))
     private Zone zone;
-
-    public void fail() {
-        this.eventStatus = EventStatus.FAIL;
-    }
-
-    public void success() {
-        this.eventStatus = EventStatus.SUCCESS;
-    }
 }

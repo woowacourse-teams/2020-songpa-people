@@ -26,7 +26,7 @@ public class EventThreadPoolExecutor {
             semaphore.acquire();
             threadPoolTaskExecutor.execute(() -> execute(receiveJob));
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.warn("semaphore interrupted: {}", e.getMessage());
         }
     }
 
@@ -34,7 +34,7 @@ public class EventThreadPoolExecutor {
         try {
             job.run();
         } catch (Exception e) {
-            log.warn(e.getMessage());
+            log.warn("event fail: {}", e.getMessage());
         } finally {
             semaphore.release();
         }

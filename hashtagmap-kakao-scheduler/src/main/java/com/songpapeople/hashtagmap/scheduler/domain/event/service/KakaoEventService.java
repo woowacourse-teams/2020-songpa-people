@@ -2,10 +2,10 @@ package com.songpapeople.hashtagmap.scheduler.domain.event.service;
 
 import com.songpapeople.hashtagmap.event.message.Event;
 import com.songpapeople.hashtagmap.event.message.KakaoEvent;
-import com.songpapeople.hashtagmap.event.model.EventStatus;
 import com.songpapeople.hashtagmap.event.model.KakaoEventHistory;
 import com.songpapeople.hashtagmap.event.process.EventBrokerGroup;
 import com.songpapeople.hashtagmap.event.repository.KakaoEventHistoryRepository;
+import com.songpapeople.hashtagmap.event.service.EventService;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Document;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
@@ -27,12 +27,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class KakaoEventService {
+public class KakaoEventService implements EventService<KakaoEvent> {
     private final EventBrokerGroup eventBrokerGroup;
     private final KakaoEventHistoryRepository kakaoEventHistoryRepository;
     private final KakaoApiService kakaoApiService;
     private final PlaceRepository placeRepository;
 
+    @Override
     @Transactional
     public void provide(KakaoEvent event) {
         KakaoEventHistory kakaoEventHistory = KakaoEventHistory.ready(event.getCategory(), event.getZone());
@@ -41,13 +42,14 @@ public class KakaoEventService {
         eventBrokerGroup.push(event);
     }
 
+    @Override
     @Transactional
     public void collect(Event event) {
         KakaoEvent kakaoEvent = (KakaoEvent) event;
         Rect rect = RectFactory.from(kakaoEvent.getZone());
 
         KakaoEventHistory kakaoEventHistory = kakaoEventHistoryRepository.findById(kakaoEvent.getEventHistoryId())
-                .orElseGet(() -> new KakaoEventHistory(kakaoEvent.getCategory(), kakaoEvent.getZone(), EventStatus.READY));
+                .orElseThrow(() -> new IllegalArgumentException(String.format("저장되지 않은 이벤트%s 입니다.", kakaoEvent.getEventHistoryId())));
 
         try {
             List<KakaoPlaceDto> kakaoPlaceDtos = new ArrayList<>(kakaoApiService.findPlaces(kakaoEvent.getCategoryGroupCode(), rect));
@@ -58,9 +60,7 @@ public class KakaoEventService {
             List<Place> places = PlaceFactory.from(documents);
             placeRepository.updateAndInsert(places);
             kakaoEventHistory.success();
-            log.info("event success id: {}", kakaoEvent.getEventHistoryId());
         } catch (Exception e) {
-            log.info("event fail id: {}", kakaoEvent.getEventHistoryId());
             kakaoEventHistory.fail();
         }
     }

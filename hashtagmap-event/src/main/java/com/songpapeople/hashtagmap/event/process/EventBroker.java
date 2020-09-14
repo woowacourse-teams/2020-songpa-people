@@ -18,7 +18,4 @@ public class EventBroker<E extends Event> {
         return eventQueue.poll();
     }
 
-    public boolean isEmpty() {
-        return this.eventQueue.isEmpty();
-    }
 }

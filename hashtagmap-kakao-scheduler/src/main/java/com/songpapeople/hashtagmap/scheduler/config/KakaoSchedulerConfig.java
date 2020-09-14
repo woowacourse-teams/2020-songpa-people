@@ -20,6 +20,6 @@ public class KakaoSchedulerConfig {
 
     @Bean
     public KakaoScheduler kakaoPlaceScheduler() {
-        return new KakaoScheduler(kakaoSchedulerTask::collectData, new CronPeriod(EXPRESSION));
+        return new KakaoScheduler(kakaoSchedulerTask::sourceEvent, new CronPeriod(EXPRESSION));
     }
 }

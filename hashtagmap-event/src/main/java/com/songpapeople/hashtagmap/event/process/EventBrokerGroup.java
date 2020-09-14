@@ -34,8 +34,4 @@ public class EventBrokerGroup {
         return this.brokers.keySet();
     }
 
-    @SuppressWarnings("unchecked")
-    public <E extends Event> EventBroker<E> find(Class<E> eventClass) {
-        return (EventBroker<E>) brokers.get(eventClass);
-    }
 }
