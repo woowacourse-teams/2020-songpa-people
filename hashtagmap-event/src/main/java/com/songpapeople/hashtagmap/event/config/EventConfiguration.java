@@ -8,11 +8,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class EventConfig {
+public class EventConfiguration {
 
     @Bean
-    public EventConsumer eventConsumer() {
-        return new EventConsumer(eventBrokers());
+    public EventConsumer eventConsumer(EventBrokerGroup eventBrokerGroup) {
+        return new EventConsumer(eventBrokerGroup);
     }
 
     @Bean

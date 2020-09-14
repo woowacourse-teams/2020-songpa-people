@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum EventType {
-    KAKAO(KakaoEvent.class, 3, 5, 100);
+    KAKAO(KakaoEvent.class, 1, 5, 1);
 
     private final Class<? extends Event> type;
     private final int corePoolSize;

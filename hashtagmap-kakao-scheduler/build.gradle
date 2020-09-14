@@ -3,6 +3,7 @@ jar { enabled = true }
 
 dependencies {
     implementation project(':hashtagmap-core')
+    implementation project(':hashtagmap-event')
     implementation project(':hashtagmap-kakao-api')
     implementation project(':hashtagmap-common')
 }

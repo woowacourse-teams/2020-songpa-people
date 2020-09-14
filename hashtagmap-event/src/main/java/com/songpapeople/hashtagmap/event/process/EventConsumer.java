@@ -17,9 +17,9 @@ public class EventConsumer {
     public EventConsumer(final EventBrokerGroup eventBrokerGroup) {
         this.eventBrokerGroup = eventBrokerGroup;
         for (Class<? extends Event> eventClass : eventBrokerGroup.keySet()) {
+            threadPoolExecutors.put(eventClass, new EventThreadPoolExecutor(EventType.findBy(eventClass)));
             Thread thread = new Thread(() -> consume(eventClass));
             thread.setName("thread_" + eventClass.getSimpleName());
-            threadPoolExecutors.put(eventClass, new EventThreadPoolExecutor(EventType.findBy(eventClass)));
             thread.start();
         }
     }

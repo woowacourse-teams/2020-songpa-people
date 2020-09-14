@@ -6,7 +6,6 @@ import com.songpapeople.hashtagmap.event.model.EventStatus;
 import com.songpapeople.hashtagmap.event.model.KakaoEventHistory;
 import com.songpapeople.hashtagmap.event.process.EventBrokerGroup;
 import com.songpapeople.hashtagmap.event.repository.KakaoEventHistoryRepository;
-import com.songpapeople.hashtagmap.event.service.EventService;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Document;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class KakaoEventService implements EventService<KakaoEvent> {
+public class KakaoEventService {
     private final EventBrokerGroup eventBrokerGroup;
     private final KakaoEventHistoryRepository kakaoEventHistoryRepository;
     private final KakaoApiService kakaoApiService;
@@ -58,19 +57,11 @@ public class KakaoEventService implements EventService<KakaoEvent> {
 
             List<Place> places = PlaceFactory.from(documents);
             placeRepository.updateAndInsert(places);
+            kakaoEventHistory.success();
+            log.info("event success id: {}", kakaoEvent.getEventHistoryId());
         } catch (Exception e) {
             log.info("event fail id: {}", kakaoEvent.getEventHistoryId());
             kakaoEventHistory.fail();
-            kakaoEventHistoryRepository.save(kakaoEventHistory);
-            return;
         }
-        log.info("event success id: {}", kakaoEvent.getEventHistoryId());
-        kakaoEventHistory.success();
-        kakaoEventHistoryRepository.save(kakaoEventHistory);
-    }
-
-    @Override
-    public void restore() {
-
     }
 }

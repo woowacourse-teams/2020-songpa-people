@@ -1,7 +1,6 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
 import com.songpapeople.hashtagmap.event.message.KakaoEvent;
-import com.songpapeople.hashtagmap.event.service.EventService;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.Document;
 import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,7 +25,7 @@ public class KakaoSchedulerTask {
     private final ZoneRepository zoneRepository;
     private final PlaceRepository placeRepository;
     private final KakaoApiService kakaoApiService;
-    private final EventService<KakaoEvent> eventService;
+    private final KakaoEventService eventService;
 
     public KakaoSchedulerTask(ZoneRepository zoneRepository, PlaceRepository placeRepository,
                               KakaoApiService kakaoApiService, KakaoEventService kakaoEventService) {
@@ -60,7 +58,7 @@ public class KakaoSchedulerTask {
 
         for (Zone zone : zones) {
             for (Category category : Category.values()) {
-                eventService.provide(new KakaoEvent(eventService::collect, category, zone, new CountDownLatch(1)));
+                eventService.provide(new KakaoEvent(eventService::collect, category, zone));
             }
         }
     }
