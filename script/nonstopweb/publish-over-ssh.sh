@@ -2,9 +2,6 @@
 
 set -e
 
-echo "> 전송확인"
-echo `ls -al`
-
 DEPLOY_USER=ubuntu
 echo "DEPLOY USER = $DEPLOY_USER"
 

@@ -11,7 +11,6 @@ CURRENT_PROFILE=$(curl -s http://localhost/profile)
 echo "> $CURRENT_PROFILE"
 
 sleep 1
-# 쉬고 있는 set 찾기: set1이 사용중이면 set2가 쉬고 있고, 반대면 set1이 쉬고 있음
 if [ $CURRENT_PROFILE == set1 ]
 then
   IDLE_PROFILE="set2"
@@ -28,7 +27,6 @@ else
 fi
 echo "> IDLE_PORT 확인 : $IDLE_PORT"
 
-# 전환해야 할 포트로 구동중인 애플리케이션이 있는지 확인
 echo "> $IDLE_PROFILE 에서 구동중인 애플리케이션 pid 확인"
 IDLE_PID=$(ps -ef | grep java | grep $IDLE_PROFILE | awk '{print $2}')
 echo "> pid : $IDLE_PID"
@@ -57,7 +55,7 @@ do
   up_count=$(echo $response | grep 'UP' | wc -l)
 
   if [ $up_count -ge 1 ]
-  then # $up_count >= 1 ("미소" 문자열이 있는지 검증)
+  then
       echo "> Health check 성공"
       break
   else

@@ -10,7 +10,7 @@ import java.util.Arrays;
 @RestController
 @AllArgsConstructor
 public class WebRestController {
-    private Environment environment;
+    private final Environment environment;
 
     @GetMapping("/profile")
     public String getProfile() {

@@ -10,24 +10,10 @@ server:
 ---
 spring.profiles: set1
 
-spring:
-  profiles:
-    include: >
-      db
-  mvc:
-    view:
-      suffix: .html
 server:
   port: 8081
 ---
 spring.profiles: set2
 
-spring:
-  profiles:
-    include: >
-      db
-  mvc:
-    view:
-      suffix: .html
 server:
   port: 8082
