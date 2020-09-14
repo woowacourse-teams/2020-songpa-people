@@ -12,14 +12,12 @@ BACKUP_DIR='/home/'$DEPLOY_USER'/backup-app'
 mkdir -p $BACKUP_DIR
 echo "BACKUP_DIR = $BACKUP_DIR"
 
-PROJECT_NAME=hashtagmap
-
 echo "> Build 파일 이동"
-
 mv $DEPLOY_DIR/zip/*.jar $DEPLOY_DIR/
 
-echo "> 현재 구동중인 애플리케이션 pid 확인"
+PROJECT_NAME=hashtagmap
 
+echo "> 현재 구동중인 애플리케이션 pid 확인"
 CURRENT_PID=$(pgrep -fl $PROJECT_NAME | grep java | awk '{print $1}')
 
 echo "현재 구동중인 어플리케이션 pid: $CURRENT_PID"
