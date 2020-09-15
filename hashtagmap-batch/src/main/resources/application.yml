@@ -10,3 +10,11 @@ spring:
   h2:
     console:
       enabled: true
+---
+spring:
+  profiles: test
+batch:
+  chunk: 2
+---
+batch:
+  chunk: 50

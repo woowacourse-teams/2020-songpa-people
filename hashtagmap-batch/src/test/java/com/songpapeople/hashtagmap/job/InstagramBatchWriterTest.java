@@ -35,16 +35,17 @@ public class InstagramBatchWriterTest {
     @BeforeEach
     private void setUp() {
         instagramBatchWriter = new InstagramBatchWriter(instagramRepository, instagramPostRepository);
-        postDtos = new ArrayList<>();
-        for (int i = 1; i <= PostDtos.POPULAR_POST_SIZE; i++) {
-            String dummy = String.valueOf(i);
-            postDtos.add(new PostDto(dummy, dummy));
-        }
     }
 
     @DisplayName("크롤링한 데이터를 저장하는지 확인")
     @TestFactory
     Collection<DynamicTest> writeTest() {
+        postDtos = new ArrayList<>();
+        for (int i = 1; i <= PostDtos.POPULAR_POST_SIZE; i++) {
+            String dummy = String.valueOf(i);
+            postDtos.add(new PostDto(dummy, dummy));
+        }
+
         Place place1 = placeRepository.save(Place.builder().kakaoId("1234").build());
         Place place2 = placeRepository.save(Place.builder().kakaoId("12345").build());
         Optional<CrawlingResult> crawlingResult1 = Optional.of(new CrawlingResult(

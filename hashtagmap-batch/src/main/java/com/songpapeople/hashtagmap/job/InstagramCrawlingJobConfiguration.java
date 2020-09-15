@@ -10,6 +10,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,7 +21,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Configuration
 public class InstagramCrawlingJobConfiguration {
-    private static final int chunkSize = 2;
+    @Value("${batch.chunk}")
+    private int chunk;
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -38,7 +40,7 @@ public class InstagramCrawlingJobConfiguration {
     @Bean
     public Step crawlingStep() {
         return stepBuilderFactory.get("crawlingStep")
-                .<Place, Optional<CrawlingResult>>chunk(chunkSize)
+                .<Place, Optional<CrawlingResult>>chunk(chunk)
                 .reader(placeReader())
                 .processor(instagramBatchProcessor)
                 .writer(instagramBatchWriter)
@@ -50,7 +52,7 @@ public class InstagramCrawlingJobConfiguration {
         return new JpaPagingItemReaderBuilder<Place>()
                 .name("placeReader")
                 .entityManagerFactory(entityManagerFactory)
-                .pageSize(chunkSize)
+                .pageSize(chunk)
                 .queryString("SELECT p FROM Place p order by place_id")
                 .build();
     }

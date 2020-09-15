@@ -2,7 +2,6 @@ package com.songpapeople.hashtagmap.job;
 
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
-import com.songpapeople.hashtagmap.scheduler.InstagramScheduler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,12 +10,13 @@ import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @SpringBatchTest
 @SpringBootTest
 public class InstagramCrawlingJobReaderTest {
@@ -26,9 +26,6 @@ public class InstagramCrawlingJobReaderTest {
 
     @Autowired
     private PlaceRepository placeRepository;
-
-    @MockBean
-    private InstagramScheduler instagramScheduler;
 
     @DisplayName("reader: 데이터 조회")
     @Test
