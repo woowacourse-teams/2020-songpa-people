@@ -8,13 +8,14 @@ import java.util.function.Consumer;
 
 @Getter
 public class KakaoEvent extends Event {
+    protected final Consumer<KakaoEvent> eventConsumer;
     private final Category category;
     private final Zone zone;
 
     private Long eventHistoryId;
 
-    public KakaoEvent(final Consumer<Event> eventConsumer, final Category category, final Zone zone) {
-        super(eventConsumer);
+    public KakaoEvent(final Consumer<KakaoEvent> eventConsumer, final Category category, final Zone zone) {
+        this.eventConsumer = eventConsumer;
         this.category = category;
         this.zone = zone;
     }
@@ -27,4 +28,8 @@ public class KakaoEvent extends Event {
         this.eventHistoryId = eventHistoryId;
     }
 
+    @Override
+    public void doService() {
+        this.eventConsumer.accept(this);
+    }
 }

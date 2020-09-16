@@ -1,14 +1,12 @@
 package com.songpapeople.hashtagmap.event.process;
 
 import com.songpapeople.hashtagmap.event.message.Event;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-@Slf4j
 public class EventBrokerGroup {
     private final Map<Class<? extends Event>, EventBroker<? extends Event>> brokers = new HashMap<>();
 

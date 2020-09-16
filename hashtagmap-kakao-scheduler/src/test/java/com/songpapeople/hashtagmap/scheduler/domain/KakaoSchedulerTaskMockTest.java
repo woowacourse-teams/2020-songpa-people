@@ -1,6 +1,5 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
-import com.songpapeople.hashtagmap.event.message.Event;
 import com.songpapeople.hashtagmap.event.message.KakaoEvent;
 import com.songpapeople.hashtagmap.event.model.EventStatus;
 import com.songpapeople.hashtagmap.event.model.KakaoEventHistory;
@@ -85,7 +84,7 @@ public class KakaoSchedulerTaskMockTest {
             }
 
             @Override
-            public void collect(final Event event) {
+            public void collect(final KakaoEvent event) {
                 kakaoEventService.collect(event);
                 countDownLatch.countDown();
             }

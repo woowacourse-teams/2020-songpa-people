@@ -1,6 +1,5 @@
 package com.songpapeople.hashtagmap.scheduler.domain.event.service;
 
-import com.songpapeople.hashtagmap.event.message.Event;
 import com.songpapeople.hashtagmap.event.message.KakaoEvent;
 import com.songpapeople.hashtagmap.event.model.KakaoEventHistory;
 import com.songpapeople.hashtagmap.event.process.EventBrokerGroup;
@@ -44,8 +43,7 @@ public class KakaoEventService implements EventService<KakaoEvent> {
 
     @Override
     @Transactional
-    public void collect(Event event) {
-        KakaoEvent kakaoEvent = (KakaoEvent) event;
+    public void collect(KakaoEvent kakaoEvent) {
         Rect rect = RectFactory.from(kakaoEvent.getZone());
 
         KakaoEventHistory kakaoEventHistory = kakaoEventHistoryRepository.findById(kakaoEvent.getEventHistoryId())
@@ -61,6 +59,7 @@ public class KakaoEventService implements EventService<KakaoEvent> {
             placeRepository.updateAndInsert(places);
             kakaoEventHistory.success();
         } catch (Exception e) {
+            log.info("event fail: {}", e.getMessage());
             kakaoEventHistory.fail();
         }
     }

@@ -67,6 +67,5 @@ public class KakaoSchedulerTaskTest {
         placeRepository.deleteAll();
         zoneRepository.deleteAll();
         districtRepository.deleteAll();
-
     }
 }
