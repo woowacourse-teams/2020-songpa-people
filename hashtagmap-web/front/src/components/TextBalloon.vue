@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import { EVENT_TYPE } from "@/utils/constants";
 
 export default {

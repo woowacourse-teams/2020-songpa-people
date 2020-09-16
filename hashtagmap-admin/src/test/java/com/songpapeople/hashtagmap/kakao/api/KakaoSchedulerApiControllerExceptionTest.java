@@ -82,7 +82,7 @@ class KakaoSchedulerApiControllerExceptionTest {
     @DisplayName("스케쥴러가 이미 실행중일때 Exception")
     @Test
     void startCron() throws Exception {
-        doThrow(new KakaoSchedulerException(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING, LOG)).when(kakaoScheduleCommandService).startSchedule();
+        doThrow(new KakaoSchedulerException(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING)).when(kakaoScheduleCommandService).startSchedule();
 
         //given
         MvcResult mvcResult = this.mockMvc.perform(post(BASE_URI + "/start"))

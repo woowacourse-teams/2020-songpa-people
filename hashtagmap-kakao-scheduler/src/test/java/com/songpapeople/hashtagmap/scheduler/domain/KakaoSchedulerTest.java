@@ -1,6 +1,7 @@
 package com.songpapeople.hashtagmap.scheduler.domain;
 
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
+import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerExceptionStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.scheduling.support.CronTrigger;
@@ -130,4 +131,18 @@ public class KakaoSchedulerTest {
         kakaoScheduler.end();
     }
 
+    @DisplayName("스케쥴러가 실행중일 때 스케쥴 주기를 바꾸려하면 Exception 발생")
+    @Test
+    void failChangePeriod() {
+        KakaoScheduler kakaoScheduler = new KakaoScheduler(() -> {
+        }, new CronPeriod("* * * * * ?"));
+        kakaoScheduler.start();
+
+        assertThatThrownBy(() -> kakaoScheduler.changePeriod("* * * * * ?"))
+                .isInstanceOf(KakaoSchedulerException.class)
+                .hasMessage(KakaoSchedulerExceptionStatus.SCHEDULE_ALREADY_RUNNING.getMessage());
+
+        kakaoScheduler.stop();
+        kakaoScheduler.end();
+    }
 }
