@@ -72,3 +72,9 @@ task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
 
 processResources.dependsOn 'copyKakaoApiKey'
 processResources.dependsOn 'buildFrontEnd'
+
+sonarqube {
+    properties {
+            property "sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*Doc*.java"
+    }
+}

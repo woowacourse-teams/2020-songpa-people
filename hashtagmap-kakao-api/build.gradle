@@ -30,3 +30,9 @@ jacocoTestCoverageVerification {
         }
     }
 }
+
+sonarqube {
+    properties {
+        property "sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*Doc*.java"
+    }
+}
