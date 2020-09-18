@@ -72,7 +72,6 @@ public class InstagramBatchIntegrationTest {
 
         // then
         assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("COMPLETED");
-
     }
 
     @DisplayName("예외가 발생하면 실패하는 chunk 이전까지 수행 후 종료")

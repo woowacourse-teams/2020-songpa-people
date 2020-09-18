@@ -30,7 +30,6 @@ public class InstagramBatchWriterTest {
     private PlaceRepository placeRepository;
 
     private InstagramBatchWriter instagramBatchWriter;
-    private List<PostDto> postDtos;
 
     @BeforeEach
     private void setUp() {
@@ -40,7 +39,7 @@ public class InstagramBatchWriterTest {
     @DisplayName("크롤링한 데이터를 저장하는지 확인")
     @TestFactory
     Collection<DynamicTest> writeTest() {
-        postDtos = new ArrayList<>();
+        List<PostDto> postDtos = new ArrayList<>();
         for (int i = 1; i <= PostDtos.POPULAR_POST_SIZE; i++) {
             String dummy = String.valueOf(i);
             postDtos.add(new PostDto(dummy, dummy));
@@ -48,6 +47,7 @@ public class InstagramBatchWriterTest {
 
         Place place1 = placeRepository.save(Place.builder().kakaoId("1234").build());
         Place place2 = placeRepository.save(Place.builder().kakaoId("12345").build());
+
         Optional<CrawlingResult> crawlingResult1 = Optional.of(new CrawlingResult(
                 CrawlingDto.of("스타벅스", "1234", new PostDtos(postDtos)), place1
         ));
@@ -78,15 +78,18 @@ public class InstagramBatchWriterTest {
     @DisplayName("크롤링에 실패해서 정보가 없을 때 저장하지 않는다.")
     @Test
     void writeWithEmptyCrawlingResultTest() {
-        Optional<CrawlingResult> crawlingResult = Optional.empty();
+        // given
+        Optional<CrawlingResult> emptyCrawlingResults = Optional.empty();
 
-        instagramBatchWriter.write(Collections.singletonList(crawlingResult));
+        // when
+        instagramBatchWriter.write(Collections.singletonList(emptyCrawlingResults));
 
+        // then
         List<Instagram> instagrams = instagramRepository.findAll();
         List<InstagramPost> instagramPosts = instagramPostRepository.findAll();
 
-        assertThat(instagrams).hasSize(0);
-        assertThat(instagramPosts).hasSize(0);
+        assertThat(instagrams).isEmpty();
+        assertThat(instagramPosts).isEmpty();
     }
 
     @AfterEach

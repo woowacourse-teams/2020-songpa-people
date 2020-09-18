@@ -27,22 +27,21 @@ public class InstagramCrawlingJobReaderTest {
     @Autowired
     private PlaceRepository placeRepository;
 
-    @DisplayName("reader: 데이터 조회")
+    @DisplayName("reader: 크롤링을 위한 Place 데이터 조회")
     @Test
     void readerTest() throws Exception {
         // given
         Place place1 = Place.builder()
-                .id(1L)
                 .build();
         Place place2 = Place.builder()
-                .id(2L)
                 .build();
         placeRepository.saveAll(Arrays.asList(place1, place2));
 
         // when, then
         reader.open(new ExecutionContext());
-        assertThat(reader.read().getId()).isEqualTo(1L);
-        assertThat(reader.read().getId()).isEqualTo(2L);
+
+        assertThat(reader.read().getId()).isEqualTo(place1.getId());
+        assertThat(reader.read().getId()).isEqualTo(place2.getId());
         assertThat(reader.getPageSize()).isEqualTo(2);
 
         reader.close();
