@@ -1,5 +1,7 @@
-package com.songpapeople.hashtagmap.job;
+package com.songpapeople.hashtagmap.instagram.config;
 
+import com.songpapeople.hashtagmap.instagram.processor.InstagramBatchProcessor;
+import com.songpapeople.hashtagmap.instagram.writer.InstagramBatchWriter;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.scheduler.CrawlingResult;
 import lombok.RequiredArgsConstructor;

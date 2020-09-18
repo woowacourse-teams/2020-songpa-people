@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.job;
+package com.songpapeople.hashtagmap.instagram;
 
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;

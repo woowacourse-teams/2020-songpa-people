@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.job;
+package com.songpapeople.hashtagmap.instagram.writer;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
@@ -31,7 +31,7 @@ public class InstagramBatchWriter implements ItemWriter<Optional<CrawlingResult>
     }
 
     @Transactional
-    void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
+    public void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
         List<Instagram> instagrams = instagramRepository.findAllFetch();
         List<Place> places = instagrams.stream()
                 .map(Instagram::getPlace)

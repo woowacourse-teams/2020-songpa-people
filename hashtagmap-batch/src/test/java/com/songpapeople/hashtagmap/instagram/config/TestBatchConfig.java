@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.job;
+package com.songpapeople.hashtagmap.instagram.config;
 
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.job;
+package com.songpapeople.hashtagmap.instagram.reader;
 
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
