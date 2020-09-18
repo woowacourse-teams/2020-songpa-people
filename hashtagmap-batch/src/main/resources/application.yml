@@ -1,12 +1,7 @@
 spring:
   profiles:
     include: >
-      kakao,
-      kakao-security,
       db
-  mvc:
-    view:
-      suffix: .html
   jpa:
     open-in-view: false
 ---
@@ -15,3 +10,11 @@ spring:
   h2:
     console:
       enabled: true
+---
+spring:
+  profiles: test
+batch:
+  chunk: 2
+---
+batch:
+  chunk: 50
