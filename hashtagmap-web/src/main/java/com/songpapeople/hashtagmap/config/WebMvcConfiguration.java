@@ -16,17 +16,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        ResourceHandlerRegistration jsResourceHandler = registry.addResourceHandler("/js/**");
-        ResourceHandlerRegistration cssResourceHandler = registry.addResourceHandler("/css/**");
-        ResourceHandlerRegistration imgResourceHandler = registry.addResourceHandler("/img/**");
-        setCacheController(jsResourceHandler, "js");
-        setCacheController(cssResourceHandler, "css");
-        setCacheController(imgResourceHandler, "img");
-    }
-
-    private void setCacheController(ResourceHandlerRegistration resourceHandlerRegistration, String directory) {
-        resourceHandlerRegistration.addResourceLocations("classpath:/static/" + directory + "/")
-                .setCacheControl(CacheControl.maxAge(60 * 60 * 24 * 365, TimeUnit.SECONDS).cachePublic());
+        for (StaticResourcePath path : StaticResourcePath.values()) {
+            ResourceHandlerRegistration resourceHandlerRegistration = registry.addResourceHandler(path.getPath());
+            resourceHandlerRegistration.addResourceLocations("classpath:/static/" + path.getDirectory() + "/")
+                    .setCacheControl(CacheControl.maxAge(60 * 60 * 24 * 365, TimeUnit.SECONDS).cachePublic());
+        }
     }
 
     @Bean
