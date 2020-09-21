@@ -37,4 +37,8 @@ public class EventConsumer {
         }
     }
 
+    public void stop() {
+        this.runnable = false;
+    }
+
 }
