@@ -8,7 +8,11 @@ import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Latitude;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Longitude;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KakaoPlaceDtoFixture {
     public static final int MAX_PAGEABLE_COUNT = 2;
@@ -53,10 +57,7 @@ public class KakaoPlaceDtoFixture {
     }
 
     public static boolean isRearranged(int totalCount) {
-        if (totalCount > MAX_PAGEABLE_COUNT * MAX_DOCUMENT_COUNT) {
-            return true;
-        }
-        return false;
+        return totalCount > MAX_PAGEABLE_COUNT * MAX_DOCUMENT_COUNT;
     }
 
     public static KakaoPlaceDto createPlaceDto(int totalCount, int pageableCount) {
@@ -94,9 +95,6 @@ public class KakaoPlaceDtoFixture {
         if (totalCount % MAX_DOCUMENT_COUNT > 0) {
             pageableCount++;
         }
-        if (pageableCount > MAX_PAGEABLE_COUNT) {
-            return MAX_PAGEABLE_COUNT;
-        }
-        return pageableCount;
+        return Math.min(pageableCount, MAX_PAGEABLE_COUNT);
     }
 }

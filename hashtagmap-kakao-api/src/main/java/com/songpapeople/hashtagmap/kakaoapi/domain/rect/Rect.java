@@ -1,6 +1,7 @@
 package com.songpapeople.hashtagmap.kakaoapi.domain.rect;
 
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.location.Coordinate;
+import lombok.Generated;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -43,6 +44,7 @@ public class Rect {
         return stringBuilder.toString();
     }
 
+    @Generated
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,6 +58,7 @@ public class Rect {
                 && Objects.equals(maxLongitude.getValue(), rect.maxLongitude.getValue());
     }
 
+    @Generated
     @Override
     public int hashCode() {
         return Objects.hash(minLatitude, maxLatitude, minLongitude, maxLongitude);
