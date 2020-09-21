@@ -17,13 +17,13 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'BRANCH'
                 value = 'COVEREDRATIO'
-                minimum = 0.80
+                minimum = 0.60
             }
 
             limit {
                 counter = 'INSTRUCTION'
                 value = 'COVEREDRATIO'
-                minimum = 0.70
+                minimum = 0.60
             }
             excludes = []
         }
@@ -35,8 +35,14 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'INSTRUCTION'
                 value = 'COVEREDRATIO'
-                minimum = 0.30
+                minimum = 0.60
             }
         }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*Doc*.java"
     }
 }

@@ -11,8 +11,10 @@ buildscript {
         classpath "io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE"
         classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10"
         classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0"
     }
 }
+
 subprojects {
 
     group = 'com.songpapeople'
@@ -21,6 +23,7 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'jacoco'
+    apply plugin: "org.sonarqube"
 
     sourceCompatibility = '1.8'
 
@@ -44,9 +47,23 @@ subprojects {
     jacocoTestReport {
         reports {
             html.enabled true
-            xml.enabled false
-            csv.enabled true
+            xml.enabled true
+            csv.enabled false
         }
+
+        def Qdomains = []
+        for(qPattern in "**/QA" .. "**/QZ"){
+            Qdomains.add(qPattern+"*")
+        }
+
+        afterEvaluate {
+
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it,
+                        exclude: [] + Qdomains)
+            }))
+        }
+
         finalizedBy 'jacocoTestCoverageVerification'
     }
 
@@ -58,6 +75,19 @@ subprojects {
     configurations {
         compileOnly {
             extendsFrom annotationProcessor
+        }
+    }
+
+    sonarqube {
+        properties {
+            property "sonar.host.url", "https://sonar.themiso.kr"
+            property "sonar.login", "2036ce58eaf842e7512923b39f0a6ebb47e4f883"
+            property "sonar.sources", "src"
+            property "sonar.language", "java"
+            property "sonar.projectVersion", "1.0"
+            property "sonar.sourceEncoding", "UTF-8"
+            property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+            property "sonar.test.inclusions", "**/*Test.java"
         }
     }
 }
@@ -111,4 +141,10 @@ configure(logbackSlack) {
     }
 
     processResources.dependsOn 'copySlackWebHook'
+}
+
+project(':hashtagmap-common') {
+    sonarqube {
+        skipProject = true
+    }
 }

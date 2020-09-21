@@ -17,6 +17,11 @@ dependencies {
 }
 
 jacocoTestCoverageVerification {
+    def Qdomains = []
+    for (qPattern in "*.QA".."*.QZ") {
+        Qdomains.add(qPattern + "*")
+    }
+
     violationRules {
         rule {
             enabled = true
@@ -25,10 +30,10 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'INSTRUCTION'
                 value = 'COVEREDRATIO'
-                minimum = 0.70
+                minimum = 0.50
             }
 
-            excludes = []
+            excludes = [] + Qdomains
         }
 
         rule {
@@ -40,6 +45,8 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.50
             }
+
+            excludes = [] + Qdomains
         }
     }
 }
@@ -62,3 +69,8 @@ task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
 
 processResources.dependsOn 'buildFrontEnd'
 
+sonarqube {
+    properties {
+        property "sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*Doc*.java"
+    }
+}
