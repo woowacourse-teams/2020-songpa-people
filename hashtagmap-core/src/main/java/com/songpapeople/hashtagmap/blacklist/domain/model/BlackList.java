@@ -23,9 +23,7 @@ public class BlackList extends BaseEntity {
     private Boolean isSkipPlace;
 
     public BlackList(String kakaoId, String replaceName) {
-        this.kakaoId = kakaoId;
-        this.replaceName = replaceName;
-        this.isSkipPlace = false;
+        this(kakaoId, replaceName, false);
     }
 
     public BlackList(String kakaoId, String replaceName, Boolean isSkipPlace) {
