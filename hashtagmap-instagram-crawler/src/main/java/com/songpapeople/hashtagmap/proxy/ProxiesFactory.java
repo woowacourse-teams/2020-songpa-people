@@ -13,6 +13,9 @@ public class ProxiesFactory {
     private static final int HOST_INDEX = 1;
     private static final int PORT_INDEX = 2;
 
+    private ProxiesFactory() {
+    }
+
     public static Proxies create() {
         Crawler crawler = new Crawler();
         String body = crawler.crawl(FREE_PROXY_LIST_URL);

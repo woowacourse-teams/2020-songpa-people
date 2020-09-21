@@ -5,6 +5,8 @@ import com.google.gson.JsonParser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class JsonExplorerTest {
@@ -15,5 +17,12 @@ class JsonExplorerTest {
         JsonElement jsonElement = JsonParser.parseString(json);
 
         assertThat(JsonExplorer.findByKey(jsonElement, "name")).isEqualTo("hs");
+    }
+
+    @DisplayName("유틸성 클래스라 private 생성자를 가지고 있다.")
+    @Test
+    void constructorTest() throws NoSuchMethodException {
+        Constructor<JsonExplorer> declaredConstructor = JsonExplorer.class.getDeclaredConstructor((Class<?>[]) null);
+        assertThat(declaredConstructor.isAccessible()).isFalse();
     }
 }

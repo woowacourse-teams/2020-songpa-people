@@ -9,6 +9,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,7 +24,7 @@ class InstagramCrawlerTest {
     @DisplayName("인스타그램 크롤링 테스트")
     @ParameterizedTest
     @CsvSource({"스타벅스,스타벅스", "스타 벅스,스타벅스", "스타벅스 강남점,스타벅스강남"})
-    void createCrawlingDtoTest(String placeName, String parsedPlaceName) {
+    void createCrawlingDtoTest(String placeName, String parsedPlaceName) throws IOException {
         when(crawler.crawl(any())).thenReturn(MockDataFactory.createBody());
         InstagramCrawler instagramCrawler = new InstagramCrawler(crawler);
         CrawlingDto crawlingDto = instagramCrawler.crawler(placeName);
@@ -30,7 +32,8 @@ class InstagramCrawlerTest {
         assertAll(
                 () -> assertThat(crawlingDto.getHashtagName()).isEqualTo(parsedPlaceName),
                 () -> assertThat(crawlingDto.getHashtagCount()).isNotNull(),
-                () -> assertThat(crawlingDto.getPostDtos().size()).isEqualTo(9)
+                () -> assertThat(crawlingDto.getPostDtos().size()).isEqualTo(9),
+                () -> assertThat(crawlingDto.getPostDtoList()).hasSize(9)
         );
     }
 }
