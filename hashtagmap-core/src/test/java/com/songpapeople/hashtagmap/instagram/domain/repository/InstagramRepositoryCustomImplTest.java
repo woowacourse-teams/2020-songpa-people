@@ -114,12 +114,13 @@ class InstagramRepositoryCustomImplTest {
                 .build();
         placeRepository.save(place);
         Instagram instagram = Instagram.builder()
-                .hashtagName("오아시스")
                 .place(place)
                 .build();
         instagramRepository.save(instagram);
 
-        assertThat(instagramRepository.findByIdFetch(1L).getHashtagName()).isEqualTo("오아시스");
+        Instagram result = instagramRepository.findByIdFetch(instagram.getId());
+
+        assertThat(result.getPlace().getId()).isEqualTo(place.getId());
     }
 
     @DisplayName("Hashtag count 역순으로 정렬해서 limit만큼 조회하기")
