@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class InstagramScheduleService {
-    private static final int START_TRY_COUNT = 0;
-
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostsRepository;
     private final BlackListRepository blackListRepository;
@@ -32,10 +30,9 @@ public class InstagramScheduleService {
         if (isSkipPlace(place)) {
             return Optional.empty();
         }
-        CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(
-                new ProxySetter(ProxiesFactory.create()), instagramCrawler);
+        CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(new ProxySetter(ProxiesFactory.create()), instagramCrawler);
         String hashtagNameToCrawl = findHashtagNameToCrawl(place);
-        return crawlerWithProxy.crawlInstagram(place, hashtagNameToCrawl, START_TRY_COUNT);
+        return crawlerWithProxy.crawlInstagram(place, hashtagNameToCrawl);
     }
 
     @Transactional
@@ -77,6 +74,6 @@ public class InstagramScheduleService {
     private boolean isSkipPlace(Place place) {
         return blackListRepository.findByKakaoId(place.getKakaoId())
                 .map(BlackList::getIsSkipPlace)
-                .orElseGet(() -> false);
+                .orElse(false);
     }
 }
