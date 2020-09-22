@@ -97,6 +97,7 @@ export default {
 .posts {
   margin-bottom: -9px;
 }
+
 .placeName {
   font-size: 20px;
 }
@@ -136,13 +137,14 @@ export default {
 
 .modal-info {
   margin-left: 3px;
+  display: -webkit-inline-flex !important;
 }
 
 .close-btn {
   display: none !important;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (min-width: 417px) {
   .close-btn {
     display: inline !important;
     position: fixed !important;
@@ -172,6 +174,43 @@ export default {
   .detail-info-button,
   .instagram-page-button {
     width: 45%;
+  }
+}
+
+@media screen and (max-width: 416px) {
+  .close-btn {
+    display: inline !important;
+    position: fixed !important;
+    right: 0;
+    font-size: 2em;
+    margin-right: 0.5em;
+  }
+
+  .detail-modal {
+    width: 100%;
+  }
+
+  .modal-profile-image {
+    margin: 8px 0px 0px 0px;
+  }
+
+  .modal-profile-image img {
+    max-width: 22vw;
+    height: auto;
+  }
+
+  .placeName {
+    font-size: 2em;
+  }
+
+  .hashtagCount {
+    font-size: 1.3em;
+    margin-right: 0.5em;
+  }
+
+  .detail-info-button,
+  .instagram-page-button {
+    width: 40%;
   }
 }
 </style>
