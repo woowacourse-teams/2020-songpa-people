@@ -73,6 +73,7 @@ class TagLevelsTest {
                 Arrays.asList(new TagLevel(1L), new TagLevel(2L), new TagLevel(3L))
         );
 
+
         CoreException exception = assertThrows(CoreException.class,
                 () -> tagLevels.update(hashtagCounts));
         assertEquals(exception.getErrorCode(), CoreExceptionStatus.INVALID_TAG_LEVEL.getCode());

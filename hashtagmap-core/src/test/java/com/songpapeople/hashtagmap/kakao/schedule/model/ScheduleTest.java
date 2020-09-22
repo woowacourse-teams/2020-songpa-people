@@ -19,4 +19,5 @@ class ScheduleTest {
 
         assertThat(schedule.isActive()).isEqualTo(expect);
     }
+
 }
