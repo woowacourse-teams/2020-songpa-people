@@ -9,10 +9,11 @@ public class MockDataFactory {
     public static String createBody() throws IOException {
         StringBuilder builder = new StringBuilder();
         File file = new File("src/test/resources/crawling-mock-data.txt");
-        FileReader fileReader = new FileReader(file);
-        int fileData;
-        while ((fileData = fileReader.read()) != -1) {
-            builder.append((char) fileData);
+        try (FileReader fileReader = new FileReader(file)) {
+            int fileData;
+            while ((fileData = fileReader.read()) != -1) {
+                builder.append((char) fileData);
+            }
         }
         return builder.toString();
     }
