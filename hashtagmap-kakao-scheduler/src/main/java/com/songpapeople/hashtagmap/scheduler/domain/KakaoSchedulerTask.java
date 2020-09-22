@@ -24,7 +24,7 @@ public class KakaoSchedulerTask {
 
         for (Zone zone : zones) {
             for (Category category : Category.values()) {
-                eventService.provide(new KakaoEvent(eventService::collect, category, zone));
+                eventService.provide(new KakaoEvent(eventService::collect, eventService::fail, category, zone));
             }
         }
     }

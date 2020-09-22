@@ -33,7 +33,8 @@ public class EventConsumer {
                 continue;
             }
             threadPoolExecutors.get(eventType)
-                    .executeJob(() -> maybeEvent.get().doService());
+                    .executeJob(() -> maybeEvent.get().doService(),
+                            () -> maybeEvent.get().doFailService());
         }
     }
 

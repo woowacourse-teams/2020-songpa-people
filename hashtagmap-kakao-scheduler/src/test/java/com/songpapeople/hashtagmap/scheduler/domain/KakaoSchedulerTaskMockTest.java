@@ -88,6 +88,11 @@ public class KakaoSchedulerTaskMockTest {
                 kakaoEventService.collect(event);
                 countDownLatch.countDown();
             }
+
+            @Override
+            public void fail(final KakaoEvent event) {
+
+            }
         };
         kakaoSchedulerTask = new KakaoSchedulerTask(zoneRepository, eventEventService);
 

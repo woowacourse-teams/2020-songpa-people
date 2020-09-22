@@ -23,7 +23,11 @@ class EventConsumerTest {
     void consumeTest() throws InterruptedException {
         //given
         CountDownLatch countDownLatch = new CountDownLatch(1);
-        KakaoEvent kakaoEvent = new KakaoEvent((event) -> countDownLatch.countDown(), Category.CAFE, zone);
+        KakaoEvent kakaoEvent = new KakaoEvent(
+                (event) -> countDownLatch.countDown(),
+                (e) -> {
+                },
+                Category.CAFE, zone);
         EventConfiguration eventConfiguration = new EventConfiguration();
         EventBrokerGroup eventBrokerGroup = eventConfiguration.eventBrokers();
 
@@ -36,4 +40,31 @@ class EventConsumerTest {
         eventConsumer.stop();
         assertThat(countDownLatch.getCount()).isEqualTo(0);
     }
+
+    @DisplayName("이벤트 타입에 맞는 이벤트 소모 실패 테스트")
+    @Test
+    void consumeFailTest() throws InterruptedException {
+        //given
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        KakaoEvent kakaoEvent = new KakaoEvent(
+                (event) -> {
+                    throw new RuntimeException();
+                },
+                (e) -> {
+                    countDownLatch.countDown();
+                },
+                Category.CAFE, zone);
+        EventConfiguration eventConfiguration = new EventConfiguration();
+        EventBrokerGroup eventBrokerGroup = eventConfiguration.eventBrokers();
+
+        //when
+        EventConsumer eventConsumer = eventConfiguration.eventConsumer(eventBrokerGroup);
+        eventBrokerGroup.push(kakaoEvent);
+
+        //then
+        countDownLatch.await();
+        eventConsumer.stop();
+        assertThat(countDownLatch.getCount()).isEqualTo(0);
+    }
+
 }

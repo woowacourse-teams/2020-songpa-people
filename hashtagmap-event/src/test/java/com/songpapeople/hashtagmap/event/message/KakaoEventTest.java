@@ -13,8 +13,12 @@ class KakaoEventTest {
     @Test
     void getCategoryGroupCode() {
         //given
-        KakaoEvent kakaoEvent = new KakaoEvent((e) -> {
-        }, Category.CAFE, Zone.builder().build());
+        KakaoEvent kakaoEvent = new KakaoEvent(
+                (e) -> {
+                },
+                (e) -> {
+                },
+                Category.CAFE, Zone.builder().build());
 
         //when
         String categoryGroupCode = kakaoEvent.getCategoryGroupCode();
@@ -27,8 +31,12 @@ class KakaoEventTest {
     @Test
     void placeId() {
         //given
-        KakaoEvent kakaoEvent = new KakaoEvent((e) -> {
-        }, Category.CAFE, Zone.builder().build());
+        KakaoEvent kakaoEvent = new KakaoEvent(
+                (e) -> {
+                },
+                (e) -> {
+                },
+                Category.CAFE, Zone.builder().build());
 
         //when
         kakaoEvent.placeId(1L);
