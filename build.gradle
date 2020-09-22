@@ -16,7 +16,6 @@ buildscript {
 }
 
 subprojects {
-
     group = 'com.songpapeople'
 
     apply plugin: 'java'
@@ -57,7 +56,6 @@ subprojects {
         }
 
         afterEvaluate {
-
             classDirectories.setFrom(files(classDirectories.files.collect {
                 fileTree(dir: it,
                         exclude: [] + Qdomains)
