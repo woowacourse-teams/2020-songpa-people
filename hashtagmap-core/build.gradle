@@ -54,13 +54,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'INSTRUCTION'
                 value = 'COVEREDRATIO'
-                minimum = 0.00
-            }
-
-            limit {
-                counter = 'BRANCH'
-                value = 'COVEREDRATIO'
-                minimum = 0.00
+                minimum = 0.90
             }
 
             excludes = [] + Qdomains

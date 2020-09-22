@@ -19,7 +19,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         for (StaticResourcePath path : StaticResourcePath.values()) {
             ResourceHandlerRegistration resourceHandlerRegistration = registry.addResourceHandler(path.getPath());
             resourceHandlerRegistration.addResourceLocations("classpath:/static/" + path.getDirectory() + "/")
-                    .setCacheControl(CacheControl.maxAge(60 * 60 * 24 * 365, TimeUnit.SECONDS).cachePublic());
+                    .setCacheControl(CacheControl.maxAge(60L * 60L * 24L * 365L, TimeUnit.SECONDS).cachePublic());
         }
     }
 

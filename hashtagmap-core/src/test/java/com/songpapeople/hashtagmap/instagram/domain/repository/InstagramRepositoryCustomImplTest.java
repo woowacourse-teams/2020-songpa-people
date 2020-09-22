@@ -72,7 +72,7 @@ class InstagramRepositoryCustomImplTest {
 
     @DisplayName("Hashtag 개수를 오름차순으로 정렬한다.")
     @Test
-    void name() {
+    void findAllHashtagCountByOrderAsc() {
         // given
         List<Long> hashtagCounts = Arrays.asList(3L, 2L, 1L);
 
@@ -104,6 +104,50 @@ class InstagramRepositoryCustomImplTest {
         instagramRepository.save(instagram);
 
         assertThat(instagramRepository.findByKakaoIdFetch(kakaoId).getId()).isEqualTo(instagram.getId());
+    }
+
+    @DisplayName("instagram id로 패치조인 테스트")
+    @Test
+    void findByIdFetch() {
+        Place place = Place.builder()
+                .placeName("place")
+                .build();
+        placeRepository.save(place);
+        Instagram instagram = Instagram.builder()
+                .place(place)
+                .build();
+        instagramRepository.save(instagram);
+
+        Instagram result = instagramRepository.findByIdFetch(instagram.getId());
+
+        assertThat(result.getPlace().getId()).isEqualTo(place.getId());
+    }
+
+    @DisplayName("Hashtag count 역순으로 정렬해서 limit만큼 조회하기")
+    @Test
+    void findAllOrderByHashtagCountAndLimitBy() {
+        Place place = Place.builder()
+                .build();
+        placeRepository.save(place);
+        List<Instagram> instagrams = Arrays.asList(
+                Instagram.builder()
+                        .place(place)
+                        .hashtagCount(1L)
+                        .build(),
+                Instagram.builder()
+                        .place(place)
+                        .hashtagCount(3L)
+                        .build(),
+                Instagram.builder()
+                        .place(place)
+                        .hashtagCount(2L)
+                        .build()
+        );
+        instagramRepository.saveAll(instagrams);
+
+        List<Instagram> actual = instagramRepository.findAllOrderByHashtagCountAndLimitBy(2);
+
+        assertThat(actual).extracting(Instagram::getHashtagCount).isEqualTo(Arrays.asList(3L, 2L));
     }
 
     @AfterEach

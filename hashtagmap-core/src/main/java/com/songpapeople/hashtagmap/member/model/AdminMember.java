@@ -5,13 +5,10 @@ import com.songpapeople.hashtagmap.config.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Controller;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
