@@ -43,6 +43,6 @@ jacocoTestCoverageVerification {
 
 sonarqube {
     properties {
-        property "sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*Doc*.java"
+        property "sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*Doc*.java, **/Mock*"
     }
 }
