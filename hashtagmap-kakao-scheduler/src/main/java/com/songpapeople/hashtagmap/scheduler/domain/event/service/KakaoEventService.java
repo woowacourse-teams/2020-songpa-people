@@ -49,18 +49,21 @@ public class KakaoEventService implements EventService<KakaoEvent> {
         KakaoEventHistory kakaoEventHistory = kakaoEventHistoryRepository.findById(kakaoEvent.getEventHistoryId())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("저장되지 않은 이벤트%s 입니다.", kakaoEvent.getEventHistoryId())));
 
-        try {
-            List<KakaoPlaceDto> kakaoPlaceDtos = new ArrayList<>(kakaoApiService.findPlaces(kakaoEvent.getCategoryGroupCode(), rect));
-            Set<Document> documents = kakaoPlaceDtos.stream()
-                    .flatMap(kakaoPlaceDto -> kakaoPlaceDto.getDocuments().stream())
-                    .collect(Collectors.toSet());
+        List<KakaoPlaceDto> kakaoPlaceDtos = new ArrayList<>(kakaoApiService.findPlaces(kakaoEvent.getCategoryGroupCode(), rect));
+        Set<Document> documents = kakaoPlaceDtos.stream()
+                .flatMap(kakaoPlaceDto -> kakaoPlaceDto.getDocuments().stream())
+                .collect(Collectors.toSet());
 
-            List<Place> places = PlaceFactory.from(documents);
-            placeRepository.updateAndInsert(places);
-            kakaoEventHistory.success();
-        } catch (Exception e) {
-            log.info("event fail: {}", e.getMessage());
-            kakaoEventHistory.fail();
-        }
+        List<Place> places = PlaceFactory.from(documents);
+        placeRepository.updateAndInsert(places);
+        kakaoEventHistory.success();
+    }
+
+    @Override
+    @Transactional
+    public void fail(final KakaoEvent kakaoEvent) {
+        KakaoEventHistory kakaoEventHistory = kakaoEventHistoryRepository.findById(kakaoEvent.getEventHistoryId())
+                .orElseThrow(() -> new IllegalArgumentException(String.format("저장되지 않은 이벤트%s 입니다.", kakaoEvent.getEventHistoryId())));
+        kakaoEventHistory.fail();
     }
 }

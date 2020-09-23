@@ -1,5 +1,6 @@
 package com.songpapeople.hashtagmap.event.process;
 
+import com.songpapeople.hashtagmap.event.config.EventConfiguration;
 import com.songpapeople.hashtagmap.event.message.KakaoEvent;
 import com.songpapeople.hashtagmap.place.domain.model.Category;
 import com.songpapeople.hashtagmap.place.domain.model.District;
@@ -22,15 +23,48 @@ class EventConsumerTest {
     void consumeTest() throws InterruptedException {
         //given
         CountDownLatch countDownLatch = new CountDownLatch(1);
-        KakaoEvent kakaoEvent = new KakaoEvent((event) -> countDownLatch.countDown(), Category.CAFE, zone);
-        EventBrokerGroup eventBrokerGroup = new EventBrokerGroup();
+        KakaoEvent kakaoEvent = new KakaoEvent(
+                (event) -> countDownLatch.countDown(),
+                (e) -> {
+                },
+                Category.CAFE, zone);
+        EventConfiguration eventConfiguration = new EventConfiguration();
+        EventBrokerGroup eventBrokerGroup = eventConfiguration.eventBrokers();
 
         //when
-        EventConsumer eventConsumer = new EventConsumer(eventBrokerGroup);
+        EventConsumer eventConsumer = eventConfiguration.eventConsumer(eventBrokerGroup);
         eventBrokerGroup.push(kakaoEvent);
 
         //then
         countDownLatch.await();
+        eventConsumer.stop();
         assertThat(countDownLatch.getCount()).isEqualTo(0);
     }
+
+    @DisplayName("이벤트 타입에 맞는 이벤트 소모 실패 테스트")
+    @Test
+    void consumeFailTest() throws InterruptedException {
+        //given
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        KakaoEvent kakaoEvent = new KakaoEvent(
+                (event) -> {
+                    throw new RuntimeException();
+                },
+                (e) -> {
+                    countDownLatch.countDown();
+                },
+                Category.CAFE, zone);
+        EventConfiguration eventConfiguration = new EventConfiguration();
+        EventBrokerGroup eventBrokerGroup = eventConfiguration.eventBrokers();
+
+        //when
+        EventConsumer eventConsumer = eventConfiguration.eventConsumer(eventBrokerGroup);
+        eventBrokerGroup.push(kakaoEvent);
+
+        //then
+        countDownLatch.await();
+        eventConsumer.stop();
+        assertThat(countDownLatch.getCount()).isEqualTo(0);
+    }
+
 }

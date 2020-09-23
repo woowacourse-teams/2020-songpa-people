@@ -18,7 +18,7 @@ public class InstaCrawlingResult {
     public static final String DISPLAY_URL_KEY = "display_url";
     public static final String SOURCE_KEY = "edges";
 
-    private String body;
+    private final String body;
 
     public String findHashTagCount() {
         return RegexPattern.HASH_TAG_COUNT.extract(body);

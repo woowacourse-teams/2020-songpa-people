@@ -27,12 +27,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -66,7 +66,11 @@ class KakaoEventServiceTest {
     @Test
     void provide() {
         //given
-        KakaoEvent kakaoEvent = getKakaoEvent();
+        KakaoEvent kakaoEvent = getKakaoEvent(
+                (event -> {
+                }),
+                (event -> {
+                }));
 
         doNothing().when(eventBrokerGroup).push(any());
 
@@ -78,21 +82,28 @@ class KakaoEventServiceTest {
         assertThat(kakaoEventHistory.getEventStatus()).isEqualTo(EventStatus.READY);
     }
 
-    private KakaoEvent getKakaoEvent() {
+    private KakaoEvent getKakaoEvent(Consumer<KakaoEvent> eventConsumer, Consumer<KakaoEvent> failEventConsumer) {
         District district = new District("서울시 강남구");
         district = districtRepository.save(district);
         Point point = new Point("34", "124");
         Zone zone = new Zone(point, point, district, true);
         zone = zoneRepository.save(zone);
-        return new KakaoEvent((event -> {
-        }), Category.CAFE, zone);
+        return new KakaoEvent(
+                eventConsumer,
+                failEventConsumer,
+                Category.CAFE, zone);
     }
 
     @DisplayName("READY 상태였던 이벤트를 성공 시킨다.")
     @Test
     void collect() {
         //given
-        KakaoEvent kakaoEvent = getKakaoEvent();
+        KakaoEvent kakaoEvent = getKakaoEvent(
+                (event -> {
+                }),
+                (event -> {
+                })
+        );
         KakaoEventHistory kakaoEventHistory = kakaoEventHistoryRepository.save(KakaoEventHistory.ready(kakaoEvent.getCategory(), kakaoEvent.getZone()));
         kakaoEvent.placeId(kakaoEventHistory.getId());
 
@@ -110,7 +121,12 @@ class KakaoEventServiceTest {
     @DisplayName("존재하지 않는 이벤트를 실행하는 경우 Exception 발생")
     @Test
     void collectNotFoundIdException() {
-        KakaoEvent kakaoEvent = getKakaoEvent();
+        KakaoEvent kakaoEvent = getKakaoEvent(
+                (event -> {
+                }),
+                (event -> {
+                })
+        );
         kakaoEvent.placeId(-100L);
 
         assertThatThrownBy(() -> kakaoEventService.collect(kakaoEvent))
@@ -122,20 +138,39 @@ class KakaoEventServiceTest {
     @Test
     void collectFailCauseThrowException() {
         //given
-        KakaoEvent kakaoEvent = getKakaoEvent();
+        KakaoEvent kakaoEvent = getKakaoEvent(
+                (event -> {
+                }),
+                (event -> {
+                }));
         KakaoEventHistory kakaoEventHistory = kakaoEventHistoryRepository.save(KakaoEventHistory.ready(kakaoEvent.getCategory(), kakaoEvent.getZone()));
         kakaoEvent.placeId(kakaoEventHistory.getId());
 
-        doThrow(RuntimeException.class).when(kakaoApiService).findPlaces(any(), any());
-
         //when
-        kakaoEventService.collect(kakaoEvent);
+        kakaoEventService.fail(kakaoEvent);
 
         //then
         KakaoEventHistory failHistory = eventHistoryRepository.findAll().get(0);
         assertThat(failHistory.getEventStatus()).isEqualTo(EventStatus.FAIL);
     }
 
+    @DisplayName("존재하지 않는 history를 fail처리 하려는 경우 exception 발생")
+    @Test
+    void collectFailNotFoundCauseThrowException() {
+        //given
+        KakaoEvent kakaoEvent = getKakaoEvent(
+                (event -> {
+                }),
+                (event -> {
+                }));
+        kakaoEvent.placeId(-1L);
+
+        //then
+        assertThatThrownBy(() -> kakaoEventService.fail(kakaoEvent))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("저장되지 않은 이벤트%s 입니다.", -1L);
+
+    }
 
     private List<KakaoPlaceDto> getKakaoPlaceDtos() {
         return Arrays.asList(

@@ -21,20 +21,21 @@ public class EventThreadPoolExecutor {
         threadPoolTaskExecutor.initialize();
     }
 
-    public void executeJob(Runnable receiveJob) {
+    public void executeJob(Runnable receiveJob, Runnable failJob) {
         try {
             semaphore.acquire();
-            threadPoolTaskExecutor.execute(() -> execute(receiveJob));
+            threadPoolTaskExecutor.execute(() -> execute(receiveJob, failJob));
         } catch (InterruptedException e) {
             log.warn("semaphore interrupted: {}", e.getMessage());
         }
     }
 
-    private void execute(Runnable job) {
+    private void execute(Runnable job, Runnable failJob) {
         try {
             job.run();
         } catch (Exception e) {
             log.warn("event fail: {}", e.getMessage());
+            failJob.run();
         } finally {
             semaphore.release();
         }

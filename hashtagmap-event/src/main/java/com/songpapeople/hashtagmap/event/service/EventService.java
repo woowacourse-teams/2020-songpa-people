@@ -6,5 +6,7 @@ public interface EventService<E extends Event> {
 
     void provide(E event);
 
+    void fail(E event);
+
     void collect(E event);
 }

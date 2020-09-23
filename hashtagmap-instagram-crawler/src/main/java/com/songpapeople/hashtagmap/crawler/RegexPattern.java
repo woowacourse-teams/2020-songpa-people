@@ -12,7 +12,7 @@ enum RegexPattern {
     HASH_TAG_COUNT(Pattern.compile("(\"edge_hashtag_to_media\":\\{\"count\"):([0-9]+)")),
     HASHTAG_POPULAR_POSTS_INFO(Pattern.compile("(\"edge_hashtag_to_top_posts\":)(.*)(,\"edge_hashtag_to_content_advisory\")"));
 
-    private Pattern pattern;
+    private final Pattern pattern;
 
     RegexPattern(Pattern pattern) {
         this.pattern = pattern;
