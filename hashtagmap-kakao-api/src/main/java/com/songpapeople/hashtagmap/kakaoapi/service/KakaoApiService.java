@@ -29,7 +29,7 @@ public class KakaoApiService {
         return findPlaces(category, rect, DEFAULT_OFFSET);
     }
 
-    public List<KakaoPlaceDto> findPlaces(String category, Rect initialRect, BigDecimal offset) {
+    private List<KakaoPlaceDto> findPlaces(String category, Rect initialRect, BigDecimal offset) {
         List<Rect> dividedRects = RectDivider.divide(initialRect, offset);
         List<KakaoPlaceDto> result = new ArrayList<>();
 

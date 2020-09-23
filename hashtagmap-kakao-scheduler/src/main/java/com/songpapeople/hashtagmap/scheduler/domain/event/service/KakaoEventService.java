@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KakaoEventService implements EventService<KakaoEvent> {
     private final EventBrokerGroup eventBrokerGroup;
-    private final KakaoEventHistoryRepository kakaoEventHistoryRepository;
     private final KakaoApiService kakaoApiService;
+    private final KakaoEventHistoryRepository kakaoEventHistoryRepository;
     private final PlaceRepository placeRepository;
 
     @Override
