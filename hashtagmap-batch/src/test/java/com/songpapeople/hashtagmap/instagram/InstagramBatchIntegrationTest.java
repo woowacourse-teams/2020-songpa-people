@@ -6,8 +6,8 @@ import com.songpapeople.hashtagmap.dto.PostDtos;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
-import com.songpapeople.hashtagmap.scheduler.CrawlingResult;
-import com.songpapeople.hashtagmap.scheduler.InstagramScheduler;
+import com.songpapeople.hashtagmap.service.CrawlingResult;
+import com.songpapeople.hashtagmap.service.InstagramCrawlingService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,7 @@ public class InstagramBatchIntegrationTest {
     private InstagramRepository instagramRepository;
 
     @MockBean
-    private InstagramScheduler instagramScheduler;
+    private InstagramCrawlingService instagramCrawlingService;
 
     @DisplayName("정상 작동")
     @Test
@@ -65,7 +65,7 @@ public class InstagramBatchIntegrationTest {
         CrawlingResult crawlingResult = new CrawlingResult(
                 CrawlingDto.of(CAFE_NAME, "1000", new PostDtos(postDtos)),
                 place);
-        when(instagramScheduler.update(place)).thenReturn(Optional.of(crawlingResult));
+        when(instagramCrawlingService.createCrawlingResult(place)).thenReturn(Optional.of(crawlingResult));
 
         // when
         JobExecution jobExecution = myTestJobLauncher.launchJob();
@@ -110,9 +110,9 @@ public class InstagramBatchIntegrationTest {
         CrawlingResult crawlingResult2 = new CrawlingResult(
                 CrawlingDto.of(CAFE_NAME, "1000", new PostDtos(postDtos)),
                 places.get(1));
-        when(instagramScheduler.update(places.get(0))).thenReturn(Optional.of(crawlingResult1));
-        when(instagramScheduler.update(places.get(1))).thenReturn(Optional.of(crawlingResult2));
-        when(instagramScheduler.update(places.get(2))).thenThrow(new IllegalArgumentException("크롤링 관련 오류"));
+        when(instagramCrawlingService.createCrawlingResult(places.get(0))).thenReturn(Optional.of(crawlingResult1));
+        when(instagramCrawlingService.createCrawlingResult(places.get(1))).thenReturn(Optional.of(crawlingResult2));
+        when(instagramCrawlingService.createCrawlingResult(places.get(2))).thenThrow(new IllegalArgumentException("크롤링 관련 오류"));
 
         // when
         JobExecution jobExecution = myTestJobLauncher.launchJob();

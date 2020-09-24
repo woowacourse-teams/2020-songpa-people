@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.scheduler;
+package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
-public class InstagramScheduler {
-    private final InstagramScheduleService instagramScheduleService;
+public class InstagramService {
+    private final InstagramCrawlingService instagramCrawlingService;
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostRepository;
     private final PlaceRepository placeRepository;
@@ -25,20 +25,16 @@ public class InstagramScheduler {
     public void update() {
         List<Place> places = placeRepository.findAll();
         List<CrawlingResult> crawlingResults = places.stream()
-                .map(instagramScheduleService::createCrawlingResult)
+                .map(instagramCrawlingService::createCrawlingResult)
                 .filter(Optional::isPresent)
                 .map(optional -> optional.orElseThrow(NullPointerException::new))
                 .collect(Collectors.toList());
 
-        saveCrawlingResult(crawlingResults);
-    }
-
-    public Optional<CrawlingResult> update(Place place) {
-        return instagramScheduleService.createCrawlingResult(place);
+        saveCrawlingResults(crawlingResults);
     }
 
     @Transactional
-    void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
+    public void saveCrawlingResults(List<CrawlingResult> crawlingResults) {
         instagramPostRepository.deleteAll();
         instagramRepository.deleteAll();
         for (CrawlingResult crawlingResult : crawlingResults) {

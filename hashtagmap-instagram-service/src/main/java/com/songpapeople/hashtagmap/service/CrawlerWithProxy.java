@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.scheduler;
+package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.exception.CrawlerException;

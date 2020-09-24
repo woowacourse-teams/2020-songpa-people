@@ -9,12 +9,22 @@ import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramReposito
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
-import com.songpapeople.hashtagmap.scheduler.CrawlingResult;
-import org.junit.jupiter.api.*;
+import com.songpapeople.hashtagmap.service.CrawlingResult;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

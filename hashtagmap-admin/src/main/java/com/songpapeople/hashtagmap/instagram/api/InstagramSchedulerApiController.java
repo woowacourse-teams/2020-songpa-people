@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.instagram.api;
 
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.scheduler.InstagramScheduler;
+import com.songpapeople.hashtagmap.service.InstagramService;
 import com.songpapeople.hashtagmap.taglevel.service.TagLevelCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/instagram-scheduler")
 public class InstagramSchedulerApiController {
-    private final InstagramScheduler instagramScheduler;
+    private final InstagramService instagramService;
     private final TagLevelCommandService tagLevelCommandService;
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse<Void> update() {
-        instagramScheduler.update();
+        instagramService.update();
         tagLevelCommandService.update();
         return CustomResponse.empty();
     }

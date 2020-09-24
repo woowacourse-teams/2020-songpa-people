@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.scheduler;
+package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.blacklist.domain.model.BlackList;
 import com.songpapeople.hashtagmap.blacklist.domain.repsitory.BlackListRepository;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class InstagramScheduleService {
+public class InstagramCrawlingService {
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostsRepository;
     private final BlackListRepository blackListRepository;

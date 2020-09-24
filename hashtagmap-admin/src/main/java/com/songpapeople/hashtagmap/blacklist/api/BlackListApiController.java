@@ -1,12 +1,12 @@
 package com.songpapeople.hashtagmap.blacklist.api;
 
 import com.songpapeople.hashtagmap.blacklist.service.BlackListCommandService;
+import com.songpapeople.hashtagmap.blacklist.service.dto.AbnormalInstagramDto;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListRequest;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListResponse;
-import com.songpapeople.hashtagmap.blacklist.service.dto.AbnormalInstagramDto;
 import com.songpapeople.hashtagmap.instagram.service.InstagramQueryService;
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.scheduler.InstagramScheduleService;
+import com.songpapeople.hashtagmap.service.InstagramCrawlingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ import java.util.List;
 public class BlackListApiController {
     private final InstagramQueryService instagramQueryService;
     private final BlackListCommandService blackListCommandService;
-    private final InstagramScheduleService instagramScheduleService;
+    private final InstagramCrawlingService instagramCrawlingService;
 
     @GetMapping("/abnormal-instagram")
     @ResponseStatus(HttpStatus.OK)
@@ -41,7 +40,7 @@ public class BlackListApiController {
         String kakaoId = blackListRequest.getKakaoId();
         String replaceName = blackListRequest.getReplaceName();
         BlackListResponse blackListResponse =
-                BlackListResponse.of(instagramScheduleService.updateInstagramByBlackList(kakaoId, replaceName));
+                BlackListResponse.of(instagramCrawlingService.updateInstagramByBlackList(kakaoId, replaceName));
         return CustomResponse.of(blackListResponse);
     }
 

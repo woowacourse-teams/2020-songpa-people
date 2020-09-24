@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.scheduler;
+package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.blacklist.domain.model.BlackList;
 import com.songpapeople.hashtagmap.blacklist.domain.repsitory.BlackListRepository;
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-class InstagramScheduleServiceTest {
+class InstagramCrawlingServiceTest {
     @Autowired
     private InstagramRepository instagramRepository;
 
@@ -50,7 +50,7 @@ class InstagramScheduleServiceTest {
     private BlackListRepository blackListRepository;
 
     @Autowired
-    private InstagramScheduleService instagramScheduleService;
+    private InstagramCrawlingService instagramCrawlingService;
 
     @MockBean
     private InstagramCrawler instagramCrawler;
@@ -83,7 +83,7 @@ class InstagramScheduleServiceTest {
         CrawlingDto crawlingDto = CrawlingDto.of(newHashtagName, newHashtagCount, newPostDtos);
         when(instagramCrawler.crawler(any())).thenReturn(crawlingDto);
 
-        instagramScheduleService.updateInstagramByBlackList(oldInstagram.getKakaoId(), newHashtagName);
+        instagramCrawlingService.updateInstagramByBlackList(oldInstagram.getKakaoId(), newHashtagName);
 
         Instagram newInstagram = instagramRepository.findByIdFetch(oldInstagram.getId());
         List<String> newPostImageUrls = instagramPostRepository.findAllByInstagramId(oldInstagram.getId()).stream()
@@ -108,7 +108,7 @@ class InstagramScheduleServiceTest {
         );
         blackListRepository.save(new BlackList(place.getKakaoId(), "newName", true));
 
-        Optional<CrawlingResult> crawlingResult = instagramScheduleService.createCrawlingResult(place);
+        Optional<CrawlingResult> crawlingResult = instagramCrawlingService.createCrawlingResult(place);
         assertThat(crawlingResult.isPresent()).isFalse();
     }
 
@@ -129,7 +129,7 @@ class InstagramScheduleServiceTest {
         when(instagramCrawler.crawler(PLACE_NAME)).thenReturn(crawlingDto);
 
         // when
-        Optional<CrawlingResult> crawlingResult = instagramScheduleService.createCrawlingResult(place);
+        Optional<CrawlingResult> crawlingResult = instagramCrawlingService.createCrawlingResult(place);
 
         // then
         String hashtagName = crawlingResult.get().createInstagram().getHashtagName();
@@ -155,7 +155,7 @@ class InstagramScheduleServiceTest {
         when(instagramCrawler.crawler(NEW_HASHTAG_NAME)).thenReturn(crawlingDto);
 
         // when
-        Optional<CrawlingResult> crawlingResult = instagramScheduleService.createCrawlingResult(place);
+        Optional<CrawlingResult> crawlingResult = instagramCrawlingService.createCrawlingResult(place);
 
         // then
         String hashtagName = crawlingResult.get().createInstagram().getHashtagName();

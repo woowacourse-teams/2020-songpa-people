@@ -2,15 +2,15 @@ package com.songpapeople.hashtagmap.blacklist.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.songpapeople.hashtagmap.blacklist.service.BlackListCommandService;
-import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListRequest;
 import com.songpapeople.hashtagmap.blacklist.service.dto.AbnormalInstagramDto;
+import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListRequest;
 import com.songpapeople.hashtagmap.docs.blacklist.BlackListApiDocumentation;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.service.InstagramQueryService;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
-import com.songpapeople.hashtagmap.scheduler.InstagramScheduleService;
+import com.songpapeople.hashtagmap.service.InstagramCrawlingService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = BlackListApiController.class)
@@ -35,7 +33,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
     private InstagramQueryService instagramQueryService;
 
     @MockBean
-    private InstagramScheduleService instagramScheduleService;
+    private InstagramCrawlingService instagramCrawlingService;
 
     @MockBean
     private BlackListCommandService blackListCommandService;
@@ -74,7 +72,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
                 .id(1L)
                 .kakaoId("1")
                 .build();
-        when(instagramScheduleService.updateInstagramByBlackList(any(), any())).thenReturn(
+        when(instagramCrawlingService.updateInstagramByBlackList(any(), any())).thenReturn(
                 Instagram.builder()
                         .place(place)
                         .hashtagName("newName")

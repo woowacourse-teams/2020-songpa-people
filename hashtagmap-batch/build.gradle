@@ -1,7 +1,7 @@
 version = '2.0.0'
 
 dependencies {
-    implementation project(':hashtagmap-instagram-scheduler')
+    implementation project(':hashtagmap-instagram-service')
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     testImplementation 'org.springframework.batch:spring-batch-test'
 }
