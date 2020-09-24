@@ -4,7 +4,7 @@
       <div class="story">
         <router-link to="/map">
           <div class="story-image">
-            <img src="../../assets/mainpage/hot_place_ex1.jpg" />
+            <img src="../../assets/mainpage/hot_place_ex1.jpeg" />
           </div>
         </router-link>
         <div class="story-name">힙지로</div>
@@ -12,7 +12,7 @@
       <div class="story">
         <router-link to="/map">
           <div class="story-image">
-            <img src="../../assets/mainpage/hot_place_ex2.png" />
+            <img src="../../assets/mainpage/hot_place_ex2.jpeg" />
           </div>
         </router-link>
         <div class="story-name">연남동</div>
@@ -20,7 +20,7 @@
       <div class="story">
         <router-link to="/map">
           <div class="story-image">
-            <img src="../../assets/mainpage/hot_place_ex3.png" />
+            <img src="../../assets/mainpage/hot_place_ex3.jpeg" />
           </div>
         </router-link>
         <div class="story-name">송리단길</div>
