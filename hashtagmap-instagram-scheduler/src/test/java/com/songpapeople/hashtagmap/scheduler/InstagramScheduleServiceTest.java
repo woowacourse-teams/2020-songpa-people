@@ -77,8 +77,8 @@ class InstagramScheduleServiceTest {
         instagramPostRepository.saveAll(makeInstagramPosts(oldInstagram, oldPostDtos));
 
         // when
-        String newHashtagName = "newHashtagName";
-        String newHashtagCount = "1000";
+        final String newHashtagName = "newHashtagName";
+        final String newHashtagCount = "1000";
         PostDtos newPostDtos = createMockPostDtosByStartIndex(100);
         CrawlingDto crawlingDto = CrawlingDto.of(newHashtagName, newHashtagCount, newPostDtos);
         when(instagramCrawler.crawler(any())).thenReturn(crawlingDto);
@@ -116,7 +116,7 @@ class InstagramScheduleServiceTest {
     @Test
     void findHashtagNameToCrawlTest() {
         // given
-        String PLACE_NAME = "스타벅스잠실";
+        final String PLACE_NAME = "스타벅스잠실";
 
         Place place = placeRepository.save(
                 Place.builder()
@@ -140,8 +140,8 @@ class InstagramScheduleServiceTest {
     @Test
     void findBlackListHashtagNameToCrawlTest() {
         // given
-        String PLACE_NAME = "블루보틀성수역점";
-        String NEW_HASHTAG_NAME = "블루보틀";
+        final String PLACE_NAME = "블루보틀성수역점";
+        final String NEW_HASHTAG_NAME = "블루보틀";
 
         Place place = placeRepository.save(
                 Place.builder()

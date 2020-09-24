@@ -4,7 +4,12 @@ import com.songpapeople.hashtagmap.config.entity.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
 
 @Getter
 @NoArgsConstructor
