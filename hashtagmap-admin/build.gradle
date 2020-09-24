@@ -5,7 +5,7 @@ plugins {
 version = '1.0.0'
 
 dependencies {
-    compile project(':hashtagmap-core')
+    implementation project(':hashtagmap-core')
     implementation project(':hashtagmap-common')
     implementation project(':hashtagmap-kakao-scheduler')
     implementation project(':hashtagmap-instagram-scheduler')
