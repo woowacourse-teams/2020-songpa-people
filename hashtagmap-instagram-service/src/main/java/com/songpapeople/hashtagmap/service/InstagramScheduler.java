@@ -33,12 +33,8 @@ public class InstagramScheduler {
         saveCrawlingResult(crawlingResults);
     }
 
-    public Optional<CrawlingResult> update(Place place) {
-        return instagramScheduleService.createCrawlingResult(place);
-    }
-
     @Transactional
-    void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
+    public void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
         instagramPostRepository.deleteAll();
         instagramRepository.deleteAll();
         for (CrawlingResult crawlingResult : crawlingResults) {

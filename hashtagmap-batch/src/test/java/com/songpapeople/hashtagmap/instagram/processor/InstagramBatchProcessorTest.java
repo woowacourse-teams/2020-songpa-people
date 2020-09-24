@@ -2,7 +2,7 @@ package com.songpapeople.hashtagmap.instagram.processor;
 
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.service.CrawlingResult;
-import com.songpapeople.hashtagmap.service.InstagramScheduler;
+import com.songpapeople.hashtagmap.service.InstagramScheduleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,11 +20,11 @@ public class InstagramBatchProcessorTest {
     private InstagramBatchProcessor instagramBatchProcessor;
 
     @Mock
-    private InstagramScheduler instagramScheduler;
+    private InstagramScheduleService instagramScheduleService;
 
     @BeforeEach
     private void setUp() {
-        this.instagramBatchProcessor = new InstagramBatchProcessor(instagramScheduler);
+        this.instagramBatchProcessor = new InstagramBatchProcessor(instagramScheduleService);
     }
 
     @DisplayName("읽어온 Place에 대해 크롤링 테스트")
@@ -35,7 +35,7 @@ public class InstagramBatchProcessorTest {
                 .id(1L)
                 .build();
         Optional<CrawlingResult> expected = Optional.of(new CrawlingResult());
-        when(instagramScheduler.update(place)).thenReturn(expected);
+        when(instagramScheduleService.createCrawlingResult(place)).thenReturn(expected);
 
         // when
         Optional<CrawlingResult> actual = instagramBatchProcessor.process(place);
