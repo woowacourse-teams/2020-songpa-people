@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.instagram.api;
 
 import com.songpapeople.hashtagmap.docs.instagram.InstagramApiDocumentation;
-import com.songpapeople.hashtagmap.service.InstagramScheduler;
+import com.songpapeople.hashtagmap.service.InstagramService;
 import com.songpapeople.hashtagmap.taglevel.service.TagLevelCommandService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = InstagramSchedulerApiController.class)
 public class InstagramApiControllerTest extends InstagramApiDocumentation {
     @MockBean
-    private InstagramScheduler instagramScheduler;
+    private InstagramService instagramService;
 
     @MockBean
     private TagLevelCommandService tagLevelCommandService;
@@ -23,7 +23,7 @@ public class InstagramApiControllerTest extends InstagramApiDocumentation {
     @DisplayName("Instagram Scheduler를 시작")
     @Test
     void updateTest() throws Exception {
-        doNothing().when(instagramScheduler).update();
+        doNothing().when(instagramService).update();
         doNothing().when(tagLevelCommandService).update();
 
         mockMvc.perform(put("/instagram-scheduler"))

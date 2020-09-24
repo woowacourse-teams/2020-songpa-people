@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class InstagramScheduleService {
+public class InstagramCrawlingService {
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostsRepository;
     private final BlackListRepository blackListRepository;

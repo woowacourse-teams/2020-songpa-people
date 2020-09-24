@@ -30,11 +30,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-class InstagramSchedulerTest {
-    private InstagramScheduler instagramScheduler;
+class InstagramServiceTest {
+    private InstagramService instagramService;
 
     @Mock
-    private InstagramScheduleService instagramScheduleService;
+    private InstagramCrawlingService instagramCrawlingService;
 
     @Autowired
     private InstagramPostRepository instagramPostRepository;
@@ -47,7 +47,7 @@ class InstagramSchedulerTest {
 
     @BeforeEach
     void setUp() {
-        instagramScheduler = new InstagramScheduler(instagramScheduleService
+        instagramService = new InstagramService(instagramCrawlingService
                 , instagramRepository
                 , instagramPostRepository
                 , placeRepository);
@@ -81,14 +81,14 @@ class InstagramSchedulerTest {
                 String.valueOf(CrawlingResult.MIN_HASHTAG_COUNT), postDtos),
                 starbucksWithBranch);
 
-        Mockito.when(instagramScheduleService.createCrawlingResult(starbucks))
+        Mockito.when(instagramCrawlingService.createCrawlingResult(starbucks))
                 .thenReturn(Optional.of(crawlingResultWithStarbucks));
-        Mockito.when(instagramScheduleService.createCrawlingResult(starbucksWithSpace))
+        Mockito.when(instagramCrawlingService.createCrawlingResult(starbucksWithSpace))
                 .thenReturn(Optional.of(crawlingResultWithStarbucksWithSpace));
-        Mockito.when(instagramScheduleService.createCrawlingResult(starbucksWithBranch))
+        Mockito.when(instagramCrawlingService.createCrawlingResult(starbucksWithBranch))
                 .thenReturn(Optional.of(crawlingResultWithStarbucksWithBranch));
 
-        instagramScheduler.update();
+        instagramService.update();
 
         List<Instagram> instagrams = instagramRepository.findAll();
         List<InstagramPost> instagramPosts = instagramPostRepository.findAll();

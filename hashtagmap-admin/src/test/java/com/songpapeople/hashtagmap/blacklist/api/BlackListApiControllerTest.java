@@ -10,7 +10,7 @@ import com.songpapeople.hashtagmap.instagram.service.InstagramQueryService;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
-import com.songpapeople.hashtagmap.service.InstagramScheduleService;
+import com.songpapeople.hashtagmap.service.InstagramCrawlingService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
     private InstagramQueryService instagramQueryService;
 
     @MockBean
-    private InstagramScheduleService instagramScheduleService;
+    private InstagramCrawlingService instagramCrawlingService;
 
     @MockBean
     private BlackListCommandService blackListCommandService;
@@ -72,7 +72,7 @@ class BlackListApiControllerTest extends BlackListApiDocumentation {
                 .id(1L)
                 .kakaoId("1")
                 .build();
-        when(instagramScheduleService.updateInstagramByBlackList(any(), any())).thenReturn(
+        when(instagramCrawlingService.updateInstagramByBlackList(any(), any())).thenReturn(
                 Instagram.builder()
                         .place(place)
                         .hashtagName("newName")
