@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+
 @Getter
 @NoArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "BLACK_LIST_ID"))
@@ -18,8 +19,6 @@ import javax.persistence.UniqueConstraint;
 public class BlackList extends BaseEntity {
     private String kakaoId;
     private String replaceName;
-
-    @Column(columnDefinition = "bit default 0")
     private Boolean isSkipPlace;
 
     public BlackList(String kakaoId, String replaceName) {

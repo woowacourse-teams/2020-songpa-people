@@ -10,19 +10,23 @@ import java.util.Optional;
 
 @Slf4j
 public class CrawlerWithProxy {
+    private static final int START_TRY_COUNT = 0;
     private static final int MAX_TRY_COUNT = 3;
 
     private final ProxySetter proxySetter;
     private final InstagramCrawler instagramCrawler;
 
-    public CrawlerWithProxy(ProxySetter proxySetter,
-                            InstagramCrawler instagramCrawler) {
+    public CrawlerWithProxy(ProxySetter proxySetter, InstagramCrawler instagramCrawler) {
         this.proxySetter = proxySetter;
         this.instagramCrawler = instagramCrawler;
     }
 
-    public Optional<CrawlingResult> crawlInstagram(Place place, String hashtagNameToCrawl, int tryCount) {
-        if (tryCount > MAX_TRY_COUNT) {
+    public Optional<CrawlingResult> crawlInstagram(Place place, String hashtagNameToCrawl) {
+        return crawlInstagram(place, hashtagNameToCrawl, START_TRY_COUNT);
+    }
+
+    private Optional<CrawlingResult> crawlInstagram(Place place, String hashtagNameToCrawl, int tryCount) {
+        if (tryCount >= MAX_TRY_COUNT) {
             return Optional.empty();
         }
         try {
