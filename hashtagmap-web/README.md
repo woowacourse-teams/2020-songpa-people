@@ -10,9 +10,6 @@
 
 - Vue.js
     - PWA를 이용해 모바일에서도 서비스 활용성 증가
-- 무중단 배포
-    - nginx를 활용해 무중단 배포로 운영 중
-    - Spring actuator를 활용해 어플리케이션의 상태를 관제 중
 - spring-boot-starter-web
     - spring-webmvc 프레임워크를 활용해 Model-View-Controller 구조 설계
 - Spring REST Docs를 활용한 api 문서화
