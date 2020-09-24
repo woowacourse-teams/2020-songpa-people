@@ -21,6 +21,7 @@ public class InstagramBatchWriter implements ItemWriter<Optional<CrawlingResult>
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostRepository;
 
+    @Transactional
     @Override
     public void write(List<? extends Optional<CrawlingResult>> items) {
         List<CrawlingResult> crawlingResults = items.stream()
@@ -30,7 +31,6 @@ public class InstagramBatchWriter implements ItemWriter<Optional<CrawlingResult>
         saveCrawlingResult(crawlingResults);
     }
 
-    @Transactional
     public void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
         List<Instagram> instagrams = instagramRepository.findAllFetch();
         List<Place> places = instagrams.stream()

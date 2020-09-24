@@ -27,6 +27,7 @@ public class EventThreadPoolExecutor {
             threadPoolTaskExecutor.execute(() -> execute(receiveJob, failJob));
         } catch (InterruptedException e) {
             log.warn("semaphore interrupted: {}", e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
