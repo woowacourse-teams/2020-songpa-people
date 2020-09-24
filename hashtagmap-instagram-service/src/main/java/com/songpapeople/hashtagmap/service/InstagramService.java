@@ -8,6 +8,7 @@ import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class InstagramService {
     private final InstagramPostRepository instagramPostRepository;
     private final PlaceRepository placeRepository;
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void update() {
         List<Place> places = placeRepository.findAll();
         List<CrawlingResult> crawlingResults = places.stream()
