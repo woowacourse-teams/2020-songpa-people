@@ -10,7 +10,15 @@ public class Proxy {
     }
 
     public void setHostAndPort() {
-        System.setProperty("http.proxyHost", this.host);
-        System.setProperty("http.proxyPort", this.port);
+        System.setProperty("https.proxyHost", this.host);
+        System.setProperty("https.proxyPort", this.port);
+    }
+
+    @Override
+    public String toString() {
+        return "Proxy{" +
+                "host='" + host + '\'' +
+                ", port='" + port + '\'' +
+                '}';
     }
 }

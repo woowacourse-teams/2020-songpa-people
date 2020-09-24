@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.scheduler;
 
 import com.songpapeople.hashtagmap.blacklist.domain.model.BlackList;
 import com.songpapeople.hashtagmap.blacklist.domain.repsitory.BlackListRepository;
+import com.songpapeople.hashtagmap.crawler.Crawler;
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
@@ -33,7 +34,7 @@ public class InstagramScheduleService {
             return Optional.empty();
         }
         CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(
-                new ProxySetter(ProxiesFactory.create()), instagramCrawler);
+                new ProxySetter(ProxiesFactory.create(new Crawler())), instagramCrawler);
         String hashtagNameToCrawl = findHashtagNameToCrawl(place);
         return crawlerWithProxy.crawlInstagram(place, hashtagNameToCrawl, START_TRY_COUNT);
     }

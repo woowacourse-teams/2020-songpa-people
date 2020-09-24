@@ -1,19 +1,26 @@
 package com.songpapeople.hashtagmap.proxy;
 
-import java.util.List;
+import lombok.Getter;
 
+import java.util.Queue;
+
+@Getter
 public class Proxies {
-    private final List<Proxy> proxies;
+    private final Queue<Proxy> proxies;
 
-    public Proxies(List<Proxy> proxies) {
+    public Proxies(Queue<Proxy> proxies) {
         this.proxies = proxies;
     }
 
-    public void setHostAndPort(int random) {
-        proxies.get(random).setHostAndPort();
+    public void setHostAndPort() {
+        if (!this.proxies.isEmpty()) {
+            Proxy poll = proxies.poll();
+            poll.setHostAndPort();
+        }
     }
 
     public int size() {
         return proxies.size();
     }
+
 }
