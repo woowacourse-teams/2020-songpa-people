@@ -2,7 +2,7 @@
 
 ## 모듈 설명
 
-- 인스타그램에서 가게 검색 데이터를 크롤링하는 기능을 제공하는 모듈.
+- 인스타그램에서 가게 이름에 대한 해시태그 수, 이미지 등을 크롤링하는 기능을 제공하는 모듈.
 - 크롤링 기능을 외부 라이브러리로 제공할 수 있다.
 - hashtagmap-common 모듈을 이용해 커스텀 예외 객체를 사용한다.
 
@@ -41,7 +41,3 @@ public CrawlingDto createHashtagDto(String placeName) {
 - 가게이름
 - 해시태크 게시물 수
 - 인기게시물 9개의 postUrl 과 imageUrl
-
-- 코드 품질 검증
-    - JaCoCo를 이용해 테스트 코드의 커버리지 검증
-    - SonarQube를 이용해 서비스 코드 정적 분석
