@@ -3,27 +3,27 @@
     <carousel :autoplay="autoplay" :perPage="perPage" class="carousel">
       <slide class="carousel-component">
         <div class="image-wrap">
-          <img class="img-content" src="../../assets/mainpage/content1.png" />
+          <img class="img-content" src="../../assets/mainpage/content1.jpeg" />
         </div>
       </slide>
       <slide class="carousel-component">
         <div class="image-wrap">
-          <img class="img-content" src="../../assets/mainpage/content2.png" />
+          <img class="img-content" src="../../assets/mainpage/content2.jpeg" />
         </div>
       </slide>
       <slide class="carousel-component">
         <div class="image-wrap">
-          <img class="img-content" src="../../assets/mainpage/content3.png" />
+          <img class="img-content" src="../../assets/mainpage/content3.jpeg" />
         </div>
       </slide>
       <slide class="carousel-component">
         <div class="image-wrap">
-          <img class="img-content" src="../../assets/mainpage/content4.png" />
+          <img class="img-content" src="../../assets/mainpage/content4.jpeg" />
         </div>
       </slide>
       <slide class="carousel-component">
         <div class="image-wrap">
-          <img class="img-content" src="../../assets/mainpage/content5.png" />
+          <img class="img-content" src="../../assets/mainpage/content5.jpeg" />
         </div>
       </slide>
     </carousel>
