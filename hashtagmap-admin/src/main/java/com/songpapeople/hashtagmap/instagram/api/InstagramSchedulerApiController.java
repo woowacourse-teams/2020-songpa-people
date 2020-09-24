@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.instagram.api;
 
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.scheduler.InstagramScheduler;
+import com.songpapeople.hashtagmap.service.InstagramScheduler;
 import com.songpapeople.hashtagmap.taglevel.service.TagLevelCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

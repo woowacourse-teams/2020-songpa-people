@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.scheduler;
+package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.proxy.Proxies;
 import com.songpapeople.hashtagmap.proxy.Proxy;

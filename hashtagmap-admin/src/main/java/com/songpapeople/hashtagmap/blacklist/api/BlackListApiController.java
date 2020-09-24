@@ -1,12 +1,12 @@
 package com.songpapeople.hashtagmap.blacklist.api;
 
 import com.songpapeople.hashtagmap.blacklist.service.BlackListCommandService;
+import com.songpapeople.hashtagmap.blacklist.service.dto.AbnormalInstagramDto;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListRequest;
 import com.songpapeople.hashtagmap.blacklist.service.dto.BlackListResponse;
-import com.songpapeople.hashtagmap.blacklist.service.dto.AbnormalInstagramDto;
 import com.songpapeople.hashtagmap.instagram.service.InstagramQueryService;
 import com.songpapeople.hashtagmap.response.CustomResponse;
-import com.songpapeople.hashtagmap.scheduler.InstagramScheduleService;
+import com.songpapeople.hashtagmap.service.InstagramScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 @RequiredArgsConstructor

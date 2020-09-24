@@ -5,7 +5,7 @@ import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
-import com.songpapeople.hashtagmap.scheduler.CrawlingResult;
+import com.songpapeople.hashtagmap.service.CrawlingResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;

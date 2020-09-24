@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.exception;
 
-import com.songpapeople.hashtagmap.scheduler.CrawlingResult;
+import com.songpapeople.hashtagmap.service.CrawlingResult;
 import lombok.Getter;
 
 @Getter

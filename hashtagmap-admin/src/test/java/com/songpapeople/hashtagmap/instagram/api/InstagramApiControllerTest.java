@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.instagram.api;
 
 import com.songpapeople.hashtagmap.docs.instagram.InstagramApiDocumentation;
-import com.songpapeople.hashtagmap.scheduler.InstagramScheduler;
+import com.songpapeople.hashtagmap.service.InstagramScheduler;
 import com.songpapeople.hashtagmap.taglevel.service.TagLevelCommandService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,8 @@
 package com.songpapeople.hashtagmap.instagram.processor;
 
 import com.songpapeople.hashtagmap.place.domain.model.Place;
-import com.songpapeople.hashtagmap.scheduler.CrawlingResult;
-import com.songpapeople.hashtagmap.scheduler.InstagramScheduler;
+import com.songpapeople.hashtagmap.service.CrawlingResult;
+import com.songpapeople.hashtagmap.service.InstagramScheduler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
