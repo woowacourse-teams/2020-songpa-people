@@ -16,8 +16,10 @@ import javax.persistence.Entity;
 @Entity
 public class InstagramPost extends BaseEntity {
     private Long instagramId;
-    private String imageUrl;
     private String postUrl;
+
+    @Column(columnDefinition = "TEXT")
+    private String imageUrl;
 
     @Builder
     public InstagramPost(Long id, Long instagramId, String imageUrl, String postUrl) {
