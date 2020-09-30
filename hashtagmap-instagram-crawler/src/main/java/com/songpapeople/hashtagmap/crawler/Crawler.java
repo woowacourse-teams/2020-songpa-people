@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.crawler;
 
 import com.songpapeople.hashtagmap.exception.CrawlerException;
 import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
@@ -19,6 +20,13 @@ public class Crawler {
                     .get()
                     .body()
                     .toString();
+        } catch (HttpStatusException e) {
+            if (e.getStatusCode() == 404) {
+                throw new CrawlerException(CrawlerExceptionStatus.NOT_FOUND_URL);
+            } else if (e.getStatusCode() == 429) {
+                throw new CrawlerException(CrawlerExceptionStatus.TOO_MANY_REQUEST);
+            }
+            throw new CrawlerException(CrawlerExceptionStatus.URL_NOT_CONNECT);
         } catch (IOException e) {
             throw new CrawlerException(CrawlerExceptionStatus.URL_NOT_CONNECT);
         }
