@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Configuration
@@ -37,7 +36,7 @@ public class InstagramCrawlingJobConfiguration {
     @Bean
     public Step crawlingStep() {
         return stepBuilderFactory.get("crawlingStep")
-                .<Place, Optional<CrawlingResult>>chunk(batchConfiguration.getChunk())
+                .<Place, CrawlingResult>chunk(batchConfiguration.getChunk())
                 .reader(placeReader())
                 .processor(instagramBatchProcessor)
                 .writer(instagramBatchWriter)

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +23,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -58,13 +56,9 @@ public class InstagramBatchWriterTest {
         Place place1 = placeRepository.save(Place.builder().kakaoId("1234").build());
         Place place2 = placeRepository.save(Place.builder().kakaoId("12345").build());
 
-        Optional<CrawlingResult> crawlingResult1 = Optional.of(new CrawlingResult(
-                CrawlingDto.of("스타벅스", "1234", new PostDtos(postDtos)), place1
-        ));
-        Optional<CrawlingResult> crawlingResult2 = Optional.of(new CrawlingResult(
-                CrawlingDto.of("버거킹", "12345", new PostDtos(postDtos)), place2
-        ));
-        List<Optional<CrawlingResult>> crawlingResults = Arrays.asList(crawlingResult1, crawlingResult2);
+        CrawlingResult crawlingResult1 = new CrawlingResult(CrawlingDto.of("스타벅스", "1234", new PostDtos(postDtos)), place1);
+        CrawlingResult crawlingResult2 = new CrawlingResult(CrawlingDto.of("버거킹", "12345", new PostDtos(postDtos)), place2);
+        List<CrawlingResult> crawlingResults = Arrays.asList(crawlingResult1, crawlingResult2);
 
         return Arrays.asList(
                 DynamicTest.dynamicTest("크롤링한 Instagram, InstagramPost 저장한다.", () -> {
@@ -83,23 +77,6 @@ public class InstagramBatchWriterTest {
                     assertThat(instagrams1).hasSize(2);
                 })
         );
-    }
-
-    @DisplayName("크롤링에 실패해서 정보가 없을 때 저장하지 않는다.")
-    @Test
-    void writeWithEmptyCrawlingResultTest() {
-        // given
-        Optional<CrawlingResult> emptyCrawlingResults = Optional.empty();
-
-        // when
-        instagramBatchWriter.write(Collections.singletonList(emptyCrawlingResults));
-
-        // then
-        List<Instagram> instagrams = instagramRepository.findAll();
-        List<InstagramPost> instagramPosts = instagramPostRepository.findAll();
-
-        assertThat(instagrams).isEmpty();
-        assertThat(instagramPosts).isEmpty();
     }
 
     @AfterEach

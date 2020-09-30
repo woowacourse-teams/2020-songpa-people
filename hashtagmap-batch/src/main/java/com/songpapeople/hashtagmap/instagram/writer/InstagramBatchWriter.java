@@ -12,23 +12,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
-public class InstagramBatchWriter implements ItemWriter<Optional<CrawlingResult>> {
+public class InstagramBatchWriter implements ItemWriter<CrawlingResult> {
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostRepository;
 
     @Transactional
     @Override
-    public void write(List<? extends Optional<CrawlingResult>> items) {
-        List<CrawlingResult> crawlingResults = items.stream()
-                .filter(Optional::isPresent)
-                .map(item -> item.orElseThrow(NullPointerException::new))
-                .collect(Collectors.toList());
-        saveCrawlingResult(crawlingResults);
+    public void write(List<? extends CrawlingResult> items) {
+        saveCrawlingResult((List<CrawlingResult>) items);
     }
 
     public void saveCrawlingResult(List<CrawlingResult> crawlingResults) {

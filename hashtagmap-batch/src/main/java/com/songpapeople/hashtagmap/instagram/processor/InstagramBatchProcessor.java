@@ -7,15 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Component
-public class InstagramBatchProcessor implements ItemProcessor<Place, Optional<CrawlingResult>> {
+public class InstagramBatchProcessor implements ItemProcessor<Place, CrawlingResult> {
     private final InstagramCrawlingService instagramCrawlingService;
 
     @Override
-    public Optional<CrawlingResult> process(Place place) {
-        return instagramCrawlingService.createCrawlingResult(place);
+    public CrawlingResult process(Place place) {
+        return instagramCrawlingService.createCrawlingResult(place).orElse(null);
     }
 }

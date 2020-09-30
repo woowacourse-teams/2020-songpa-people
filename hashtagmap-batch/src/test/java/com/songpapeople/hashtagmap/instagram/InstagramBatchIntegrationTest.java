@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 @SpringBatchTest
 @SpringBootTest
 public class InstagramBatchIntegrationTest {
-    public static final String CAFE_NAME = "카페카페페페";
+    private static final String CAFE_NAME = "카페카페페페";
 
     @Autowired
     private JobLauncherTestUtils myTestJobLauncher;
@@ -46,7 +46,7 @@ public class InstagramBatchIntegrationTest {
     @MockBean
     private InstagramCrawlingService instagramCrawlingService;
 
-    @DisplayName("정상 작동")
+    @DisplayName("정상적으로 동작하는 경우 테스트")
     @Test
     public void successTest() throws Exception {
         // given
@@ -74,7 +74,7 @@ public class InstagramBatchIntegrationTest {
         assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("COMPLETED");
     }
 
-    @DisplayName("예외가 발생하면 실패하는 chunk 이전까지 수행 후 종료")
+    @DisplayName("중간에 크롤링하지 못하더로 끝까지 처리한다.")
     @Test
     void exceptionTest() throws Exception {
         // given
@@ -107,12 +107,12 @@ public class InstagramBatchIntegrationTest {
         CrawlingResult crawlingResult1 = new CrawlingResult(
                 CrawlingDto.of(CAFE_NAME, "1000", new PostDtos(postDtos)),
                 places.get(0));
-        CrawlingResult crawlingResult2 = new CrawlingResult(
+        CrawlingResult crawlingResult3 = new CrawlingResult(
                 CrawlingDto.of(CAFE_NAME, "1000", new PostDtos(postDtos)),
-                places.get(1));
+                places.get(2));
         when(instagramCrawlingService.createCrawlingResult(places.get(0))).thenReturn(Optional.of(crawlingResult1));
-        when(instagramCrawlingService.createCrawlingResult(places.get(1))).thenReturn(Optional.of(crawlingResult2));
-        when(instagramCrawlingService.createCrawlingResult(places.get(2))).thenThrow(new IllegalArgumentException("크롤링 관련 오류"));
+        when(instagramCrawlingService.createCrawlingResult(places.get(1))).thenReturn(Optional.empty());
+        when(instagramCrawlingService.createCrawlingResult(places.get(2))).thenReturn(Optional.of(crawlingResult3));
 
         // when
         JobExecution jobExecution = myTestJobLauncher.launchJob();
@@ -120,9 +120,10 @@ public class InstagramBatchIntegrationTest {
         StepExecution stepExecution = stepExecutions.get(0);
 
         // then
-        assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("FAILED");
+        assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("COMPLETED");
+        assertThat(stepExecution.getReadCount()).isEqualTo(3);
         assertThat(stepExecution.getWriteCount()).isEqualTo(2);
-        assertThat(stepExecution.getRollbackCount()).isEqualTo(1);
+        assertThat(stepExecution.getRollbackCount()).isEqualTo(0);
     }
 
     @AfterEach

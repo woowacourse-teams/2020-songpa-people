@@ -34,11 +34,11 @@ public class InstagramBatchProcessorTest {
         Place place = Place.builder()
                 .id(1L)
                 .build();
-        Optional<CrawlingResult> expected = Optional.of(new CrawlingResult());
-        when(instagramCrawlingService.createCrawlingResult(place)).thenReturn(expected);
+        CrawlingResult expected = new CrawlingResult();
+        when(instagramCrawlingService.createCrawlingResult(place)).thenReturn(Optional.of(expected));
 
         // when
-        Optional<CrawlingResult> actual = instagramBatchProcessor.process(place);
+        CrawlingResult actual = instagramBatchProcessor.process(place);
 
         // then
         assertThat(actual).isEqualTo(expected);
