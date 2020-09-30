@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.exception.CrawlerException;
+import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
 import com.songpapeople.hashtagmap.exception.InstagramSchedulerException;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,9 @@ public class CrawlerWithProxy {
             return Optional.of(new CrawlingResult(instagramCrawler.crawler(hashtagNameToCrawl), place));
         } catch (CrawlerException e) {
             log.info("CrawlerException: {}", e.getMessage());
+            if (CrawlerExceptionStatus.NOT_FOUND_URL.getStatusCode().equals(e.getErrorCode())) {
+                return Optional.empty();
+            }
             return crawlInstagram(place, hashtagNameToCrawl, tryCount + 1);
         } catch (InstagramSchedulerException e) {
             log.info("InstagramSchedulerException: {}", e.getMessage());

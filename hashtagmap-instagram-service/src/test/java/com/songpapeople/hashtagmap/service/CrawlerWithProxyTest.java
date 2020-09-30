@@ -3,6 +3,7 @@ package com.songpapeople.hashtagmap.service;
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.exception.CrawlerException;
+import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
 import com.songpapeople.hashtagmap.exception.InstagramSchedulerException;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +49,7 @@ class CrawlerWithProxyTest {
         assertThat(actual).isEqualTo(Optional.empty());
     }
 
-    @DisplayName("크롤링 반복 횟수 확인 - CrawlerException 발생 시 3회 실행")
+    @DisplayName("크롤링 반복 횟수 확인 - CrawlerException 발생 (429,연결할 수 없을 때) 시 3회 실행")
     @Test
     void crawlerExceptionTimesTest() {
         // given
@@ -64,6 +65,22 @@ class CrawlerWithProxyTest {
         verify(instagramCrawler, times(3)).crawler(place.getPlaceName());
     }
 
+    @DisplayName("크롤링 반복 횟수 확인 - 가게 검색 결과가 존재하지 않을 때 1회 실행")
+    @Test
+    void name() {
+        // given
+        Place place = Place.builder()
+                .placeName("잠실타로&사주")
+                .build();
+        CrawlerException exception = new CrawlerException(CrawlerExceptionStatus.URL_NOT_CONNECT);
+        when(instagramCrawler.crawler(place.getPlaceName())).thenThrow(exception);
+
+        // when
+        crawlerWithProxy.crawlInstagram(place, place.getPlaceName());
+
+        // then
+        verify(instagramCrawler, times(3)).crawler(place.getPlaceName());
+    }
 
     @DisplayName("크롤링 반복 횟수 확인 - InstagramSchedulerException 발생 시 1회 실행")
     @Test
