@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,27 +35,30 @@ class InstagramPostRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        place = placeRepository.save(Place.builder().build());
-        instagram = instagramRepository.save(Instagram.builder()
-                .place(place)
-                .build());
     }
 
+    @Transactional
     @DisplayName("인스타그램 아이디로 인스타그램 post들을 가져오는 기능 테스트")
     @Test
     void findAllByInstagramId() {
+        place = placeRepository.save(Place.builder().build());
+        instagram = Instagram.builder()
+                .place(place)
+                .build();
         List<InstagramPost> instagramPosts = IntStream.rangeClosed(1, 9).boxed()
                 .map(this::createInstagramPost)
                 .collect(Collectors.toList());
+        instagram = instagramRepository.save(instagram);
         instagramPostRepository.saveAll(instagramPosts);
 
-        assertThat(instagramPostRepository.findAllByInstagramId(instagram.getId())).hasSize(9);
+        System.out.println(instagram.getId());
+        assertThat(instagramRepository.withPostFetch(Math.toIntExact(instagram.getId()))).hasSize(9);
     }
 
     private InstagramPost createInstagramPost(Integer number) {
         String url = String.valueOf(number);
         return InstagramPost.builder()
-                .instagramId(instagram.getId())
+                .instagram(instagram)
                 .imageUrl(url)
                 .postUrl(url)
                 .build();

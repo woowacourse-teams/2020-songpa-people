@@ -4,6 +4,7 @@ import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
+import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.service.CrawlingResult;
@@ -42,6 +43,9 @@ public class InstagramBatchIntegrationTest {
 
     @Autowired
     private InstagramRepository instagramRepository;
+
+    @Autowired
+    private InstagramPostRepository instagramPostRepository;
 
     @MockBean
     private InstagramCrawlingService instagramCrawlingService;
@@ -127,6 +131,7 @@ public class InstagramBatchIntegrationTest {
 
     @AfterEach
     private void tearDown() {
+        instagramPostRepository.deleteAll();
         instagramRepository.deleteAll();
         placeRepository.deleteAll();
     }

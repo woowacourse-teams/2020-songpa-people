@@ -2,11 +2,13 @@ package com.songpapeople.hashtagmap.instagram.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
+import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 
 import java.util.List;
 
 import static com.songpapeople.hashtagmap.instagram.domain.model.QInstagram.instagram;
+import static com.songpapeople.hashtagmap.instagram.domain.model.QInstagramPost.instagramPost;
 import static com.songpapeople.hashtagmap.place.domain.model.QPlace.place;
 
 public class InstagramRepositoryCustomImpl implements InstagramRepositoryCustom {
@@ -66,6 +68,21 @@ public class InstagramRepositoryCustomImpl implements InstagramRepositoryCustom 
                 .fetchJoin()
                 .orderBy(instagram.hashtagCount.desc())
                 .limit(limit)
+                .fetch();
+    }
+
+    public List<InstagramPost> findInstagramPostByFetch(Instagram instagram) {
+        return null;
+//        return jpaQueryFactory.selectFrom(instagramPost)
+//                .where(instagramPost.instagramId.eq(instagram.getId()))
+//                .fetch();
+    }
+
+    public List<InstagramPost> withPostFetch(int id) {
+        return jpaQueryFactory.selectFrom(instagramPost)
+                .innerJoin(instagramPost.instagram, instagram)
+                .fetchJoin()
+                .where(instagram.id.eq((long) id))
                 .fetch();
     }
 }

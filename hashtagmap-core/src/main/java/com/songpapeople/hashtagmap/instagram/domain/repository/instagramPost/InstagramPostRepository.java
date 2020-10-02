@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface InstagramPostRepository extends JpaRepository<InstagramPost, Long> {
-    List<InstagramPost> findAllByInstagramId(Long InstagramId);
+public interface InstagramPostRepository extends JpaRepository<InstagramPost, Long>, InstagramPostRepositoryCustom {
+    List<InstagramPost> findAllByInstagramId(Long id);
 
     @Transactional
     void deleteByInstagramId(Long instagramId);
