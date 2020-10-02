@@ -165,7 +165,7 @@ class InstagramCrawlingServiceTest {
     private List<InstagramPost> makeInstagramPosts(Instagram instagram, PostDtos postDtos) {
         return postDtos.getPostDtos().stream()
                 .map(postDto -> InstagramPost.builder()
-                        .instagramId(instagram.getId())
+                        .instagram(instagram)
                         .imageUrl(postDto.getImageUrl())
                         .postUrl(postDto.getPostUrl())
                         .build())
