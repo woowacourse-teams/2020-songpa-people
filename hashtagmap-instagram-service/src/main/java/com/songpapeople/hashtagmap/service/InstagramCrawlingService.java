@@ -45,7 +45,7 @@ public class InstagramCrawlingService {
         CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
         instagram.updateInstagram(replaceName, crawlingDto.getHashtagCount());
         instagramRepository.save(instagram);
-        updateInstagramPost(instagram.getId(), crawlingDto);
+        updateInstagramPost(instagram, crawlingDto);
         return instagram;
     }
 
@@ -55,11 +55,11 @@ public class InstagramCrawlingService {
         blackListRepository.save(blackListByPlaceId.orElseGet(() -> blackListToSave));
     }
 
-    private void updateInstagramPost(Long instagramId, CrawlingDto crawlingDto) {
-        instagramPostsRepository.deleteByInstagramId(instagramId);
+    private void updateInstagramPost(Instagram instagram, CrawlingDto crawlingDto) {
+        instagramPostsRepository.deleteByInstagramId(instagram.getId());
         List<InstagramPost> instagramPosts = crawlingDto.getPostDtoList().stream()
                 .map(postDto -> InstagramPost.builder()
-                        .instagramId(instagramId)
+                        .instagram(instagram)
                         .postUrl(postDto.getPostUrl())
                         .imageUrl(postDto.getImageUrl())
                         .build())

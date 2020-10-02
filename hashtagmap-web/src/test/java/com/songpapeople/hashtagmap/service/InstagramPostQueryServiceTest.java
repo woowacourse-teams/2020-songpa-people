@@ -1,8 +1,11 @@
 package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.dto.InstagramPostResponse;
+import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +25,15 @@ class InstagramPostQueryServiceTest {
     @Autowired
     private InstagramPostRepository instagramPostRepository;
 
+    @Autowired
+    private InstagramRepository instagramRepository;
+
     @DisplayName("인스타 아이디로부터 모든 post 정보를 가져오는 기능 테스트")
     @Test
     void findAllByInstagramId() {
-        Long instagramId = 1L;
+        Instagram instagram = instagramRepository.save(Instagram.builder().build());
         List<InstagramPost> instagramPosts = IntStream.rangeClosed(1, 9).boxed()
-                .map(count -> createInstagramPost(count, instagramId))
+                .map(count -> createInstagramPost(count, instagram))
                 .collect(Collectors.toList());
         instagramPostRepository.saveAll(instagramPosts);
 
@@ -35,17 +41,23 @@ class InstagramPostQueryServiceTest {
                 .map(InstagramPostResponse::of)
                 .collect(Collectors.toList());
 
-        List<InstagramPostResponse> actual = instagramPostQueryService.findAllByInstagramId(instagramId);
+        List<InstagramPostResponse> actual = instagramPostQueryService.findAllByInstagramId(instagram.getId());
 
         assertThat(actual).isEqualTo(expected);
     }
 
-    private InstagramPost createInstagramPost(Integer count, Long instagramId) {
+    private InstagramPost createInstagramPost(Integer count, Instagram instagram) {
         String url = String.valueOf(count);
         return InstagramPost.builder()
-                .instagramId(instagramId)
+                .instagram(instagram)
                 .imageUrl(url)
                 .postUrl(url)
                 .build();
+    }
+
+    @AfterEach
+    private void tearDown() {
+        instagramPostRepository.deleteAll();
+        instagramRepository.deleteAll();
     }
 }

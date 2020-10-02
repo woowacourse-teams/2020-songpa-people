@@ -34,15 +34,16 @@ public class InstagramBatchWriter implements ItemWriter<CrawlingResult> {
             deleteDuplicateInstagram(places, crawlingPlace);
 
             Instagram instagram = instagramRepository.save(crawlingResult.createInstagram());
-            List<InstagramPost> instagramPosts = crawlingResult.toInstagramPosts(instagram.getId());
-            instagramPostRepository.deleteByInstagramId(instagram.getId());
+            List<InstagramPost> instagramPosts = crawlingResult.toInstagramPosts(instagram);
             instagramPostRepository.saveAll(instagramPosts);
         }
     }
 
-    private void deleteDuplicateInstagram(List<Place> places, Place crawlingPlace) {
-        if (places.contains(crawlingPlace)) {
-            instagramRepository.deleteByPlaceId(crawlingPlace.getId());
+    private void deleteDuplicateInstagram(List<Place> totalPlaces, Place place) {
+        if (totalPlaces.contains(place)) {
+            Instagram originInstagram = instagramRepository.findByPlaceFetch(place);
+            instagramPostRepository.deleteByInstagramId(originInstagram.getId());
+            instagramRepository.delete(originInstagram);
         }
     }
 }

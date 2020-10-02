@@ -81,8 +81,8 @@ public class InstagramBatchWriterTest {
 
     @AfterEach
     void tearDown() {
-        instagramRepository.deleteAll();
         instagramPostRepository.deleteAll();
+        instagramRepository.deleteAll();
         placeRepository.deleteAll();
     }
 }
