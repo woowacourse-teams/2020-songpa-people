@@ -1,7 +1,6 @@
 package com.songpapeople.hashtagmap.web.filter;
 
-import com.songpapeople.hashtagmap.web.util.HttpReadUtils;
-import com.songpapeople.hashtagmap.web.util.MDCUtils;
+import com.songpapeople.hashtagmap.web.util.MDCLogField;
 import org.slf4j.MDC;
 
 import javax.servlet.Filter;
@@ -21,12 +20,8 @@ public class LogbackMdcFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        MDCLogField.putMDCLogFields(httpServletRequest);
 
-        MDCUtils.putJsonValue(MDCUtils.HEADERS_MDC, HttpReadUtils.getHeaders(httpServletRequest));
-        MDCUtils.put(MDCUtils.REQUEST_URI_MDC, HttpReadUtils.getRequestURLWithQueryString(httpServletRequest));
-        MDCUtils.put(MDCUtils.REQUEST_METHOD_MDC, httpServletRequest.getMethod());
-        HttpReadUtils.getHttpBody(httpServletRequest, "UTF-8")
-                .ifPresent(body -> MDCUtils.put(MDCUtils.REQUEST_BODY_MCD, body));
         try {
             chain.doFilter(request, response);
         } finally {

@@ -11,14 +11,15 @@ import java.util.stream.Collectors;
 public enum SlackFieldGroup {
     MESSAGE("에러 메세지", ErrorLog::getMessage, false),
     URL("요청 URI", ErrorLog::getRequestURI, false),
-    TIME("발생 시간", ErrorLog::getTime, false),
-    PROFILE("프로파일", ErrorLog::getPhase, false),
+    TIME("발생 시간", ErrorLog::getTime, true),
+    PROFILE("프로파일", ErrorLog::getPhase, true),
     HOST("호스트", ErrorLog::getHostName, false),
-    USER_INFO("사용자 정보", ErrorLog::getUserInfo, false),
-    USER_AGENT("사용자 환경", ErrorLog::getAgentDetail, false),
-    REQUEST_HEADER("HTTP HEADER", ErrorLog::getHeaders, true),
-    REQUEST_BODY("HTTP BODY", ErrorLog::getRequestBody, true),
-    STACK_TRACE("STACK TRACE", ErrorLog::getTrace, true);
+    USER_ADDRESS("사용자 IP", ErrorLog::getUserAddress, true),
+    USER_AGENT("사용자 환경", ErrorLog::getAgentDetail, true),
+    REFERER("REFERER", ErrorLog::getReferer, false),
+    REQUEST_HEADER("HTTP HEADER", ErrorLog::getHeaders, false),
+    REQUEST_BODY("HTTP BODY", ErrorLog::getRequestBody, false),
+    STACK_TRACE("STACK TRACE", ErrorLog::getTrace, false);
 
     private final String title;
     private final Function<ErrorLog, String> valueFunction;

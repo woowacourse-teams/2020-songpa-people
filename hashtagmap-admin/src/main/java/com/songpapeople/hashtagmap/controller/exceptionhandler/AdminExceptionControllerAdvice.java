@@ -19,14 +19,16 @@ public class AdminExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public CustomResponse<Void> handleException(Exception e) {
-        log.error("Unexpected Exception : {}", e.getMessage());
+        String message = String.format("Unexpected Exception : %s", e.getMessage());
+        log.error(message, e);
         return CustomResponse.error(CommonExceptionStatus.UNEXPECTED.getCode(), CommonExceptionStatus.UNEXPECTED.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public CustomResponse<Void> handleIllegalArgumentException(IllegalArgumentException e) {
-        log.info("Wrong Argument Exception : {}", e.getMessage());
+        String message = String.format("Wrong Argument Exception : %s", e.getMessage());
+        log.error(message, e);
         return CustomResponse.error(CommonExceptionStatus.WRONG_ARGUMENT.getCode(), CommonExceptionStatus.WRONG_ARGUMENT.getMessage());
     }
 
