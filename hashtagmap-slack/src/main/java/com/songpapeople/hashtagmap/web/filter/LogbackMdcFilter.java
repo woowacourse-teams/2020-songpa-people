@@ -1,9 +1,7 @@
 package com.songpapeople.hashtagmap.web.filter;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.songpapeople.hashtagmap.web.util.MDCUtil;
-import com.songpapeople.hashtagmap.web.util.RequestWrapper;
+import com.songpapeople.hashtagmap.web.util.HttpReadUtils;
+import com.songpapeople.hashtagmap.web.util.MDCUtils;
 import org.slf4j.MDC;
 
 import javax.servlet.Filter;
@@ -12,23 +10,23 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class LogbackMdcFilter implements Filter {
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        RequestWrapper requestWrapper = RequestWrapper.of(request);
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
-        MDCUtil.setJsonValue(MDCUtil.HEADER_MAP_MDC, requestWrapper.getHeaderMap());
-        MDCUtil.setJsonValue(MDCUtil.PARAMETER_MAP_MDC, requestWrapper.getParameterMap());
-        MDCUtil.set(MDCUtil.REQUEST_URI_MDC, requestWrapper.getRequestUri());
-
+        MDCUtils.putJsonValue(MDCUtils.HEADERS_MDC, HttpReadUtils.getHeaders(httpServletRequest));
+        MDCUtils.put(MDCUtils.REQUEST_URI_MDC, HttpReadUtils.getRequestURLWithQueryString(httpServletRequest));
+        MDCUtils.put(MDCUtils.REQUEST_METHOD_MDC, httpServletRequest.getMethod());
+        HttpReadUtils.getHttpBody(httpServletRequest, "UTF-8")
+                .ifPresent(body -> MDCUtils.put(MDCUtils.REQUEST_BODY_MCD, body));
         try {
             chain.doFilter(request, response);
         } finally {
