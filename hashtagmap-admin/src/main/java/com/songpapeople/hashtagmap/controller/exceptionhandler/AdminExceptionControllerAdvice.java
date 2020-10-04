@@ -26,7 +26,7 @@ public class AdminExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public CustomResponse<Void> handleIllegalArgumentException(IllegalArgumentException e) {
-        log.error("Wrong Argument Exception : {}", e.getMessage());
+        log.info("Wrong Argument Exception : {}", e.getMessage());
         return CustomResponse.error(CommonExceptionStatus.WRONG_ARGUMENT.getCode(), CommonExceptionStatus.WRONG_ARGUMENT.getMessage());
     }
 

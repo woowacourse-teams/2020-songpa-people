@@ -16,7 +16,12 @@ server:
     enabled: true
     mime-types: text/html, text/css, text/javascript, application/javascript, application/json, image/png, image/jpeg
     min-response-size: 2048
-
+log:
+  slack:
+    enabled: true
+    webHookUrl: https://hooks.slack.com/services/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
+    channel: prod-web
+  level: ERROR
 ---
 spring.profiles: set1
 

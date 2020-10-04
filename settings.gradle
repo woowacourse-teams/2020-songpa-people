@@ -9,4 +9,5 @@ include 'hashtagmap-instagram-service'
 include 'hashtagmap-common'
 include 'hashtagmap-event'
 include 'hashtagmap-batch'
+include 'hashtagmap-slack'
 
