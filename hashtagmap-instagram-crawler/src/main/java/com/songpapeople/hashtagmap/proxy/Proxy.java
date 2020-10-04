@@ -14,6 +14,11 @@ public class Proxy {
         System.setProperty("https.proxyPort", this.port);
     }
 
+    public void clearProperty() {
+        System.clearProperty("https.proxyHost");
+        System.clearProperty("https.proxyPort");
+    }
+
     @Override
     public String toString() {
         return "Proxy{" +

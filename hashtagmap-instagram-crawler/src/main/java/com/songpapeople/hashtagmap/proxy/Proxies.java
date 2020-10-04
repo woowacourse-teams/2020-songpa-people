@@ -16,6 +16,7 @@ public class Proxies {
         if (!this.proxies.isEmpty()) {
             Proxy poll = proxies.poll();
             poll.setHostAndPort();
+            proxies.offer(poll);
         }
     }
 
@@ -23,4 +24,8 @@ public class Proxies {
         return proxies.size();
     }
 
+    public void clearHostAndPort() {
+        System.clearProperty("https.proxyHost");
+        System.clearProperty("https.proxyPort");
+    }
 }

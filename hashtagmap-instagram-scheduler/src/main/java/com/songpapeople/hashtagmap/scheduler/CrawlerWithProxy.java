@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Slf4j
 public class CrawlerWithProxy {
-    private static final int MAX_TRY_COUNT = 3;
 
     private final ProxySetter proxySetter;
     private final InstagramCrawler instagramCrawler;
@@ -21,18 +20,22 @@ public class CrawlerWithProxy {
         this.instagramCrawler = instagramCrawler;
     }
 
-    public Optional<CrawlingResult> crawlInstagram(Place place, String hashtagNameToCrawl, int tryCount) {
-        if (tryCount > MAX_TRY_COUNT) {
-            return Optional.empty();
-        }
+    public Optional<CrawlingResult> crawlInstagram(Place place, String hashtagNameToCrawl) {
+//        try {
+//            Thread.sleep(600);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         try {
-            proxySetter.setProxy();
             return Optional.of(new CrawlingResult(instagramCrawler.crawler(hashtagNameToCrawl), place));
         } catch (CrawlerException e) {
-            log.info("CrawlerException: {}", e.getMessage());
-            return crawlInstagram(place, hashtagNameToCrawl, tryCount + 1);
+            if (e.getErrorCode().equals("CRAWLER_1000")) {
+                proxySetter.setProxy();
+            }
+            log.info("CrawlerException: {}", e.getMessage() + hashtagNameToCrawl);
+            return Optional.empty();
         } catch (InstagramSchedulerException e) {
-            log.info("InstagramSchedulerException: {}", e.getMessage());
+            log.info("InstagramSchedulerException: {}", e.getMessage() + hashtagNameToCrawl);
             return Optional.empty();
         }
     }

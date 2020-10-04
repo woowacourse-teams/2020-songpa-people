@@ -2,6 +2,10 @@ package com.songpapeople.hashtagmap.proxy;
 
 import com.songpapeople.hashtagmap.crawler.Crawler;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,8 +26,8 @@ public class ProxiesFactory {
     public static Proxies create(Crawler crawler) {
         String body = crawler.crawl(FREE_PROXY_LIST_URL);
         List<String[]> unProcessedProxies = splitProxiesTable(body);
-        Queue<Proxy> proxies = extractProxies(unProcessedProxies);
-        return new Proxies(proxies);
+        List<Proxy> allProxies = extractProxies(unProcessedProxies);
+        return new Proxies(filterByOnline(allProxies));
     }
 
     private static List<String[]> splitProxiesTable(String body) {
@@ -40,8 +44,8 @@ public class ProxiesFactory {
         return content.substring(fromIndex + from.length(), toIndex);
     }
 
-    private static Queue<Proxy> extractProxies(List<String[]> unProcessedProxies) {
-        Queue<Proxy> proxies = new LinkedList<>();
+    private static List<Proxy> extractProxies(List<String[]> unProcessedProxies) {
+        List<Proxy> proxies = new ArrayList<>();
         for (String[] unProcessedProxy : unProcessedProxies) {
             String host = subStringToLast(PROXY_START, unProcessedProxy[HOST_INDEX]);
             String port = subStringToLast(PROXY_START, unProcessedProxy[PORT_INDEX]);
@@ -54,4 +58,34 @@ public class ProxiesFactory {
         int fromIndex = content.indexOf(from);
         return content.substring(fromIndex + from.length());
     }
+
+    private static Queue<Proxy> filterByOnline(List<Proxy> allProxies) {
+        Queue<Proxy> proxies = new LinkedList<>();
+        for (Proxy proxy : allProxies) {
+            if (isOnline(proxy)) {
+                proxies.add(proxy);
+            }
+        }
+        return proxies;
+    }
+
+    private static boolean isOnline(Proxy proxy) {
+        proxy.setHostAndPort();
+        HttpURLConnection httpURLConnection = null;
+        try {
+            httpURLConnection = (HttpURLConnection) new URL("https://www.instagram.com/").openConnection();
+            httpURLConnection.setConnectTimeout(5000);
+            httpURLConnection.setReadTimeout(5000);
+            httpURLConnection.connect();
+            boolean isOnline = httpURLConnection.usingProxy();
+            httpURLConnection.disconnect();
+            return isOnline;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            proxy.clearProperty();
+        }
+    }
+
 }

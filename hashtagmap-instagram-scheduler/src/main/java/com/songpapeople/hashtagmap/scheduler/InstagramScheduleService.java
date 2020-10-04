@@ -36,7 +36,7 @@ public class InstagramScheduleService {
         CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(
                 new ProxySetter(ProxiesFactory.create(new Crawler())), instagramCrawler);
         String hashtagNameToCrawl = findHashtagNameToCrawl(place);
-        return crawlerWithProxy.crawlInstagram(place, hashtagNameToCrawl, START_TRY_COUNT);
+        return crawlerWithProxy.crawlInstagram(place, hashtagNameToCrawl);
     }
 
     @Transactional
