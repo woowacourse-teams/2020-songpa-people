@@ -28,17 +28,21 @@ public class HttpReadUtils {
         MULTI_READ_HTTP_METHODS.add("DELETE");
     }
 
-    public static Optional<String> getHttpBody(HttpServletRequest request, String encoding) {
+    public static String getHttpBody(HttpServletRequest request) {
+        return getHttpBody(request, "UTF-8");
+    }
+
+    public static String getHttpBody(HttpServletRequest request, String encoding) {
         if (!isReadableHttpBody(request.getMethod()) ||
                 !(request instanceof MultiReadHttpServletRequest)) {
-            return Optional.empty();
+            return null;
         }
 
         if (isFormUrlencoded(request)) {
-            return Optional.of(readParameters(request));
+            return readParameters(request);
         }
 
-        return Optional.ofNullable(readBody(request, encoding));
+        return readBody(request, encoding);
     }
 
     private static boolean isReadableHttpBody(String method) {
@@ -108,5 +112,19 @@ public class HttpReadUtils {
             headerMap.put(headerName, request.getHeader(headerName));
         }
         return headerMap;
+    }
+
+    public static String getUserAgent(HttpServletRequest request) {
+        return request.getHeader("User-Agent");
+    }
+
+    public static String getUserAddress(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader("X-FORWARDED-FOR"))
+                .orElseGet(request::getRemoteAddr);
+    }
+
+    public static String getReferer(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader("referer"))
+                .orElse("직접 접근");
     }
 }

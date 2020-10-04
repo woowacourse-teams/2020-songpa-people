@@ -4,46 +4,45 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.classic.spi.StackTraceElementProxy;
 import com.songpapeople.hashtagmap.web.util.HttpUtils;
-import com.songpapeople.hashtagmap.web.util.MDCUtils;
+import com.songpapeople.hashtagmap.web.util.MDCLogField;
 import lombok.Getter;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Optional;
 
 @Getter
 public class ErrorLog {
     private final String phase;
     private final String loggerName;
-    private final String path;
     private final String message;
-    private final LocalDateTime errorDatetime = LocalDateTime.now();
-    private final String alertYn = "N";
-    private final String headers;
-    private final String requestBody;
-    private final String userInfo;
-    private final String agentDetail;
-    private final String requestMethod;
+
+    // MDC 영역
+    private final String path = MDCLogField.REQUEST_URI_MDC.get();
+    private final String requestMethod = MDCLogField.REQUEST_METHOD_MDC.get();
+    private final String headers = MDCLogField.HEADERS_MDC.get();
+    private final String requestBody = MDCLogField.REQUEST_BODY_MDC.get();
+    private final String userAddress = MDCLogField.USER_ADDRESS_MDC.get();
+    private final String agentDetail = MDCLogField.AGENT_DETAIL_MDC.get();
+    private final String referer = MDCLogField.USER_REFERER_MDC.get();
     private final String hostName = HttpUtils.getHostName();
+
     private String trace = "";
+    private final LocalDateTime errorDatetime = LocalDateTime.now();
 
     public ErrorLog(final String profiles, final ILoggingEvent loggingEvent) {
         this.phase = profiles;
-        this.loggerName = (loggingEvent.getLoggerName());
-        this.message = (loggingEvent.getFormattedMessage());
-        this.path = (MDCUtils.get(MDCUtils.REQUEST_URI_MDC));
-        this.requestMethod = (MDCUtils.get(MDCUtils.REQUEST_METHOD_MDC));
-        this.headers = (MDCUtils.get(MDCUtils.HEADERS_MDC));
-        this.requestBody = (MDCUtils.get(MDCUtils.REQUEST_BODY_MCD));
-        this.userInfo = (MDCUtils.get(MDCUtils.USER_INFO_MDC));
-        this.agentDetail = (MDCUtils.get(MDCUtils.AGENT_DETAIL_MDC));
+        this.loggerName = loggingEvent.getLoggerName();
+        this.message = loggingEvent.getFormattedMessage();
+
         extractStackTrace(loggingEvent).ifPresent(this::setTrace);
     }
 
     private Optional<String> extractStackTrace(ILoggingEvent loggingEvent) {
         IThrowableProxy throwableProxy = loggingEvent.getThrowableProxy();
-        if (ObjectUtils.isEmpty(throwableProxy)) {
+        if (Objects.isNull(throwableProxy)) {
             return Optional.empty();
         }
 
