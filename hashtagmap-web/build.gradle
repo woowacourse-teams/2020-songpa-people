@@ -55,7 +55,7 @@ node {
     nodeModulesDir = file("./front")
 }
 
-task copyKakaoApiKey(type: Copy, dependsOn: copySlackProperties) {
+task copyKakaoApiKey(type: Copy, dependsOn: 'copySlackProperties') {
     description = "Copy kakao map api key from hashtagmap-secret"
     from '../hashtagmap-secret/kakao/index.js'
     into 'front/src/secret/'
@@ -63,7 +63,7 @@ task copyKakaoApiKey(type: Copy, dependsOn: copySlackProperties) {
 
 task copySlackProperties(type: Copy) {
     description = "Copy application-slack-web.yml from hashtagmap-secret"
-    from '../hashtagmap-secret/slack/application-web.yml'
+    from '../hashtagmap-secret/slack/application-slack-web.yml'
     into 'src/main/resources/'
 }
 
