@@ -39,9 +39,10 @@ public class KakaoSchedulerTest {
                     hitMap.put(nowTriggerExpression, hitMap.get(nowTriggerExpression) + 1);
 
                     //cron 값을 바꾸고 난 후 postCountDownLatch 카운트
-                    if (isExcute(preCountDownLatch)) {
+                    if (nowTriggerExpression.equals(postExpression)) {
                         postCountDownLatch.countDown();
-                    } else {
+                    }
+                    if (nowTriggerExpression.equals(preExpression)) {
                         preCountDownLatch.countDown();
                     }
                 },
@@ -65,10 +66,6 @@ public class KakaoSchedulerTest {
         assertThat(cronTrigger.getExpression()).isEqualTo(postExpression);
         assertThat(hitMap.get(preExpression)).isGreaterThan(0);
         assertThat(hitMap.get(postExpression)).isGreaterThan(0);
-    }
-
-    private boolean isExcute(CountDownLatch countDownLatch) {
-        return countDownLatch.getCount() == 0;
     }
 
     @DisplayName("스케쥴러가 이미 실행중이면 Exception 발생")
