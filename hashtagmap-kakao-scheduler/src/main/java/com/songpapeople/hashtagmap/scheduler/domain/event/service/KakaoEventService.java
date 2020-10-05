@@ -10,6 +10,7 @@ import com.songpapeople.hashtagmap.kakaoapi.domain.dto.KakaoPlaceDto;
 import com.songpapeople.hashtagmap.kakaoapi.domain.rect.Rect;
 import com.songpapeople.hashtagmap.kakaoapi.service.KakaoApiService;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
+import com.songpapeople.hashtagmap.place.domain.model.Places;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.scheduler.domain.factory.PlaceFactory;
 import com.songpapeople.hashtagmap.scheduler.domain.factory.RectFactory;
@@ -55,7 +56,15 @@ public class KakaoEventService implements EventService<KakaoEvent> {
                 .collect(Collectors.toSet());
 
         List<Place> places = PlaceFactory.from(documents);
-        placeRepository.updateAndInsert(places);
+        List<String> kakaoIds = places.stream()
+                .map(Place::getKakaoId)
+                .collect(Collectors.toList());
+
+        Places findPlaces = new Places(placeRepository.findAllByKakaoIdIn(kakaoIds));
+        findPlaces.insertPlaces(places);
+        findPlaces.updatePlaces(places);
+        placeRepository.saveAll(findPlaces.get());
+
         kakaoEventHistory.success();
     }
 
