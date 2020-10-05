@@ -1,6 +1,5 @@
-package com.songpapeople.hashtagmap.web.slack;
+package com.songpapeople.hashtagmap.web.model;
 
-import com.songpapeople.hashtagmap.web.model.ErrorLog;
 import com.songpapeople.hashtagmap.web.property.LogProperties;
 import net.gpedro.integrations.slack.SlackApi;
 import net.gpedro.integrations.slack.SlackAttachment;
@@ -35,6 +34,5 @@ public class SlackApiWrapper {
 
         slackApi.call(slackMessage);
     }
-
 
 }

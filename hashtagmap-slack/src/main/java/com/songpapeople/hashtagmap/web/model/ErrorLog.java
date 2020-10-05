@@ -4,7 +4,6 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.classic.spi.StackTraceElementProxy;
 import com.songpapeople.hashtagmap.web.util.HttpUtils;
-import com.songpapeople.hashtagmap.web.util.MDCLogField;
 import lombok.Getter;
 import org.springframework.util.ObjectUtils;
 
