@@ -3,18 +3,13 @@ spring:
     include: >
       kakao,
       kakao-security,
-      db
+      db,
+      slack-admin
   mvc:
     view:
       suffix: .html
   jpa:
     open-in-view: false
-log:
-  slack:
-    enabled: true
-    webHookUrl: https://hooks.slack.com/services/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
-    channel: prod-admin
-  level: ERROR
 ---
 spring:
   profiles: local

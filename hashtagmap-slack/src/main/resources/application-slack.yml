@@ -2,5 +2,5 @@ log:
   level: ERROR
   slack:
     enabled: true
-    webHookUrl: https://hooks.slack.com/services/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
+    webHookUrl: localhost:8080
     channel: admin
