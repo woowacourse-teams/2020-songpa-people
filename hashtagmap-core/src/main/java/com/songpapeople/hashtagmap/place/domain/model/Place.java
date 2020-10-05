@@ -49,6 +49,17 @@ public class Place extends BaseEntity {
         return location.getRoadAddressName();
     }
 
+    public void update(Place place) {
+        this.category = place.category;
+        this.location = place.location;
+        this.placeName = place.placeName;
+        this.placeUrl = place.placeUrl;
+    }
+
+    public boolean isEqualKakaoId(Place place) {
+        return Objects.equals(this.kakaoId, place.kakaoId);
+    }
+
     @Generated
     @Override
     public boolean equals(Object o) {
