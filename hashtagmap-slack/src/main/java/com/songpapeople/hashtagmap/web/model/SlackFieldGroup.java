@@ -1,6 +1,5 @@
-package com.songpapeople.hashtagmap.web.slack;
+package com.songpapeople.hashtagmap.web.model;
 
-import com.songpapeople.hashtagmap.web.model.ErrorLog;
 import net.gpedro.integrations.slack.SlackField;
 
 import java.util.Arrays;
@@ -33,15 +32,19 @@ public enum SlackFieldGroup {
 
     public static List<SlackField> collect(ErrorLog errorLog) {
         return Arrays.stream(values())
-                .map(field -> makeSlackFieldWrapper(errorLog, field))
+                .map(field -> field.makeSlackFieldWrapper(errorLog))
                 .collect(Collectors.toList());
     }
 
-    private static SlackField makeSlackFieldWrapper(final ErrorLog errorLog, final SlackFieldGroup field) {
+    public SlackField makeSlackFieldWrapper(final ErrorLog errorLog) {
         SlackField slackField = new SlackField();
-        slackField.setTitle(field.title);
-        slackField.setValue(field.valueFunction.apply(errorLog));
-        slackField.setShorten(field.shorten);
+        slackField.setTitle(this.title);
+        slackField.setValue(this.valueFunction.apply(errorLog));
+        slackField.setShorten(this.shorten);
         return slackField;
+    }
+
+    public String getValue(ErrorLog errorLog) {
+        return this.valueFunction.apply(errorLog);
     }
 }

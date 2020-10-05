@@ -3,8 +3,8 @@ package com.songpapeople.hashtagmap.web.appender;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;
 import com.songpapeople.hashtagmap.web.model.ErrorLog;
+import com.songpapeople.hashtagmap.web.model.SlackApiWrapper;
 import com.songpapeople.hashtagmap.web.property.LogProperties;
-import com.songpapeople.hashtagmap.web.slack.SlackApiWrapper;
 
 import java.util.Optional;
 

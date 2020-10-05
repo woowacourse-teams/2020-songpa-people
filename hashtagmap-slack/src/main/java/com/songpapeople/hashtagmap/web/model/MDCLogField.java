@@ -1,7 +1,8 @@
-package com.songpapeople.hashtagmap.web.util;
+package com.songpapeople.hashtagmap.web.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.songpapeople.hashtagmap.web.util.HttpReadUtils;
 import org.slf4j.MDC;
 import org.slf4j.spi.MDCAdapter;
 

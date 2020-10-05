@@ -1,6 +1,6 @@
 package com.songpapeople.hashtagmap.web.filter;
 
-import com.songpapeople.hashtagmap.web.util.MDCLogField;
+import com.songpapeople.hashtagmap.web.model.MDCLogField;
 import org.slf4j.MDC;
 
 import javax.servlet.Filter;
