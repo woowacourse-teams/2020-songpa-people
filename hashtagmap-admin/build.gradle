@@ -58,16 +58,17 @@ node {
     nodeModulesDir = file("./front")
 }
 
-task setUp(type: NpmTask, dependsOn: copySlackProperties) {
+task copySlackProperties(type: Copy) {
+    description = "Copy application-slack-admin.yml from hashtagmap-secret"
+    from '../hashtagmap-secret/slack/application-slack-admin.yml'
+    into 'src/main/resources/'
+}
+
+task setUp(type: NpmTask, dependsOn: 'copySlackProperties') {
     description = "Install Node.js Package"
     args = ['install']
 }
 
-task copySlackProperties(type: Copy) {
-    description = "Copy application-slack-admin.yml from hashtagmap-secret"
-    from '../hashtagmap-secret/slack/application-admin.yml'
-    into 'src/main/resources/'
-}
 
 task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
     description = "Build vue.js"
