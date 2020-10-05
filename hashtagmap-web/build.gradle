@@ -55,10 +55,16 @@ node {
     nodeModulesDir = file("./front")
 }
 
-task copyKakaoApiKey(type: Copy) {
+task copyKakaoApiKey(type: Copy, dependsOn: copySlackProperties) {
     description = "Copy kakao map api key from hashtagmap-secret"
     from '../hashtagmap-secret/kakao/index.js'
     into 'front/src/secret/'
+}
+
+task copySlackProperties(type: Copy) {
+    description = "Copy application-slack-web.yml from hashtagmap-secret"
+    from '../hashtagmap-secret/slack/application-web.yml'
+    into 'src/main/resources/'
 }
 
 task setUp(type: NpmTask, dependsOn: copyKakaoApiKey) {
@@ -76,6 +82,6 @@ processResources.dependsOn 'buildFrontEnd'
 
 sonarqube {
     properties {
-            property "sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*Doc*.java"
+        property "sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*Doc*.java"
     }
 }
