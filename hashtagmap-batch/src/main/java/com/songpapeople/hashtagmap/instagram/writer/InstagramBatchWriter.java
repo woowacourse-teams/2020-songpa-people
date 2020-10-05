@@ -9,7 +9,6 @@ import com.songpapeople.hashtagmap.service.CrawlingResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +19,6 @@ public class InstagramBatchWriter implements ItemWriter<CrawlingResult> {
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostRepository;
 
-    @Transactional
     @Override
     public void write(List<? extends CrawlingResult> items) {
         saveCrawlingResult((List<CrawlingResult>) items);
