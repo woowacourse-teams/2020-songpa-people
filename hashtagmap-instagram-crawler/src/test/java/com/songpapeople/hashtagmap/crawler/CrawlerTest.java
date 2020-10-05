@@ -23,7 +23,7 @@ public class CrawlerTest {
         mockServer = ClientAndServer.startClientAndServer();
     }
 
-    @DisplayName("크롤링 정상 동작 테스트")
+    @DisplayName("크롤링 mockServer 정상 동작 테스트")
     @Test
     void crawlingTest() {
         new MockServerClient("localhost", mockServer.getPort())

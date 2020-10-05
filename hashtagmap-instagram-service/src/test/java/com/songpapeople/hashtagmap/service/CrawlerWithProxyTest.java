@@ -65,26 +65,26 @@ class CrawlerWithProxyTest {
         verify(instagramCrawler, times(3)).crawler(place.getPlaceName());
     }
 
-    @DisplayName("크롤링 반복 횟수 확인 - 가게 검색 결과가 존재하지 않을 때 1회 실행")
+    @DisplayName("크롤링 반복 횟수 확인 - 가게 검색 결과가 존재하지 않을 때 (404) 1회 실행")
     @Test
-    void name() {
+    void crawlerExceptionTimesTest_404() {
         // given
         Place place = Place.builder()
                 .placeName("잠실타로&사주")
                 .build();
-        CrawlerException exception = new CrawlerException(CrawlerExceptionStatus.URL_NOT_CONNECT);
+        CrawlerException exception = new CrawlerException(CrawlerExceptionStatus.NOT_FOUND_URL);
         when(instagramCrawler.crawler(place.getPlaceName())).thenThrow(exception);
 
         // when
         crawlerWithProxy.crawlInstagram(place, place.getPlaceName());
 
         // then
-        verify(instagramCrawler, times(3)).crawler(place.getPlaceName());
+        verify(instagramCrawler, times(1)).crawler(place.getPlaceName());
     }
 
     @DisplayName("크롤링 반복 횟수 확인 - InstagramSchedulerException 발생 시 1회 실행")
     @Test
-    void instagramSchedulerExceptionTimesTest() {
+    void instagramSchedulerExceptionTimesTest_404() {
         // given
         Place place = Place.builder()
                 .placeName("잠실타로&사주")
