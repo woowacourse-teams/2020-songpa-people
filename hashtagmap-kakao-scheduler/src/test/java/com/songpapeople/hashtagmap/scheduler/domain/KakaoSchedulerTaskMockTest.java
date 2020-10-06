@@ -17,6 +17,7 @@ import com.songpapeople.hashtagmap.place.domain.model.Point;
 import com.songpapeople.hashtagmap.place.domain.model.Zone;
 import com.songpapeople.hashtagmap.place.domain.repository.DistrictRepository;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
+import com.songpapeople.hashtagmap.place.domain.repository.ZoneQueryRepository;
 import com.songpapeople.hashtagmap.place.domain.repository.ZoneRepository;
 import com.songpapeople.hashtagmap.scheduler.domain.event.service.KakaoEventService;
 import org.junit.jupiter.api.AfterEach;
@@ -54,6 +55,9 @@ public class KakaoSchedulerTaskMockTest {
 
     @Autowired
     private ZoneRepository zoneRepository;
+
+    @Autowired
+    private ZoneQueryRepository zoneQueryRepository;
 
     @Autowired
     private PlaceRepository placeRepository;
@@ -94,7 +98,7 @@ public class KakaoSchedulerTaskMockTest {
 
             }
         };
-        kakaoSchedulerTask = new KakaoSchedulerTask(zoneRepository, eventEventService);
+        kakaoSchedulerTask = new KakaoSchedulerTask(zoneQueryRepository, eventEventService);
 
         //when
         kakaoSchedulerTask.sourceEvent();

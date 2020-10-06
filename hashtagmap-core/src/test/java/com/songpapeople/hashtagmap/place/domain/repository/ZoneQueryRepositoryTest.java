@@ -16,12 +16,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 // TODO: 2020/07/24 @DataJpaTest를 활용해서 테스트 코드 변경해보기
 @SpringBootTest
-public class ZoneRepositoryCustomImplTest {
+public class ZoneQueryRepositoryTest {
     @Autowired
     private DistrictRepository districtRepository;
 
     @Autowired
     private ZoneRepository zoneRepository;
+
+    @Autowired
+    private ZoneQueryRepository zoneQueryRepository;
 
     @DisplayName("활성화된 Zone만 조회")
     @Test
@@ -49,7 +52,7 @@ public class ZoneRepositoryCustomImplTest {
                 .build();
         zoneRepository.saveAll(Arrays.asList(zone1, zone2, zone3));
 
-        List<Zone> activatedZones = zoneRepository.findByActivated();
+        List<Zone> activatedZones = zoneQueryRepository.findByActivated();
         assertThat(activatedZones).hasSize(2);
     }
 

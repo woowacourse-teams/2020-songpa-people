@@ -2,7 +2,7 @@ package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.dto.TagLevelResponse;
 import com.songpapeople.hashtagmap.taglevel.model.TagLevel;
-import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
+import com.songpapeople.hashtagmap.taglevel.repository.TagLevelQueryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,13 +19,13 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class TagLevelQueryServiceTest {
     @Mock
-    private TagLevelRepository tagLevelRepository;
+    private TagLevelQueryRepository tagLevelQueryRepository;
 
     private TagLevelQueryService tagLevelQueryService;
 
     @BeforeEach
     private void setUp() {
-        tagLevelQueryService = new TagLevelQueryService(tagLevelRepository);
+        tagLevelQueryService = new TagLevelQueryService(tagLevelQueryRepository);
     }
 
     @DisplayName("태그 레벨을 5개 가져오는지 테스트")
@@ -38,7 +38,7 @@ public class TagLevelQueryServiceTest {
                 new TagLevel(4L, 116L, 120L),
                 new TagLevel(5L, 121L, 125L)
         );
-        when(tagLevelRepository.findFiveByModifiedDateOrderById()).thenReturn(tagLevels);
+        when(tagLevelQueryRepository.findFiveByModifiedDateOrderById()).thenReturn(tagLevels);
 
         List<TagLevelResponse> tagLevelResponses = tagLevelQueryService.findTagLevels();
 
