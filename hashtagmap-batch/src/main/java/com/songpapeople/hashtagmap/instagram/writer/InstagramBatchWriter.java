@@ -2,6 +2,7 @@ package com.songpapeople.hashtagmap.instagram.writer;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramQueryRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Component
 public class InstagramBatchWriter implements ItemWriter<CrawlingResult> {
     private final InstagramRepository instagramRepository;
+    private final InstagramQueryRepository instagramQueryRepository;
     private final InstagramPostRepository instagramPostRepository;
 
     @Override
@@ -25,7 +27,7 @@ public class InstagramBatchWriter implements ItemWriter<CrawlingResult> {
     }
 
     public void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
-        List<Instagram> instagrams = instagramRepository.findAllFetch();
+        List<Instagram> instagrams = instagramQueryRepository.findAllFetch();
         List<Place> places = instagrams.stream()
                 .map(Instagram::getPlace)
                 .collect(Collectors.toList());

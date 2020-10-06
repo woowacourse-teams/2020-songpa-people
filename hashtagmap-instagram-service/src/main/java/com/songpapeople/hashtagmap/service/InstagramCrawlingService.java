@@ -6,6 +6,7 @@ import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramQueryRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class InstagramCrawlingService {
+    private final InstagramQueryRepository instagramQueryRepository;
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostsRepository;
     private final BlackListRepository blackListRepository;
@@ -41,7 +43,7 @@ public class InstagramCrawlingService {
     public Instagram updateInstagramByBlackList(String kakaoId, String replaceName) {
         saveOrUpdateBlackList(new BlackList(kakaoId, replaceName));
 
-        Instagram instagram = instagramRepository.findByKakaoIdFetch(kakaoId);
+        Instagram instagram = instagramQueryRepository.findByKakaoIdFetch(kakaoId);
         CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
         instagram.updateInstagram(replaceName, crawlingDto.getHashtagCount());
         instagramRepository.save(instagram);
