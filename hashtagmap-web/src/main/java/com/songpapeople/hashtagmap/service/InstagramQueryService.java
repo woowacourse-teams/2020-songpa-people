@@ -2,7 +2,7 @@ package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.dto.MarkerResponse;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
-import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramQueryRepository;
 import com.songpapeople.hashtagmap.taglevel.model.TagLevels;
 import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class InstagramQueryService {
-    private final InstagramRepository instagramRepository;
+    private final InstagramQueryRepository instagramQueryRepository;
     private final TagLevelRepository tagLevelRepository;
 
     public List<MarkerResponse> findAllMarkers() {
-        List<Instagram> instagrams = instagramRepository.findAllFetch();
+        List<Instagram> instagrams = instagramQueryRepository.findAllFetch();
         TagLevels tagLevels = new TagLevels(tagLevelRepository.findAll());
 
         List<MarkerResponse> markerResponses = new ArrayList<>();

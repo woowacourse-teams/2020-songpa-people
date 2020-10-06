@@ -20,11 +20,14 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class InstagramRepositoryCustomImplTest {
+class InstagramQueryRepositoryTest {
     private static final String ROAD_ADDRESS_NAME = "서울시 송파구";
 
     @Autowired
     private InstagramRepository instagramRepository;
+
+    @Autowired
+    private InstagramQueryRepository instagramQueryRepository;
 
     @Autowired
     private PlaceRepository placeRepository;
@@ -48,7 +51,7 @@ class InstagramRepositoryCustomImplTest {
                 .build();
         instagramRepository.save(instagram);
 
-        List<Instagram> instagrams = instagramRepository.findAllFetch();
+        List<Instagram> instagrams = instagramQueryRepository.findAllFetch();
 
         assertThat(instagrams.size()).isEqualTo(1);
     }
@@ -65,7 +68,7 @@ class InstagramRepositoryCustomImplTest {
         placeRepository.save(place);
         instagramRepository.save(instagram);
 
-        Instagram result = instagramRepository.findByPlaceFetch(place);
+        Instagram result = instagramQueryRepository.findByPlaceFetch(place);
 
         assertThat(result.getId()).isEqualTo(instagram.getId());
     }
@@ -85,7 +88,7 @@ class InstagramRepositoryCustomImplTest {
         instagramRepository.saveAll(instagrams);
 
         // when
-        List<Long> actaul = instagramRepository.findAllHashtagCountByOrderAsc();
+        List<Long> actaul = instagramQueryRepository.findAllHashtagCountByOrderAsc();
 
         // then
         Assertions.assertEquals(actaul, Arrays.asList(1L, 2L, 3L));
@@ -103,7 +106,7 @@ class InstagramRepositoryCustomImplTest {
                 .place(place).build();
         instagramRepository.save(instagram);
 
-        assertThat(instagramRepository.findByKakaoIdFetch(kakaoId).getId()).isEqualTo(instagram.getId());
+        assertThat(instagramQueryRepository.findByKakaoIdFetch(kakaoId).getId()).isEqualTo(instagram.getId());
     }
 
     @DisplayName("instagram id로 패치조인 테스트")
@@ -118,7 +121,7 @@ class InstagramRepositoryCustomImplTest {
                 .build();
         instagramRepository.save(instagram);
 
-        Instagram result = instagramRepository.findByIdFetch(instagram.getId());
+        Instagram result = instagramQueryRepository.findByIdFetch(instagram.getId());
 
         assertThat(result.getPlace().getId()).isEqualTo(place.getId());
     }
@@ -145,7 +148,7 @@ class InstagramRepositoryCustomImplTest {
         );
         instagramRepository.saveAll(instagrams);
 
-        List<Instagram> actual = instagramRepository.findAllOrderByHashtagCountAndLimitBy(2);
+        List<Instagram> actual = instagramQueryRepository.findAllOrderByHashtagCountAndLimitBy(2);
 
         assertThat(actual).extracting(Instagram::getHashtagCount).isEqualTo(Arrays.asList(3L, 2L));
     }

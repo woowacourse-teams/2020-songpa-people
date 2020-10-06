@@ -8,6 +8,7 @@ import com.songpapeople.hashtagmap.dto.PostDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramQueryRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Category;
@@ -39,6 +40,9 @@ import static org.mockito.Mockito.when;
 class InstagramCrawlingServiceTest {
     @Autowired
     private InstagramRepository instagramRepository;
+
+    @Autowired
+    private InstagramQueryRepository instagramQueryRepository;
 
     @Autowired
     private InstagramPostRepository instagramPostRepository;
@@ -85,7 +89,7 @@ class InstagramCrawlingServiceTest {
 
         instagramCrawlingService.updateInstagramByBlackList(oldInstagram.getKakaoId(), newHashtagName);
 
-        Instagram newInstagram = instagramRepository.findByIdFetch(oldInstagram.getId());
+        Instagram newInstagram = instagramQueryRepository.findByIdFetch(oldInstagram.getId());
         List<String> newPostImageUrls = instagramPostRepository.findAllByInstagramId(oldInstagram.getId()).stream()
                 .map(InstagramPost::getImageUrl)
                 .collect(Collectors.toList());

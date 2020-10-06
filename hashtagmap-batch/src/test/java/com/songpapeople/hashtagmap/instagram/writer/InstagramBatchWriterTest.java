@@ -5,6 +5,7 @@ import com.songpapeople.hashtagmap.dto.PostDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramQueryRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
@@ -29,6 +30,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class InstagramBatchWriterTest {
     @Autowired
+    private InstagramQueryRepository instagramQueryRepository;
+
+    @Autowired
     private InstagramRepository instagramRepository;
 
     @Autowired
@@ -41,7 +45,7 @@ public class InstagramBatchWriterTest {
 
     @BeforeEach
     private void setUp() {
-        instagramBatchWriter = new InstagramBatchWriter(instagramRepository, instagramPostRepository);
+        instagramBatchWriter = new InstagramBatchWriter(instagramRepository, instagramQueryRepository, instagramPostRepository);
     }
 
     @DisplayName("크롤링한 데이터를 저장하는지 확인")

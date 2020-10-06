@@ -2,7 +2,7 @@ package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.dto.MarkerResponse;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
-import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramQueryRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Category;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
@@ -28,14 +28,14 @@ class InstagramQueryServiceTest {
     private InstagramQueryService instagramQueryService;
 
     @Mock
-    private InstagramRepository instagramRepository;
+    private InstagramQueryRepository instagramQueryRepository;
 
     @Mock
     private TagLevelRepository tagLevelRepository;
 
     @BeforeEach
     void setUp() {
-        instagramQueryService = new InstagramQueryService(instagramRepository, tagLevelRepository);
+        instagramQueryService = new InstagramQueryService(instagramQueryRepository, tagLevelRepository);
     }
 
     @DisplayName("findAllMarkers 테스트")
@@ -53,7 +53,7 @@ class InstagramQueryServiceTest {
                         .hashtagCount(10000L)
                         .build()
         );
-        given(instagramRepository.findAllFetch()).willReturn(instagrams);
+        given(instagramQueryRepository.findAllFetch()).willReturn(instagrams);
         given(tagLevelRepository.findAll()).willReturn(
                 Arrays.asList(
                         new TagLevel(1L, 100L, 5000L),
