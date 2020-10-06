@@ -56,15 +56,7 @@ public class InstagramBatchIntegrationTest {
                         .kakaoId("123")
                         .build()
         );
-
-        List<PostDto> postDtos = new ArrayList<>();
-        for (int i = 1; i <= PostDtos.POPULAR_POST_SIZE; i++) {
-            postDtos.add(new PostDto(null, null));
-        }
-
-        CrawlingResult crawlingResult = new CrawlingResult(
-                CrawlingDto.of(CAFE_NAME, "1000", new PostDtos(postDtos)),
-                place);
+        CrawlingResult crawlingResult = createCrawlingResult(place);
         when(instagramCrawlingService.createCrawlingResult(place)).thenReturn(Optional.of(crawlingResult));
 
         // when
@@ -74,42 +66,14 @@ public class InstagramBatchIntegrationTest {
         assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("COMPLETED");
     }
 
-    @DisplayName("중간에 크롤링하지 못하더로 끝까지 처리한다.")
+    @DisplayName("결과가 null일 때 writer로 넘어가지 않는다.")
     @Test
-    void exceptionTest() throws Exception {
+    void nullTest() throws Exception {
         // given
-        List<Place> places = Arrays.asList(
-                placeRepository.save(
-                        Place.builder()
-                                .placeName(CAFE_NAME)
-                                .kakaoId("100")
-                                .build()
-                ),
-                placeRepository.save(
-                        Place.builder()
-                                .placeName(CAFE_NAME)
-                                .kakaoId("101")
-                                .build()
-                ),
-                placeRepository.save(
-                        Place.builder()
-                                .placeName(CAFE_NAME)
-                                .kakaoId("102")
-                                .build()
-                )
-        );
+        List<Place> places = placeRepository.saveAll(createPlaces());
+        CrawlingResult crawlingResult1 = createCrawlingResult(places.get(0));
+        CrawlingResult crawlingResult3 = createCrawlingResult(places.get(2));
 
-        List<PostDto> postDtos = new ArrayList<>();
-        for (int i = 0; i < PostDtos.POPULAR_POST_SIZE; i++) {
-            postDtos.add(new PostDto(null, null));
-        }
-
-        CrawlingResult crawlingResult1 = new CrawlingResult(
-                CrawlingDto.of(CAFE_NAME, "1000", new PostDtos(postDtos)),
-                places.get(0));
-        CrawlingResult crawlingResult3 = new CrawlingResult(
-                CrawlingDto.of(CAFE_NAME, "1000", new PostDtos(postDtos)),
-                places.get(2));
         when(instagramCrawlingService.createCrawlingResult(places.get(0))).thenReturn(Optional.of(crawlingResult1));
         when(instagramCrawlingService.createCrawlingResult(places.get(1))).thenReturn(Optional.empty());
         when(instagramCrawlingService.createCrawlingResult(places.get(2))).thenReturn(Optional.of(crawlingResult3));
@@ -121,9 +85,59 @@ public class InstagramBatchIntegrationTest {
 
         // then
         assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("COMPLETED");
-        assertThat(stepExecution.getReadCount()).isEqualTo(3);
+        assertThat(stepExecution.getReadCount()).isEqualTo(places.size());
         assertThat(stepExecution.getWriteCount()).isEqualTo(2);
-        assertThat(stepExecution.getRollbackCount()).isEqualTo(0);
+        assertThat(stepExecution.getRollbackCount()).isZero();
+    }
+
+
+    @DisplayName("예외가 발생하면 실패하는 chunk 이전까지 수행 후 종료")
+    @Test
+    void exceptionTest() throws Exception {
+        // given
+        List<Place> places = placeRepository.saveAll(createPlaces());
+        CrawlingResult crawlingResult1 = createCrawlingResult(places.get(0));
+        CrawlingResult crawlingResult2 = createCrawlingResult(places.get(1));
+
+        when(instagramCrawlingService.createCrawlingResult(places.get(0))).thenReturn(Optional.of(crawlingResult1));
+        when(instagramCrawlingService.createCrawlingResult(places.get(1))).thenReturn(Optional.of(crawlingResult2));
+        when(instagramCrawlingService.createCrawlingResult(places.get(2))).thenThrow(new IllegalArgumentException("크롤링 관련 오류"));
+
+        // when
+        JobExecution jobExecution = myTestJobLauncher.launchJob();
+        List<StepExecution> stepExecutions = new ArrayList<>(jobExecution.getStepExecutions());
+        StepExecution stepExecution = stepExecutions.get(0);
+
+        // then
+        assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("FAILED");
+        assertThat(stepExecution.getWriteCount()).isEqualTo(2);
+        assertThat(stepExecution.getRollbackCount()).isEqualTo(1);
+    }
+
+    private List<Place> createPlaces() {
+        return Arrays.asList(
+                Place.builder()
+                        .placeName(CAFE_NAME)
+                        .kakaoId("100")
+                        .build(),
+                Place.builder()
+                        .placeName(CAFE_NAME)
+                        .kakaoId("101")
+                        .build(),
+                Place.builder()
+                        .placeName(CAFE_NAME)
+                        .kakaoId("102")
+                        .build()
+        );
+    }
+
+    private CrawlingResult createCrawlingResult(Place place) {
+        List<PostDto> postDtos = new ArrayList<>();
+        for (int i = 0; i < PostDtos.POPULAR_POST_SIZE; i++) {
+            postDtos.add(new PostDto(null, null));
+        }
+
+        return new CrawlingResult(CrawlingDto.of(CAFE_NAME, "1000", new PostDtos(postDtos)), place);
     }
 
     @AfterEach

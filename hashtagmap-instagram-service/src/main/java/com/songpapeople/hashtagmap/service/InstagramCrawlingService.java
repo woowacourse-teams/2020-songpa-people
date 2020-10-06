@@ -4,13 +4,15 @@ import com.songpapeople.hashtagmap.blacklist.domain.model.BlackList;
 import com.songpapeople.hashtagmap.blacklist.domain.repsitory.BlackListRepository;
 import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
+import com.songpapeople.hashtagmap.exception.CrawlerException;
+import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
-import com.songpapeople.hashtagmap.proxy.ProxiesFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +20,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class InstagramCrawlingService {
+    private static final String NOT_FOUND_EXCEPTION_CODE = CrawlerExceptionStatus.NOT_FOUND_URL.getStatusCode();
+
     private final InstagramRepository instagramRepository;
     private final InstagramPostRepository instagramPostsRepository;
     private final BlackListRepository blackListRepository;
@@ -30,9 +35,18 @@ public class InstagramCrawlingService {
         if (isSkipPlace(place)) {
             return Optional.empty();
         }
-        CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(new ProxySetter(ProxiesFactory.create()), instagramCrawler);
+
         String hashtagNameToCrawl = findHashtagNameToCrawl(place);
-        return crawlerWithProxy.crawlInstagram(place, hashtagNameToCrawl);
+
+        try {
+            return Optional.of(new CrawlingResult(instagramCrawler.crawler(hashtagNameToCrawl), place));
+        } catch (CrawlerException e) {
+            log.info("CrawlerException: {}", e.getMessage());
+            if (NOT_FOUND_EXCEPTION_CODE.equals(e.getErrorCode())) {
+                return Optional.empty();
+            }
+            throw e;
+        }
     }
 
     @Transactional
