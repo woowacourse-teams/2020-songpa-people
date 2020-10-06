@@ -5,13 +5,13 @@ import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +24,24 @@ public class PlaceRepositoryTest {
     @Autowired
     private PlaceRepository placeRepository;
 
-    @BeforeEach
+    @DisplayName("존재하지 않는 Place 저장하기")
+    @Test
+    void updateInsertQueryTest_insert() {
+        Place place = Place.builder()
+                .kakaoId("1")
+                .category(Category.CAFE)
+                .location(new Location(new Point("33", "127"), ROAD_ADDRESS_NAME))
+                .placeName("starbucks2")
+                .build();
+
+
+        placeRepository.updateAndInsert(Collections.singletonList(place));
+
+        List<Place> savedPlaces = placeRepository.findAll();
+        assertThat(savedPlaces).hasSize(1);
+        assertThat(savedPlaces.get(0).getKakaoId()).isEqualTo(place.getKakaoId());
+    }
+
     private void setUp() {
         List<Place> places = Arrays.asList(
                 Place.builder()
@@ -38,20 +55,14 @@ public class PlaceRepositoryTest {
                         .category(Category.CAFE)
                         .location(new Location(new Point("33.5", "127.5"), ROAD_ADDRESS_NAME))
                         .placeName("mahogani")
-                        .build(),
-                Place.builder()
-                        .kakaoId("3")
-                        .category(Category.CAFE)
-                        .location(new Location(new Point("33.2", "127.2"), ROAD_ADDRESS_NAME))
-                        .placeName("cu")
                         .build()
         );
         placeRepository.saveAll(places);
     }
 
-    @DisplayName("중복된 kakao_id를 가진 place를 저장할 때 예외를 발생시키지 않고 업데이트 시키기")
+    @DisplayName("존재하는 Place 갱신하기")
     @Test
-    void updateInsertQueryTest() {
+    void updateInsertQueryTest_update() {
         List<Place> duplicateKakaoIdPlaces = Arrays.asList(
                 Place.builder()
                         .kakaoId("1")
@@ -80,7 +91,6 @@ public class PlaceRepositoryTest {
                 () -> assertThat(placeRepository.findByPlaceName("cu").get(0).getKakaoId()).isEqualTo("3")
         );
     }
-
     @AfterEach
     private void tearDown() {
         placeRepository.deleteAll();
