@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
 
-public interface ZoneRepository extends JpaRepository<Zone, Long>, ZoneRepositoryCustom {
+public interface ZoneRepository extends JpaRepository<Zone, Long> {
     void deleteAllByIdIn(Collection<Long> zoneIds);
 }

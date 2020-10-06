@@ -3,18 +3,18 @@ package com.songpapeople.hashtagmap.taglevel.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.songpapeople.hashtagmap.taglevel.model.QTagLevel;
 import com.songpapeople.hashtagmap.taglevel.model.TagLevel;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
 
-public class TagLevelRepositoryCustomImpl implements TagLevelRepositoryCustom {
+@RequiredArgsConstructor
+@Repository
+
+public class TagLevelQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-    public TagLevelRepositoryCustomImpl(JPAQueryFactory jpaQueryFactory) {
-        this.jpaQueryFactory = jpaQueryFactory;
-    }
-
-    @Override
     public List<TagLevel> findFiveByModifiedDateOrderById() {
         QTagLevel tagLevel = QTagLevel.tagLevel;
         List<TagLevel> recentTagLevels = jpaQueryFactory.selectFrom(tagLevel)

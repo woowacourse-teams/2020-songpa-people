@@ -24,6 +24,9 @@ public class TagLevelRepositoryTest {
     private TagLevelRepository tagLevelRepository;
 
     @Autowired
+    private TagLevelQueryRepository tagLevelQueryRepository;
+
+    @Autowired
     private EntityManager entityManager;
 
     @BeforeEach
@@ -56,7 +59,7 @@ public class TagLevelRepositoryTest {
         entityManager.flush();
         LocalDateTime pastModifiedDate = tagLevels.get(0).getModifiedDate();
 
-        List<TagLevel> recentTagLevels = tagLevelRepository.findFiveByModifiedDateOrderById();
+        List<TagLevel> recentTagLevels = tagLevelQueryRepository.findFiveByModifiedDateOrderById();
         assertAll(
                 () -> assertThat(recentTagLevels).hasSize(5),
                 () -> assertThat(recentTagLevels.get(0).getModifiedDate().isAfter(pastModifiedDate)).isTrue()
