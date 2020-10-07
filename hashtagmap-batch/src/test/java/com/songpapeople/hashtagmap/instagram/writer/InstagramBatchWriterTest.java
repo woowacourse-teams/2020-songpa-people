@@ -45,7 +45,7 @@ public class InstagramBatchWriterTest {
 
     @BeforeEach
     private void setUp() {
-        instagramBatchWriter = new InstagramBatchWriter(instagramRepository, instagramQueryRepository, instagramPostRepository);
+        instagramBatchWriter = new InstagramBatchWriter(placeRepository, instagramRepository, instagramPostRepository);
     }
 
     @DisplayName("크롤링한 데이터를 저장하는지 확인")

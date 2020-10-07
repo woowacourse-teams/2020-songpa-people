@@ -1,41 +1,56 @@
 package com.songpapeople.hashtagmap.instagram.domain.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
-import com.songpapeople.hashtagmap.place.domain.model.Place;
+import com.songpapeople.hashtagmap.instagram.domain.model.dto.InstagramForBlacklist;
+import com.songpapeople.hashtagmap.instagram.domain.model.dto.InstagramForMaker;
+import com.songpapeople.hashtagmap.instagram.domain.model.dto.InstagramForUpdate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 import static com.songpapeople.hashtagmap.instagram.domain.model.QInstagram.instagram;
-import static com.songpapeople.hashtagmap.place.domain.model.QPlace.place;
 
 @RequiredArgsConstructor
 @Repository
 public class InstagramQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<Instagram> findAllFetch() {
-        return jpaQueryFactory.selectFrom(instagram)
-                .innerJoin(instagram.place, place)
-                .fetchJoin()
+    public List<InstagramForMaker> findAllFetch() {
+        return jpaQueryFactory.select(Projections.constructor(InstagramForMaker.class,
+                instagram.id,
+                instagram.hashtagCount,
+                instagram.hashtagName,
+                instagram.place.placeName,
+                instagram.place.placeUrl,
+                instagram.place.kakaoId,
+                instagram.place.location,
+                instagram.place.category))
+                .from(instagram)
                 .fetch();
     }
 
-    public Instagram findByIdFetch(Long id) {
-        return jpaQueryFactory.selectFrom(instagram)
-                .innerJoin(instagram.place, place)
-                .fetchJoin()
-                .where(instagram.id.eq(id))
-                .fetchFirst();
+    public List<InstagramForBlacklist> findAllOrderByHashtagCountAndLimitBy(int limit) {
+        return jpaQueryFactory.select(Projections.constructor(InstagramForBlacklist.class,
+                instagram.hashtagName,
+                instagram.hashtagCount,
+                instagram.place.kakaoId,
+                instagram.place.placeName,
+                instagram.place.location.roadAddressName
+        ))
+                .from(instagram)
+                .orderBy(instagram.hashtagCount.desc())
+                .limit(limit)
+                .fetch();
     }
 
-    public Instagram findByPlaceFetch(Place findPlace) {
-        return jpaQueryFactory.selectFrom(instagram)
-                .innerJoin(instagram.place, place)
-                .fetchJoin()
-                .where(instagram.place.eq(findPlace))
+    public InstagramForUpdate findByKakaoId(String kakaoId) {
+        return jpaQueryFactory.select(Projections.constructor(InstagramForUpdate.class,
+                instagram.id,
+                instagram.place.id.as("placeId")))
+                .from(instagram)
+                .where(instagram.place.kakaoId.eq(kakaoId))
                 .fetchFirst();
     }
 
@@ -46,20 +61,4 @@ public class InstagramQueryRepository {
                 .fetch();
     }
 
-    public Instagram findByKakaoIdFetch(String kakaoId) {
-        return jpaQueryFactory.selectFrom(instagram)
-                .innerJoin(instagram.place, place)
-                .fetchJoin()
-                .where(place.kakaoId.eq(kakaoId))
-                .fetchFirst();
-    }
-
-    public List<Instagram> findAllOrderByHashtagCountAndLimitBy(int limit) {
-        return jpaQueryFactory.selectFrom(instagram)
-                .innerJoin(instagram.place, place)
-                .fetchJoin()
-                .orderBy(instagram.hashtagCount.desc())
-                .limit(limit)
-                .fetch();
-    }
 }
