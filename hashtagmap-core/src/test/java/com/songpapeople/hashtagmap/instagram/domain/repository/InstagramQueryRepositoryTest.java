@@ -1,6 +1,9 @@
 package com.songpapeople.hashtagmap.instagram.domain.repository;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
+import com.songpapeople.hashtagmap.instagram.domain.model.dto.InstagramForBlacklist;
+import com.songpapeople.hashtagmap.instagram.domain.model.dto.InstagramForMaker;
+import com.songpapeople.hashtagmap.instagram.domain.model.dto.InstagramForUpdate;
 import com.songpapeople.hashtagmap.place.domain.model.Category;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
@@ -12,17 +15,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest
 class InstagramQueryRepositoryTest {
-    private static final String ROAD_ADDRESS_NAME = "서울시 송파구";
-
     @Autowired
     private InstagramRepository instagramRepository;
 
@@ -32,46 +35,36 @@ class InstagramQueryRepositoryTest {
     @Autowired
     private PlaceRepository placeRepository;
 
-    @DisplayName("인스타그램 도메인 페치조인으로 가져오기")
+    @DisplayName("instagramDto로 필요한 정보만 조회해오기")
     @Test
     void findAllFetch() {
         Place place = Place.builder()
-                .id(1L)
-                .kakaoId("1234")
+                .placeName("스타벅스")
+                .kakaoId("777")
+                .placeUrl("www")
+                .location(new Location(new Point("34.123", "126.124"), null))
                 .category(Category.CAFE)
-                .location(new Location(new Point("33", "127"), ROAD_ADDRESS_NAME))
-                .placeName("starbucks")
-                .build();
-        place = placeRepository.save(place);
-
-        Instagram instagram = Instagram.builder()
-                .place(place)
-                .hashtagCount(123L)
-                .hashtagName("스타벅스")
-                .build();
-        instagramRepository.save(instagram);
-
-        List<Instagram> instagrams = instagramQueryRepository.findAllFetch();
-
-        assertThat(instagrams.size()).isEqualTo(1);
-    }
-
-    @DisplayName("place로 instagram 찾는 기능 테스트")
-    @Test
-    void findByPlace() {
-        Place place = Place.builder()
-                .placeName("place")
-                .build();
-        Instagram instagram = Instagram.builder()
-                .place(place)
                 .build();
         placeRepository.save(place);
+        Instagram instagram = Instagram.builder()
+                .place(place)
+                .hashtagName("스타벅스")
+                .hashtagCount(10000L)
+                .build();
         instagramRepository.save(instagram);
 
-        Instagram result = instagramQueryRepository.findByPlaceFetch(place);
+        List<InstagramForMaker> instagramForMakers = instagramQueryRepository.findAllFetch();
+        InstagramForMaker instagramForMaker = instagramForMakers.get(0);
 
-        assertThat(result.getId()).isEqualTo(instagram.getId());
+        assertAll(() -> {
+            assertThat(instagramForMaker.getHashtagCount()).isEqualTo(10000L);
+            assertThat(instagramForMaker.getHashtagName()).isEqualTo("스타벅스");
+            assertThat(instagramForMaker.getKakaoId()).isEqualTo("777");
+            assertThat(instagramForMaker.getPlaceUrl()).isEqualTo("www");
+            assertThat(instagramForMaker.getCategory()).isEqualTo(Category.CAFE);
+        });
     }
+
 
     @DisplayName("Hashtag 개수를 오름차순으로 정렬한다.")
     @Test
@@ -80,9 +73,9 @@ class InstagramQueryRepositoryTest {
         List<Long> hashtagCounts = Arrays.asList(3L, 2L, 1L);
 
         List<Instagram> instagrams = new ArrayList<>();
-        for (int i = 0; i < hashtagCounts.size(); i++) {
+        for (Long hashtagCount : hashtagCounts) {
             instagrams.add(Instagram.builder()
-                    .hashtagCount(hashtagCounts.get(i))
+                    .hashtagCount(hashtagCount)
                     .build());
         }
         instagramRepository.saveAll(instagrams);
@@ -94,36 +87,50 @@ class InstagramQueryRepositoryTest {
         Assertions.assertEquals(actaul, Arrays.asList(1L, 2L, 3L));
     }
 
-    @DisplayName("kakaoId로 인스타그램을 가져오는 메서드 테스트")
+    @DisplayName("kakaoId로 인스타그램ID 가져오기")
     @Test
     void findByKakaoId() {
         String kakaoId = "999";
         Place place = Place.builder()
                 .kakaoId(kakaoId).build();
         placeRepository.save(place);
-
         Instagram instagram = Instagram.builder()
                 .place(place).build();
         instagramRepository.save(instagram);
 
-        assertThat(instagramQueryRepository.findByKakaoIdFetch(kakaoId).getId()).isEqualTo(instagram.getId());
+        InstagramForUpdate instagramForUpdate = instagramQueryRepository.findByKakaoId(kakaoId);
+
+        assertAll(() -> {
+            assertThat(instagramForUpdate.getId()).isEqualTo(instagram.getId());
+            assertThat(instagramForUpdate.getPlaceId()).isEqualTo(place.getId());
+        });
     }
 
-    @DisplayName("instagram id로 패치조인 테스트")
+    @DisplayName("kakaoId로 인스타그램ID와 Place Id만 가져오고 업데이트 했을 때 null 값이 안들어가는지 확인")
     @Test
-    void findByIdFetch() {
+    @Transactional
+    void findByKakaoIdAndUpdate() {
+        String kakaoId = "999";
         Place place = Place.builder()
-                .placeName("place")
-                .build();
+                .kakaoId(kakaoId).build();
         placeRepository.save(place);
         Instagram instagram = Instagram.builder()
                 .place(place)
+                .hashtagName("oldName")
+                .hashtagCount(1L)
                 .build();
         instagramRepository.save(instagram);
 
-        Instagram result = instagramQueryRepository.findByIdFetch(instagram.getId());
+        InstagramForUpdate instagramForUpdate = instagramQueryRepository.findByKakaoId(kakaoId);
+        Instagram idOnlyInstagram = instagramForUpdate.toInstagram();
+        idOnlyInstagram.updateInstagram("newName", 1000L);
+        Instagram actual = instagramRepository.save(idOnlyInstagram);
 
-        assertThat(result.getPlace().getId()).isEqualTo(place.getId());
+        assertAll(() -> {
+            assertThat(actual.getPlace().getKakaoId()).isEqualTo(kakaoId);
+            assertThat(actual.getHashtagName()).isEqualTo("newName");
+            assertThat(actual.getHashtagCount()).isEqualTo(1000L);
+        });
     }
 
     @DisplayName("Hashtag count 역순으로 정렬해서 limit만큼 조회하기")
@@ -148,9 +155,9 @@ class InstagramQueryRepositoryTest {
         );
         instagramRepository.saveAll(instagrams);
 
-        List<Instagram> actual = instagramQueryRepository.findAllOrderByHashtagCountAndLimitBy(2);
+        List<InstagramForBlacklist> actual = instagramQueryRepository.findAllOrderByHashtagCountAndLimitBy(2);
 
-        assertThat(actual).extracting(Instagram::getHashtagCount).isEqualTo(Arrays.asList(3L, 2L));
+        assertThat(actual).extracting(InstagramForBlacklist::getHashtagCount).isEqualTo(Arrays.asList(3L, 2L));
     }
 
     @AfterEach
