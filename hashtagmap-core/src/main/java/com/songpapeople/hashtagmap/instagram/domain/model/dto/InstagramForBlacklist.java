@@ -7,8 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class
-InstagramForBlacklist {
+public class InstagramForBlacklist {
     private String hashtagName;
     private Long hashtagCount;
     private String kakaoId;
