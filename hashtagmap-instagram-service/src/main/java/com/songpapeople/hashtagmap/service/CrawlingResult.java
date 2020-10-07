@@ -31,10 +31,10 @@ public class CrawlingResult {
         }
     }
 
-    public List<InstagramPost> toInstagramPosts(Long instagramId) {
+    public List<InstagramPost> toInstagramPosts(Instagram instagram) {
         List<PostDto> postDtoList = crawlingDto.getPostDtoList();
         return postDtoList.stream()
-                .map(postDto -> createInstagramPost(instagramId, postDto))
+                .map(postDto -> createInstagramPost(instagram, postDto))
                 .collect(Collectors.toList());
     }
 
@@ -46,9 +46,9 @@ public class CrawlingResult {
                 .build();
     }
 
-    private InstagramPost createInstagramPost(Long instagramId, PostDto postDto) {
+    private InstagramPost createInstagramPost(Instagram instagram, PostDto postDto) {
         return InstagramPost.builder()
-                .instagramId(instagramId)
+                .instagram(instagram)
                 .postUrl(postDto.getPostUrl())
                 .imageUrl(postDto.getImageUrl())
                 .build();

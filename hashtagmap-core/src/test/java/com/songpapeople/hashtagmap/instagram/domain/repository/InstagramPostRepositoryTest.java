@@ -54,7 +54,7 @@ class InstagramPostRepositoryTest {
     private InstagramPost createInstagramPost(Integer number) {
         String url = String.valueOf(number);
         return InstagramPost.builder()
-                .instagramId(instagram.getId())
+                .instagram(instagram)
                 .imageUrl(url)
                 .postUrl(url)
                 .build();

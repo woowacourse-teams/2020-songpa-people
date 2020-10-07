@@ -41,7 +41,7 @@ public class InstagramService {
         instagramRepository.deleteAll();
         for (CrawlingResult crawlingResult : crawlingResults) {
             Instagram instagram = instagramRepository.save(crawlingResult.createInstagram());
-            List<InstagramPost> instagramPosts = crawlingResult.toInstagramPosts(instagram.getId());
+            List<InstagramPost> instagramPosts = crawlingResult.toInstagramPosts(instagram);
             instagramPostRepository.saveAll(instagramPosts);
         }
     }

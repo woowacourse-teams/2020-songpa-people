@@ -94,7 +94,7 @@ public class BlackListAcceptanceTest extends ApiDocument {
         return IntStream.rangeClosed(1, 9)
                 .boxed()
                 .map(number -> InstagramPost.builder()
-                        .instagramId(instagram.getId())
+                        .instagram(instagram)
                         .postUrl(String.valueOf(number))
                         .imageUrl(String.valueOf(number))
                         .build())
