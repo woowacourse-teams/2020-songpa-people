@@ -6,8 +6,6 @@ import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.dto.PostDto;
 import com.songpapeople.hashtagmap.dto.PostDtos;
-import com.songpapeople.hashtagmap.exception.CrawlerException;
-import com.songpapeople.hashtagmap.exception.CrawlerExceptionStatus;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
@@ -32,7 +30,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -163,36 +160,6 @@ class InstagramCrawlingServiceTest {
         // then
         String hashtagName = crawlingResult.get().createInstagram().getHashtagName();
         assertThat(hashtagName).isEqualTo(NEW_HASHTAG_NAME);
-    }
-
-    @DisplayName("429 발생 시 예외를 반환한다.")
-    @Test
-    void tooManyRequestExceptionTest() {
-        Place place = Place.builder()
-                .placeName("잠실타로&사주")
-                .build();
-        CrawlerException exception = new CrawlerException(CrawlerExceptionStatus.TOO_MANY_REQUEST);
-        when(instagramCrawler.crawler(place.getPlaceName())).thenThrow(exception);
-
-        assertThatThrownBy(() -> instagramCrawlingService.createCrawlingResult(place))
-                .isInstanceOf(exception.getClass())
-                .hasMessage(exception.getMessage());
-    }
-
-    @DisplayName("404 예외가 발생하면 빈 결과를 반환한다.")
-    @Test
-    void notFoundPlaceExceptionTest() {
-        Place place = Place.builder()
-                .placeName("잠실타로&사주")
-                .build();
-        CrawlerException exception = new CrawlerException(CrawlerExceptionStatus.NOT_FOUND_URL);
-        when(instagramCrawler.crawler(place.getPlaceName())).thenThrow(exception);
-
-        // when
-        Optional<CrawlingResult> result = instagramCrawlingService.createCrawlingResult(place);
-
-        // then
-        assertThat(result.isPresent()).isFalse();
     }
 
     private List<InstagramPost> makeInstagramPosts(Instagram instagram, PostDtos postDtos) {
