@@ -11,6 +11,7 @@ import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.Ins
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.proxy.ProxiesFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class InstagramCrawlingService {
@@ -30,8 +32,8 @@ public class InstagramCrawlingService {
         if (isSkipPlace(place)) {
             return Optional.empty();
         }
-        CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(new ProxySetter(ProxiesFactory.create()), instagramCrawler);
         String hashtagNameToCrawl = findHashtagNameToCrawl(place);
+        CrawlerWithProxy crawlerWithProxy = new CrawlerWithProxy(new ProxySetter(ProxiesFactory.create()), instagramCrawler);
         return crawlerWithProxy.crawlInstagram(place, hashtagNameToCrawl);
     }
 

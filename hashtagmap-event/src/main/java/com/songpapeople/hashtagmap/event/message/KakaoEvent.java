@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.function.Consumer;
 
 @Getter
-public class KakaoEvent extends Event {
+public class KakaoEvent implements Event {
     protected final Consumer<KakaoEvent> eventConsumer;
     protected final Consumer<KakaoEvent> failEventConsumer;
     private final Category category;
