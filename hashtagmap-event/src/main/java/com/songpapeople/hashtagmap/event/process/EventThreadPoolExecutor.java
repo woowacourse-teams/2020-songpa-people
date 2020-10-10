@@ -1,8 +1,10 @@
 package com.songpapeople.hashtagmap.event.process;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 @Slf4j
@@ -18,6 +20,15 @@ public class EventThreadPoolExecutor {
         threadPoolTaskExecutor.setMaxPoolSize(eventType.getMaxPoolSize()); // 코어가 꽉 차면 맥스까지 늘어남
         threadPoolTaskExecutor.setQueueCapacity(eventType.getQueueCapacity()); // 대기할 수 있는 작업 수
         threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
+        Map<String, String> contextMap = MDC.getCopyOfContextMap();
+        threadPoolTaskExecutor.setTaskDecorator(runnable -> () -> {
+            try {
+                MDC.setContextMap(contextMap);
+                runnable.run();
+            } finally {
+                MDC.clear();
+            }
+        });
         threadPoolTaskExecutor.initialize();
     }
 

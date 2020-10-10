@@ -43,8 +43,4 @@ public enum SlackFieldGroup {
         slackField.setShorten(this.shorten);
         return slackField;
     }
-
-    public String getValue(ErrorLog errorLog) {
-        return this.valueFunction.apply(errorLog);
-    }
 }
