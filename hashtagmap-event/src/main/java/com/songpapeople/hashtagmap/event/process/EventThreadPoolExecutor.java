@@ -1,6 +1,8 @@
 package com.songpapeople.hashtagmap.event.process;
 
+import com.songpapeople.hashtagmap.event.util.LogDecorator;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Semaphore;
@@ -19,6 +21,9 @@ public class EventThreadPoolExecutor {
         threadPoolTaskExecutor.setQueueCapacity(eventType.getQueueCapacity()); // 대기할 수 있는 작업 수
         threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
         threadPoolTaskExecutor.initialize();
+
+        // log 컨텍스트를 callback 을 이용해서 복사 등록한다.
+        threadPoolTaskExecutor.setTaskDecorator(new LogDecorator(MDC.getCopyOfContextMap()));
     }
 
     public void executeJob(Runnable receiveJob, Runnable failJob) {

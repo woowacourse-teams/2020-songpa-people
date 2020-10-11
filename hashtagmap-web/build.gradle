@@ -7,6 +7,7 @@ version = '2.0.0'
 dependencies {
     compile project(':hashtagmap-core')
     implementation project(':hashtagmap-common')
+    implementation project(':hashtagmap-slack')
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -54,10 +55,16 @@ node {
     nodeModulesDir = file("./front")
 }
 
-task copyKakaoApiKey(type: Copy) {
+task copyKakaoApiKey(type: Copy, dependsOn: 'copySlackProperties') {
     description = "Copy kakao map api key from hashtagmap-secret"
     from '../hashtagmap-secret/kakao/index.js'
     into 'front/src/secret/'
+}
+
+task copySlackProperties(type: Copy) {
+    description = "Copy application-slack-web.yml from hashtagmap-secret"
+    from '../hashtagmap-secret/slack/application-slack-web.yml'
+    into 'src/main/resources/'
 }
 
 task setUp(type: NpmTask, dependsOn: copyKakaoApiKey) {
@@ -75,6 +82,6 @@ processResources.dependsOn 'buildFrontEnd'
 
 sonarqube {
     properties {
-            property "sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*Doc*.java"
+        property "sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*Doc*.java"
     }
 }

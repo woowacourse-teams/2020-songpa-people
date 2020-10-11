@@ -10,7 +10,6 @@
     <property name="MAX_HISTORY" value="30"/>
     <property name="LOG_PATTERN"
               value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) [%C.%M:%line] - %msg%n"/>
-    <property resource="application-slack-web-hook.yml" />
 
     <springProfile name="!prod">
 
@@ -27,16 +26,6 @@
     </springProfile>
 
     <springProfile name="prod">
-        <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-            <webhookUri>${prod-admin}</webhookUri>
-            <channel>#prod-admin</channel>
-            <layout class="ch.qos.logback.classic.PatternLayout">
-                <pattern>${LOG_PATTERN}</pattern>
-            </layout>
-            <username>${HOSTNAME}</username>
-            <iconEmoji>:bright-cow:</iconEmoji>
-            <colorCoding>true</colorCoding>
-        </appender>
 
         <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
             <appender-ref ref="SLACK"/>

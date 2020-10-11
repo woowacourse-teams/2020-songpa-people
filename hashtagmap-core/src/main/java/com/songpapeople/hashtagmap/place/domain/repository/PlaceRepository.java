@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PlaceRepository extends JpaRepository<Place, Long>, PlaceRepositoryCustom {
     List<Place> findByPlaceName(String name);
+
+    List<Place> findAllByKakaoIdIn(List<String> kakaoIds);
 }

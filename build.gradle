@@ -121,26 +121,6 @@ configure(asciidoctorConfigure) {
     }
 }
 
-def logbackSlack = [project(':hashtagmap-web'), project(':hashtagmap-admin')]
-configure(logbackSlack) {
-
-    ext {
-        set("logbackSlackAppenderVersion", "1.4.0")
-    }
-
-    dependencies {
-        implementation "com.github.maricn:logback-slack-appender:${logbackSlackAppenderVersion}"
-    }
-
-    task copySlackWebHook(type: Copy) {
-        description = "Copy slack web hook uri from hashtagmap-secret"
-        from '../hashtagmap-secret/slack/application-slack-web-hook.yml'
-        into 'src/main/resources/'
-    }
-
-    processResources.dependsOn 'copySlackWebHook'
-}
-
 project(':hashtagmap-common') {
     sonarqube {
         skipProject = true

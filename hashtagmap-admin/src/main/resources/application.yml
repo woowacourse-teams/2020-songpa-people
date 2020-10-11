@@ -3,7 +3,8 @@ spring:
     include: >
       kakao,
       kakao-security,
-      db
+      db,
+      slack-admin
   mvc:
     view:
       suffix: .html

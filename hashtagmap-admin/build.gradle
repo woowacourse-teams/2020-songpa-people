@@ -9,6 +9,7 @@ dependencies {
     implementation project(':hashtagmap-common')
     implementation project(':hashtagmap-kakao-scheduler')
     implementation project(':hashtagmap-instagram-service')
+    implementation project(':hashtagmap-slack')
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -57,10 +58,17 @@ node {
     nodeModulesDir = file("./front")
 }
 
-task setUp(type: NpmTask) {
+task copySlackProperties(type: Copy) {
+    description = "Copy application-slack-admin.yml from hashtagmap-secret"
+    from '../hashtagmap-secret/slack/application-slack-admin.yml'
+    into 'src/main/resources/'
+}
+
+task setUp(type: NpmTask, dependsOn: 'copySlackProperties') {
     description = "Install Node.js Package"
     args = ['install']
 }
+
 
 task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
     description = "Build vue.js"

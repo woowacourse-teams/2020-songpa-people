@@ -1,0 +1,6 @@
+log:
+  level: ERROR
+  slack:
+    enabled: true
+    webHookUrl: localhost:8080
+    channel: admin
