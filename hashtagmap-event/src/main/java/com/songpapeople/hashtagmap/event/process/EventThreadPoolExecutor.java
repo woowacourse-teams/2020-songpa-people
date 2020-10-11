@@ -20,6 +20,9 @@ public class EventThreadPoolExecutor {
         threadPoolTaskExecutor.setMaxPoolSize(eventType.getMaxPoolSize()); // 코어가 꽉 차면 맥스까지 늘어남
         threadPoolTaskExecutor.setQueueCapacity(eventType.getQueueCapacity()); // 대기할 수 있는 작업 수
         threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
+        threadPoolTaskExecutor.initialize();
+
+        // log 컨텍스트를 callback 을 이용해서 복사 등록한다.
         Map<String, String> contextMap = MDC.getCopyOfContextMap();
         threadPoolTaskExecutor.setTaskDecorator(runnable -> () -> {
             try {
@@ -29,7 +32,6 @@ public class EventThreadPoolExecutor {
                 MDC.clear();
             }
         });
-        threadPoolTaskExecutor.initialize();
     }
 
     public void executeJob(Runnable receiveJob, Runnable failJob) {
