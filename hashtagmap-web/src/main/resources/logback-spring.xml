@@ -26,16 +26,6 @@
     </springProfile>
 
     <springProfile name="prod">
-        <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-            <webhookUri>${prod-web}</webhookUri>
-            <channel>#prod-web</channel>
-            <layout class="ch.qos.logback.classic.PatternLayout">
-                <pattern>${LOG_PATTERN}</pattern>
-            </layout>
-            <username>${HOSTNAME}</username>
-            <iconEmoji>:bright-cow:</iconEmoji>
-            <colorCoding>true</colorCoding>
-        </appender>
 
         <appender name="FILE-INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>${LOG_PARENT_PATH}/${LOG_CHILD_INFO}/info-${BY_DATE}.log</file>
@@ -89,7 +79,6 @@
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
             <appender-ref ref="FILE-ERROR"/>
-            <appender-ref ref="ASYNC_SLACK"/>
         </root>
 
     </springProfile>
