@@ -27,13 +27,6 @@
 
     <springProfile name="prod">
 
-        <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
-            <appender-ref ref="SLACK"/>
-            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-                <level>ERROR</level>
-            </filter>
-        </appender>
-
         <appender name="FILE-INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>${LOG_PARENT_PATH}/${LOG_CHILD_INFO}/info-${BY_DATE}.log</file>
             <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -86,7 +79,6 @@
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
             <appender-ref ref="FILE-ERROR"/>
-            <appender-ref ref="ASYNC_SLACK"/>
         </root>
 
     </springProfile>
