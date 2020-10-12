@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.instagram.domain.model.dto;
+package com.songpapeople.hashtagmap.dto;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.place.domain.model.Category;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-class InstagramForMakerTest {
+class InstagramForMarkerTest {
 
     @DisplayName("InstagramForMaker -> Instagram 엔티티로 바꾸기")
     @Test
@@ -22,7 +22,7 @@ class InstagramForMakerTest {
         String kakaoId = "777";
         Location location = new Location(null, "서울시 강남구");
         Category category = Category.CAFE;
-        InstagramForMaker instagramForMaker = InstagramForMaker.builder()
+        InstagramForMarker instagramForMarker = InstagramForMarker.builder()
                 .id(id)
                 .hashtagCount(hashtagCount)
                 .hashtagName(hashtagName)
@@ -33,7 +33,7 @@ class InstagramForMakerTest {
                 .category(category)
                 .build();
 
-        Instagram instagram = instagramForMaker.toInstagram();
+        Instagram instagram = instagramForMarker.toInstagram();
 
         assertAll(() -> {
             assertThat(instagram.getId()).isEqualTo(id);

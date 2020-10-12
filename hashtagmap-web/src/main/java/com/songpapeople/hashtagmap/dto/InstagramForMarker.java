@@ -1,5 +1,6 @@
-package com.songpapeople.hashtagmap.instagram.domain.model.dto;
+package com.songpapeople.hashtagmap.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.place.domain.model.Category;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
@@ -8,7 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class InstagramForMaker {
+public class InstagramForMarker {
     private Long id;
     private Long hashtagCount;
     private String hashtagName;
@@ -19,8 +20,9 @@ public class InstagramForMaker {
     private Category category;
 
     @Builder
-    public InstagramForMaker(Long id, Long hashtagCount, String hashtagName, String placeName,
-                             String placeUrl, String kakaoId, Location location, Category category) {
+    @QueryProjection
+    public InstagramForMarker(Long id, Long hashtagCount, String hashtagName, String placeName,
+                              String placeUrl, String kakaoId, Location location, Category category) {
         this.id = id;
         this.hashtagCount = hashtagCount;
         this.hashtagName = hashtagName;

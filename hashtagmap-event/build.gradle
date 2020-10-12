@@ -2,7 +2,7 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-    compile project(':hashtagmap-core')
+    compile project(path:':hashtagmap-core', configuration: 'default')
 }
 
 jacocoTestCoverageVerification {

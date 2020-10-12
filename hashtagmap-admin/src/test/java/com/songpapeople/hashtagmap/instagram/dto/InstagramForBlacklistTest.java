@@ -1,4 +1,4 @@
-package com.songpapeople.hashtagmap.instagram.domain.model.dto;
+package com.songpapeople.hashtagmap.instagram.dto;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import org.junit.jupiter.api.DisplayName;
@@ -37,4 +37,5 @@ class InstagramForBlacklistTest {
             assertThat(actual.getPlaceName()).isEqualTo(placeName);
         });
     }
+
 }

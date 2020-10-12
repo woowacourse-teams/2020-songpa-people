@@ -54,10 +54,4 @@ class InstagramPostQueryServiceTest {
                 .postUrl(url)
                 .build();
     }
-
-    @AfterEach
-    private void tearDown() {
-        instagramPostRepository.deleteAll();
-        instagramRepository.deleteAll();
-    }
 }

@@ -7,7 +7,6 @@ import com.songpapeople.hashtagmap.crawler.InstagramCrawler;
 import com.songpapeople.hashtagmap.dto.CrawlingDto;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
-import com.songpapeople.hashtagmap.instagram.domain.model.dto.InstagramForUpdate;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramQueryRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
@@ -31,16 +30,15 @@ public class BlackListCommandService {
     @Transactional
     public void deleteInstagramAfterAddBlackList(BlackListRequest blackListRequest) {
         blackListRepository.save(BlackListRequest.toSkipBlackList(blackListRequest));
-        InstagramForUpdate instagramForUpdate = instagramQueryRepository.findByKakaoId(blackListRequest.getKakaoId());
-        instagramPostRepository.deleteByInstagramId(instagramForUpdate.getId());
-        instagramRepository.deleteById(instagramForUpdate.getId());
+        Instagram instagram = instagramQueryRepository.findByKakaoId(blackListRequest.getKakaoId());
+        instagramPostRepository.deleteByInstagramId(instagram.getId());
+        instagramRepository.deleteById(instagram.getId());
     }
 
     @Transactional
     public Instagram updateInstagramByBlackList(String kakaoId, String replaceName) {
         saveOrUpdateBlackList(new BlackList(kakaoId, replaceName));
-        InstagramForUpdate instagramForUpdate = instagramQueryRepository.findByKakaoId(kakaoId);
-        Instagram instagram = instagramForUpdate.toInstagram();
+        Instagram instagram = instagramQueryRepository.findByKakaoId(kakaoId);
         CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
         instagram.updateInstagram(replaceName, crawlingDto.getHashtagCount());
         updateInstagramPost(instagram.getId(), crawlingDto);

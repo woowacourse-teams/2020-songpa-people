@@ -11,7 +11,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Repository
-
 public class TagLevelQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 

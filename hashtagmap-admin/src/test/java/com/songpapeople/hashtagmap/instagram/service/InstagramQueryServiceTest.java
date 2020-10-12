@@ -35,7 +35,7 @@ class InstagramQueryServiceTest {
     @Test
     void findBlackListCandidate() {
         long startNumber = 1000;
-        long subBlackListSize = InstagramQueryService.SUB_BLACK_LIST_SIZE;
+        long subBlackListSize = InstagramQueryService.ABNORMAL_INSTAGRAM_LIST_SIZE;
 
         Place place = Place.builder()
                 .placeName("place")

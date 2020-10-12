@@ -2,8 +2,7 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-    implementation project(':hashtagmap-common')
-
+    implementation project(path:':hashtagmap-common', configuration: 'default')
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
 }

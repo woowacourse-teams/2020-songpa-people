@@ -2,9 +2,9 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-    implementation project(':hashtagmap-event')
-    implementation project(':hashtagmap-kakao-api')
-    implementation project(':hashtagmap-common')
+    implementation project(path:':hashtagmap-event', configuration: 'default')
+    implementation project(path:':hashtagmap-kakao-api', configuration: 'default')
+    implementation project(path:':hashtagmap-common', configuration: 'default')
 }
 
 jacocoTestCoverageVerification {

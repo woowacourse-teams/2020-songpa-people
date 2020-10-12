@@ -1,5 +1,6 @@
-package com.songpapeople.hashtagmap.instagram.domain.model.dto;
+package com.songpapeople.hashtagmap.instagram.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
@@ -15,6 +16,7 @@ public class InstagramForBlacklist {
     private String roadAddressName;
 
     @Builder
+    @QueryProjection
     public InstagramForBlacklist(String hashtagName, Long hashtagCount, String kakaoId, String placeName, String roadAddressName) {
         this.hashtagName = hashtagName;
         this.hashtagCount = hashtagCount;
