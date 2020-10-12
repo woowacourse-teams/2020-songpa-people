@@ -57,7 +57,7 @@ class InstagramAdminQueryRepositoryTest {
 
     @AfterEach
     public void tearDown() {
-        placeRepository.deleteAll();
         instagramRepository.deleteAll();
+        placeRepository.deleteAll();
     }
 }

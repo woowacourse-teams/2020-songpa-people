@@ -41,14 +41,14 @@ class InstagramQueryServiceTest {
     void findAllMarkers() {
         Place place = Place.builder()
                 .placeName("스타벅스")
-                .kakaoId("777")
+                .kakaoId("198")
                 .location(new Location(new Point("34", "126"), "서울시 강남구"))
                 .category(Category.CAFE)
                 .build();
         placeRepository.save(place);
         Instagram instagram = Instagram.builder()
                 .place(place)
-                .hashtagCount(10000L)
+                .hashtagCount(9999L)
                 .build();
         instagramRepository.save(instagram);
         List<TagLevel> tagLevels = Arrays.asList(
@@ -67,13 +67,14 @@ class InstagramQueryServiceTest {
                 2L
         );
 
+        assertThat(actual.size()).isEqualTo(1L);
         assertThat(actual.get(0)).isEqualToComparingFieldByField(expected);
     }
 
     @AfterEach
     void tearDown() {
-        placeRepository.deleteAll();
         instagramRepository.deleteAll();
+        placeRepository.deleteAll();
         tagLevelRepository.deleteAll();
     }
 }

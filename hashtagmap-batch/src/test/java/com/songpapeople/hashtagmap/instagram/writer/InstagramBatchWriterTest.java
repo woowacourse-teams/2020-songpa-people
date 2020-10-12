@@ -7,6 +7,7 @@ import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
+import com.songpapeople.hashtagmap.instagram.repository.InstagramBatchQueryRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import com.songpapeople.hashtagmap.service.CrawlingResult;
@@ -38,11 +39,14 @@ public class InstagramBatchWriterTest {
     @Autowired
     private PlaceRepository placeRepository;
 
+    @Autowired
+    private InstagramBatchQueryRepository instagramBatchQueryRepository;
+
     private InstagramBatchWriter instagramBatchWriter;
 
     @BeforeEach
     private void setUp() {
-        instagramBatchWriter = new InstagramBatchWriter(placeRepository, instagramRepository, instagramPostRepository);
+        instagramBatchWriter = new InstagramBatchWriter(instagramRepository, instagramBatchQueryRepository, instagramPostRepository);
     }
 
     @DisplayName("크롤링한 데이터를 저장하는지 확인")

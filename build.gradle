@@ -90,7 +90,7 @@ subprojects {
     }
 }
 
-def queryDslProjects = [project(':hashtagmap-core'), project(':hashtagmap-web'), project(':hashtagmap-admin')]
+def queryDslProjects = [project(':hashtagmap-core'), project(':hashtagmap-web'), project(':hashtagmap-admin'), project(':hashtagmap-batch')]
 configure(queryDslProjects) {
     apply plugin: "com.ewerk.gradle.plugins.querydsl"
 

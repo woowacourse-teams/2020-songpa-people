@@ -36,7 +36,7 @@ class InstagramWebQueryRepositoryTest {
     void findAllFetch() {
         Place place = Place.builder()
                 .placeName("스타벅스")
-                .kakaoId("777")
+                .kakaoId("120120")
                 .placeUrl("www")
                 .location(new Location(new Point("34.123", "126.124"), null))
                 .category(Category.CAFE)
@@ -53,17 +53,17 @@ class InstagramWebQueryRepositoryTest {
         InstagramForMarker instagramForMarker = instagramForMarkers.get(0);
 
         assertAll(() -> {
-            assertThat(instagramForMarker.getHashtagCount()).isEqualTo(10000L);
-            assertThat(instagramForMarker.getHashtagName()).isEqualTo("스타벅스");
-            assertThat(instagramForMarker.getKakaoId()).isEqualTo("777");
-            assertThat(instagramForMarker.getPlaceUrl()).isEqualTo("www");
-            assertThat(instagramForMarker.getCategory()).isEqualTo(Category.CAFE);
+            assertThat(instagramForMarker.getHashtagCount()).isEqualTo(instagram.getHashtagCount());
+            assertThat(instagramForMarker.getHashtagName()).isEqualTo(instagram.getHashtagName());
+            assertThat(instagramForMarker.getKakaoId()).isEqualTo(instagram.getKakaoId());
+            assertThat(instagramForMarker.getPlaceUrl()).isEqualTo(place.getPlaceUrl());
+            assertThat(instagramForMarker.getCategory()).isEqualTo(place.getCategory());
         });
     }
 
     @AfterEach
     public void tearDown() {
-        placeRepository.deleteAll();
         instagramRepository.deleteAll();
+        placeRepository.deleteAll();
     }
 }

@@ -41,8 +41,9 @@ public class BlackListCommandService {
         Instagram instagram = instagramQueryRepository.findByKakaoId(kakaoId);
         CrawlingDto crawlingDto = instagramCrawler.crawler(replaceName);
         instagram.updateInstagram(replaceName, crawlingDto.getHashtagCount());
-        updateInstagramPost(instagram.getId(), crawlingDto);
-        return instagramRepository.save(instagram);
+        instagramRepository.save(instagram);
+        updateInstagramPost(instagram, crawlingDto);
+        return instagram;
     }
 
     private void saveOrUpdateBlackList(BlackList blackListToSave) {
@@ -51,11 +52,11 @@ public class BlackListCommandService {
         blackListRepository.save(blackListByPlaceId.orElse(blackListToSave));
     }
 
-    private void updateInstagramPost(Long instagramId, CrawlingDto crawlingDto) {
-        instagramPostRepository.deleteByInstagramId(instagramId);
+    private void updateInstagramPost(Instagram instagram, CrawlingDto crawlingDto) {
+        instagramPostRepository.deleteByInstagramId(instagram.getId());
         List<InstagramPost> instagramPosts = crawlingDto.getPostDtoList().stream()
                 .map(postDto -> InstagramPost.builder()
-                        .instagramId(instagramId)
+                        .instagram(instagram)
                         .postUrl(postDto.getPostUrl())
                         .imageUrl(postDto.getImageUrl())
                         .build())

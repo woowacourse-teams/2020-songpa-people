@@ -15,6 +15,7 @@ import com.songpapeople.hashtagmap.place.domain.model.Location;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.model.Point;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +120,7 @@ class BlackListCommandServiceTest {
     private List<InstagramPost> makeInstagramPosts(Instagram instagram, PostDtos postDtos) {
         return postDtos.getPostDtos().stream()
                 .map(postDto -> InstagramPost.builder()
-                        .instagramId(instagram.getId())
+                        .instagram(instagram)
                         .imageUrl(postDto.getImageUrl())
                         .postUrl(postDto.getPostUrl())
                         .build())
@@ -133,5 +134,13 @@ class BlackListCommandServiceTest {
             postDtos.add(new PostDto(dummy, dummy));
         }
         return new PostDtos(postDtos);
+    }
+
+    @AfterEach
+    private void tearDown() {
+        instagramPostRepository.deleteAll();
+        instagramRepository.deleteAll();
+        placeRepository.deleteAll();
+        blackListRepository.deleteAll();
     }
 }
