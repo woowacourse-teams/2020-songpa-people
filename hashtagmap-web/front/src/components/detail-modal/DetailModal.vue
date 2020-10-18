@@ -21,6 +21,9 @@
               <p class="placeName">
                 {{ getDetailModal.placeName }}
               </p>
+              <div class="placeName" @click="userFeedback">
+                📬
+              </div>
             </v-row>
             <v-row>
               <p class="hashtagCount">
@@ -89,6 +92,9 @@ export default {
       this.$router.go(-1);
       this.SET_DETAIL_MODAL_CLOSE();
     },
+    userFeedback() {
+      return window.open("https://docs.google.com/forms/d/e/1FAIpQLSce4wWfNbuhLG9kpHbilYSi2AYLcepUXCOe02SJdvQqrYPiZg/viewform?fbzx=2836916428188795608");
+    }
   },
 };
 </script>
