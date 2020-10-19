@@ -1,25 +1,18 @@
 package com.songpapeople.hashtagmap.service;
 
 import com.songpapeople.hashtagmap.dto.InstagramPostResponse;
-import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
-import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
+import com.songpapeople.hashtagmap.repository.InstagramPostWebQueryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class InstagramPostQueryService {
-    private final InstagramPostRepository instagramPostRepository;
-
-    public InstagramPostQueryService(InstagramPostRepository instagramPostRepository) {
-        this.instagramPostRepository = instagramPostRepository;
-    }
+    private final InstagramPostWebQueryRepository instagramPostWebQueryRepository;
 
     public List<InstagramPostResponse> findAllByInstagramId(Long id) {
-        List<InstagramPost> instagramPosts = instagramPostRepository.findAllByInstagramId(id);
-        return instagramPosts.stream()
-                .map(InstagramPostResponse::of)
-                .collect(Collectors.toList());
+        return instagramPostWebQueryRepository.findAllByInstagramId(id);
     }
 }

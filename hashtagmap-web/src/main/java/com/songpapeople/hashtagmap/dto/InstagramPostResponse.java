@@ -1,5 +1,6 @@
 package com.songpapeople.hashtagmap.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import lombok.Builder;
 import lombok.Generated;
@@ -16,6 +17,7 @@ public class InstagramPostResponse {
     private String postUrl;
 
     @Builder
+    @QueryProjection
     public InstagramPostResponse(Long id, String imageUrl, String postUrl) {
         this.id = id;
         this.imageUrl = imageUrl;

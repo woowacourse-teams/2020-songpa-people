@@ -1,7 +1,9 @@
-package com.songpapeople.hashtagmap.instagram.domain.repository;
+package com.songpapeople.hashtagmap.repository;
 
+import com.songpapeople.hashtagmap.dto.InstagramPostResponse;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
@@ -16,12 +18,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-class InstagramPostRepositoryTest {
+class InstagramPostWebQueryRepositoryTest {
     private Place place;
     private Instagram instagram;
+
+    @Autowired
+    private InstagramPostWebQueryRepository instagramPostWebQueryRepository;
 
     @Autowired
     private InstagramPostRepository instagramPostRepository;
@@ -48,7 +53,8 @@ class InstagramPostRepositoryTest {
                 .collect(Collectors.toList());
         instagramPostRepository.saveAll(instagramPosts);
 
-        assertThat(instagramPostRepository.findAllByInstagramId(instagram.getId())).hasSize(9);
+        List<InstagramPostResponse> instagramPostResponses = instagramPostWebQueryRepository.findAllByInstagramId(instagram.getId());
+        assertThat(instagramPostResponses.size()).isEqualTo(9);
     }
 
     private InstagramPost createInstagramPost(Integer number) {
