@@ -4,6 +4,8 @@ import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
 import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
+import com.songpapeople.hashtagmap.instagram.repository.InstagramBatchQueryRepository;
+import com.songpapeople.hashtagmap.instagram.repository.dto.InstagramBatchDto;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.service.CrawlingResult;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +13,13 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Component
 public class InstagramBatchWriter implements ItemWriter<CrawlingResult> {
     private final InstagramRepository instagramRepository;
+    private final InstagramBatchQueryRepository instagramBatchQueryRepository;
     private final InstagramPostRepository instagramPostRepository;
 
     @Override
@@ -25,13 +28,10 @@ public class InstagramBatchWriter implements ItemWriter<CrawlingResult> {
     }
 
     public void saveCrawlingResult(List<CrawlingResult> crawlingResults) {
-        List<Instagram> instagrams = instagramRepository.findAllFetch();
-        List<Place> places = instagrams.stream()
-                .map(Instagram::getPlace)
-                .collect(Collectors.toList());
+        List<InstagramBatchDto> instagramBatchDtos = instagramBatchQueryRepository.findAll();
         for (CrawlingResult crawlingResult : crawlingResults) {
             Place crawlingPlace = crawlingResult.getPlace();
-            deleteDuplicateInstagram(places, crawlingPlace);
+            deleteDuplicateInstagram(instagramBatchDtos, crawlingPlace);
 
             Instagram instagram = instagramRepository.save(crawlingResult.createInstagram());
             List<InstagramPost> instagramPosts = crawlingResult.toInstagramPosts(instagram);
@@ -39,11 +39,15 @@ public class InstagramBatchWriter implements ItemWriter<CrawlingResult> {
         }
     }
 
-    private void deleteDuplicateInstagram(List<Place> totalPlaces, Place place) {
-        if (totalPlaces.contains(place)) {
-            Instagram originInstagram = instagramRepository.findByPlaceFetch(place);
-            instagramPostRepository.deleteByInstagramId(originInstagram.getId());
-            instagramRepository.delete(originInstagram);
-        }
+    private void deleteDuplicateInstagram(List<InstagramBatchDto> instagramBatchDtos, Place place) {
+        instagramBatchDtos.stream()
+                .filter(instagramBatchDto -> Objects.equals(instagramBatchDto.getPlaceId(), place.getId()))
+                .findFirst()
+                .ifPresent(instagramBatchDto -> deleteInstagramAndInstagramPost(instagramBatchDto));
+    }
+
+    private void deleteInstagramAndInstagramPost(InstagramBatchDto instagramBatchDto) {
+        instagramPostRepository.deleteByInstagramId(instagramBatchDto.getInstagramId());
+        instagramRepository.deleteById(instagramBatchDto.getInstagramId());
     }
 }

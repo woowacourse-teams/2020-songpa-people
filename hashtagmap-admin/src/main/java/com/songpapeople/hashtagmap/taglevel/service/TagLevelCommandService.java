@@ -1,7 +1,7 @@
 package com.songpapeople.hashtagmap.taglevel.service;
 
 import com.songpapeople.hashtagmap.instagram.domain.model.HashtagCounts;
-import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
+import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramQueryRepository;
 import com.songpapeople.hashtagmap.taglevel.model.TagLevels;
 import com.songpapeople.hashtagmap.taglevel.repository.TagLevelRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class TagLevelCommandService {
-    private final InstagramRepository instagramRepository;
+    private final InstagramQueryRepository instagramQueryRepository;
     private final TagLevelRepository tagLevelRepository;
 
     @Transactional
     public void update() {
         TagLevels tagLevels = new TagLevels(tagLevelRepository.findAll());
-        HashtagCounts hashtagCounts = new HashtagCounts(instagramRepository.findAllHashtagCountByOrderAsc());
+        HashtagCounts hashtagCounts = new HashtagCounts(instagramQueryRepository.findAllHashtagCountByOrderAsc());
         tagLevels.update(hashtagCounts);
     }
 }

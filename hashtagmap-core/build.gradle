@@ -1,13 +1,10 @@
 bootJar { enabled = false }
 jar { enabled = true }
 
-apply plugin: 'com.ewerk.gradle.plugins.querydsl'
-
 dependencies {
     implementation project(path: ':hashtagmap-common', configuration: 'default')
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'com.querydsl:querydsl-jpa'
 
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly "org.mariadb.jdbc:mariadb-java-client"
@@ -18,26 +15,7 @@ processResources.dependsOn 'copyDataBaseSettings'
 task copyDataBaseSettings(type: Copy) {
     description = "Copy application-db.yml from hashtagmap-secret"
     from '../hashtagmap-secret/core/application-db.yml'
-    into 'src/main/resources/'
-}
-
-def querydslDir = "$buildDir/generated/querydsl"
-
-querydsl {
-    jpa = true
-    querydslSourcesDir = querydslDir
-}
-
-sourceSets {
-    main.java.srcDir querydslDir
-}
-
-configurations {
-    querydsl.extendsFrom compileClasspath
-}
-
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
+    into 'src/main/resources/' 
 }
 
 jacocoTestCoverageVerification {

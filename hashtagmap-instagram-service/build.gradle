@@ -2,10 +2,9 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-    compile project(':hashtagmap-core')
-    implementation project(':hashtagmap-common')
-    compile project(':hashtagmap-instagram-crawler')
-
+    compile project(path:':hashtagmap-core', configuration: 'default')
+    implementation project(path:':hashtagmap-common', configuration: 'default')
+    compile project(path:':hashtagmap-instagram-crawler', configuration: 'default')
     implementation 'org.springframework.boot:spring-boot-starter'
 }
 

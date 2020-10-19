@@ -90,6 +90,32 @@ subprojects {
     }
 }
 
+def queryDslProjects = [project(':hashtagmap-core'), project(':hashtagmap-web'), project(':hashtagmap-admin'), project(':hashtagmap-batch')]
+configure(queryDslProjects) {
+    apply plugin: "com.ewerk.gradle.plugins.querydsl"
+
+    dependencies {
+        implementation 'com.querydsl:querydsl-jpa'
+    }
+
+    def querydslDir = "$buildDir/generated/querydsl"
+
+    querydsl {
+        jpa = true
+        querydslSourcesDir = querydslDir
+    }
+    sourceSets {
+        main.java.srcDir querydslDir
+    }
+    configurations {
+        querydsl.extendsFrom compileClasspath
+    }
+    compileQuerydsl {
+        options.annotationProcessorPath = configurations.querydsl
+    }
+
+}
+
 def asciidoctorConfigure = [project(':hashtagmap-web'), project(':hashtagmap-admin')]
 configure(asciidoctorConfigure) {
     apply plugin: "org.asciidoctor.convert"

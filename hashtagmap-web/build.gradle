@@ -5,9 +5,9 @@ plugins {
 version = '2.0.0'
 
 dependencies {
-    compile project(':hashtagmap-core')
-    implementation project(':hashtagmap-common')
-    implementation project(':hashtagmap-slack')
+    compile project(path:':hashtagmap-core', configuration: 'default')
+    implementation project(path:':hashtagmap-common', configuration: 'default')
+    implementation project(path:':hashtagmap-slack', configuration: 'default')
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -28,20 +28,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'INSTRUCTION'
                 value = 'COVEREDRATIO'
-                minimum = 0.70
-            }
-
-            excludes = [] + Qdomains
-        }
-
-        rule {
-            enabled = true
-            element = 'CLASS'
-
-            limit {
-                counter = 'INSTRUCTION'
-                value = 'COVEREDRATIO'
-                minimum = 0.70
+                minimum = 0.90
             }
 
             excludes = [] + Qdomains

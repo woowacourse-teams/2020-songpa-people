@@ -1,11 +1,12 @@
-package com.songpapeople.hashtagmap.service;
+package com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost;
 
-import com.songpapeople.hashtagmap.dto.InstagramPostResponse;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
-import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
+import com.songpapeople.hashtagmap.place.domain.model.Place;
+import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-class InstagramPostQueryServiceTest {
-    @Autowired
-    private InstagramPostQueryService instagramPostQueryService;
+class InstagramPostRepositoryTest {
+
+    private Place place;
+    private Instagram instagram;
 
     @Autowired
     private InstagramPostRepository instagramPostRepository;
@@ -28,26 +30,31 @@ class InstagramPostQueryServiceTest {
     @Autowired
     private InstagramRepository instagramRepository;
 
-    @DisplayName("인스타 아이디로부터 모든 post 정보를 가져오는 기능 테스트")
+    @Autowired
+    private PlaceRepository placeRepository;
+
+    @BeforeEach
+    void setUp() {
+        place = placeRepository.save(Place.builder().build());
+        instagram = instagramRepository.save(Instagram.builder()
+                .place(place)
+                .build());
+    }
+
+    @DisplayName("인스타그램 아이디로 인스타그램 post들을 가져오는 기능 테스트")
     @Test
     void findAllByInstagramId() {
-        Instagram instagram = instagramRepository.save(Instagram.builder().build());
         List<InstagramPost> instagramPosts = IntStream.rangeClosed(1, 9).boxed()
-                .map(count -> createInstagramPost(count, instagram))
+                .map(this::createInstagramPost)
                 .collect(Collectors.toList());
         instagramPostRepository.saveAll(instagramPosts);
 
-        List<InstagramPostResponse> expected = instagramPosts.stream()
-                .map(InstagramPostResponse::of)
-                .collect(Collectors.toList());
-
-        List<InstagramPostResponse> actual = instagramPostQueryService.findAllByInstagramId(instagram.getId());
-
-        assertThat(actual).isEqualTo(expected);
+        List<InstagramPost> instagramPostResponses = instagramPostRepository.findAllByInstagramId(instagram.getId());
+        assertThat(instagramPostResponses.size()).isEqualTo(9);
     }
 
-    private InstagramPost createInstagramPost(Integer count, Instagram instagram) {
-        String url = String.valueOf(count);
+    private InstagramPost createInstagramPost(Integer number) {
+        String url = String.valueOf(number);
         return InstagramPost.builder()
                 .instagram(instagram)
                 .imageUrl(url)
@@ -59,5 +66,6 @@ class InstagramPostQueryServiceTest {
     void tearDown() {
         instagramPostRepository.deleteAll();
         instagramRepository.deleteAll();
+        placeRepository.deleteAll();
     }
 }
