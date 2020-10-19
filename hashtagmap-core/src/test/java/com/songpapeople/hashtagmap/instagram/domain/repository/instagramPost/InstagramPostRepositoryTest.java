@@ -1,10 +1,8 @@
-package com.songpapeople.hashtagmap.repository;
+package com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost;
 
-import com.songpapeople.hashtagmap.dto.InstagramPostResponse;
 import com.songpapeople.hashtagmap.instagram.domain.model.Instagram;
 import com.songpapeople.hashtagmap.instagram.domain.model.InstagramPost;
 import com.songpapeople.hashtagmap.instagram.domain.repository.InstagramRepository;
-import com.songpapeople.hashtagmap.instagram.domain.repository.instagramPost.InstagramPostRepository;
 import com.songpapeople.hashtagmap.place.domain.model.Place;
 import com.songpapeople.hashtagmap.place.domain.repository.PlaceRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -21,12 +19,10 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-class InstagramPostWebQueryRepositoryTest {
+class InstagramPostRepositoryTest {
+
     private Place place;
     private Instagram instagram;
-
-    @Autowired
-    private InstagramPostWebQueryRepository instagramPostWebQueryRepository;
 
     @Autowired
     private InstagramPostRepository instagramPostRepository;
@@ -45,7 +41,7 @@ class InstagramPostWebQueryRepositoryTest {
                 .build());
     }
 
-    @DisplayName("인스타그램 아이디로 instagram API에 필요한 DTO를 잘 가져오는지 테스트")
+    @DisplayName("인스타그램 아이디로 인스타그램 post들을 가져오는 기능 테스트")
     @Test
     void findAllByInstagramId() {
         List<InstagramPost> instagramPosts = IntStream.rangeClosed(1, 9).boxed()
@@ -53,7 +49,7 @@ class InstagramPostWebQueryRepositoryTest {
                 .collect(Collectors.toList());
         instagramPostRepository.saveAll(instagramPosts);
 
-        List<InstagramPostResponse> instagramPostResponses = instagramPostWebQueryRepository.findAllByInstagramId(instagram.getId());
+        List<InstagramPost> instagramPostResponses = instagramPostRepository.findAllByInstagramId(instagram.getId());
         assertThat(instagramPostResponses.size()).isEqualTo(9);
     }
 
