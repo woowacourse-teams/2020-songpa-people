@@ -32,7 +32,7 @@ public class AdminExceptionControllerAdviceTest {
                 .build();
     }
 
-    @DisplayName("Method not allowed test")
+    @DisplayName("Http Method not allowed test")
     @Test
     void test() throws Exception {
         //given
@@ -46,6 +46,6 @@ public class AdminExceptionControllerAdviceTest {
         });
 
         //then
-        assertThat(response.getCode()).isEqualTo(CommonExceptionStatus.UNEXPECTED.getCode());
+        assertThat(response.getCode()).isEqualTo(CommonExceptionStatus.REQUEST_NOT_ALLOWED.getCode());
     }
 }
