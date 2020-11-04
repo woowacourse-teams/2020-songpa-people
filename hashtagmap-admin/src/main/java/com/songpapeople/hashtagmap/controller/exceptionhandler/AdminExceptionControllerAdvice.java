@@ -7,6 +7,7 @@ import com.songpapeople.hashtagmap.response.CustomResponse;
 import com.songpapeople.hashtagmap.scheduler.exception.KakaoSchedulerException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -58,5 +59,12 @@ public class AdminExceptionControllerAdvice {
     public CustomResponse<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.info("MethodArgumentNotValidException : {}", e.getMessage());
         return CustomResponse.error(CommonExceptionStatus.WRONG_ARGUMENT.getCode(), CommonExceptionStatus.WRONG_ARGUMENT.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public CustomResponse<Void> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        log.info("HttpRequestMethodNotSupportedException : {}", e.getMessage());
+        return CustomResponse.error(CommonExceptionStatus.REQUEST_NOT_ALLOWED.getCode(), CommonExceptionStatus.REQUEST_NOT_ALLOWED.getMessage());
     }
 }
